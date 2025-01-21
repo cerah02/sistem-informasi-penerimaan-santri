@@ -16,8 +16,8 @@ class DokumenController extends Controller
     {
         //
         $dokumens = dokumen::latest()->paginate(5);
-        return view('dokumens.index',compact('dokumens'))
-        ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('dokumens.index', compact('dokumens'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -40,19 +40,65 @@ class DokumenController extends Controller
     public function store(Request $request)
     {
         //
+        // Validasi input
         $request->validate([
             'santri_id' => 'required',
-            'ijazah' => 'required',
-            'nilai_raport'=>'required',
-            'skhun'=>'required',
-            'foto' => 'required',
-            'kk'=>'required',
-            'ktp_ayah'=>'required',
-            'ktp_ibu'=>'required',
-            ]);
-            Dokumen::create($request->all());
-            return redirect()->route('santris.index')
-            ->with('success','dokumen Berhasil Disimpan.');
+            'ijazah' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
+            'nilai_raport' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
+            'skhun' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
+            'foto' => 'required|file|mimes:jpg,jpeg,png,docx|max:2048',
+            'kk' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
+            'ktp_ayah' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
+            'ktp_ibu' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
+        ]);
+
+        // Inisialisasi array untuk menyimpan data file
+        $data = [
+            'santri_id' => $request->santri_id,
+        ];
+
+        // Proses setiap file
+        if ($request->hasFile('ijazah')) {
+            $ijazahPath = $request->file('ijazah')->move(public_path('uploads/ijazah'), time() . '_' . $request->file('ijazah')->getClientOriginalName());
+            $data['ijazah'] = 'uploads/ijazah/' . basename($ijazahPath);
+        }
+
+        if ($request->hasFile('nilai_raport')) {
+            $nilaiRaportPath = $request->file('nilai_raport')->move(public_path('uploads/nilai_raport'), time() . '_' . $request->file('nilai_raport')->getClientOriginalName());
+            $data['nilai_raport'] = 'uploads/nilai_raport/' . basename($nilaiRaportPath);
+        }
+
+        if ($request->hasFile('skhun')) {
+            $skhunPath = $request->file('skhun')->move(public_path('uploads/skhun'), time() . '_' . $request->file('skhun')->getClientOriginalName());
+            $data['skhun'] = 'uploads/skhun/' . basename($skhunPath);
+        }
+
+        if ($request->hasFile('foto')) {
+            $fotoPath = $request->file('foto')->move(public_path('uploads/foto'), time() . '_' . $request->file('foto')->getClientOriginalName());
+            $data['foto'] = 'uploads/foto/' . basename($fotoPath);
+        }
+
+        if ($request->hasFile('kk')) {
+            $kkPath = $request->file('kk')->move(public_path('uploads/kk'), time() . '_' . $request->file('kk')->getClientOriginalName());
+            $data['kk'] = 'uploads/kk/' . basename($kkPath);
+        }
+
+        if ($request->hasFile('ktp_ayah')) {
+            $ktpAyahPath = $request->file('ktp_ayah')->move(public_path('uploads/ktp_ayah'), time() . '_' . $request->file('ktp_ayah')->getClientOriginalName());
+            $data['ktp_ayah'] = 'uploads/ktp_ayah/' . basename($ktpAyahPath);
+        }
+
+        if ($request->hasFile('ktp_ibu')) {
+            $ktpIbuPath = $request->file('ktp_ibu')->move(public_path('uploads/ktp_ibu'), time() . '_' . $request->file('ktp_ibu')->getClientOriginalName());
+            $data['ktp_ibu'] = 'uploads/ktp_ibu/' . basename($ktpIbuPath);
+        }
+
+        // Simpan data ke database
+        Dokumen::create($data);
+
+        // Redirect dengan pesan sukses
+        return redirect()->route('dokumens.index')
+            ->with('success', 'Dokumen Berhasil Disimpan.');
     }
 
     /**
@@ -64,7 +110,7 @@ class DokumenController extends Controller
     public function show(Dokumen $dokumen)
     {
         //
-        return view('dokumens.show',compact('santri'));
+        return view('dokumens.show', compact('santri'));
     }
 
     /**
@@ -76,7 +122,7 @@ class DokumenController extends Controller
     public function edit(Dokumen $dokumen)
     {
         //
-        return view('dokumens.edit',compact('santri'));
+        return view('dokumens.edit', compact('santri'));
     }
 
     /**
@@ -92,16 +138,16 @@ class DokumenController extends Controller
         $request->validate([
             'santri_id' => 'required',
             'ijazah' => 'required',
-            'nilai_raport'=>'required',
-            'skhun'=>'required',
+            'nilai_raport' => 'required',
+            'skhun' => 'required',
             'foto' => 'required',
-            'kk'=>'required',
-            'ktp_ayah'=>'required',
-            'ktp_ibu'=>'required',
-            ]);
-            $dokumen->update($request->all());
-            return redirect()->route('santris.index')
-            ->with('success','Dokumen Berhasil Diupdate');
+            'kk' => 'required',
+            'ktp_ayah' => 'required',
+            'ktp_ibu' => 'required',
+        ]);
+        $dokumen->update($request->all());
+        return redirect()->route('dokumenss.index')
+            ->with('success', 'Dokumen Berhasil Diupdate');
     }
 
     /**
@@ -115,6 +161,6 @@ class DokumenController extends Controller
         //
         $dokumen->delete();
         return redirect()->route('dokumens.index')
-        ->with('success','Dokumen Berhasil Dihapus');
+            ->with('success', 'Dokumen Berhasil Dihapus');
     }
 }

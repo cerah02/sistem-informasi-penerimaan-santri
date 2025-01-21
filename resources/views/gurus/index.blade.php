@@ -19,10 +19,13 @@
         <tr>
             <th>No</th>
             <th>Nama</th>
-            <th>Jenis Kelamin</th>
-            <th>Alamat</th>
             <th>NIP</th>
+            <th>Jenis Kelamin</th>
+            <th>Tempat Tanggal Lahir</th>
+            <th>Alamat</th>
+            <th>No Telpon</th>
             <th>email</th>
+            <th>Foto</th>
             <th>Status Guru</th>
             <th width="280px">Action</th>
         </tr>
@@ -30,10 +33,41 @@
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ $guru->nama }}</td>
-                <td>{{ $guru->jenis_kelamin }}</td>
-                <td>{{ $guru->alamat }}</td>
                 <td>{{ $guru->nip }}</td>
+                <td>{{ $guru->jenis_kelamin }}</td>
+                <td>{{ $guru->ttl }}</td>
+                <td>{{ $guru->alamat }}</td>
+                <td>{{ $guru->no_telpon }}</td>
                 <td>{{ $guru->email }}</td>
+                <td>
+                    @if ($guru->foto)
+                        @php
+                            $fileExtension = strtolower(pathinfo(asset($guru->foto), PATHINFO_EXTENSION));
+                        @endphp
+                        @if ($fileExtension == 'pdf')
+                            <!-- Menampilkan PDF -->
+                            <embed src="{{ asset($guru->foto) }}" type="application/pdf" width="200"
+                                height="150">
+                        @elseif (in_array($fileExtension, ['jpg', 'jpeg', 'png']))
+                            <!-- Menampilkan Gambar -->
+                            <img src="{{ asset($guru->foto) }}" alt="Preview" width="200" height="150"
+                                style="object-fit: cover;">
+                        @elseif (in_array($fileExtension, ['doc', 'docx']))
+                            <!-- Tautan untuk mengunduh atau membuka file -->
+                            <a href="{{ asset($guru->foto) }}" target="_blank" class="btn btn-primary">
+                                <i class="bi bi-file-earmark-word"></i> Unduh & Buka File
+                            </a>
+                        @else
+                            <!-- Pesan untuk file dengan format tidak didukung -->
+                            <span class="text-warning">Format file tidak didukung</span>
+                        @endif
+                        <!-- Tautan untuk mengunduh file -->
+                        <a href="{{ asset($guru->foto) }}" target="_blank" class="btn btn-link">Lihat</a>
+                    @else
+                        <!-- Pesan jika tidak ada file -->
+                        <span class="text-danger">Belum ada file</span>
+                    @endif
+                </td>
                 <td>{{ $guru->status_guru }}</td>
                 <td>
                     <form action="{{ route('gurus.destroy', $guru->id) }}" method="POST">

@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('santris', function (Blueprint $table) {
             $table->id();
             $table->string("nama");
-            $table->integer('nisn');
-            $table->integer('nik');
+            $table->bigInteger('nisn');
+            $table->bigInteger('nik');
             $table->string('asal_sekolah');
             $table->enum("jenis_kelamin",["laki-laki","perempuan"]);
             $table->string('ttl');
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('anak_ke');
             $table->integer("jumlah_saudara");
             $table->string("alamat");
-            $table->integer("nomor_telpon");
+            $table->string("nomor_telpon");
             $table->string("email");
             $table->enum("jenjang_pendidikan",["SD","MTS","MA"]);
             $table->timestamps();

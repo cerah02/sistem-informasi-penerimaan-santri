@@ -31,9 +31,26 @@
             <input type="text" name="santri_id" class="form-control" id="santri_id" placeholder="Masukan Id Santri">
         </div>
         <div class="mb-3">
-            <label for="golongan_darah" class="form-label"><strong>Golongan Darah:</strong></label>
-            <input type="text" name="golongan_darah" class="form-control" id="golongan_darah" placeholder="Masukan Golongan Darah">
-        </div>
+            <label class="form-label"><strong>Golongan Darah:</strong></label>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_a" value="A">
+                    <label class="form-check-label" for="golongan_darah_a">A</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_b" value="B">
+                    <label class="form-check-label" for="golongan_darah_b">B</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_ab" value="AB">
+                    <label class="form-check-label" for="golongan_darah_ab">AB</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_o" value="O">
+                    <label class="form-check-label" for="golongan_darah_o">O</label>
+                </div>
+            </div>
+        </div>        
         <div class="mb-3">
             <label for="tb" class="form-label"><strong>Tinggi Badan:</strong></label>
             <input type="text" name="tb" class="form-control" id="tb" placeholder="Masukan Tinggi Badan (cm)">

@@ -16,10 +16,13 @@ return new class extends Migration
         Schema::create('gurus', function (Blueprint $table) {
             $table->id();
             $table->string("nama");
+            $table->bigInteger("nip");
             $table->string("jenis_kelamin");
+            $table->string("ttl");
             $table->string("alamat");
-            $table->string("nip");
+            $table->bigInteger("no_telpon");
             $table->string("email");
+            $table->string("foto");
             $table->string("status_guru");
             $table->timestamps();
         });

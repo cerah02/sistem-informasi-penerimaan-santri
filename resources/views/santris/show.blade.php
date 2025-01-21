@@ -6,7 +6,7 @@
                 <h2> Data Pendaftaran Santri</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('santris.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('santris.index') }}"> Kembali</a>
             </div>
         </div>
     </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BantuanController;
 use App\Http\Controllers\KelasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SantriController;
@@ -22,6 +23,9 @@ Route::resource('jawabans',JawabanController::class);
 Route::resource('dokumens',DokumenController::class);
 Route::resource('ortus',OrtuController::class );
 Route::resource('kesehatans',KesehatanController::class);
+Route::resource('bantuans',BantuanController::class);
+Route::get('santri_pendaftaran_view',[PendaftaranController::class,'santri_pendaftaran_view'])->name('santri_pendaftaran_view');
+Route::post('pendaftara_santri_simpan',[PendaftaranController::class,'pendaftara_santri_simpan'])->name('pendaftaransantri.simpan');
 /*
 |--------------------------------------------------------------------------
 | Web Routes

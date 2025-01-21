@@ -37,13 +37,6 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="golongan_darah" class="form-label"><strong>Golongan Darah:</strong></label>
-                        <input type="text" name="golongan_darah" value="{{ $kesehatan->golongan_darah }}" class="form-control"
-                            placeholder="Masukkan Golongan Darah" id="golongan_darah">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
                         <label for="tb" class="form-label"><strong>Tinggi Badan:</strong></label>
                         <input type="text" name="tb" value="{{ $kesehatan->tb }}" class="form-control"
                             placeholder="Masukkan Tinggi Badan (cm)" id="tinggi_badan">
@@ -52,17 +45,39 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="bb" class="form-label"><strong>Berat Badan:</strong></label>
-                        <input type="bb" name="pekerjaan_ayah" value="{{ $kesehatan->bb }}" class="form-control"
+                        <input type="bb" name="bb" value="{{ $kesehatan->bb }}" class="form-control"
                             placeholder="Masukkan Berat Badan" id="berat_badan">
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="riwayat_penyakit" class="form-label"><strong>Riwayat Penyakit:</strong></label>
-                        <input type="text" name="riwayat_penyakit" value="{{ $kesehatan->riwayat_penyakit }}" class="form-control"
-                            placeholder="Masukkan Riwayat Penyakit" id="riwayat_penyakit">
+                <div class="mb-3">
+                    <label class="form-label"><strong>Golongan Darah:</strong></label>
+                    <div class="d-flex">
+                        <div class="form-check me-3">
+                            <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_a" value="A" {{ $kesehatan->golongan_darah == 'A' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="golongan_darah_a">A</label>
+                        </div>
+                        <div class="form-check me-3">
+                            <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_b" value="B" {{ $kesehatan->golongan_darah == 'B' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="golongan_darah_b">B</label>
+                        </div>
+                        <div class="form-check me-3">
+                            <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_ab" value="AB" {{ $kesehatan->golongan_darah == 'AB' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="golongan_darah_ab">AB</label>
+                        </div>
+                        <div class="form-check me-3">
+                            <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_o" value="O" {{ $kesehatan->golongan_darah == 'O' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="golongan_darah_o">O</label>
+                        </div>
                     </div>
                 </div>
+                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="bb" class="form-label"><strong>Riwayat Penyakit:</strong></label>
+                        <input type="bb" name="riwayat_penyakit" value="{{ $kesehatan->riwayat_penyakit }}" class="form-control"
+                            placeholder="Masukkan Riwayat Penyakit" id="riwayat_penyakit">
+                    </div>
+                </div>                
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-primary btn-lg mt-3">Simpan</button>
                 </div>

@@ -66,41 +66,18 @@
                         <td>{{ $santri->jenjang_pendidikan }}</td>
                         <td>
                             <div class="d-flex justify-content-center">
-                                <a class="btn btn-info btn-sm mx-1" href="{{ route('santris.show', $santri->id) }}">
-                                    <i class="bi bi-eye"></i> Lihat
-                                </a>
-                                <a class="btn btn-primary btn-sm mx-1" href="{{ route('santris.edit', $santri->id) }}">
-                                    <i class="bi bi-pencil"></i> Edit
-                                </a>
-                                <button type="button" class="btn btn-danger btn-sm mx-1" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal{{ $santri->id }}">
-                                    <i class="bi bi-trash"></i> Hapus
-                                </button>
+                                <form action="{{ route('santris.destroy', $santri->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <a class="btn btn-info btn-sm mx-1" href="{{ route('santris.show', $santri->id) }}">
+                                        <i class="bi bi-eye"></i> Lihat
+                                    </a>
+                                    <a class="btn btn-primary btn-sm mx-1" href="{{ route('santris.edit', $santri->id) }}">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                </form>
                             </div>
-
-                            <!-- Modal Konfirmasi Hapus -->
-                            <div class="modal fade" id="deleteModal{{ $santri->id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Apakah Anda yakin ingin menghapus data santri bernama <strong>{{ $santri->nama }}</strong>?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                            <form action="{{ route('santris.destroy', $santri->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Hapus</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Modal -->
                         </td>
                     </tr>
                 @endforeach

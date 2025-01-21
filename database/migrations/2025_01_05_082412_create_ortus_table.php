@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('nama_ibu');
             $table->string('pendidikan_ibu');
             $table->string('pekerjaan_ibu');
-            $table->integer('no_hp');
+            $table->bigInteger('no_hp');
             $table->string('alamat');
             $table->timestamps();
         });

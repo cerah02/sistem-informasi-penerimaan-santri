@@ -17,8 +17,8 @@ class SantriController extends Controller
     {
         //
         $santris = santri::latest()->paginate(5);
-        return view('santris.index',compact('santris'))
-        ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('santris.index', compact('santris'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -42,30 +42,31 @@ class SantriController extends Controller
     {
 
 
-        dd($request->all());
+        //dd($request->all());
         $request->validate([
             'nama' => 'required',
             'nisn' => 'required',
-            'nik'=>'required',
-            'asal_sekolah'=>'required',
+            'nik' => 'required',
+            'asal_sekolah' => 'required',
             'jenis_kelamin' => 'required',
-            'ttl'=>'required',
-            'kondisi'=>'required',
-            'kondisi_ortu'=>'required',
-            'status_dkluarga'=>'required',
-            'tempat_tinggal'=>'required',
-            'kewarganegaraan'=>'required',
-            'anak_ke'=>'required',
-            'jumlah_saudara'=>'required',
+            'kondisi' => 'required',
+            'kondisi_ortu' => 'required',
+            'status_dkluarga' => 'required',
+            'tempat_tinggal' => 'required',
+            'kewarganegaraan' => 'required',
+            'anak_ke' => 'required',
+            'jumlah_saudara' => 'required',
             'alamat' => 'required',
             'tanggal_lahir' => 'required',
             'nomor_telpon' => 'required',
             'email' => 'required',
             'jenjang_pendidikan' => 'required',
-            ]);
-            Santri::create($request->all());
-            return redirect()->route('santris.index')
-            ->with('success','Data Santri Berhasil Disimpan.');
+        ]);
+        $input = $request->all();
+        $input['ttl'] = $request->tempat_lahir .' '.$request->tanggal_lahir;
+        Santri::create($input);
+        return redirect()->route('santris.index')
+            ->with('success', 'Data Santri Berhasil Disimpan.');
     }
 
     /**
@@ -77,7 +78,7 @@ class SantriController extends Controller
     public function show(Santri $santri)
     {
         //
-        return view('santris.show',compact('santri'));
+        return view('santris.show', compact('santri'));
     }
 
     /**
@@ -89,7 +90,7 @@ class SantriController extends Controller
     public function edit(Santri $santri)
     {
         //
-        return view('santris.edit',compact('santri'));
+        return view('santris.edit', compact('santri'));
     }
 
     /**
@@ -105,27 +106,27 @@ class SantriController extends Controller
         $request->validate([
             'nama' => 'required',
             'nisn' => 'required',
-            'nik'=>'required',
-            'asal_sekolah'=>'required',
+            'nik' => 'required',
+            'asal_sekolah' => 'required',
             'jenis_kelamin' => 'required',
-            'ttl'=>'required',
-            'kondisi'=>'required',
-            'kondisi_ortu'=>'required',
-            'status_dkluarga'=>'required',
-            'tinggal'=>'required',
-            'kewarganegaraan'=>'required',
-            'anak_ke'=>'requires',
-            'jumlah_saudara'=>'required',
+            'ttl' => 'required',
+            'kondisi' => 'required',
+            'kondisi_ortu' => 'required',
+            'status_dkluarga' => 'required',
+            'tinggal' => 'required',
+            'kewarganegaraan' => 'required',
+            'anak_ke' => 'requires',
+            'jumlah_saudara' => 'required',
             'alamat' => 'required',
             'tanggal_lahir' => 'required',
             'nomor_telpon' => 'required',
             'email' => 'required',
             'jenjang_pendidikan' => 'required',
-            ]);
+        ]);
 
-            $santri->update($request->all());
-            return redirect()->route('santris.index')
-            ->with('success','Data Santri Berhasil Diupdate');
+        $santri->update($request->all());
+        return redirect()->route('santris.index')
+            ->with('success', 'Data Santri Berhasil Diupdate');
     }
 
     /**
@@ -139,6 +140,6 @@ class SantriController extends Controller
         //
         $santri->delete();
         return redirect()->route('santris.index')
-        ->with('success','Data Santri Berhasil Dihapus');
+            ->with('success', 'Data Santri Berhasil Dihapus');
     }
 }

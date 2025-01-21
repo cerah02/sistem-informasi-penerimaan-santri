@@ -15,8 +15,8 @@ class GuruController extends Controller
     public function index()
     {
         $gurus = Guru::latest()->paginate(5);
-        return view('gurus.index',compact('gurus'))
-        ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('gurus.index', compact('gurus'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -42,15 +42,30 @@ class GuruController extends Controller
         //
         $request->validate([
             'nama' => 'required',
+            'nip' => 'required',
             'jenis_kelamin' => 'required',
             'alamat' => 'required',
-            'nip' => 'required',
+            'no_telpon' => 'required',
             'email' => 'required',
+            'foto' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
             'status_guru' => 'required',
-            ]);
-            Guru::create($request->all());
-            return redirect()->route('gurus.index')
-            ->with('success','Data Guru Berhasil Disimpan.');
+        ]);
+        $input = $request->all();
+        $input['ttl'] = $request->tempat_lahir . ' ' . $request->tanggal_lahir;
+        if ($request->hasFile('foto')) {
+            // Construct the file name with the correct extension
+            $fileName = time() . '_' . $request->nama . '.' . $request->file('foto')->getClientOriginalExtension();
+
+            // Move the uploaded file to the desired location
+            $fotoPath = $request->file('foto')->move(public_path('uploads/guru/foto'), $fileName);
+
+            // Save the file path to the $data array
+            $input['foto'] = 'uploads/guru/foto/' . $fileName;
+        }
+
+        Guru::create($input);
+        return redirect()->route('gurus.index')
+            ->with('success', 'Data Guru Berhasil Disimpan.');
     }
 
     /**
@@ -62,7 +77,7 @@ class GuruController extends Controller
     public function show(Guru $guru)
     {
         //
-        return view('gurus.show',compact('guru'));
+        return view('gurus.show', compact('guru'));
     }
 
     /**
@@ -72,9 +87,9 @@ class GuruController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Guru $guru)
-    { 
-       //
-       return view('gurus.edit',compact('guru'));
+    {
+        //
+        return view('gurus.edit', compact('guru'));
     }
 
     /**
@@ -89,16 +104,19 @@ class GuruController extends Controller
         //
         $request->validate([
             'nama' => 'required',
-            'jenis_kelamin' => 'required',
-            'alamat' => 'required',
             'nip' => 'required',
+            'jenis_kelamin' => 'required',
+            'ttl' => 'required',
+            'alamat' => 'required',
+            'no_telpon' => 'required',
             'email' => 'required',
+            'foto' => 'required',
             'status_guru' => 'required',
-            ]);
+        ]);
 
-            $guru->update($request->all());
-            return redirect()->route('gurus.index')
-            ->with('success','Data Guru Berhasil Diupdate');
+        $guru->update($request->all());
+        return redirect()->route('gurus.index')
+            ->with('success', 'Data Guru Berhasil Diupdate');
     }
 
     /**
@@ -112,6 +130,6 @@ class GuruController extends Controller
         //
         $guru->delete();
         return redirect()->route('gurus.index')
-        ->with('success','Data Guru Berhasil Dihapus');
+            ->with('success', 'Data Guru Berhasil Dihapus');
     }
 }
