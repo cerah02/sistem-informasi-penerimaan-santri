@@ -2,48 +2,69 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
-            <div class="text-center">
-                <h2>List Riwayat Bantuan Calon Santri</h2>
+            <div class="pull-left">
+                <h2>Daftar Data Riwayat Bantuan Santri</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('bantuans.create') }}"> Tambahkan Data</a>
+                <a class="btn btn-success" href="{{ route('bantuans.create') }}"> Tambahkan Data Bantuan Santri</a>
             </div>
         </div>
     </div>
+
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
         </div>
     @endif
-    <table class="table table-bordered">
-        <tr>
-            <th>No</th>
-            <th>Id_Santri</th>
-            <th>Nama Bantuan</th>
-            <th>Tingkat</th>
-            <th>No KIP</th>
-            <th width="280px">Action</th>
-        </tr>
-        @foreach ($bantuans as $bantuan)
+    <table class="table table-bordered data-table">
+        <thead>
             <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $bantuan->santri_id }}</td>
-                <td>{{ $bantuan->nama_bantuan }}</td>
-                <td>{{ $bantuan->tingkat }}</td>
-                <td>{{ $bantuan->no_kip }}</td>
-                <td>
-                    <form action="{{ route('bantuans.destroy', $bantuan->id) }}" method="POST">
-
-                        <a class="btn btn-info" href="{{ route('bantuans.show', $bantuan->id) }}">Lihat</a>
-
-                        <a class="btn btn-primary" href="{{ route('bantuans.edit', $bantuan->id) }}">Edit</a>
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>
-                </td>
+                <th>No</th>
+                <th>Id Santri</th>
+                <th>Nama Bantuan</th>
+                <th>Tingkat</th>
+                <th>kip</th>
+                <th width="280px">Aksi</th>
             </tr>
-        @endforeach
+        </thead>
+        <tbody>
+        </tbody>
     </table>
-    {!! $bantuans->links() !!}
+    <script type="text/javascript">
+        $(function() {
+            var table = $('.data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('bantuans.index') }}",
+
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'santri_id',
+                        name: 'santri_id'
+                    },
+                    {
+                        data: 'nama_bantuan',
+                        name: 'nama_bantuan'
+                    },
+                    {
+                        data: 'tingkat',
+                        name: 'tingkat'
+                    },
+                    {
+                        data: 'no_kip',
+                        name: 'no_kip'
+                    },
+                    {
+                        data: 'aksi',
+                        name: 'aksi',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+        });
+    </script>
 @endsection

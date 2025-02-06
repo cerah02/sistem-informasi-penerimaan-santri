@@ -1,12 +1,12 @@
-@extends('soals.layout')
+@extends('waktu_ujians.layout')
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="text-center">
-                <h2>Form Data Soal</h2>
+                <h2>Form Data waktu ujian</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('soals.index') }}"> Kembali</a>
+                <a class="btn btn-primary" href="{{ route('waktu_ujians.index') }}"> Kembali</a>
             </div>
         </div>
     </div>
@@ -22,21 +22,27 @@
         </div>
     @endif
 
-    <form action="{{ route('soals.store') }}" method="POST">
+    <form action="{{ route('waktu_ujians.store') }}" method="POST">
         @csrf
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Ujian Id:</strong>
-                    <input type="text" name="ujian_id" class="form-control" placeholder="Ujian Id">
+                    <strong>ID Santri:</strong>
+                    <input type="text" name="santri_id" class="form-control" placeholder="MAsukkan ID Santri">
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Pertanyaan:</strong>
-                    <input type="text" name="pertanyaan" class="form-control" placeholder="Pertanyaan">
+                    <strong>Waktu Mulai:</strong>
+                    <input type="text" name="waktu_mulai" class="form-control" placeholder="Masukkan Waktu Mulai">
                 </div>
-            </div>
+            </div>           
+            <div class="col-md-12">
+                <div class="form-group">
+                    <strong>Waktu Selesai:</strong>
+                    <input type="text" name="waktu_selesai" class="form-control" placeholder="Masukkan Waktu Selesai">
+                </div>
+            </div>            
             <div class="col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </div>

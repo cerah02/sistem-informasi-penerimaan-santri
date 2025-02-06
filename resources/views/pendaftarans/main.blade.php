@@ -219,7 +219,7 @@
                         <label class="form-check-label" for="tinggal_lainnya">Lainnya</label>
                     </div>
                     <div id="lainnya_input_container" class="mt-2" style="display: none;">
-                        <input type="text" id="lainnya_input" name="tempat_tinggal_lainnya" class="form-control"
+                        <input type="text" id="lainnya_input" name="tempat_tinggal" class="form-control"
                             placeholder="Silakan isi tempat tinggal lainnya">
                     </div>
                 </div>

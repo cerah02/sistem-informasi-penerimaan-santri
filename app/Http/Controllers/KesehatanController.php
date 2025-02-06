@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kesehatan;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class KesehatanController extends Controller
 {
@@ -12,12 +13,43 @@ class KesehatanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index_old()
     {
         //
-        $kesehatans = kesehatan::latest()->paginate(5);
-        return view('kesehatans.index',compact('kesehatans'))
-        ->with('i', (request()->input('page', 1) - 1) * 5);
+        $kesehatans = Kesehatan::latest()->paginate(5);
+        return view('kesehatans.index', compact('kesehatans'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    public function index(Request $request)
+    {
+        if ($request->ajax()){
+            $query_data = new kesehatan();
+
+            if($request->sSearch){
+                $search_value ='%'.$request->sSearch.'%';
+                $query_data=$query_data->where(function($query)use ($search_value) {
+                    $query->where('santri_id','like', $search_value);
+                });
+            }
+            $data = $query_data->orderBy('santri_id','asc')->get();
+            return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('aksi', function($row){
+                $btn='
+                <form action="'.route('kesehatans.destroy',$row->id).'" method="POST">
+                <a class="btn btn-info" href="'.route('kesehatans.show',$row->id).'">Show</a>
+                <a class="btn btn-primary" href="'.route('kesehatans.edit',$row->id).'">Edit</a>
+                '.csrf_field().method_field('DELETE').'
+                <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+                ';
+                return $btn;
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
+        }
+        return view('kesehatans.index');
     }
 
     /**

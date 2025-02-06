@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ortu;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class OrtuController extends Controller
 {
@@ -12,12 +13,45 @@ class OrtuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index_old()
     {
         //
-        $ortus = ortu::latest()->paginate(5);
-        return view('ortus.index',compact('ortus'))
-        ->with('i', (request()->input('page', 1) - 1) * 5);
+        $ortus = Ortu::latest()->paginate(5);
+        return view('ortus.index', compact('ortus'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    public function index(Request $request)
+    {
+        if ($request->ajax()){
+            $query_data = new Ortu();
+
+            if($request->sSearch){
+                $search_value ='%'.$request->sSearch.'%';
+                $query_data=$query_data->where(function($query)use ($search_value) {
+                    $query->where('santri_id','like', $search_value)
+                    ->orwhere('nama_ayah','like', $search_value)
+                    ->orwhere('nama_ibu','like', $search_value);
+                });
+            }
+            $data = $query_data->orderBy('santri_id','asc')->get();
+            return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('aksi', function($row){
+                $btn='
+                <form action="'.route('ortus.destroy',$row->id).'" method="POST">
+                <a class="btn btn-info" href="'.route('ortus.show',$row->id).'">Show</a>
+                <a class="btn btn-primary" href="'.route('ortus.edit',$row->id).'">Edit</a>
+                '.csrf_field().method_field('DELETE').'
+                <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+                ';
+                return $btn;
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
+        }
+        return view('ortus.index');
     }
 
     /**

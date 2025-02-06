@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class GuruController extends Controller
 {
@@ -12,11 +13,45 @@ class GuruController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index_old()
     {
-        $gurus = Guru::latest()->paginate(5);
+        //
+        $gurus = guru::latest()->paginate(5);
         return view('gurus.index', compact('gurus'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    public function index(Request $request)
+    {
+        if ($request->ajax()){            
+            $query_data = new Guru();
+            if($request->sSearch){
+                $search_value ='%'.$request->sSearch.'%';
+                $query_data=$query_data->where(function($query)use ($search_value) {
+                    $query->where('nama','like', $search_value)
+                    ->orwhere('nip','like', $search_value);
+                });
+            }
+            $data = $query_data->orderBy('nama','asc')->get();
+            return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('aksi', function($row){
+                $btn='
+                <form action="'.route('gurus.destroy',$row->id).'" method="POST">
+                <a class="btn btn-info" href="'.route('gurus.show',$row->id).'">Show</a>
+                <a class="btn btn-primary" href="'.route('gurus.edit',$row->id).'">Edit</a>
+                '.csrf_field().method_field('DELETE').'
+                <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+                ';
+                return $btn;
+            })->addColumn('guru_image', function ($row) {
+                return '<img src="'.$row->foto.'" width="50" height="50" class="img-thumbnail">';
+            })
+            ->rawColumns(['aksi','guru_image'])
+            ->make(true);
+        }
+        return view('gurus.index');
     }
 
     /**
@@ -63,7 +98,7 @@ class GuruController extends Controller
             $input['foto'] = 'uploads/guru/foto/' . $fileName;
         }
 
-        Guru::create($input);
+        $status = Guru::create($input);
         return redirect()->route('gurus.index')
             ->with('success', 'Data Guru Berhasil Disimpan.');
     }

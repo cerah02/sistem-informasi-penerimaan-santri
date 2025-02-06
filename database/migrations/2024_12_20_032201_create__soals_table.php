@@ -17,6 +17,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("ujian_id");
             $table->string("pertanyaan");
+            $table->string('jawaban_a');
+            $table->string('jawaban_b');
+            $table->string('jawaban_c');
+            $table->string('jawaban_d');
+            $table->string('jawaban_e');
+            $table->string('jawaban_benar');
             $table->timestamps();
         });
     }

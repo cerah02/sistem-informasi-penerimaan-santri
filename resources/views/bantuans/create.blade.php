@@ -28,8 +28,8 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <strong>Id Santri:</strong>
-                    <label for="nama_snatri"></label>
-                    <input type="text" name="nama_snatri" id="nama_snatri" class="form-control" placeholder="Masukan Id Santri">
+                    <label for="santri_id"></label>
+                    <input type="text" name="santri_id" id="santri_id" class="form-control" placeholder="Masukan Id Santri">
                 </div>
             </div>
             <div class="col-md-12">

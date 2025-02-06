@@ -1,92 +1,135 @@
 @extends('santris.layout')
 @section('content')
-    <div class="row mt-4">
-        <div class="col-lg-12 text-center mb-4">
-            <h2 class="text-primary">Daftar Pendaftaran Santri</h2>
-        </div>
-        <div class="col-lg-12 mb-2 text-end">
-            <a class="btn btn-success btn-sm" href="{{ route('santris.create') }}">
-                <i class="bi bi-plus-circle"></i> Tambahkan Data Santri
-            </a>
+    <div class="row">
+        <div class="col-lg-12 margin-tb">
+            <div class="pull-left">
+                <h2>Data Santri</h2>
+            </div>
+            <div class="pull-right">
+                <a class="btn btn-success" href="{{ route('santris.create') }}"> Tambahkan Data Calon Santri</a>
+            </div>
         </div>
     </div>
 
     @if ($message = Session::get('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Sukses!</strong> {{ $message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
         </div>
     @endif
+    <table class="table table-bordered data-table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Lengkap</th>
+                <th>NISN</th>
+                <th>NIK</th>
+                <th>Asal Sekolah</th>
+                <th>Jenis Kelamin</th>
+                <th>Tempat Tanggal Lahir</th>
+                <th>Kondisi Ekonomi</th>
+                <th>Keadaan Orang Tua</th>
+                <th>Status Dalam Keluarga</th>
+                <th>Tinggal Bersama</th>
+                <th>Kewarganegaraan</th>
+                <th>Anak Ke-</th>
+                <th>Dari</th>
+                <th>Alamat</th>
+                <th>Nomor Telepon</th>
+                <th>Email</th>
+                <th>Jenjang Pendidikan</th>
+                <th width="280px">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        $(function() {
+            var table = $('.data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('santris.index') }}",
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover align-middle">
-            <thead class="table-primary">
-                <tr>
-                    <th>No</th>
-                    <th>Nama Lengkap</th>
-                    <th>NISN</th>
-                    <th>NIK</th>
-                    <th>Asal Sekolah</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Tempat Tanggal Lahir</th>
-                    <th>Kondisi Ekonomi</th>
-                    <th>Keadaan Orang Tua</th>
-                    <th>Status Dalam Keluarga</th>
-                    <th>Tinggal Bersama</th>
-                    <th>Kewarganegaraan</th>
-                    <th>Anak Ke-</th>
-                    <th>Dari</th>
-                    <th>Alamat</th>
-                    <th>Nomor Telepon</th>
-                    <th>Email</th>
-                    <th>Jenjang Pendidikan</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($santris as $index => $santri)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $santri->nama }}</td>
-                        <td>{{ $santri->nisn }}</td>
-                        <td>{{ $santri->nik }}</td>
-                        <td>{{ $santri->asal_sekolah }}</td>
-                        <td>{{ $santri->jenis_kelamin }}</td>
-                        <td>{{ $santri->ttl }}</td>
-                        <td>{{ $santri->kondisi }}</td>
-                        <td>{{ $santri->kondisi_ortu }}</td>
-                        <td>{{ $santri->status_dkluarga }}</td>
-                        <td>{{ $santri->tempat_tinggal }}</td>
-                        <td>{{ $santri->kewarganegaraan }}</td>
-                        <td>{{ $santri->anak_ke }}</td>
-                        <td>{{ $santri->jumlah_saudara}}</td>
-                        <td>{{ $santri->alamat }}</td>
-                        <td>{{ $santri->nomor_telpon }}</td>
-                        <td>{{ $santri->email }}</td>
-                        <td>{{ $santri->jenjang_pendidikan }}</td>
-                        <td>
-                            <div class="d-flex justify-content-center">
-                                <form action="{{ route('santris.destroy', $santri->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <a class="btn btn-info btn-sm mx-1" href="{{ route('santris.show', $santri->id) }}">
-                                        <i class="bi bi-eye"></i> Lihat
-                                    </a>
-                                    <a class="btn btn-primary btn-sm mx-1" href="{{ route('santris.edit', $santri->id) }}">
-                                        <i class="bi bi-pencil"></i> Edit
-                                    </a>
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Pagination -->
-    <div class="d-flex justify-content-center">
-        {!! $santris->links() !!}
-    </div>
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'nisn',
+                        name: 'nisn'
+                    },
+                    {
+                        data: 'nik',
+                        name: 'nik'
+                    },
+                    {
+                        data: 'asal_sekolah',
+                        name: 'asal_sekolah'
+                    },
+                    {
+                        data: 'jenis_kelamin',
+                        name: 'jenis_kelamin'
+                    },
+                    {
+                        data: 'ttl',
+                        name: 'ttl'
+                    },
+                    {
+                        data: 'kondisi',
+                        name: 'kondisi'
+                    },
+                    {
+                        data: 'kondisi_ortu',
+                        name: 'kondisi_ortu'
+                    },
+                    {
+                        data: 'status_dkluarga',
+                        name: 'status_dkluarga'
+                    },
+                    {
+                        data: 'tempat_tinggal',
+                        name: 'tempat_tinggal'
+                    },
+                    {
+                        data: 'kewarganegaraan',
+                        name: 'kewarganegaraan'
+                    },
+                    {
+                        data: 'anak_ke',
+                        name: 'anak_ke'
+                    },
+                    {
+                        data: 'jumlah_saudara',
+                        name: 'jumlah_saudara'
+                    },
+                    {
+                        data: 'alamat',
+                        name: 'alamat'
+                    },
+                    {
+                        data: 'nomor_telpon',
+                        name: 'nomor_telpon'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'jenjang_pendidikan',
+                        name: 'jenjang_pendidikan'
+                    },
+                    {
+                        data: 'aksi',
+                        name: 'aksi',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+        });
+    </script>
 @endsection

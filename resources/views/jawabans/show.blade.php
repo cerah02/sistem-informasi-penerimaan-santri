@@ -13,6 +13,12 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
+                <strong>Santri Id :</strong>
+                {{ $jawaban->santri_id }}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
                 <strong>Soal Id :</strong>
                 {{ $jawaban->soal_id }}
             </div>
@@ -25,8 +31,8 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Is Benar :</strong>
-                {{ $jawaban->is_benar }}
+                <strong>Status Jawaban :</strong>
+                {{ $jawaban->status_jawaban }}
             </div>
         </div>
     </div>

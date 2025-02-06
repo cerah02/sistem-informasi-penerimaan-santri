@@ -40,9 +40,10 @@ class JawabanController extends Controller
     {
         //
         $request->validate([
+            'santri_id' => 'required',
             'soal_id' => 'required',
             'jawaban' => 'required',
-            'is_benar' => 'required',
+            'status_jawaban' => 'required',
             ]);
             Jawaban::create($request->all());
             return redirect()->route('jawabans.index')
@@ -83,13 +84,14 @@ class JawabanController extends Controller
     {
         //
         $request->validate([
+            'santri_id' => 'required',
             'soal_id' => 'required',
             'jawaban' => 'required',
-            'is_benar' => 'required',
+            'status_jawaban' => 'required',
             ]);
-            Jawaban::create($request->all());
+            $jawaban->update($request->all());
             return redirect()->route('jawabans.index')
-            ->with('success','Data Jawaban Berhasil Disimpan.');
+            ->with('success', 'Data Jawaban Berhasil Diupdate');
     }
 
     /**

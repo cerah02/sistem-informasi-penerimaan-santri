@@ -27,6 +27,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
+                    <strong>ID Santri:</strong>
+                    <input type="text" name="santri_id" class="form-control" placeholder="Masukkan ID Santri">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
                     <strong>Soal Id:</strong>
                     <input type="text" name="soal_id" class="form-control" placeholder="Soal">
                 </div>
@@ -39,10 +45,15 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Is Benar:</strong>
-                    <input type="text" name="is_benar" class="form-control" placeholder="Is Benar">
+                    <strong>Status Jawaban:</strong><br>
+                    <label>
+                        <input type="radio" name="status_jawaban" value="Benar" required> Benar
+                    </label><br>
+                    <label>
+                        <input type="radio" name="status_jawaban" value="Salah" required> Salah
+                    </label>
                 </div>
-            </div>
+            </div>            
             <div class="col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </div>

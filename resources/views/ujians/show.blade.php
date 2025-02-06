@@ -13,20 +13,44 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Mata Pelajaran :</strong>
-                {{ $ujian->mata_pelajaran}}
+                <strong>Nama Ujian :</strong>
+                {{ $ujian->nama_ujian}}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Tanggal Ujian :</strong>
-                {{ $ujian->tanggal_ujian }}
+                <strong>Jenjang Pendidikan :</strong>
+                {{ $ujian->jenjang_pendidikan }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Deskripsi :</strong>
-                {{ $ujian->deskripsi }}
+                <strong>Kategori :</strong>
+                {{ $ujian->kategori }}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Tanggal Mulai:</strong>
+                {{ $ujian->tanggal_mulai }}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Tanggal Selesai :</strong>
+                {{ $ujian->tanggal_selesai }}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Durasi :</strong>
+                {{ $ujian->durasi }}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Status :</strong>
+                {{ $ujian->status }}
             </div>
         </div>
     </div>

@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('jawabans', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("soal_id");
+            $table->unsignedBigInteger("santri_id");
             $table->string ("jawaban");
-            $table->string("is_benar");
+            $table->string("status_jawaban");
             $table->timestamps();
         });
     }

@@ -2,46 +2,84 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
-            <div class="text-center">
-                <h2>List Ujian Santri</h2>
+            <div class="pull-left">
+                <h2>Daftar Data ujian</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('ujians.create') }}"> Tambahkan Data Ujian</a>
+                <a class="btn btn-success" href="{{ route('ujians.create') }}"> Tambahkan Data ujian Santri</a>
             </div>
         </div>
     </div>
+
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
         </div>
     @endif
-    <table class="table table-bordered">
-        <tr>
-            <th>No</th>
-            <th>Mata Pelajaran</th>
-            <th>Tanggal Ujian</th>
-            <th>Deskripsi</th>
-            <th width="280px">Action</th>
-        </tr>
-        @foreach ($ujians as $ujian)
+    <table class="table table-bordered data-table">
+        <thead>
             <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $ujian->mata_pelajaran }}</td>
-                <td>{{ $ujian->tanggal_ujian }}</td>
-                <td>{{ $ujian->deskripsi }}</td>
-                <td>
-                    <form action="{{ route('ujians.destroy', $ujian->id) }}" method="POST">
-
-                        <a class="btn btn-info" href="{{ route('ujians.show', $ujian->id) }}">Lihat</a>
-
-                        <a class="btn btn-primary" href="{{ route('ujians.edit', $ujian->id) }}">Edit</a>
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>
-                </td>
+                <th>No</th>
+                <th>Nama Ujian</th>
+                <th>Jenjang Pendidikan</th>
+                <th>Kategori</th>
+                <th>Tanggal Mulai</th>
+                <th>Tanggal Selesai</th>
+                <th>Durasi</th>
+                <th>Status</th>
+                <th width="280px">Aksi</th>
             </tr>
-        @endforeach
+        </thead>
+        <tbody>
+        </tbody>
     </table>
-    {!! $ujians->links() !!}
+    <script type="text/javascript">
+        $(function() {
+            var table = $('.data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('ujians.index') }}",
+
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'nama_ujian',
+                        name: 'nama_ujian'
+                    },
+                    {
+                        data: 'jenjang_pendidikan',
+                        name: 'jenjang_pendidikan'
+                    },
+                    {
+                        data: 'kategori',
+                        name: 'kategori'
+                    },
+                    {
+                        data: 'tanggal_mulai',
+                        name: 'tanggal_mulai'
+                    },
+                    {
+                        data: 'tanggal_selesai',
+                        name: 'tanggal_selesai'
+                    },
+                    {
+                        data: 'durasi',
+                        name: 'durasi'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'aksi',
+                        name: 'aksi',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+        });
+    </script>
 @endsection

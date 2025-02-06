@@ -18,17 +18,19 @@
     <table class="table table-bordered">
         <tr>
             <th>No</th>
+            <th>ID Santri</th>
             <th>Soal id</th>
             <th>Jawaban</th>
-            <th>Is Benar</th>
+            <th>Status Jawaban</th>
             <th width="280px">Action</th>
         </tr>
         @foreach ($jawabans as $jawaban)
             <tr>
                 <td>{{ ++$i }}</td>
+                <td>{{ $jawaban->santri_id }}</td>
                 <td>{{ $jawaban->soal_id }}</td>
                 <td>{{ $jawaban->jawaban }}</td>
-                <td>{{ $jawaban->is_benar }}</td>
+                <td>{{ $jawaban->status_jawaban }}</td>
                 <td>
                     <form action="{{ route('jawabans.destroy', $jawaban->id) }}" method="POST">
 

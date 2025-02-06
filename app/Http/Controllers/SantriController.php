@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Santri;
 use Illuminate\Http\Request;
 use Symfony\Contracts\Service\Attribute\Required;
+use Yajra\DataTables\Facades\DataTables;
 
 class SantriController extends Controller
 {
@@ -13,7 +14,7 @@ class SantriController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index_old()
     {
         //
         $santris = santri::latest()->paginate(5);
@@ -21,6 +22,38 @@ class SantriController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
+    public function index(Request $request)
+    {
+        if ($request->ajax()){
+            $query_data = new Santri();
+
+            if($request->sSearch){
+                $search_value ='%'.$request->sSearch.'%';
+                $query_data=$query_data->where(function($query)use ($search_value) {
+                    $query->where('nama','like', $search_value)
+                    ->orwhere('nik','like', $search_value)
+                    ->orwhere('nisn','like', $search_value);
+                });
+            }
+            $data = $query_data->orderBy('nama','asc')->get();
+            return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('aksi', function($row){
+                $btn='
+                <form action="'.route('santris.destroy',$row->id).'" method="POST">
+                <a class="btn btn-info" href="'.route('santris.show',$row->id).'">Show</a>
+                <a class="btn btn-primary" href="'.route('santris.edit',$row->id).'">Edit</a>
+                '.csrf_field().method_field('DELETE').'
+                <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+                ';
+                return $btn;
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
+        }
+        return view('santris.index');
+    }   
     /**
      * Show the form for creating a new resource.
      *

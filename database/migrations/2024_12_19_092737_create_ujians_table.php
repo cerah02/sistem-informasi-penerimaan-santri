@@ -15,9 +15,13 @@ return new class extends Migration
     {
         Schema::create('ujians', function (Blueprint $table) {
             $table->id();
-            $table->string("mata_pelajaran");
-            $table->string("tanggal_ujian");
-            $table->string("deskripsi");
+            $table->string("nama_ujian");
+            $table->string("kategori");
+            $table->enum("jenjang_pendidikan",["SD","MTS","MA"]);
+            $table->date("tanggal_mulai");
+            $table->date("tanggal_selesai");
+            $table->time("durasi");
+            $table->string("status");
             $table->timestamps();
         });
     }
