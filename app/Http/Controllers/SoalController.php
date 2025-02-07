@@ -72,6 +72,7 @@ class SoalController extends Controller
 
     public function submitUjian(Request $request)
     {
+        // dd($request->all());
         $jawabanUser = $request->jawaban; // Array jawaban dari user
         $soals = Soal::all();
         $results = [];
