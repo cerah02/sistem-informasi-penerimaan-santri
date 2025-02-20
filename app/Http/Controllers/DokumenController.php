@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dokumen;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class DokumenController extends Controller
 {
@@ -12,12 +13,41 @@ class DokumenController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    function __construct()
+    {
+        $this->middleware(
+            'permission:dokumen-list|dokumen-create|dokumen-edit|dokumen-delete',
+            ['only' => ['index', 'store']]
+        );
+        $this->middleware('permission:dokumen-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:dokumen-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:dokumen-delete', ['only' => ['destroy']]);
+    }
+    public function index_old()
     {
         //
         $dokumens = dokumen::latest()->paginate(5);
         return view('dokumens.index', compact('dokumens'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Dokumen::latest()->get();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="' . route('dokumens.show', $row->id) . '" class="btn btn-info btn-sm mx-1"><i class="bi bi-eye"></i> Lihat</a>';
+                    $btn .= '<a href="' . route('dokumens.edit', $row->id) . '" class="btn btn-primary btn-sm mx-1"><i class="bi bi-pencil"></i> Edit</a>';
+                    $btn .= '<button type="button" class="btn btn-danger btn-sm mx-1" data-toggle="modal" data-target="#deleteModal" data-id="' . $row->id . '" data-nama="' . $row->nama . '">Hapus</button>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('dokumens.index'); // Tidak perlu mengirim $dokumens
     }
 
     /**

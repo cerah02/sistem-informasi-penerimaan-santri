@@ -9,23 +9,35 @@
     <title>CBT : Computer Based Test</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+
         .navbar-custom {
-            background-color: #d9534f;
+            background: linear-gradient(135deg, #d9534f, #c9302c);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .navbar-custom .navbar-brand,
         .navbar-custom .nav-link {
             color: white;
+            font-weight: 600;
         }
 
         .question-box {
-            background-color: #5bc0de;
+            background: linear-gradient(135deg, #5bc0de, #31b0d5);
             color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .answer-box {
             background-color: #dff0d8;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .answer-box i {
@@ -35,15 +47,18 @@
         .option-box {
             background-color: #f7f7f7;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .option-box:hover {
             background-color: #e7e7e7;
+            transform: translateY(-2px);
         }
 
         .option-box.selected {
-            background-color: #5bc0de;
+            background: linear-gradient(135deg, #5bc0de, #31b0d5);
             color: white;
         }
 
@@ -52,34 +67,102 @@
         }
 
         .btn-custom {
-            background-color: #5cb85c;
+            background: linear-gradient(135deg, #5cb85c, #4cae4c);
             color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .btn-custom:hover {
-            background-color: #4cae4c;
+            background: linear-gradient(135deg, #4cae4c, #449d44);
+            transform: translateY(-2px);
         }
 
         .btn-back {
-            background-color: #f0ad4e;
+            background: linear-gradient(135deg, #f0ad4e, #ec971f);
             color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .btn-back:hover {
-            background-color: #ec971f;
+            background: linear-gradient(135deg, #ec971f, #d58512);
+            transform: translateY(-2px);
         }
 
         .answer-grid .btn {
             width: 100%;
             margin-bottom: 10px;
+            border-radius: 25px;
+            font-weight: 600;
         }
 
         .question-container {
             display: none;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
         .question-container.active {
             display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .breadcrumb {
+            background-color: transparent;
+            padding: 0;
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb-item.active {
+            color: #5bc0de;
+            font-weight: 600;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-custom .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .btn-custom, .btn-back {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .answer-grid .btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -97,14 +180,14 @@
                     <div class="card-body">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Ujian Bahasa Arab</li>
+                                <li class="breadcrumb-item active" aria-current="page">{{$ujian->nama_ujian}}</li>
                             </ol>
                         </nav>
-
                         <form action="{{ route('submit.ujian') }}" method="POST">
+                            
                             @csrf
                             @foreach ($soals as $index => $soal)
+                            <input type="text" value="{{$soal->ujian_id}}" name="ujian_id" hidden>
                                 <div class="question-container card mb-3 {{ $index === 0 ? 'active' : '' }}"
                                     id="soal-{{ $index + 1 }}">
                                     <div class="question-box p-4 rounded">

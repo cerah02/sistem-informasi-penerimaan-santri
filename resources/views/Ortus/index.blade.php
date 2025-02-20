@@ -1,13 +1,15 @@
-@extends('ortus.layout')
+@extends('layout')
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
                 <h2>Daftar Data Orang Tua Santri</h2>
             </div>
+            @can('ortu-create')
             <div class="pull-right">
                 <a class="btn btn-success" href="{{ route('ortus.create') }}"> Tambahkan Data Orang Tua Santri</a>
-            </div>
+            </div>    
+            @endcan
         </div>
     </div>
 

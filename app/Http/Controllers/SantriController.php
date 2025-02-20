@@ -14,6 +14,16 @@ class SantriController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware(
+            'permission:santri-list|santri-create|santri-edit|santri-delete',
+            ['only' => ['index', 'store']]
+        );
+        $this->middleware('permission:santri-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:santri-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:santri-delete', ['only' => ['destroy']]);
+    }
     public function index_old()
     {
         //
@@ -24,36 +34,49 @@ class SantriController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->ajax()){
+             if ($request->ajax()) {
             $query_data = new Santri();
 
-            if($request->sSearch){
-                $search_value ='%'.$request->sSearch.'%';
-                $query_data=$query_data->where(function($query)use ($search_value) {
-                    $query->where('nama','like', $search_value)
-                    ->orwhere('nik','like', $search_value)
-                    ->orwhere('nisn','like', $search_value);
+            if ($request->sSearch) {
+                $search_value = '%' . $request->sSearch . '%';
+                $query_data = $query_data->where(function ($query) use ($search_value) {
+                    $query->where('nama', 'like', $search_value)
+                        ->orwhere('nik', 'like', $search_value)
+                        ->orwhere('nisn', 'like', $search_value);
                 });
             }
-            $data = $query_data->orderBy('nama','asc')->get();
+            $data = $query_data->orderBy('nama', 'asc')->get();
             return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('aksi', function($row){
-                $btn='
-                <form action="'.route('santris.destroy',$row->id).'" method="POST">
-                <a class="btn btn-info" href="'.route('santris.show',$row->id).'">Show</a>
-                <a class="btn btn-primary" href="'.route('santris.edit',$row->id).'">Edit</a>
-                '.csrf_field().method_field('DELETE').'
-                <button type="submit" class="btn btn-danger">Hapus</button>
-                </form>
-                ';
-                return $btn;
-            })
-            ->rawColumns(['aksi'])
-            ->make(true);
+                ->addIndexColumn()
+                    ->addColumn('aksi', function ($row) {
+                        $btn = '';
+                    
+                        // Cek permission 'view santri'
+                        if (auth()->user()->can('santri-show')) {
+                            $btn .= '<a class="btn btn-info" href="' . route('santris.show', $row->id) . '">Show</a> ';
+                        }
+                    
+                        // Cek permission 'edit santri'
+                        if (auth()->user()->can('santri-edit')) {
+                            $btn .= '<a class="btn btn-primary" href="' . route('santris.edit', $row->id) . '">Edit</a> ';
+                        }
+                    
+                        // Cek permission 'delete santri'
+                        if (auth()->user()->can('santri-delete')) {
+                            $btn .= '
+                            <form action="' . route('santris.destroy', $row->id) . '" method="POST" style="display:inline;">
+                                ' . csrf_field() . method_field('DELETE') . '
+                                <button type="submit" class="btn btn-danger">Hapus</button>
+                            </form>';
+                        }
+                    
+                        return $btn;
+                    })
+                ->rawColumns(['aksi'])
+                ->make(true);
         }
         return view('santris.index');
-    }   
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -96,7 +119,7 @@ class SantriController extends Controller
             'jenjang_pendidikan' => 'required',
         ]);
         $input = $request->all();
-        $input['ttl'] = $request->tempat_lahir .' '.$request->tanggal_lahir;
+        $input['ttl'] = $request->tempat_lahir . ' ' . $request->tanggal_lahir;
         Santri::create($input);
         return redirect()->route('santris.index')
             ->with('success', 'Data Santri Berhasil Disimpan.');

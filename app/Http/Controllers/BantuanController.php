@@ -13,6 +13,16 @@ class BantuanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware(
+            'permission:bantuan-list|bantuan-create|bantuan-edit|bantuan-delete',
+            ['only' => ['index', 'store']]
+        );
+        $this->middleware('permission:bantuan-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:bantuan-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:bantuan-delete', ['only' => ['destroy']]);
+    }
     public function index_old()
     {
         //
@@ -35,15 +45,27 @@ class BantuanController extends Controller
             $data = $query_data->orderBy('santri_id','asc')->get();
             return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('aksi', function($row){
-                $btn='
-                <form action="'.route('bantuans.destroy',$row->id).'" method="POST">
-                <a class="btn btn-info" href="'.route('bantuans.show',$row->id).'">Show</a>
-                <a class="btn btn-primary" href="'.route('bantuans.edit',$row->id).'">Edit</a>
-                '.csrf_field().method_field('DELETE').'
-                <button type="submit" class="btn btn-danger">Hapus</button>
-                </form>
-                ';
+            ->addColumn('aksi', function ($row) {
+                $btn = '';
+            
+                
+                if (auth()->user()->can('bantuan-show')) {
+                    $btn .= '<a class="btn btn-info" href="' . route('bantuans.show', $row->id) . '">Show</a> ';
+                }
+            
+            
+                if (auth()->user()->can('bantuan-edit')) {
+                    $btn .= '<a class="btn btn-primary" href="' . route('bantuans.edit', $row->id) . '">Edit</a> ';
+                }
+            
+                if (auth()->user()->can('bantuan-delete')) {
+                    $btn .= '
+                    <form action="' . route('bantuans.destroy', $row->id) . '" method="POST" style="display:inline;">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>';
+                }
+            
                 return $btn;
             })
             ->rawColumns(['aksi'])

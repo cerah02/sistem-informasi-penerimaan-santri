@@ -13,6 +13,16 @@ class UjianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware(
+            'permission:ujian-list|ujian-create|ujian-edit|ujian-delete',
+            ['only' => ['index', 'store']]
+        );
+        $this->middleware('permission:ujian-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ujian-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:ujian-delete', ['only' => ['destroy']]);
+    }
     public function index_old()
     {
         //
@@ -37,15 +47,27 @@ class UjianController extends Controller
             $data = $query_data->orderBy('nama_ujian','asc')->get();
             return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('aksi', function($row){
-                $btn='
-                <form action="'.route('ujians.destroy',$row->id).'" method="POST">
-                <a class="btn btn-info" href="'.route('ujians.show',$row->id).'">Show</a>
-                <a class="btn btn-primary" href="'.route('ujians.edit',$row->id).'">Edit</a>
-                '.csrf_field().method_field('DELETE').'
-                <button type="submit" class="btn btn-danger">Hapus</button>
-                </form>
-                ';
+            ->addColumn('aksi', function ($row) {
+                $btn = '';
+            
+                
+                if (auth()->user()->can('ujian-show')) {
+                    $btn .= '<a class="btn btn-info" href="' . route('ujians.show', $row->id) . '">Show</a> ';
+                }
+            
+            
+                if (auth()->user()->can('ujian-edit')) {
+                    $btn .= '<a class="btn btn-primary" href="' . route('ujians.edit', $row->id) . '">Edit</a> ';
+                }
+            
+                if (auth()->user()->can('ujian-delete')) {
+                    $btn .= '
+                    <form action="' . route('ujians.destroy', $row->id) . '" method="POST" style="display:inline;">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>';
+                }
+            
                 return $btn;
             })
             ->rawColumns(['aksi'])

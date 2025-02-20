@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jawaban;
 use App\Models\Soal;
 use App\Models\Ujian;
 use Illuminate\Http\Request;
@@ -14,6 +15,16 @@ class SoalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware(
+            'permission:soal-list|soal-create|soal-edit|soal-delete',
+            ['only' => ['index', 'store']]
+        );
+        $this->middleware('permission:soal-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:soal-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:soal-delete', ['only' => ['destroy']]);
+    }
     public function index_old()
     {
         //
@@ -37,14 +48,26 @@ class SoalController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($row) {
-                    $btn = '
-                <form action="' . route('soals.destroy', $row->id) . '" method="POST">
-                <a class="btn btn-info" href="' . route('soals.show', $row->id) . '">Show</a>
-                <a class="btn btn-primary" href="' . route('soals.edit', $row->id) . '">Edit</a>
-                ' . csrf_field() . method_field('DELETE') . '
-                <button type="submit" class="btn btn-danger">Hapus</button>
-                </form>
-                ';
+                    $btn = '';
+                
+                    
+                    if (auth()->user()->can('ujian-show')) {
+                        $btn .= '<a class="btn btn-info" href="' . route('ujians.show', $row->id) . '">Show</a> ';
+                    }
+                
+                
+                    if (auth()->user()->can('ujian-edit')) {
+                        $btn .= '<a class="btn btn-primary" href="' . route('ujians.edit', $row->id) . '">Edit</a> ';
+                    }
+                
+                    if (auth()->user()->can('ujian-delete')) {
+                        $btn .= '
+                        <form action="' . route('ujians.destroy', $row->id) . '" method="POST" style="display:inline;">
+                            ' . csrf_field() . method_field('DELETE') . '
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </form>';
+                    }
+                
                     return $btn;
                 })
                 ->rawColumns(['aksi'])
@@ -63,34 +86,92 @@ class SoalController extends Controller
         $ujians = Ujian::all();
         return view('soals.create', compact('ujians'));
     }
-
-    public function ujian()
+    public function list_soal()
     {
-        $soals = Soal::all();
-        return view('soals.ujian', compact('soals'));
+
+        // Ambil ID user yang sedang login
+        $id_user = 1;
+
+        // Ambil semua soal yang sudah dikerjakan oleh user
+        $soalDikerjakan = Jawaban::where('santri_id', $id_user)
+            ->with('soal.ujian') // Eager load relasi soal dan ujian
+            ->get();
+
+        // Inisialisasi array untuk menyimpan ujian yang sudah dikerjakan
+        $ujianDikerjakan = [];
+
+        // Loop melalui soal yang sudah dikerjakan
+        foreach ($soalDikerjakan as $jawaban) {
+            $soal = $jawaban->soal;
+            $ujian = $soal->ujian;
+
+            // Simpan ujian_id ke dalam array
+            $ujianDikerjakan[$ujian->id] = $ujian;
+        }
+
+        // Ambil semua ujian beserta jumlah soal
+        $ujians = Ujian::withCount('soal')->get();
+
+        // Loop melalui setiap ujian untuk mengecek apakah user sudah mengerjakan ujian tersebut
+        foreach ($ujians as $ujian) {
+            $ujian->user_already_submit = isset($ujianDikerjakan[$ujian->id]);
+        }
+
+        // dd($ujians);
+        // Kirim data ke view
+        return view('soals.list_soal', compact('ujians'));
+    }
+
+    public function ujian($id)
+    {
+        $soals = Soal::where('ujian_id', '=', $id)->get();
+        $ujian = ujian::where('id', '=', $id)->first();
+        return view('soals.ujian', compact('soals', 'ujian'));
     }
 
     public function submitUjian(Request $request)
     {
-        // dd($request->all());
-        $jawabanUser = $request->jawaban; // Array jawaban dari user
-        $soals = Soal::all();
-        $results = [];
+        // Ambil ID santri yang sedang login (contoh menggunakan Auth)
+        $santri_id = 1; // Sesuaikan dengan cara Anda mengambil ID santri
 
+        // Ambil jawaban user dari request
+        $jawabanUser = $request->jawaban; // Array jawaban dari user
+
+        // Ambil semua soal
+        $soals = Soal::where('ujian_id', '=', $request->ujian_id)->get();
+        $results = [];
+        $state = "";
+
+        // Loop melalui setiap soal
         foreach ($soals as $soal) {
             $jawabanBenar = $soal->jawaban_benar;
             $jawabanDipilih = $jawabanUser[$soal->id] ?? null;
 
-            $results[] = [
+            // Tentukan status jawaban
+            $status_jawaban = ($jawabanDipilih === $jawabanBenar) ? 'Benar' : 'Salah';
+
+            // Simpan jawaban ke tabel jawabans
+            $state = Jawaban::create([
                 'soal_id' => $soal->id,
-                'pertanyaan' => $soal->pertanyaan,
-                'jawaban_benar' => $jawabanBenar,
-                'jawaban_dipilih' => $jawabanDipilih,
-                'status' => $jawabanDipilih === $jawabanBenar ? 'Benar' : 'Salah'
-            ];
+                'santri_id' => $santri_id,
+                'jawaban' => $jawabanDipilih ?? 'Tidak diisi', // Jika jawaban tidak dipilih, isi dengan 'Tidak diisi'
+                'status_jawaban' => $status_jawaban,
+            ]);
+
+            // // Tambahkan hasil ke array results untuk ditampilkan di view
+            // $results[] = [
+            //     'soal_id' => $soal->id,
+            //     'pertanyaan' => $soal->pertanyaan,
+            //     'jawaban_benar' => $jawabanBenar,
+            //     'jawaban_dipilih' => $jawabanDipilih,
+            //     'status' => $status_jawaban,
+            // ];
         }
 
-        return view('soals.hasil', compact('results'));
+        return redirect()->route('list_soal');
+
+        // Redirect ke halaman hasil dengan data results
+        // return view('soals.hasil', compact('results'));
     }
     /**
      * Store a newly created resource in storage.

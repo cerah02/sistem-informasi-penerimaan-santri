@@ -1,49 +1,72 @@
-@extends('jawabans.layout')
+@extends('layout')
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
-            <div class="text-center">
-                <h2>List Data Jawaban</h2>
+            <div class="pull-left">
+                <h2>Daftar Data Jawaban Calon Santri</h2>
             </div>
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('jawabans.create') }}"> Tambahkan Data Jawaban</a>
-            </div>
+            @can('jawaban-create')
+                <div class="pull-right">
+                    <a class="btn btn-success" href="{{ route('jawabans.create') }}"> Tambahkan Data Jawaban Calon Santri</a>
+                </div>
+            @endcan
         </div>
     </div>
+
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
         </div>
     @endif
-    <table class="table table-bordered">
-        <tr>
-            <th>No</th>
-            <th>ID Santri</th>
-            <th>Soal id</th>
-            <th>Jawaban</th>
-            <th>Status Jawaban</th>
-            <th width="280px">Action</th>
-        </tr>
-        @foreach ($jawabans as $jawaban)
+    <table class="table table-bordered data-table">
+        <thead>
             <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $jawaban->santri_id }}</td>
-                <td>{{ $jawaban->soal_id }}</td>
-                <td>{{ $jawaban->jawaban }}</td>
-                <td>{{ $jawaban->status_jawaban }}</td>
-                <td>
-                    <form action="{{ route('jawabans.destroy', $jawaban->id) }}" method="POST">
-
-                        <a class="btn btn-info" href="{{ route('jawabans.show', $jawaban->id) }}">Lihat</a>
-
-                        <a class="btn btn-primary" href="{{ route('jawabans.edit', $jawaban->id) }}">Edit</a>
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>
-                </td>
+                <th>No</th>
+                <th>Id Santri</th>
+                <th>Id Soal</th>
+                <th>Jawaban</th>
+                <th>Status Jawaban</th>
+                <th width="280px">Aksi</th>
             </tr>
-        @endforeach
+        </thead>
+        <tbody>
+        </tbody>
     </table>
-    {!! $jawabans->links() !!}
+    <script type="text/javascript">
+        $(function() {
+            var table = $('.data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('jawabans.index') }}",
+
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'santri_id',
+                        name: 'santri_id'
+                    },
+                    {
+                        data: 'soal_id',
+                        name: 'soal_id'
+                    },
+                    {
+                        data: 'jawaban',
+                        name: 'jawaban'
+                    },
+                    {
+                        data: 'status_jawaban',
+                        name: 'status_jawaban'
+                    },
+                    {
+                        data: 'aksi',
+                        name: 'aksi',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+        });
+    </script>
 @endsection

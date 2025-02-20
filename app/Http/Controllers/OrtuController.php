@@ -13,6 +13,16 @@ class OrtuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware(
+            'permission:ortu-list|ortu-create|ortu-edit|ortu-delete',
+            ['only' => ['index', 'store']]
+        );
+        $this->middleware('permission:ortu-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ortu-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:ortu-delete', ['only' => ['destroy']]);
+    }
     public function index_old()
     {
         //
@@ -37,15 +47,27 @@ class OrtuController extends Controller
             $data = $query_data->orderBy('santri_id','asc')->get();
             return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('aksi', function($row){
-                $btn='
-                <form action="'.route('ortus.destroy',$row->id).'" method="POST">
-                <a class="btn btn-info" href="'.route('ortus.show',$row->id).'">Show</a>
-                <a class="btn btn-primary" href="'.route('ortus.edit',$row->id).'">Edit</a>
-                '.csrf_field().method_field('DELETE').'
-                <button type="submit" class="btn btn-danger">Hapus</button>
-                </form>
-                ';
+            ->addColumn('aksi', function ($row) {
+                $btn = '';
+            
+                
+                if (auth()->user()->can('ortu-show')) {
+                    $btn .= '<a class="btn btn-info" href="' . route('ortus.show', $row->id) . '">Show</a> ';
+                }
+            
+            
+                if (auth()->user()->can('ortu-edit')) {
+                    $btn .= '<a class="btn btn-primary" href="' . route('ortus.edit', $row->id) . '">Edit</a> ';
+                }
+            
+                if (auth()->user()->can('ortu-delete')) {
+                    $btn .= '
+                    <form action="' . route('ortus.destroy', $row->id) . '" method="POST" style="display:inline;">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>';
+                }
+            
                 return $btn;
             })
             ->rawColumns(['aksi'])

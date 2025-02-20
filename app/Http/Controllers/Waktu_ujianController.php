@@ -13,6 +13,16 @@ class Waktu_ujianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware(
+            'permission:waktu_ujian-list|waktu_ujian-create|waktu_ujian-edit|waktu_ujian-delete',
+            ['only' => ['index', 'store']]
+        );
+        $this->middleware('permission:waktu_ujian-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:waktu_ujian-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:waktu_ujian-delete', ['only' => ['destroy']]);
+    }
     public function index_old()
     {
         //
@@ -35,15 +45,27 @@ class Waktu_ujianController extends Controller
             $data = $query_data->orderBy('santri_id','asc')->get();
             return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('aksi', function($row){
-                $btn='
-                <form action="'.route('waktu_ujians.destroy',$row->id).'" method="POST">
-                <a class="btn btn-info" href="'.route('waktu_ujians.show',$row->id).'">Show</a>
-                <a class="btn btn-primary" href="'.route('waktu_ujians.edit',$row->id).'">Edit</a>
-                '.csrf_field().method_field('DELETE').'
-                <button type="submit" class="btn btn-danger">Hapus</button>
-                </form>
-                ';
+            ->addColumn('aksi', function ($row) {
+                $btn = '';
+            
+                
+                if (auth()->user()->can('waktu_ujian-show')) {
+                    $btn .= '<a class="btn btn-info" href="' . route('waktu_ujians.show', $row->id) . '">Show</a> ';
+                }
+            
+            
+                if (auth()->user()->can('waktu_ujian-edit')) {
+                    $btn .= '<a class="btn btn-primary" href="' . route('waktu_ujians.edit', $row->id) . '">Edit</a> ';
+                }
+            
+                if (auth()->user()->can('waktu_ujian-delete')) {
+                    $btn .= '
+                    <form action="' . route('waktu_ujians.destroy', $row->id) . '" method="POST" style="display:inline;">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>';
+                }
+            
                 return $btn;
             })
             ->rawColumns(['aksi'])

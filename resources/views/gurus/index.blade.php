@@ -1,13 +1,16 @@
-@extends('gurus.layout')
+@extends('layout')
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
                 <h2>Daftar Data Guru</h2>
             </div>
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('gurus.create') }}"> Tambahkan Data guru</a>
-            </div>
+            @can('guru-create')
+                <div class="pull-right">
+                    <a class="btn btn-success" href="{{ route('gurus.create') }}"> Tambahkan Data guru</a>
+                </div>
+            @endcan
+
         </div>
     </div>
 
@@ -41,8 +44,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('gurus.index') }}",
-                
-                
+
+
                 columns: [{
                         data: 'id',
                         name: 'id'
@@ -78,7 +81,7 @@
                     {
                         data: 'guru_image',
                         name: 'guru_image'
-                        
+
                     },
                     {
                         data: 'status_guru',

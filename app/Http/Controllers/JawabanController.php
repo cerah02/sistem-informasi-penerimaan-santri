@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Jawaban;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class JawabanController extends Controller
 {
@@ -12,12 +13,67 @@ class JawabanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    function __construct()
+    {
+        $this->middleware(
+            'permission:jawaban-list|jawaban-create|jawaban-edit|jawaban-delete',
+            ['only' => ['index', 'store']]
+        );
+        $this->middleware('permission:jawaban-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:jawaban-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:jawaban-delete', ['only' => ['destroy']]);
+    }
+    public function index_old()
     {
         //
         $jawabans = Jawaban::latest()->paginate(5);
         return view('jawabans.index',compact('jawabans'))
         ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+    public function index(Request $request)
+    {
+             if ($request->ajax()) {
+            $query_data = new Jawaban();
+
+            if ($request->sSearch) {
+                $search_value = '%' . $request->sSearch . '%';
+                $query_data = $query_data->where(function ($query) use ($search_value) {
+                    $query->where('santri_id', 'like', $search_value)
+                        ->orwhere('soals', 'like', $search_value)
+                        ->orwhere('status_jawaban', 'like', $search_value);
+                });
+            }
+            $data = $query_data->orderBy('santri_id', 'asc')->get();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($row) {
+                    $btn = '';
+                
+                    // Cek permission 'view santri'
+                    if (auth()->user()->can('jawaban-show')) {
+                        $btn .= '<a class="btn btn-info" href="' . route('jawabans.show', $row->id) . '">Show</a> ';
+                    }
+                
+                    // Cek permission 'edit jawaban'
+                    if (auth()->user()->can('jawaban-edit')) {
+                        $btn .= '<a class="btn btn-primary" href="' . route('jawabans.edit', $row->id) . '">Edit</a> ';
+                    }
+                
+                    // Cek permission 'delete jawaban'
+                    if (auth()->user()->can('jawaban-delete')) {
+                        $btn .= '
+                        <form action="' . route('jawabans.destroy', $row->id) . '" method="POST" style="display:inline;">
+                            ' . csrf_field() . method_field('DELETE') . '
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </form>';
+                    }
+                
+                    return $btn;
+                })
+                ->rawColumns(['aksi'])
+                ->make(true);
+        }
+        return view('jawabans.index');
     }
 
     /**
@@ -68,6 +124,7 @@ class JawabanController extends Controller
      * @param  \App\Models\Jawaban  $jawaban
      * @return \Illuminate\Http\Response
      */
+    
     public function edit(Jawaban $jawaban)
     {
         return view('jawabans.edit', compact('jawaban'));

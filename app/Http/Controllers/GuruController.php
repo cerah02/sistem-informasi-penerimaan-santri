@@ -13,6 +13,16 @@ class GuruController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware(
+            'permission:guru-list|guru-create|guru-edit|guru-delete',
+            ['only' => ['index', 'store']]
+        );
+        $this->middleware('permission:guru-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:guru-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:guru-delete', ['only' => ['destroy']]);
+    }
     public function index_old()
     {
         //
@@ -35,18 +45,29 @@ class GuruController extends Controller
             $data = $query_data->orderBy('nama','asc')->get();
             return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('aksi', function($row){
-                $btn='
-                <form action="'.route('gurus.destroy',$row->id).'" method="POST">
-                <a class="btn btn-info" href="'.route('gurus.show',$row->id).'">Show</a>
-                <a class="btn btn-primary" href="'.route('gurus.edit',$row->id).'">Edit</a>
-                '.csrf_field().method_field('DELETE').'
-                <button type="submit" class="btn btn-danger">Hapus</button>
-                </form>
-                ';
+            ->addColumn('aksi', function ($row) {
+                $btn = '';
+            
+                // Cek permission 'view santri'
+                if (auth()->user()->can('guru-show')) {
+                    $btn .= '<a class="btn btn-info" href="' . route('gurus.show', $row->id) . '">Show</a> ';
+                }
+            
+                // Cek permission 'edit guru'
+                if (auth()->user()->can('guru-edit')) {
+                    $btn .= '<a class="btn btn-primary" href="' . route('gurus.edit', $row->id) . '">Edit</a> ';
+                }
+            
+                // Cek permission 'delete guru'
+                if (auth()->user()->can('guru-delete')) {
+                    $btn .= '
+                    <form action="' . route('gurus.destroy', $row->id) . '" method="POST" style="display:inline;">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>';
+                }
+            
                 return $btn;
-            })->addColumn('guru_image', function ($row) {
-                return '<img src="'.$row->foto.'" width="50" height="50" class="img-thumbnail">';
             })
             ->rawColumns(['aksi','guru_image'])
             ->make(true);

@@ -1,13 +1,16 @@
-@extends('waktu_ujians.layout')
+@extends('layout')
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
                 <h2>Daftar Data waktu_ujian</h2>
             </div>
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('waktu_ujians.create') }}"> Tambahkan Data waktu_ujian Santri</a>
-            </div>
+            @can('waktu_ujian-create')
+                <div class="pull-right">
+                    <a class="btn btn-success" href="{{ route('waktu_ujians.create') }}"> Tambahkan Data waktu_ujian Santri</a>
+                </div>
+            @endcan
+
         </div>
     </div>
 

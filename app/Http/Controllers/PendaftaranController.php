@@ -22,6 +22,16 @@ class PendaftaranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware(
+            'permission:pendaftaran-list|pendaftaran-create|pendaftaran-edit|pendaftaran-delete',
+            ['only' => ['index', 'store']]
+        );
+        $this->middleware('permission:pendaftaran-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:pendaftaran-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:pendaftaran-delete', ['only' => ['destroy']]);
+    }
     public function index_old()
     {
         $pendaftarans = Pendaftaran::latest()->paginate(5);
@@ -43,17 +53,28 @@ class PendaftaranController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($row) {
-                    $btn = '
-                <form action="' . route('pendaftarans.destroy', $row->id) . '" method="POST">
-                <a class="btn btn-info" href="' . route('pendaftarans.show', $row->id) . '">Show</a>
-                <a class="btn btn-primary" href="' . route('pendaftarans.edit', $row->id) . '">Edit</a>
-                ' . csrf_field() . method_field('DELETE') . '
-                <button type="submit" class="btn btn-danger">Hapus</button>
-                </form>
-                ';
+                    $btn = '';
+                
+                    // Cek permission 'view santri'
+                    if (auth()->user()->can('pendaftaran-show')) {
+                        $btn .= '<a class="btn btn-info" href="' . route('pendaftarans.show', $row->id) . '">Show</a> ';
+                    }
+                
+                    // Cek permission 'edit pendaftaran'
+                    if (auth()->user()->can('pendaftaran-edit')) {
+                        $btn .= '<a class="btn btn-primary" href="' . route('pendaftarans.edit', $row->id) . '">Edit</a> ';
+                    }
+                
+                    // Cek permission 'delete pendaftaran'
+                    if (auth()->user()->can('pendaftaran-delete')) {
+                        $btn .= '
+                        <form action="' . route('pendaftarans.destroy', $row->id) . '" method="POST" style="display:inline;">
+                            ' . csrf_field() . method_field('DELETE') . '
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </form>';
+                    }
+                
                     return $btn;
-                })->addColumn('nama_santri', function ($row) {
-                    return $row->santri->nama;
                 })
                 ->rawColumns(['aksi'])
                 ->make(true);

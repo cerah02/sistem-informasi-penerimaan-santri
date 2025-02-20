@@ -1,13 +1,16 @@
-@extends('soals.layout')
+@extends('layout')
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
                 <h2>Daftar Data Soal</h2>
             </div>
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('soals.create') }}"> Tambahkan Data soal Santri</a>
-            </div>
+            @can('soal-create')
+                <div class="pull-right">
+                    <a class="btn btn-success" href="{{ route('soals.create') }}"> Tambahkan Data soal Santri</a>
+                </div>
+            @endcan
+
         </div>
     </div>
 

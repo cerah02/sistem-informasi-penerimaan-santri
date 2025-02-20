@@ -1,13 +1,16 @@
-@extends('santris.layout')
+@extends('layout')
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Data Santri</h2>
+                <h2>List Data Santri</h2>
             </div>
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('santris.create') }}"> Tambahkan Data Calon Santri</a>
-            </div>
+
+            @can('santri-create')
+                <div class="pull-right">
+                    <a class="btn btn-success" href="{{ route('santris.create') }}"> Tambahkan Data Calon Santri</a>
+                </div>
+            @endcan
         </div>
     </div>
 
