@@ -1,4 +1,4 @@
-@extends('dokumens.layout')
+@extends('layout')
 @section('content')
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -45,8 +45,14 @@
             <!-- ID Santri -->
             <div class="col-md-6">
                 <label for="santri_id" class="form-label"><strong>ID Santri</strong></label>
-                <input type="text" name="santri_id" id="santri_id" class="form-control" placeholder="Masukkan ID Santri"
-                    required>
+                <select name="santri_id" id="santri_id" class="form-control" required>
+                    <option value="">-- Pilih Santri --</option>
+                    @foreach ($santris as $santri)
+                        <option value="{{ $santri->id }}">
+                            {{ $santri->id }} - {{ $santri->nama }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
             <!-- Upload Dokumen -->

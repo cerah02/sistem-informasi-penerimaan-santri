@@ -219,7 +219,7 @@
                         <label class="form-check-label" for="tinggal_lainnya">Lainnya</label>
                     </div>
                     <div id="lainnya_input_container" class="mt-2" style="display: none;">
-                        <input type="text" id="lainnya_input" name="tempat_tinggal" class="form-control"
+                        <input type="text" id="lainnya_input" name="tempat_tinggal_lainnya" class="form-control"
                             placeholder="Silakan isi tempat tinggal lainnya">
                     </div>
                 </div>
@@ -229,7 +229,6 @@
                     </div>
                 @enderror
             </div>
-
 
             <div class="mb-3">
                 <label for="kewarganegaraan" class="form-label">Kewarganegaraan:</label>
@@ -394,23 +393,27 @@
                 <label class="form-label"><strong>Golongan Darah:</strong></label>
                 <div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_a" value="A">
+                        <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_a"
+                            value="A">
                         <label class="form-check-label" for="golongan_darah_a">A</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_b" value="B">
+                        <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_b"
+                            value="B">
                         <label class="form-check-label" for="golongan_darah_b">B</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_ab" value="AB">
+                        <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_ab"
+                            value="AB">
                         <label class="form-check-label" for="golongan_darah_ab">AB</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_o" value="O">
+                        <input class="form-check-input" type="radio" name="golongan_darah" id="golongan_darah_o"
+                            value="O">
                         <label class="form-check-label" for="golongan_darah_o">O</label>
                     </div>
                 </div>
-            </div>  
+            </div>
             <div class="mb-3">
                 <label for="tb" class="form-label"><strong>Tinggi Badan:</strong></label>
                 <input type="text" name="tb" class="form-control" id="tb"
@@ -453,23 +456,43 @@
         </form>
     </div>
     <script>
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const lainnyaRadio = document.getElementById('tinggal_lainnya');
+        //     const lainnyaInputContainer = document.getElementById('lainnya_input_container');
+        //     const lainnyaInput = document.getElementById('lainnya_input');
+
+        //     // Show/hide the input field based on the "Lainnya" radio button selection
+        //     lainnyaRadio.addEventListener('change', function() {
+        //         if (lainnyaRadio.checked) {
+        //             lainnyaInputContainer.style.display = 'block';
+        //             lainnyaInput.required = true;
+        //         }
+        //     });
+
+        //     // Ensure the input field is hidden if a different option is selected
+        //     document.querySelectorAll('input[name="tempat_tinggal"]').forEach(radio => {
+        //         radio.addEventListener('change', function() {
+        //             if (!lainnyaRadio.checked) {
+        //                 lainnyaInputContainer.style.display = 'none';
+        //                 lainnyaInput.value = '';
+        //                 lainnyaInput.required = false;
+        //             }
+        //         });
+        //     });
+        // });
+
         document.addEventListener('DOMContentLoaded', function() {
             const lainnyaRadio = document.getElementById('tinggal_lainnya');
             const lainnyaInputContainer = document.getElementById('lainnya_input_container');
             const lainnyaInput = document.getElementById('lainnya_input');
 
             // Show/hide the input field based on the "Lainnya" radio button selection
-            lainnyaRadio.addEventListener('change', function() {
-                if (lainnyaRadio.checked) {
-                    lainnyaInputContainer.style.display = 'block';
-                    lainnyaInput.required = true;
-                }
-            });
-
-            // Ensure the input field is hidden if a different option is selected
             document.querySelectorAll('input[name="tempat_tinggal"]').forEach(radio => {
                 radio.addEventListener('change', function() {
-                    if (!lainnyaRadio.checked) {
+                    if (radio.id === 'tinggal_lainnya' && radio.checked) {
+                        lainnyaInputContainer.style.display = 'block';
+                        lainnyaInput.required = true;
+                    } else {
                         lainnyaInputContainer.style.display = 'none';
                         lainnyaInput.value = '';
                         lainnyaInput.required = false;

@@ -2,7 +2,7 @@
 @section('content')
     <div class="row mt-4">
         <div class="col-lg-12 text-center mb-4">
-            <h2 class="text-primary">Daftar Pendaftaran dokumen</h2>
+            <h2 class="text-primary">Daftar Pendaftaran Dokumen</h2>
         </div>
         <div class="col-lg-12 mb-2 text-end">
             <a class="btn btn-success btn-sm" href="{{ route('dokumens.create') }}">
@@ -18,24 +18,33 @@
         </div>
     @endif
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover align-middle" id="dokumens-table">
-            <thead class="table-primary">
-                <tr>
-                    <th>No</th>
-                    <th>ID Santri</th>
-                    <th>Ijazah</th>
-                    <th>Nilai Raport</th>
-                    <th>SKHUN</th>
-                    <th>Foto</th>
-                    <th>KK</th>
-                    <th>KTP Ayah</th>
-                    <th>KTP Ibu</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-        </table>
+    <!-- Card untuk tabel -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title mb-0">Data Dokumen Santri</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover align-middle" id="dokumens-table">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Santri</th>
+                            <th>Ijazah</th>
+                            <th>Nilai Raport</th>
+                            <th>SKHUN</th>
+                            <th>Foto</th>
+                            <th>KK</th>
+                            <th>KTP Ayah</th>
+                            <th>KTP Ibu</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
+    <!-- End of Card -->
 
     <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -70,7 +79,7 @@
             ajax: '{{ route('dokumens.index') }}',
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                { data: 'santri_id', name: 'santri_id' },
+                { data: 'santri_nama', name: 'santri_nama' },
                 { data: 'ijazah', name: 'ijazah' },
                 { data: 'nilai_raport', name: 'nilai_raport' },
                 { data: 'skhun', name: 'skhun' },

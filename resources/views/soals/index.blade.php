@@ -7,10 +7,9 @@
             </div>
             @can('soal-create')
                 <div class="pull-right">
-                    <a class="btn btn-success" href="{{ route('soals.create') }}"> Tambahkan Data soal Santri</a>
+                    <a class="btn btn-success" href="{{ route('soals.create') }}"> Tambahkan Data Soal Santri</a>
                 </div>
             @endcan
-
         </div>
     </div>
 
@@ -19,31 +18,44 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-    <table class="table table-bordered data-table">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Id Ujian</th>
-                <th>Pertanyaan</th>
-                <th>Jawaban A</th>
-                <th>Jawaban B</th>
-                <th>Jawaban C</th>
-                <th>Jawaban D</th>
-                <th>Jawaban E</th>
-                <th>Jawaban Benar</th>
-                <th width="280px">Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+
+    <!-- Card untuk tabel -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Data Soal</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive"> <!-- Tambahkan div ini untuk skrol horizontal -->
+                <table class="table table-bordered data-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Id Ujian</th>
+                            <th>Pertanyaan</th>
+                            <th>Jawaban A</th>
+                            <th>Jawaban B</th>
+                            <th>Jawaban C</th>
+                            <th>Jawaban D</th>
+                            <th>Jawaban E</th>
+                            <th>Jawaban Benar</th>
+                            <th width="280px">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- End of Card -->
+
     <script type="text/javascript">
         $(function() {
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('soals.index') }}",
-
+                scrollX: true, // Tambahkan opsi scrollX
                 columns: [{
                         data: 'id',
                         name: 'id'

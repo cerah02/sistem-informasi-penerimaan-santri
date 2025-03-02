@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dokumen;
+use App\Models\Santri;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -38,12 +39,119 @@ class DokumenController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('dokumens.show', $row->id) . '" class="btn btn-info btn-sm mx-1"><i class="bi bi-eye"></i> Lihat</a>';
-                    $btn .= '<a href="' . route('dokumens.edit', $row->id) . '" class="btn btn-primary btn-sm mx-1"><i class="bi bi-pencil"></i> Edit</a>';
-                    $btn .= '<button type="button" class="btn btn-danger btn-sm mx-1" data-toggle="modal" data-target="#deleteModal" data-id="' . $row->id . '" data-nama="' . $row->nama . '">Hapus</button>';
+                    $btn = '';
+
+                    // Tombol "Lihat"
+                    if (auth()->user()->can('dokumen-show')) {
+                        $btn .= '<a href="' . route('dokumens.show', $row->id) . '" class="btn btn-info btn-sm mx-1"><i class="bi bi-eye"></i> Lihat</a>';
+                    }
+
+                    // Tombol "Edit"
+                    if (auth()->user()->can('dokumen-edit')) {
+                        $btn .= '<a href="' . route('dokumens.edit', $row->id) . '" class="btn btn-primary btn-sm mx-1"><i class="bi bi-pencil"></i> Edit</a>';
+                    }
+
+                    // Tombol "Hapus"
+                    if (auth()->user()->can('dokumen-delete')) {
+                        $btn .= '<button type="button" class="btn btn-danger btn-sm mx-1" data-toggle="modal" data-target="#deleteModal" data-id="' . $row->id . '" data-nama="' . $row->nama . '"><i class="bi bi-trash"></i> Hapus</button>';
+                    }
+
                     return $btn;
+                })->addColumn('santri_nama', function ($row) {
+                    return $row->santri->nama ?? 'N\A';
+                })->addColumn('foto', function ($row) {
+                    $path = asset('storage/' . $row->foto);
+                    $extension = pathinfo($row->foto, PATHINFO_EXTENSION);
+                    
+                    if (in_array(strtolower($extension), ['pdf', 'docx'])) {
+                        return '
+                            <div class="btn-group">
+                                <a href="' . $path . '" target="_blank" class="btn btn-sm btn-info">Lihat</a>
+                                <a href="' . $path . '" download class="btn btn-sm btn-success">Unduh</a>
+                            </div>';
+                    } else {
+                        return '<img src="' . $path . '" width="50" />';
+                    }
+                })->addColumn('ijazah', function ($row) {
+                    $path = asset('storage/' . $row->ijazah);
+                    $extension = pathinfo($row->ijazah, PATHINFO_EXTENSION);
+                    
+                    if (in_array(strtolower($extension), ['pdf', 'docx'])) {
+                        return '
+                            <div class="btn-group">
+                                <a href="' . $path . '" target="_blank" class="btn btn-sm btn-info">Lihat</a>
+                                <a href="' . $path . '" download class="btn btn-sm btn-success">Unduh</a>
+                            </div>';
+                    } else {
+                        return '<img src="' . $path . '" width="50" />';
+                    }
+                })->addColumn('nilai_raport', function ($row) {
+                    $path = asset('storage/' . $row->nilai_raport);
+                    $extension = pathinfo($row->nilai_raport, PATHINFO_EXTENSION);
+                    
+                    if (in_array(strtolower($extension), ['pdf', 'docx'])) {
+                        return '
+                            <div class="btn-group">
+                                <a href="' . $path . '" target="_blank" class="btn btn-sm btn-info">Lihat</a>
+                                <a href="' . $path . '" download class="btn btn-sm btn-success">Unduh</a>
+                            </div>';
+                    } else {
+                        return '<img src="' . $path . '" width="50" />';
+                    }
+                })->addColumn('kk', function ($row) {
+                    $path = asset('storage/' . $row->kk);
+                    $extension = pathinfo($row->kk, PATHINFO_EXTENSION);
+                    
+                    if (in_array(strtolower($extension), ['pdf', 'docx'])) {
+                        return '
+                            <div class="btn-group">
+                                <a href="' . $path . '" target="_blank" class="btn btn-sm btn-info">Lihat</a>
+                                <a href="' . $path . '" download class="btn btn-sm btn-success">Unduh</a>
+                            </div>';
+                    } else {
+                        return '<img src="' . $path . '" width="50" />';
+                    }
+                })->addColumn('ktp_ayah', function ($row) {
+                    $path = asset('storage/' . $row->ktp_ayah);
+                    $extension = pathinfo($row->ktp_ayah, PATHINFO_EXTENSION);
+                    
+                    if (in_array(strtolower($extension), ['pdf', 'docx'])) {
+                        return '
+                            <div class="btn-group">
+                                <a href="' . $path . '" target="_blank" class="btn btn-sm btn-info">Lihat</a>
+                                <a href="' . $path . '" download class="btn btn-sm btn-success">Unduh</a>
+                            </div>';
+                    } else {
+                        return '<img src="' . $path . '" width="50" />';
+                    }
+                })->addColumn('ktp_ibu', function ($row) {
+                    $path = asset('storage/' . $row->ktp_ibu);
+                    $extension = pathinfo($row->ktp_ibu, PATHINFO_EXTENSION);
+                    
+                    if (in_array(strtolower($extension), ['pdf', 'docx'])) {
+                        return '
+                            <div class="btn-group">
+                                <a href="' . $path . '" target="_blank" class="btn btn-sm btn-info">Lihat</a>
+                                <a href="' . $path . '" download class="btn btn-sm btn-success">Unduh</a>
+                            </div>';
+                    } else {
+                        return '<img src="' . $path . '" width="50" />';
+                    }
+                })->addColumn('skhun', function ($row) {
+                    $path = asset('storage/' . $row->skhun);
+                    $extension = pathinfo($row->skhun, PATHINFO_EXTENSION);
+                    
+                    if (in_array(strtolower($extension), ['pdf', 'docx'])) {
+                        return '
+                            <div class="btn-group">
+                                <a href="' . $path . '" target="_blank" class="btn btn-sm btn-info">Lihat</a>
+                                <a href="' . $path . '" download class="btn btn-sm btn-success">Unduh</a>
+                            </div>';
+                    } else {
+                        return '<img src="' . $path . '" width="50" />';
+                    }
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['foto', 'ijazah', 'nilai_raport', 'kk', 'ktp_ayah', 'ktp_ibu', 'skhun', 'action'])
                 ->make(true);
         }
 
@@ -57,8 +165,8 @@ class DokumenController extends Controller
      */
     public function create()
     {
-        //
-        return view('dokumens.create');
+        $santris = Santri::all();
+        return view('dokumens.create', compact('santris'));
     }
 
     /**
@@ -69,17 +177,16 @@ class DokumenController extends Controller
      */
     public function store(Request $request)
     {
-        //
         // Validasi input
         $request->validate([
             'santri_id' => 'required',
-            'ijazah' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
-            'nilai_raport' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
-            'skhun' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
-            'foto' => 'required|file|mimes:jpg,jpeg,png,docx|max:2048',
-            'kk' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
-            'ktp_ayah' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
-            'ktp_ibu' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
+            'ijazah' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'nilai_raport' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'skhun' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'foto' => 'required|file|mimes:jpg,jpeg,png,docx|max:5120',
+            'kk' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'ktp_ayah' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'ktp_ibu' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
         ]);
 
         // Inisialisasi array untuk menyimpan data file
@@ -87,40 +194,19 @@ class DokumenController extends Controller
             'santri_id' => $request->santri_id,
         ];
 
+        // Daftar kolom file yang perlu diproses
+        $fileColumns = ['ijazah', 'nilai_raport', 'skhun', 'foto', 'kk', 'ktp_ayah', 'ktp_ibu'];
+
         // Proses setiap file
-        if ($request->hasFile('ijazah')) {
-            $ijazahPath = $request->file('ijazah')->move(public_path('uploads/ijazah'), time() . '_' . $request->file('ijazah')->getClientOriginalName());
-            $data['ijazah'] = 'uploads/ijazah/' . basename($ijazahPath);
-        }
+        foreach ($fileColumns as $column) {
+            if ($request->hasFile($column)) {
+                $file = $request->file($column);
+                $fileName = time() . '_' . $file->getClientOriginalName();
 
-        if ($request->hasFile('nilai_raport')) {
-            $nilaiRaportPath = $request->file('nilai_raport')->move(public_path('uploads/nilai_raport'), time() . '_' . $request->file('nilai_raport')->getClientOriginalName());
-            $data['nilai_raport'] = 'uploads/nilai_raport/' . basename($nilaiRaportPath);
-        }
-
-        if ($request->hasFile('skhun')) {
-            $skhunPath = $request->file('skhun')->move(public_path('uploads/skhun'), time() . '_' . $request->file('skhun')->getClientOriginalName());
-            $data['skhun'] = 'uploads/skhun/' . basename($skhunPath);
-        }
-
-        if ($request->hasFile('foto')) {
-            $fotoPath = $request->file('foto')->move(public_path('uploads/foto'), time() . '_' . $request->file('foto')->getClientOriginalName());
-            $data['foto'] = 'uploads/foto/' . basename($fotoPath);
-        }
-
-        if ($request->hasFile('kk')) {
-            $kkPath = $request->file('kk')->move(public_path('uploads/kk'), time() . '_' . $request->file('kk')->getClientOriginalName());
-            $data['kk'] = 'uploads/kk/' . basename($kkPath);
-        }
-
-        if ($request->hasFile('ktp_ayah')) {
-            $ktpAyahPath = $request->file('ktp_ayah')->move(public_path('uploads/ktp_ayah'), time() . '_' . $request->file('ktp_ayah')->getClientOriginalName());
-            $data['ktp_ayah'] = 'uploads/ktp_ayah/' . basename($ktpAyahPath);
-        }
-
-        if ($request->hasFile('ktp_ibu')) {
-            $ktpIbuPath = $request->file('ktp_ibu')->move(public_path('uploads/ktp_ibu'), time() . '_' . $request->file('ktp_ibu')->getClientOriginalName());
-            $data['ktp_ibu'] = 'uploads/ktp_ibu/' . basename($ktpIbuPath);
+                // Menggunakan storage
+                $path = $file->storeAs("uploads/{$column}", $fileName, 'public');
+                $data[$column] = $path;
+            }
         }
 
         // Simpan data ke database

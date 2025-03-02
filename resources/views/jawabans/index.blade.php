@@ -18,20 +18,31 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-    <table class="table table-bordered data-table">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Id Santri</th>
-                <th>Id Soal</th>
-                <th>Jawaban</th>
-                <th>Status Jawaban</th>
-                <th width="280px">Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+
+    <!-- Card untuk tabel -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Data Jawaban Calon Santri</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered data-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Id Santri</th>
+                        <th>Id Soal</th>
+                        <th>Jawaban</th>
+                        <th>Status Jawaban</th>
+                        <th width="280px">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- End of Card -->
+
     <script type="text/javascript">
         $(function() {
             var table = $('.data-table').DataTable({

@@ -19,40 +19,52 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-    <table class="table table-bordered data-table">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama Lengkap</th>
-                <th>NISN</th>
-                <th>NIK</th>
-                <th>Asal Sekolah</th>
-                <th>Jenis Kelamin</th>
-                <th>Tempat Tanggal Lahir</th>
-                <th>Kondisi Ekonomi</th>
-                <th>Keadaan Orang Tua</th>
-                <th>Status Dalam Keluarga</th>
-                <th>Tinggal Bersama</th>
-                <th>Kewarganegaraan</th>
-                <th>Anak Ke-</th>
-                <th>Dari</th>
-                <th>Alamat</th>
-                <th>Nomor Telepon</th>
-                <th>Email</th>
-                <th>Jenjang Pendidikan</th>
-                <th width="280px">Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+
+    <!-- Card untuk Tabel -->
+    <div class="card shadow mb-4 mt-4"> <!-- Tambahkan card di sini -->
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tabel Data Santri</h6> <!-- Judul card -->
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered data-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Lengkap</th>
+                            <th>NISN</th>
+                            <th>NIK</th>
+                            <th>Asal Sekolah</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Tempat Tanggal Lahir</th>
+                            <th>Kondisi Ekonomi</th>
+                            <th>Keadaan Orang Tua</th>
+                            <th>Status Dalam Keluarga</th>
+                            <th>Tinggal Bersama</th>
+                            <th>Kewarganegaraan</th>
+                            <th>Anak Ke-</th>
+                            <th>Dari</th>
+                            <th>Alamat</th>
+                            <th>Nomor Telepon</th>
+                            <th>Email</th>
+                            <th>Jenjang Pendidikan</th>
+                            <th width="280px">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data akan diisi oleh DataTables -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <script type="text/javascript">
         $(function() {
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('santris.index') }}",
-
                 columns: [{
                         data: 'id',
                         name: 'id'

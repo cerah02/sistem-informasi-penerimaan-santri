@@ -12,6 +12,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
 
@@ -54,17 +55,17 @@ class PendaftaranController extends Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($row) {
                     $btn = '';
-                
+
                     // Cek permission 'view santri'
                     if (auth()->user()->can('pendaftaran-show')) {
                         $btn .= '<a class="btn btn-info" href="' . route('pendaftarans.show', $row->id) . '">Show</a> ';
                     }
-                
+
                     // Cek permission 'edit pendaftaran'
                     if (auth()->user()->can('pendaftaran-edit')) {
                         $btn .= '<a class="btn btn-primary" href="' . route('pendaftarans.edit', $row->id) . '">Edit</a> ';
                     }
-                
+
                     // Cek permission 'delete pendaftaran'
                     if (auth()->user()->can('pendaftaran-delete')) {
                         $btn .= '
@@ -73,8 +74,10 @@ class PendaftaranController extends Controller
                             <button type="submit" class="btn btn-danger">Hapus</button>
                         </form>';
                     }
-                
+
                     return $btn;
+                })->addColumn('nama_santri',function($row){
+                    return $row->santri->nama;
                 })
                 ->rawColumns(['aksi'])
                 ->make(true);
@@ -97,14 +100,14 @@ class PendaftaranController extends Controller
             'kondisi' => 'required',
             'kondisi_ortu' => 'required',
             'status_dkluarga' => 'required',
-            'tempat_tinggal' => 'required',
+            'tempat_tinggal' => 'required', // Tetap validasi untuk field ini
             'kewarganegaraan' => 'required',
-            'anak_ke' => 'required',
-            'jumlah_saudara' => 'required',
+            'anak_ke' => 'required|numeric',
+            'jumlah_saudara' => 'required|numeric',
             'alamat' => 'required',
-            'tanggal_lahir' => 'required',
+            'tanggal_lahir' => 'required|date',
             'nomor_telpon' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
             'jenjang_pendidikan' => 'required',
             'nama_ayah' => 'required',
             'pendidikan_ayah' => 'required',
@@ -113,7 +116,6 @@ class PendaftaranController extends Controller
             'pendidikan_ibu' => 'required',
             'pekerjaan_ibu' => 'required',
             'no_hp' => 'required',
-            'alamat' => 'required',
             'golongan_darah' => 'required',
             'tb' => 'required',
             'bb' => 'required',
@@ -128,91 +130,98 @@ class PendaftaranController extends Controller
             'nama_bantuan' => 'required',
             'tingkat' => 'required',
             'no_kip' => 'required',
+            'tempat_tinggal_lainnya' => 'required_if:tempat_tinggal,Lainnya' // Validasi khusus untuk opsi lainnya
         ]);
+
+        // Handle tempat tinggal
+        $tempatTinggal = $request->tempat_tinggal === 'Lainnya'
+            ? $request->tempat_tinggal_lainnya
+            : $request->tempat_tinggal;
 
         $input = $request->all();
+        $input['tempat_tinggal'] = $tempatTinggal;
         $input['ttl'] = $request->tempat_lahir . '|' . $request->tanggal_lahir;
-        $santri = Santri::create($input);
-        Ortu::create([
-            'santri_id' => $santri->id,
-            'nama_ayah' => $request->nama_ayah,
-            'pendidikan_ayah' => $request->pendidikan_ayah,
-            'pekerjaan_ayah' => $request->pekerjaan_ayah,
-            'nama_ibu' => $request->nama_ibu,
-            'pendidikan_ibu' => $request->pendidikan_ibu,
-            'pekerjaan_ibu' => $request->pekerjaan_ibu,
-            'no_hp' => $request->no_hp,
-            'alamat' => $request->alamat,
-        ]);
 
-        // Inisialisasi array untuk menyimpan data file
-        $data = [
-            'santri_id' => $santri->id,
-        ];
+        // Hapus field yang tidak perlu
+        unset($input['tempat_tinggal_lainnya']);
 
-        // Proses setiap file
-        if ($request->hasFile('ijazah')) {
-            $ijazahPath = $request->file('ijazah')->move(public_path('uploads/ijazah'), time() . '_' . $request->file('ijazah')->getClientOriginalName());
-            $data['ijazah'] = 'uploads/ijazah/' . basename($ijazahPath);
+        try {
+            DB::beginTransaction();
+
+            $santri = Santri::create($input);
+
+            // Create related records
+            Ortu::create([
+                'santri_id' => $santri->id,
+                'nama_ayah' => $request->nama_ayah,
+                'pendidikan_ayah' => $request->pendidikan_ayah,
+                'pekerjaan_ayah' => $request->pekerjaan_ayah,
+                'nama_ibu' => $request->nama_ibu,
+                'pendidikan_ibu' => $request->pendidikan_ibu,
+                'pekerjaan_ibu' => $request->pekerjaan_ibu,
+                'no_hp' => $request->no_hp,
+                'alamat' => $request->alamat,
+            ]);
+
+            // Handle file uploads
+            $dokumenData = ['santri_id' => $santri->id];
+            $fileFields = [
+                'ijazah',
+                'nilai_raport',
+                'skhun',
+                'foto',
+                'kk',
+                'ktp_ayah',
+                'ktp_ibu'
+            ];
+
+            foreach ($fileFields as $field) {
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+                    $path = $file->storeAs('uploads/' . $field, $fileName, 'public');
+                    $dokumenData[$field] = $path;
+                }
+            }
+
+            Dokumen::create($dokumenData);
+
+            Kesehatan::create([
+                'santri_id' => $santri->id,
+                'golongan_darah' => $request->golongan_darah,
+                'tb' => $request->tb,
+                'bb' => $request->bb,
+                'riwayat_penyakit' => $request->riwayat_penyakit
+            ]);
+
+            Bantuan::create([
+                'santri_id' => $santri->id,
+                'nama_bantuan' => $request->nama_bantuan,
+                'tingkat' => $request->tingkat,
+                'no_kip' => $request->no_kip
+            ]);
+
+            User::create([
+                'name' => $santri->nama,
+                'email' => $santri->email,
+                'password' => Hash::make('123123')
+            ]);
+
+            Pendaftaran::create([
+                'santri_id' => $santri->id,
+                'tanggal_pendaftaran' => now(),
+                'status' => 'proses'
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('santris.index')
+                ->with('success', 'Pendaftaran berhasil disimpan');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-
-        if ($request->hasFile('nilai_raport')) {
-            $nilaiRaportPath = $request->file('nilai_raport')->move(public_path('uploads/nilai_raport'), time() . '_' . $request->file('nilai_raport')->getClientOriginalName());
-            $data['nilai_raport'] = 'uploads/nilai_raport/' . basename($nilaiRaportPath);
-        }
-
-        if ($request->hasFile('skhun')) {
-            $skhunPath = $request->file('skhun')->move(public_path('uploads/skhun'), time() . '_' . $request->file('skhun')->getClientOriginalName());
-            $data['skhun'] = 'uploads/skhun/' . basename($skhunPath);
-        }
-
-        if ($request->hasFile('foto')) {
-            $fotoPath = $request->file('foto')->move(public_path('uploads/foto'), time() . '_' . $request->file('foto')->getClientOriginalName());
-            $data['foto'] = 'uploads/foto/' . basename($fotoPath);
-        }
-
-        if ($request->hasFile('kk')) {
-            $kkPath = $request->file('kk')->move(public_path('uploads/kk'), time() . '_' . $request->file('kk')->getClientOriginalName());
-            $data['kk'] = 'uploads/kk/' . basename($kkPath);
-        }
-
-        if ($request->hasFile('ktp_ayah')) {
-            $ktpAyahPath = $request->file('ktp_ayah')->move(public_path('uploads/ktp_ayah'), time() . '_' . $request->file('ktp_ayah')->getClientOriginalName());
-            $data['ktp_ayah'] = 'uploads/ktp_ayah/' . basename($ktpAyahPath);
-        }
-
-        if ($request->hasFile('ktp_ibu')) {
-            $ktpIbuPath = $request->file('ktp_ibu')->move(public_path('uploads/ktp_ibu'), time() . '_' . $request->file('ktp_ibu')->getClientOriginalName());
-            $data['ktp_ibu'] = 'uploads/ktp_ibu/' . basename($ktpIbuPath);
-        }
-
-        // Simpan data ke database
-        Dokumen::create($data);
-        $input_kesehatan = $request->all();
-        $input_kesehatan['santri_id'] = $santri->id;
-        Kesehatan::create($input_kesehatan);
-
-        Bantuan::create([
-            'santri_id' => $santri->id,
-            'nama_bantuan' => $request->nama_bantuan,
-            'tingkat' => $request->tingkat,
-            'no_kip' => $request->no_kip,
-        ]);
-
-
-        User::create([
-            'name' => $santri->nama,
-            'email' => $santri->email,
-            'password' => Hash::make('123123')
-        ]);
-        Pendaftaran::create([
-            'santri_id' => $santri->id,
-            'tanggal_pendaftaran' => Carbon::now(),
-            'status' => 'proses'
-        ]);
-        // Redirect dengan pesan sukses
-        return redirect()->route('santris.index')
-            ->with('success', 'Dokumen Berhasil Disimpan.');
     }
 
     /**
@@ -279,7 +288,7 @@ class PendaftaranController extends Controller
 
         foreach ($raw_data as $key => $item_data_raw) {
             $ttl_raw = $item_data_raw->santri->ttl;
-            $data_ttl = explode('|',$ttl_raw); 
+            $data_ttl = explode('|', $ttl_raw);
             $new_data[] = [
                 'santri_id' => $item_data_raw->santri->id,
                 'nama_santri' => $item_data_raw->santri->nama,

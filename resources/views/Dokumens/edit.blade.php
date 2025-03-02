@@ -26,9 +26,14 @@
 
         <div>
             <label for="santri_id">ID Santri:</label>
-            <input type="number" name="santri_id" id="santri_id" value="{{ $dokumen->santri_id }}" required>
+            <select name="santri_id" id="santri_id" required>
+                @foreach ($santris as $santri)
+                    <option value="{{ $santri->id }}" {{ $dokumen->santri_id == $santri->id ? 'selected' : '' }}>
+                        {{ $santri->id }} - {{ $santri->nama }}
+                    </option>
+                @endforeach
+            </select>
         </div>
-
         <div>
             <label for="ijazah">Ijazah (Kosongkan jika tidak ingin mengubah):</label>
             <input type="file" name="ijazah" id="ijazah">
