@@ -10,12 +10,8 @@
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Keseluruhan
                                     santri yang mendaftar</p>
                                 <h5 class="font-weight-bolder">
-                                    2889
+                                    {{ $jumlah_santri }}
                                 </h5>
-                                <p class="mb-0">
-                                    <span class="text-success text-sm font-weight-bolder">+55%</span>
-                                    since yesterday
-                                </p>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -36,12 +32,8 @@
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Santri Yang
                                     Mendaftar Tahun INI</p>
                                 <h5 class="font-weight-bolder">
-                                    2,300
+                                    {{ $jumlah_santri_mendaftar_tahun_ini }}
                                 </h5>
-                                <p class="mb-0">
-                                    <span class="text-success text-sm font-weight-bolder">+3%</span>
-                                    since last week
-                                </p>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -62,12 +54,8 @@
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Jumlah santri yang
                                     telah disetujui</p>
                                 <h5 class="font-weight-bolder">
-                                    +3,462
+                                    {{ $jumlah_santri_yang_sudah_disetujui }}
                                 </h5>
-                                <p class="mb-0">
-                                    <span class="text-danger text-sm font-weight-bolder">-2%</span>
-                                    since last quarter
-                                </p>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -88,17 +76,9 @@
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Santri Yang Menunggu
                                     disetujui</p>
                                 <h5 class="font-weight-bolder">
-                                    $103,430
+                                    {{ $jumlah_santri_yang_menunggu_disetujui }}
                                 </h5>
-                                <p class="mb-0">
-                                    <span class="text-success text-sm font-weight-bolder">+5%</span> than last
-                                    month
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-4 text-end">
-                            <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-                                <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+
                             </div>
                         </div>
                     </div>
@@ -137,50 +117,50 @@
                 <div class="card-body p-5">
                     <div class="text-center">
                         <!-- Profile Image with Gradient Border -->
-                        <div class="avatar-frame mb-4">
+                        {{-- <div class="avatar-frame mb-4">
                             <img src="assets/images/widget/user-1.png" alt="profile"
                                 class="img-fluid rounded-circle shadow"
                                 style="width: 140px; height: 140px; border: 3px solid #007bff; box-shadow: 0 0 20px rgba(0,123,255,0.3);">
-                        </div>
+                        </div> --}}
 
                         <!-- Profile Info -->
-                        <h2 class="text-gradient text-primary mb-1">Muhamad Cerah</h2>
-                        <p class="lead text-muted mb-4">Software Engineer</p>
+                        <h2 class="text-gradient text-primary mb-1">{{Auth::user()->name}}</h2>
+                        <p class="lead text-muted mb-4">{{Auth::user()->getRoleNames()[0]}}</p>
 
                         <!-- Detail Info -->
                         <div class="profile-details text-start">
                             <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-soft-primary rounded">
                                 <div>
                                     <i class="icofont icofont-id-card me-2 text-primary"></i>
-                                    <span class="text-muted">NIP</span>
+                                    <span class="text-muted">Email</span>
                                 </div>
                                 <span class="badge bg-primary-soft">480432434</span>
                             </div>
 
-                            <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-soft-success rounded">
+                            {{-- <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-soft-success rounded">
                                 <div>
                                     <i class="icofont icofont-users me-2 text-success"></i>
                                     <span class="text-muted">Status Guru</span>
                                 </div>
                                 <span class="badge bg-success-soft">Pengabdian</span>
-                            </div>
+                            </div> --}}
 
                             <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-soft-info rounded">
                                 <div>
                                     <i class="icofont icofont-email me-2 text-info"></i>
                                     <span class="text-muted">Email</span>
                                 </div>
-                                <span class="badge bg-info-soft">cerah.ppdm2020@gmail.com</span>
+                                <span class="badge bg-info-soft">{{Auth::user()->email}}</span>
                             </div>
 
-                            <div class="d-flex justify-content-between align-items-center p-3 bg-soft-warning rounded">
+                            {{-- <div class="d-flex justify-content-between align-items-center p-3 bg-soft-warning rounded">
                                 <div>
                                     <i class="icofont icofont-iphone me-2 text-warning"></i>
                                     <span class="text-muted">NO. Telpon</span>
                                 </div>
-                                <span class="badge bg-warning-soft">087862188383</span>
+                                <span class="badge bg-warning-soft">{{Auth::user()->no_hp}}</span>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <!-- Action Buttons -->
                         <div class="d-grid gap-3 mt-4">

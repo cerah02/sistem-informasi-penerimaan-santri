@@ -1,9 +1,12 @@
 <?php
 namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Pendaftaran;
+use App\Models\Santri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -16,7 +19,7 @@ class AuthController extends Controller
      */
     public function index()
     {
-        return view('auth.login');
+        return view('auth.login_test');
     }
     /**
      * Write code on Method
@@ -34,6 +37,7 @@ class AuthController extends Controller
      */
     public function postLogin(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'email' => 'required',
             'password' => 'required',
@@ -72,7 +76,11 @@ class AuthController extends Controller
     public function dashboard()
     {
         if (Auth::check()) {
-            return view('auth.dashboard');
+            $jumlah_santri = Santri::count();
+            $jumlah_santri_mendaftar_tahun_ini = Santri::where('created_at','>='.Carbon::now())->count();
+            $jumlah_santri_yang_sudah_disetujui = Pendaftaran::where('status','=','disetujui')->count();
+            $jumlah_santri_yang_menunggu_disetujui = Pendaftaran::where('status','=','proses')->count();
+            return view('auth.dashboard',compact('jumlah_santri','jumlah_santri_mendaftar_tahun_ini','jumlah_santri_yang_sudah_disetujui','jumlah_santri_yang_menunggu_disetujui'));
         }
         return redirect("login")->withSuccess('Opps! You do not have access');
     }
