@@ -10,7 +10,14 @@
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Keseluruhan
                                     santri yang mendaftar</p>
                                 <h5 class="font-weight-bolder">
-                                    {{ $jumlah_santri }}
+
+                                    <td>
+                                        <h6> SD | {{ $santri_sd }}</h6>
+                                        <h6> MTS | {{ $santri_mts }}</h6>
+                                        <h6> MA | {{ $santri_ma }}</h6>
+                                    </td>
+                                </h5>Total | {{ $jumlah_santri }}
+
                                 </h5>
                             </div>
                         </div>
@@ -104,78 +111,305 @@
                     </div>
                 </div>
                 <div class="card-body p-4">
+                    <div class="d-flex justify-content-end mb-3">
+                        <select id="yearFilter" class="form-select w-auto">
+                            <option value="all">All Years</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                        </select>
+                    </div>
                     <div class="chart-container" style="height: 300px;">
-                        <canvas id="chart-line"></canvas>
+                        <canvas id="chart-bar"></canvas>
                     </div>
                 </div>
             </div>
         </div>
 
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var ctx = document.getElementById('chart-bar').getContext('2d');
+                var data = {
+                    labels: ['2020', '2021', '2022', '2023'],
+                    datasets: [{
+                            label: 'SD',
+                            data: [50, 55, 60, 65],
+                            backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                        },
+                        {
+                            label: 'SMP',
+                            data: [60, 65, 70, 75],
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                        },
+                        {
+                            label: 'SMA',
+                            data: [70, 75, 80, 85],
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                        }
+                    ]
+                };
+
+                var chartBar = new Chart(ctx, {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                document.getElementById('yearFilter').addEventListener('change', function() {
+                    var selectedYear = this.value;
+                    if (selectedYear === 'all') {
+                        chartBar.data.labels = ['2020', '2021', '2022', '2023'];
+                        chartBar.data.datasets[0].data = [50, 55, 60, 65];
+                        chartBar.data.datasets[1].data = [60, 65, 70, 75];
+                        chartBar.data.datasets[2].data = [70, 75, 80, 85];
+                    } else {
+                        var index = data.labels.indexOf(selectedYear);
+                        chartBar.data.labels = [selectedYear];
+                        chartBar.data.datasets[0].data = [data.datasets[0].data[index]];
+                        chartBar.data.datasets[1].data = [data.datasets[1].data[index]];
+                        chartBar.data.datasets[2].data = [data.datasets[2].data[index]];
+                    }
+                    chartBar.update();
+                });
+            });
+        </script>
+
         <!-- Card Profile -->
         <div class="col-lg-8 col-xl-6">
-            <div class="card shadow-lg border-0 hover-scale">
-                <div class="card-body p-5">
-                    <div class="text-center">
-                        <!-- Profile Image with Gradient Border -->
-                        {{-- <div class="avatar-frame mb-4">
-                            <img src="assets/images/widget/user-1.png" alt="profile"
-                                class="img-fluid rounded-circle shadow"
-                                style="width: 140px; height: 140px; border: 3px solid #007bff; box-shadow: 0 0 20px rgba(0,123,255,0.3);">
-                        </div> --}}
+            <div class="card border-0 overflow-hidden">
+                <div class="card-header p-0 position-relative">
+                    <!-- Gradient Background with Waves -->
+                    <div class="bg-gradient-primary position-absolute w-100"
+                        style="height: 150px; border-radius: 0 0 40% 40%">
+                        <div class="wave-bg"></div>
+                    </div>
 
-                        <!-- Profile Info -->
-                        <h2 class="text-gradient text-primary mb-1">{{Auth::user()->name}}</h2>
-                        <p class="lead text-muted mb-4">{{Auth::user()->getRoleNames()[0]}}</p>
-
-                        <!-- Detail Info -->
-                        <div class="profile-details text-start">
-                            <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-soft-primary rounded">
-                                <div>
-                                    <i class="icofont icofont-id-card me-2 text-primary"></i>
-                                    <span class="text-muted">Email</span>
-                                </div>
-                                <span class="badge bg-primary-soft">480432434</span>
-                            </div>
-
-                            {{-- <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-soft-success rounded">
-                                <div>
-                                    <i class="icofont icofont-users me-2 text-success"></i>
-                                    <span class="text-muted">Status Guru</span>
-                                </div>
-                                <span class="badge bg-success-soft">Pengabdian</span>
-                            </div> --}}
-
-                            <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-soft-info rounded">
-                                <div>
-                                    <i class="icofont icofont-email me-2 text-info"></i>
-                                    <span class="text-muted">Email</span>
-                                </div>
-                                <span class="badge bg-info-soft">{{Auth::user()->email}}</span>
-                            </div>
-
-                            {{-- <div class="d-flex justify-content-between align-items-center p-3 bg-soft-warning rounded">
-                                <div>
-                                    <i class="icofont icofont-iphone me-2 text-warning"></i>
-                                    <span class="text-muted">NO. Telpon</span>
-                                </div>
-                                <span class="badge bg-warning-soft">{{Auth::user()->no_hp}}</span>
-                            </div>
-                        </div> --}}
-
-                        <!-- Action Buttons -->
-                        <div class="d-grid gap-3 mt-4">
-                            <button class="btn btn-danger btn-lg rounded-pill">
-                                <i class="icofont icofont-logout me-2"></i>Keluar
-                            </button>
-                            <button class="btn btn-primary btn-lg rounded-pill">
-                                <i class="icofont icofont-edit me-2"></i>Edit Profil
-                            </button>
+                    <!-- Profile Image with Floating Effect -->
+                    <div class="avatar-frame position-relative mx-auto mt-5">
+                        <div class="hover-scale">
+                            <img src="{{ asset('storage/profil/' . Auth::user()->foto) }}" alt="profile"
+                                class="img-fluid rounded-circle shadow-lg"
+                                style="width: 160px; height: 160px; border: 4px solid white; transform: translateY(50%)">
+                            <div class="profile-overlay"></div>
                         </div>
                     </div>
+                </div>
+
+                <div class="card-body pt-100 px-4 pb-4">
+                    <!-- Profile Info with Animation -->
+                    <div class="text-center mb-4">
+                        <h2 class="text-gradient text-primary mb-1 animate__animated animate__fadeInDown">
+                            {{ Auth::user()->name }}
+                            <span class="verified-badge"><i class="icofont-check-circled"></i></span>
+                        </h2>
+                        <div class="role-badge animate__animated animate__zoomIn">
+                            {{ Auth::user()->getRoleNames()[0] }}
+                        </div>
+                    </div>
+
+                    <!-- Detail Info with Hover Effects -->
+                    @if (Auth::user()->hasRole('guru'))
+                        <div class="profile-details">
+                            <div class="detail-item hover-transform">
+                                <div class="icon-box bg-primary-gradient">
+                                    <i class="icofont-id-card"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <span>NIP</span>
+                                    <h5>{{ $guru->nip }}</h5>
+                                </div>
+                            </div>
+                    @endif
+
+                    <div class="detail-item hover-transform">
+                        <div class="icon-box bg-success-gradient">
+                            <i class="icofont-users"></i>
+                        </div>
+
+                        @if (Auth::user()->hasRole('guru'))
+                            <div class="detail-content">
+                                <span>Status Guru</span>
+                                <h5></h5>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="detail-item hover-transform">
+                        <div class="icon-box bg-info-gradient">
+                            <i class="icofont-email"></i>
+                        </div>
+                        <div class="detail-content">
+                            <span>Email</span>
+                            <h5>{{ Auth::user()->email }}</h5>
+                        </div>
+                    </div>
+
+                    <div class="detail-item hover-transform">
+                        <div class="icon-box bg-warning-gradient">
+                            <i class="icofont-iphone"></i>
+                        </div>
+                        <div class="detail-content">
+                            <span>No. Telpon</span>
+                            <h5>{{ Auth::user()->no_hp }}</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Action Buttons -->
+                <div class="action-buttons mt-4">
+                    <a href="{{ route('edit_profile') }}" class="btn btn-primary btn-floating shadow-lg">
+                        <i class="icofont-edit"></i>
+                        <span>Edit Profil</span>
+                    </a>
+                    <button class="btn btn-danger btn-floating shadow-lg">
+                        <i class="icofont-logout"></i>
+                        <span>Keluar</span>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        /* Custom Styles */
+        .wave-bg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%23ffffff" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,154.7C384,128,480,96,576,117.3C672,139,768,213,864,224C960,235,1056,181,1152,160C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+        }
+
+        .profile-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 60%, rgba(0, 123, 255, 0.2) 100%);
+            border-radius: 50%;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: white;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .detail-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 123, 255, 0.15);
+        }
+
+        .icon-box {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 1rem;
+        }
+
+        .bg-primary-gradient {
+            background: linear-gradient(45deg, #007bff, #00b4ff)
+        }
+
+        .bg-success-gradient {
+            background: linear-gradient(45deg, #28a745, #00e676)
+        }
+
+        .bg-info-gradient {
+            background: linear-gradient(45deg, #17a2b8, #00e5ff)
+        }
+
+        .bg-warning-gradient {
+            background: linear-gradient(45deg, #ffc107, #ffd54f)
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(0, 123, 255, 0.1);
+            color: #007bff;
+            border-radius: 20px;
+            font-weight: 500;
+            border: 2px solid rgba(0, 123, 255, 0.2);
+        }
+
+        .btn-floating {
+            border-radius: 15px;
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            margin: 0 0.5rem;
+        }
+
+        .btn-floating:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .verified-badge {
+            color: #00c853;
+            font-size: 1.2rem;
+            margin-left: 0.5rem;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
+
+        .animate__fadeInDown {
+            animation: fadeInDown 0.6s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
     <div class="fixed-plugin">
         <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
             <i class="fa fa-cog py-2"> </i>

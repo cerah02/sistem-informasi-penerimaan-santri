@@ -96,6 +96,7 @@ class SoalController extends Controller
         $soalDikerjakan = Jawaban::where('santri_id', $id_user)
             ->with('soal.ujian') // Eager load relasi soal dan ujian
             ->get();
+            
 
         // Inisialisasi array untuk menyimpan ujian yang sudah dikerjakan
         $ujianDikerjakan = [];
@@ -111,7 +112,12 @@ class SoalController extends Controller
 
         // Ambil semua ujian beserta jumlah soal
         $ujians = Ujian::withCount('soal')->get();
-
+        // $user = Santri('email','=',auth()->user()->email)->first();
+        // if(auth()->user()->hasRole('guru')){
+        //          $ujians = Ujian::withCount('soal')->where('created_by','=',$user->id)->get();
+        // }else if(auth()->user()->hasRole('santri')){
+        // $ujians = Ujian::withCount('soal')->where('jenjang_pendidikan','=',$user->jenjang_pendidikan)->get();
+        // }
         // Loop melalui setiap ujian untuk mengecek apakah user sudah mengerjakan ujian tersebut
         foreach ($ujians as $ujian) {
             $ujian->user_already_submit = isset($ujianDikerjakan[$ujian->id]);

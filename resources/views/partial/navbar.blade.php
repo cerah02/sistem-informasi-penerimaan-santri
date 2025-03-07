@@ -1,6 +1,6 @@
-<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur"
-    data-scroll="false">
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="false">
     <div class="container-fluid py-1 px-3">
+        <!-- Bagian breadcrumb tetap -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                 <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
@@ -8,114 +8,137 @@
             </ol>
             <h6 class="font-weight-bolder text-white mb-0">Dashboard</h6>
         </nav>
+
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-            </div>
-            <ul class="navbar-nav  justify-content-end">
-                <li class="nav-item d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
-                        <i class="fa fa-user me-sm-1"></i>
-                        <span class="d-sm-inline d-none">Sign In</span>
-                    </a>
-                </li>
-                <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
-                        <div class="sidenav-toggler-inner">
-                            <i class="sidenav-toggler-line bg-white"></i>
-                            <i class="sidenav-toggler-line bg-white"></i>
-                            <i class="sidenav-toggler-line bg-white"></i>
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center"></div>
+            
+            <ul class="navbar-nav justify-content-end">
+                <!-- Profile Dropdown -->
+                <li class="nav-item dropdown pe-2">
+                    <a class="nav-link dropdown-toggle p-0 d-flex align-items-center" href="javascript:;" 
+                       id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="avatar avatar-sm me-2">
+                            <img src="{{ asset('storage/profil/' . Auth::user()->foto) }}" 
+                                 class="rounded-circle" 
+                                 style="width: 32px; height: 32px; border: 2px solid white">
                         </div>
+                        <span class="text-white font-weight-bold">{{ Auth::user()->name }}</span>
                     </a>
-                </li>
-                <li class="nav-item px-3 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-white p-0">
-                        <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                    </a>
-                </li>
-                <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-bell cursor-pointer"></i>
-                    </a>
-                    <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
-                        aria-labelledby="dropdownMenuButton">
-                        <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                <div class="d-flex py-1">
-                                    <div class="my-auto">
-                                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
-                                    </div>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal mb-1">
-                                            <span class="font-weight-bold">New message</span> from Laur
-                                        </h6>
-                                        <p class="text-xs text-secondary mb-0">
-                                            <i class="fa fa-clock me-1"></i>
-                                            13 minutes ago
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                <div class="d-flex py-1">
-                                    <div class="my-auto">
-                                        <img src="../assets/img/small-logos/logo-spotify.svg"
-                                            class="avatar avatar-sm bg-gradient-dark  me-3 ">
-                                    </div>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal mb-1">
-                                            <span class="font-weight-bold">New album</span> by Travis Scott
-                                        </h6>
-                                        <p class="text-xs text-secondary mb-0">
-                                            <i class="fa fa-clock me-1"></i>
-                                            1 day
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
+                    
+                    <!-- Dropdown Menu dengan Card Profil -->
+                    <ul class="dropdown-menu dropdown-menu-end px-4 py-3" 
+                        aria-labelledby="profileDropdown"
+                        style="width: 320px; border-radius: 1rem; overflow: hidden">
                         <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                <div class="d-flex py-1">
-                                    <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                                        <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <title>credit-card</title>
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF"
-                                                    fill-rule="nonzero">
-                                                    <g transform="translate(1716.000000, 291.000000)">
-                                                        <g transform="translate(453.000000, 454.000000)">
-                                                            <path class="color-background"
-                                                                d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                                                opacity="0.593633743"></path>
-                                                            <path class="color-background"
-                                                                d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z">
-                                                            </path>
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </g>
-                                        </svg>
+                            <div class="card-profile">
+                                <!-- Header dengan Gambar Background -->
+                                <div class="card-header p-0 position-relative">
+                                    <div class="bg-gradient-primary" 
+                                         style="height: 100px; border-radius: 0 0 20% 20%">
+                                        <div class="wave-bg"></div>
                                     </div>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal mb-1">
-                                            Payment successfully completed
-                                        </h6>
-                                        <p class="text-xs text-secondary mb-0">
-                                            <i class="fa fa-clock me-1"></i>
-                                            2 days
-                                        </p>
+                                    <img src="{{ asset('storage/profil/' . Auth::user()->foto) }}" 
+                                         class="avatar-profile rounded-circle shadow-lg"
+                                         style="width: 80px; height: 80px; border: 3px solid white">
+                                </div>
+
+                                <!-- Body dengan Informasi Profil -->
+                                <div class="card-body pt-5 px-0 pb-2">
+                                    <div class="text-center mb-3">
+                                        <h5 class="mb-1">
+                                            {{ Auth::user()->name }}
+                                            <i class="icofont-check-circled text-primary fs-6"></i>
+                                        </h5>
+                                        <div class="badge bg-primary-soft mt-1">
+                                            {{ Auth::user()->getRoleNames()[0] }}
+                                        </div>
+                                    </div>
+
+                                    <!-- Informasi Detail -->
+                                    <div class="profile-info">
+                                        {{-- <div class="info-item">
+                                            <i class="icofont-id-card me-2"></i>
+                                            <span>NIP:</span>
+                                            <strong>480432434</strong>
+                                        </div> --}}
+                                        <div class="info-item">
+                                            <i class="icofont-email me-2"></i>
+                                            <span>Email:</span>
+                                            <strong>{{ Auth::user()->email }}</strong>
+                                        </div>
+                                        {{-- <div class="info-item">
+                                            <i class="icofont-iphone me-2"></i>
+                                            <span>Telp:</span>
+                                            <strong>{{ Auth::user()->no_hp }}</strong>
+                                        </div> --}}
+                                    </div>
+
+                                    <!-- Tombol Aksi -->
+                                    <div class="d-flex gap-2 mt-4">
+                                        <a href="{{ route('edit_profile') }}" 
+                                           class="btn btn-sm btn-primary flex-fill">
+                                            <i class="icofont-edit me-2"></i>Edit
+                                        </a>
+                                        <button class="btn btn-sm btn-danger flex-fill">
+                                            <i class="icofont-logout me-2"></i>Keluar
+                                        </button>
                                     </div>
                                 </div>
-                            </a>
+                            </div>
                         </li>
                     </ul>
                 </li>
+
+                <!-- Item navbar lainnya tetap sama -->
+                <!-- ... (bagian icon sidenav toggle, settings, dan notifikasi tetap sama) ... -->
             </ul>
         </div>
     </div>
 </nav>
+
+<style>
+    /* Custom CSS untuk dropdown profil */
+    .card-profile {
+        background: white;
+        border-radius: 1rem;
+    }
+    
+    .avatar-profile {
+        position: absolute;
+        left: 50%;
+        top: 60px;
+        transform: translateX(-50%);
+        transition: all 0.3s ease;
+    }
+    
+    .profile-info .info-item {
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+        background: #f8f9fa;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .profile-info .info-item i {
+        width: 24px;
+        color: #007bff;
+    }
+    
+    .wave-bg {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 20px;
+        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%23ffffff" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,154.7C384,128,480,96,576,117.3C672,139,768,213,864,224C960,235,1056,181,1152,160C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+        background-size: cover;
+    }
+    
+    .badge.bg-primary-soft {
+        background: rgba(0,123,255,0.1);
+        color: #007bff;
+        padding: 0.35rem 0.75rem;
+        border-radius: 1rem;
+    }
+</style>

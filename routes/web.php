@@ -16,6 +16,7 @@ use App\Http\Controllers\Waktu_ujianController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use Illuminate\Routing\Route as RoutingRoute;
 
 Route::resource('santris', SantriController::class);
 Route::resource('kelas', KelasController::class);
@@ -41,6 +42,9 @@ Route::get('santri_pendaftaran_view',[PendaftaranController::class,'santri_penda
 Route::post('pendaftara_santri_simpan',[PendaftaranController::class,'pendaftara_santri_simpan'])->name('pendaftaransantri.simpan');
 Route::resource('roles',RoleController::class);
 Route::resource('users',UserController::class);
+Route::get('edit-profile', [AuthController::class,'edit_profile'])->name('edit_profile');
+Route::post('update-profile', [AuthController::class, 'update_profile'])->name('update_profile');
+
 
 /*
 |--------------------------------------------------------------------------

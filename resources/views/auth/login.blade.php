@@ -4,484 +4,373 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login & Register</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
-        :root {
-            --primary-color: #4EA685;
-            --secondary-color: #57B894;
-            --black: #000000;
-            --white: #ffffff;
-            --gray: #efefef;
-            --gray-2: #757575;
-
-            --facebook-color: #4267B2;
-            --google-color: #DB4437;
-            --twitter-color: #1DA1F2;
-            --insta-color: #E1306C;
-        }
-
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
         * {
-            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
-        html,
         body {
-            height: 100vh;
-            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
         }
 
         .container {
             position: relative;
-            min-height: 100vh;
+            width: 850px;
+            height: 550px;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, .2);
+            margin: 20px;
             overflow: hidden;
         }
 
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            height: 100vh;
-        }
-
-        .col {
+        .form-box {
+            position: absolute;
+            right: 0;
             width: 50%;
-        }
-
-        .align-items-center {
+            height: 100%;
+            background: #fff;
             display: flex;
             align-items: center;
-            justify-content: center;
+            color: #333;
             text-align: center;
+            padding: 40px;
+            z-index: 1;
+            transition: .6s ease-in-out 1.2s, visibility 0s 1s;
         }
 
-        .form-wrapper {
-            width: 100%;
-            max-width: 28rem;
+        .container.active .form-box.login {
+            right: 50%;
+            transition-delay: 0s;
+            visibility: hidden;
         }
 
-        .form {
-            padding: 1rem;
-            background-color: var(--white);
-            border-radius: 1.5rem;
-            width: 100%;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            transform: scale(0);
-            transition: .5s ease-in-out;
+        .form-box.register {
+            right: -50%;
+            visibility: hidden;
+        }
+
+        .container.active .form-box.register {
+            right: 0;
+            visibility: visible;
             transition-delay: 1s;
         }
 
-        .input-group {
+        form {
+            width: 100%;
+        }
+
+        .container h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+
+        .input-box {
             position: relative;
+            margin: 30px 0;
+        }
+
+        .input-box input {
             width: 100%;
-            margin: 1rem 0;
-        }
-
-        .input-group i {
-            position: absolute;
-            top: 50%;
-            left: 1rem;
-            transform: translateY(-50%);
-            font-size: 1.4rem;
-            color: var(--gray-2);
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 1rem 3rem;
-            font-size: 1rem;
-            background-color: var(--gray);
-            border-radius: .5rem;
-            border: 0.125rem solid var(--white);
-            outline: none;
-        }
-
-        .input-group input:focus {
-            border: 0.125rem solid var(--primary-color);
-        }
-
-        .form button {
-            cursor: pointer;
-            width: 100%;
-            padding: .6rem 0;
-            border-radius: .5rem;
+            padding: 13px 50px 13px 20px;
+            background-color: #eee;
+            border-radius: 8px;
             border: none;
-            background-color: var(--primary-color);
-            color: var(--white);
-            font-size: 1.2rem;
             outline: none;
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
         }
 
-        .form p {
-            margin: 1rem 0;
-            font-size: .7rem;
+        .input-box input::placeholder {
+            color: #888;
+            font-weight: 400;
         }
 
-        .flex-col {
-            flex-direction: column;
+        .input-box i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #888;
         }
 
-        .social-list {
-            margin: 2rem 0;
-            padding: 1rem;
-            border-radius: 1.5rem;
+        .forgot-link {
+            margin: -15px 0 15px;
+            text-align: right;
+        }
+
+        .forgot-link a {
+            font-size: 14.5px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .btn {
             width: 100%;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            transform: scale(0);
-            transition: .5s ease-in-out;
+            height: 48px;
+            background: #7494ec;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .container p {
+            font-size: 14.5px;
+            margin: 15px 0;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 24px;
+            color: #333;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        .toggle-box {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .toggle-box::before {
+            content: '';
+            position: absolute;
+            left: -250%;
+            width: 300%;
+            height: 100%;
+            background: #7494ec;
+            border-radius: 150px;
+            z-index: 2;
+            transition: 1.8s ease-in-out;
+        }
+
+        .container.active .toggle-box::before {
+            left: 50%;
+        }
+
+        .toggle-panel {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            transition: .6s ease-in-out;
+        }
+
+        .toggle-panel.toggle-left {
+            left: 0;
             transition-delay: 1.2s;
         }
 
-        .social-list>div {
-            color: var(--white);
-            margin: 0 .5rem;
-            padding: .7rem;
-            cursor: pointer;
-            border-radius: .5rem;
-            cursor: pointer;
-            transform: scale(0);
-            transition: .5s ease-in-out;
+        .container.active .toggle-panel.toggle-left {
+            left: -50%;
+            transition-delay: .6s;
         }
 
-        .social-list>div:nth-child(1) {
-            transition-delay: 1.4s;
+        .toggle-panel.toggle-right {
+            right: -50%;
+            transition-delay: .6s;
         }
 
-        .social-list>div:nth-child(2) {
-            transition-delay: 1.6s;
-        }
-
-        .social-list>div:nth-child(3) {
-            transition-delay: 1.8s;
-        }
-
-        .social-list>div:nth-child(4) {
-            transition-delay: 2s;
-        }
-
-        .social-list>div>i {
-            font-size: 1.5rem;
-            transition: .4s ease-in-out;
-        }
-
-        .social-list>div:hover i {
-            transform: scale(1.5);
-        }
-
-        .facebook-bg {
-            background-color: var(--facebook-color);
-        }
-
-        .google-bg {
-            background-color: var(--google-color);
-        }
-
-        .twitter-bg {
-            background-color: var(--twitter-color);
-        }
-
-        .insta-bg {
-            background-color: var(--insta-color);
-        }
-
-        .pointer {
-            cursor: pointer;
-        }
-
-        .container.sign-in .form.sign-in,
-        .container.sign-in .social-list.sign-in,
-        .container.sign-in .social-list.sign-in>div,
-        .container.sign-up .form.sign-up,
-        .container.sign-up .social-list.sign-up,
-        .container.sign-up .social-list.sign-up>div {
-            transform: scale(1);
-        }
-
-        .content-row {
-            position: absolute;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 6;
-            width: 100%;
-        }
-
-        .text {
-            margin: 4rem;
-            color: var(--white);
-        }
-
-        .text h2 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin: 2rem 0;
-            transition: 1s ease-in-out;
-        }
-
-        .text p {
-            font-weight: 600;
-            transition: 1s ease-in-out;
-            transition-delay: .2s;
-        }
-
-        .img img {
-            width: 30vw;
-            transition: 1s ease-in-out;
-            transition-delay: .4s;
-        }
-
-        .text.sign-in h2,
-        .text.sign-in p,
-        .img.sign-in img {
-            transform: translateX(-250%);
-        }
-
-        .text.sign-up h2,
-        .text.sign-up p,
-        .img.sign-up img {
-            transform: translateX(250%);
-        }
-
-        .container.sign-in .text.sign-in h2,
-        .container.sign-in .text.sign-in p,
-        .container.sign-in .img.sign-in img,
-        .container.sign-up .text.sign-up h2,
-        .container.sign-up .text.sign-up p,
-        .container.sign-up .img.sign-up img {
-            transform: translateX(0);
-        }
-
-        /* BACKGROUND */
-
-        .container::before {
-            content: "";
-            position: absolute;
-            top: 0;
+        .container.active .toggle-panel.toggle-right {
             right: 0;
-            height: 100vh;
-            width: 300vw;
-            transform: translate(35%, 0);
-            background-image: linear-gradient(-45deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            transition: 1s ease-in-out;
-            z-index: 6;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            border-bottom-right-radius: max(50vw, 50vh);
-            border-top-left-radius: max(50vw, 50vh);
+            transition-delay: 1.2s;
         }
 
-        .container.sign-in::before {
-            transform: translate(0, 0);
-            right: 50%;
+        .toggle-panel p {
+            margin-bottom: 20px;
         }
 
-        .container.sign-up::before {
-            transform: translate(100%, 0);
-            right: 50%;
+        .toggle-panel .btn {
+            width: 160px;
+            height: 46px;
+            background: transparent;
+            border: 2px solid #fff;
+            box-shadow: none;
         }
 
-        /* RESPONSIVE */
+        @media screen and (max-width:650px) {
+            .container {
+                height: calc(100vh - 40px);
+            }
 
-        @media only screen and (max-width: 425px) {
+            .form-box {
+                bottom: 0;
+                width: 100%;
+                height: 70%;
+            }
 
-            .container::before,
-            .container.sign-in::before,
-            .container.sign-up::before {
-                height: 100vh;
-                border-bottom-right-radius: 0;
-                border-top-left-radius: 0;
-                z-index: 0;
-                transform: none;
+            .container.active .form-box.login {
+                bottom: -70%;
                 right: 0;
             }
 
-            /* .container.sign-in .col.sign-up {
-        transform: translateY(100%);
-    } */
-
-            .container.sign-in .col.sign-in,
-            .container.sign-up .col.sign-up {
-                transform: translateY(0);
+            .container.active .form-box.register {
+                bottom: 0;
             }
 
-            .content-row {
-                align-items: flex-start !important;
-            }
-
-            .content-row .col {
-                transform: translateY(0);
-                background-color: unset;
-            }
-
-            .col {
+            .toggle-box::before {
+                left: 0;
+                top: -270%;
                 width: 100%;
-                position: absolute;
-                padding: 2rem;
-                background-color: var(--white);
-                border-top-left-radius: 2rem;
-                border-top-right-radius: 2rem;
-                transform: translateY(100%);
-                transition: 1s ease-in-out;
+                height: 300%;
+                border-radius: 20vw;
             }
 
-            .row {
-                align-items: flex-end;
-                justify-content: flex-end;
+            .container.active .toggle-box::before {
+                top: 70%;
             }
 
-            .form,
-            .social-list {
-                box-shadow: none;
-                margin: 0;
-                padding: 0;
+            .toggle-panel {
+                width: 100%;
+                height: 30%;
             }
 
-            .text {
-                margin: 0;
+            .toggle-panel.toggle-left {
+                top: 0;
             }
 
-            .text p {
-                display: none;
+            .container.active .toggle-panel.toggle-left {
+                left: 0;
+                top: -30%;
             }
 
-            .text h2 {
-                margin: .5rem;
-                font-size: 2rem;
+            .toggle-panel.toggle-right {
+                right: 0;
+                bottom: -30%;
+            }
+
+            .container.active .toggle-panel.toggle-right {
+                bottom: 0;
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+            .form-box {
+                padding: 20px;
+            }
+
+            .toggle-panel h1 {
+                font-size: 30px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div id="container" class="container">
-        <!-- FORM SECTION -->
-        <div class="row">
-            <!-- SIGN UP -->
-            <div class="col align-items-center flex-col sign-up">
-                <div class="form-wrapper align-items-center">
-                    <div class="form sign-up">
-                        <h2 class="title">Sign Up</h2>
-                        <form action="{{route('register.post')}}" method="post">
-                            @csrf
-                            <div class="input-group">
-                                <i class='bx bxs-user'></i>
-                                <input type="text" placeholder="Username" required>
-                            </div>
-                            <div class="input-group">
-                                <i class='bx bx-mail-send'></i>
-                                <input type="email" placeholder="Email" required>
-                            </div>
-                            <div class="input-group">
-                                <i class='bx bxs-lock-alt'></i>
-                                <input type="password" placeholder="Password" required>
-                            </div>
-                            <div class="input-group">
-                                <i class='bx bxs-lock-alt'></i>
-                                <input type="password" placeholder="Confirm password" required>
-                            </div>
-                            <button type="submit">
-                                Sign up
-                            </button>
-                            <p>
-                                <span>
-                                    Already have an account?
-                                </span>
-                                <b onclick="toggle()" class="pointer">
-                                    Sign in here
-                                </b>
-                            </p>
-                        </form>
-                    </div>
+    <div class="container">
+        <div class="form-box login">
+            <form action="{{ route('login.post') }}" method="POST">
+                @csrf
+                <h1>Login</h1>
+                <div class="input-box">
+                    <input type="text" placeholder="email" name="email" required>
+                    <i class='bx bxs-user'></i>
                 </div>
-
-            </div>
-            <!-- END SIGN UP -->
-            <!-- SIGN IN -->
-            <div class="col align-items-center flex-col sign-in">
-                <div class="form-wrapper align-items-center">
-                    <div class="form sign-in">
-                        <h2 class="title">Sign In</h2>
-                        <form action="{{ route('login.post') }}" method="post">
-                            @csrf
-
-                            <div class="input-group">
-                                <i class='bx bxs-user'></i>
-                                <input type="text" name="email" placeholder="email" required>
-                            </div>
-                            <div class="input-group">
-                                <i class='bx bxs-lock-alt'></i>
-                                <input type="password" name="password" placeholder="password" required>
-                            </div>
-                            <button type="submit">
-                                Sign in
-                            </button>
-                            <p>
-                                <b>
-                                    Forgot password?
-                                </b>
-                            </p>
-                            <p>
-                                <span>
-                                    Don't have an account?
-                                </span>
-                                <b onclick="toggle()" class="pointer">
-                                    Sign up here
-                                </b>
-                            </p>
-                        </form>
-                    </div>
+                <div class="input-box">
+                    <input type="password" placeholder="Password" name="password" required>
+                    <i class='bx bxs-lock-alt'></i>
                 </div>
-                <div class="form-wrapper">
-
+                <div class="forgot-link">
+                    <a href="#">Forgot Password</a>
                 </div>
-            </div>
-            <!-- END SIGN IN -->
+                <button type="submit" class="btn">Login</button>
+                <p>atau login dengan akun sosial media</p>
+                <div class="social-icons">
+                    <a href="#"><i class='bx bxl-google'></i></a>
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-github'></i></a>
+                    <a href="#"><i class='bx bxl-linkedin'></i></a>
+                </div>
+            </form>
         </div>
-        <!-- END FORM SECTION -->
-        <!-- CONTENT SECTION -->
-        <div class="row content-row">
-            <!-- SIGN IN CONTENT -->
-            <div class="col align-items-center flex-col">
-                <div class="text sign-in">
-                    <h2>
-                        Welcome
-                    </h2>
 
+        <div class="form-box register">
+            <form action="{{ route('register.post') }}" method="POST">
+                @csrf
+                <h1>Register</h1>
+                <div class="input-box">
+                    <input type="text" placeholder="Username" name="name" required>
+                    <i class='bx bxs-user'></i>
                 </div>
-                <div class="img sign-in">
-
+                <div class="input-box">
+                    <input type="email" placeholder="Email" name="email" required>
+                    <i class='bx bxs-envelope'></i>
                 </div>
-            </div>
-            <!-- END SIGN IN CONTENT -->
-            <!-- SIGN UP CONTENT -->
-            <div class="col align-items-center flex-col">
-                <div class="img sign-up">
-
+                <div class="input-box">
+                    <input type="password" placeholder="Password" name="password" required>
+                    <i class='bx bxs-lock-alt'></i>
                 </div>
-                <div class="text sign-up">
-                    <h2>
-                        Join with us
-                    </h2>
-
+                <button type="submit" class="btn">Register</button>
+                <p>atau login dengan akun sosial media</p>
+                <div class="social-icons">
+                    <a href="#"><i class='bx bxl-google'></i></a>
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-github'></i></a>
+                    <a href="#"><i class='bx bxl-linkedin'></i></a>
                 </div>
-            </div>
-            <!-- END SIGN UP CONTENT -->
+            </form>
         </div>
-        <!-- END CONTENT SECTION -->
+
+        <div class="toggle-box">
+            <div class="toggle-panel toggle-left">
+                <h1>Assalamu'alaikum</h1>
+                <p>Apakah kamu sudah memiliki akun?</p>
+                <button type="button" class="btn register-btn">Register</button>
+            </div>
+            <div class="toggle-panel toggle-right">
+                <h1>Assalamu'alaikum</h1>
+                <p>Sudah memiliki akun?</p>
+                <button type="button" class="btn login-btn">Login</button>
+            </div>
+        </div>
     </div>
+
     <script>
-        let container = document.getElementById('container')
+        const container = document.querySelector('.container');
+        const registerBtn = document.querySelector('.register-btn');
+        const loginBtn = document.querySelector('.login-btn');
 
-        toggle = () => {
-            container.classList.toggle('sign-in')
-            container.classList.toggle('sign-up')
-        }
+        registerBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            container.classList.add('active');
+        });
 
-        setTimeout(() => {
-            container.classList.add('sign-in')
-        }, 200)
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            container.classList.remove('active');
+        });
     </script>
 </body>
 
