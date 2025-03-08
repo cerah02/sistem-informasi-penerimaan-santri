@@ -82,29 +82,49 @@ class AuthController extends Controller
      *
      * @return response()
      */
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        $guru = "";
-        $santri = "";
+        $Guru = "";
+        $Santri = "";
+
         if (Auth::check()) {
-            if (Auth::user()->hasRole('guru')) {
-                $guru = Guru::where('email', "=", auth()->user()->email)->first();
+            if (Auth::user()->hasRole('Guru')) {
+                $Guru = Guru::where('email', auth()->user()->email)->first();
+            } elseif (Auth::user()->hasRole('Santri')) {
+                $Santri = Santri::where('email', auth()->user()->email)->first();
             }
-            if (Auth::user()->hasRole('santri')) {
-                $santri = Guru::where('email', "=", auth()->user()->email)->first();
-            }
+
+            // Total seluruh santri tanpa filter
             $jumlah_santri = Santri::count();
-            $jumlah_santri_mendaftar_tahun_ini = Santri::where('created_at', '>=' . Carbon::now())->count();
-            $santri_sd = Santri::where('jenjang_pendidikan','=','SD')->count();
-            $santri_mts = Santri::where('jenjang_pendidikan','=','MTS')->count();
-            $santri_ma = Santri::where('jenjang_pendidikan','=','MA')->count();
-            $jumlah_santri_yang_sudah_disetujui = Pendaftaran::where('status', '=', 'disetujui')->count();
-            $jumlah_santri_yang_menunggu_disetujui = Pendaftaran::where('status', '=', 'proses')->count();
-            return view('auth.dashboard', compact('guru', 'jumlah_santri', 'jumlah_santri_mendaftar_tahun_ini', 'jumlah_santri_yang_sudah_disetujui', 'jumlah_santri_yang_menunggu_disetujui','santri','guru','santri_sd',
-        'santri_sd', 'santri_mts','santri_ma'));
+
+            // Total santri sesuai filter
+            $query = Santri::query();
+            if ($request->jenjang_filter) {
+                $query->where('jenjang_pendidikan', $request->jenjang_filter);
+            }
+            if ($request->year) {
+                $query->whereYear('created_at', $request->year);
+            }
+            $hitung_santri_byfilter = $query->count();
+
+            $jumlah_santri_mendaftar_tahun_ini = Santri::whereYear('created_at', Carbon::now()->year)->count();
+            $jumlah_santri_yang_sudah_disetujui = Pendaftaran::where('status', 'disetujui')->count();
+            $jumlah_santri_yang_menunggu_disetujui = Pendaftaran::where('status', 'proses')->count();
+
+            return view('auth.dashboard', compact(
+                'Guru',
+                'Santri',
+                'jumlah_santri',
+                'hitung_santri_byfilter',
+                'jumlah_santri_mendaftar_tahun_ini',
+                'jumlah_santri_yang_sudah_disetujui',
+                'jumlah_santri_yang_menunggu_disetujui'
+            ));
         }
-        return redirect("login")->withSuccess('Opps! You do not have access');
+
+        return redirect("login")->withErrors('Maaf! Kamu tidak memiliki akses');
     }
+
     /**
      * Write code on Method
      *
