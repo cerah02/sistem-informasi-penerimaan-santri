@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum("jenjang_pendidikan",["SD","MTS","MA"]);
             $table->date("tanggal_mulai");
             $table->date("tanggal_selesai");
-            $table->time("durasi");
+            $table->integer("durasi");
             $table->string("status");
             $table->timestamps();
         });

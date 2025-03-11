@@ -116,6 +116,7 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -155,7 +156,8 @@
                 font-size: 1.2rem;
             }
 
-            .btn-custom, .btn-back {
+            .btn-custom,
+            .btn-back {
                 width: 100%;
                 margin-bottom: 10px;
             }
@@ -164,13 +166,32 @@
                 width: 100%;
             }
         }
+
+        #timer {
+            font-size: 50px;
+            /* Sesuaikan ukuran */
+        }
     </style>
 </head>
 
 <body>
-    <!-- Navbar remains the same -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-custom">
-        <!-- ... (previous navbar code) ... -->
+        <a class="navbar-brand" href="#">CBT</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Profil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
     <div class="container mt-4">
@@ -178,16 +199,21 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
+                        <!-- Timer Countdown -->
+                        <div class="text-center mb-4">
+                            <h4>Waktu Tersisa:</h4>
+                            <div id="timer" class="display-2 font-weight-bold text-danger">00:00</div>
+                        </div>
+
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item active" aria-current="page">{{$ujian->nama_ujian}}</li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ $ujian->nama_ujian }}</li>
                             </ol>
                         </nav>
                         <form action="{{ route('submit.ujian') }}" method="POST">
-                            
                             @csrf
                             @foreach ($soals as $index => $soal)
-                            <input type="text" value="{{$soal->ujian_id}}" name="ujian_id" hidden>
+                                <input type="text" value="{{ $soal->ujian_id }}" name="ujian_id" hidden>
                                 <div class="question-container card mb-3 {{ $index === 0 ? 'active' : '' }}"
                                     id="soal-{{ $index + 1 }}">
                                     <div class="question-box p-4 rounded">
@@ -255,6 +281,51 @@
     <script>
         $(document).ready(function() {
             let currentQuestion = 1;
+
+            // Durasi ujian dalam detik (contoh: 1 jam = 3600 detik)
+            let durasiUjian =
+            {{ $ujian->durasi }}; // Ambil durasi dari database (dalam menit) dan konversi ke detik
+
+            // Fungsi untuk mengirim jawaban otomatis
+            function submitJawabanOtomatis() {
+                alert("Waktu ujian telah habis. Jawaban akan dikirim secara otomatis.");
+
+                // Ambil jawaban dari localStorage
+                const answers = JSON.parse(localStorage.getItem('answers')) || {};
+
+                // Tambahkan jawaban ke form
+                $('form').find('input[type="hidden"]').remove(); // Hapus input hidden sebelumnya
+                for (const [questionId, answer] of Object.entries(answers)) {
+                    $(`<input type="hidden" name="jawaban[${questionId}]" value="${answer}">`).appendTo($('form'));
+                }
+
+                // Submit form
+                $('form').submit();
+            }
+
+            // Timer countdown
+            function startTimer(duration, display) {
+                let timer = duration,
+                    minutes, seconds;
+                const interval = setInterval(function() {
+                    minutes = parseInt(timer / 60, 10);
+                    seconds = parseInt(timer % 60, 10);
+
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    display.textContent = minutes + ":" + seconds;
+
+                    if (--timer < 0) {
+                        clearInterval(interval);
+                        submitJawabanOtomatis(); // Panggil fungsi submit otomatis
+                    }
+                }, 1000);
+            }
+
+            // Jalankan timer saat halaman dimuat
+            const display = document.querySelector('#timer');
+            startTimer(durasiUjian, display);
 
             // Fungsi untuk menyimpan jawaban ke localStorage
             function saveAnswer(questionId, answer) {

@@ -105,7 +105,10 @@ class UjianController extends Controller
             'durasi' => 'required',
             'status' => 'required',
         ]);
-        Ujian::create($request->all());
+
+        $input = $request->all();
+        $input['durasi'] = $request->durasi * 60;
+        Ujian::create($input);
         return redirect()->route('ujians.index')
             ->with('success', 'Data Ujian Berhasil Disimpan.');
     }

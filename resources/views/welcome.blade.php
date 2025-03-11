@@ -1,132 +1,1364 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
 
-        <title>Laravel</title>
+<head>
+    <meta charset="utf-8">
+    <title>Pon-Pes Darul Muttaqien</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Pondok Pesantren Darul Muttaqien, Pendidikan Islam, Generasi Qur'ani" name="keywords">
+    <meta
+        content="Pondok Pesantren Darul Muttaqien adalah lembaga pendidikan Islam yang berkomitmen mencetak generasi Qur'ani."
+        name="description">
 
-        <!-- Fonts -->
-        <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <img href="/landing_assets/img/favicon.ico" rel="icon">
 
-        <!-- Styles -->
-        <style>
-            /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}a{background-color:transparent}[hidden]{display:none}html{font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;line-height:1.5}*,:after,:before{box-sizing:border-box;border:0 solid #e2e8f0}a{color:inherit;text-decoration:inherit}svg,video{display:block;vertical-align:middle}video{max-width:100%;height:auto}.bg-white{--tw-bg-opacity: 1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-gray-100{--tw-bg-opacity: 1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.border-gray-200{--tw-border-opacity: 1;border-color:rgb(229 231 235 / var(--tw-border-opacity))}.border-t{border-top-width:1px}.flex{display:flex}.grid{display:grid}.hidden{display:none}.items-center{align-items:center}.justify-center{justify-content:center}.font-semibold{font-weight:600}.h-5{height:1.25rem}.h-8{height:2rem}.h-16{height:4rem}.text-sm{font-size:.875rem}.text-lg{font-size:1.125rem}.leading-7{line-height:1.75rem}.mx-auto{margin-left:auto;margin-right:auto}.ml-1{margin-left:.25rem}.mt-2{margin-top:.5rem}.mr-2{margin-right:.5rem}.ml-2{margin-left:.5rem}.mt-4{margin-top:1rem}.ml-4{margin-left:1rem}.mt-8{margin-top:2rem}.ml-12{margin-left:3rem}.-mt-px{margin-top:-1px}.max-w-6xl{max-width:72rem}.min-h-screen{min-height:100vh}.overflow-hidden{overflow:hidden}.p-6{padding:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.pt-8{padding-top:2rem}.fixed{position:fixed}.relative{position:relative}.top-0{top:0}.right-0{right:0}.shadow{--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);--tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.text-center{text-align:center}.text-gray-200{--tw-text-opacity: 1;color:rgb(229 231 235 / var(--tw-text-opacity))}.text-gray-300{--tw-text-opacity: 1;color:rgb(209 213 219 / var(--tw-text-opacity))}.text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity))}.text-gray-600{--tw-text-opacity: 1;color:rgb(75 85 99 / var(--tw-text-opacity))}.text-gray-700{--tw-text-opacity: 1;color:rgb(55 65 81 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity: 1;color:rgb(17 24 39 / var(--tw-text-opacity))}.underline{text-decoration:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.w-5{width:1.25rem}.w-8{width:2rem}.w-auto{width:auto}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}@media (min-width:640px){.sm\:rounded-lg{border-radius:.5rem}.sm\:block{display:block}.sm\:items-center{align-items:center}.sm\:justify-start{justify-content:flex-start}.sm\:justify-between{justify-content:space-between}.sm\:h-20{height:5rem}.sm\:ml-0{margin-left:0}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:pt-0{padding-top:0}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width:768px){.md\:border-t-0{border-top-width:0}.md\:border-l{border-left-width:1px}.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (min-width:1024px){.lg\:px-8{padding-left:2rem;padding-right:2rem}}@media (prefers-color-scheme:dark){.dark\:bg-gray-800{--tw-bg-opacity: 1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.dark\:bg-gray-900{--tw-bg-opacity: 1;background-color:rgb(17 24 39 / var(--tw-bg-opacity))}.dark\:border-gray-700{--tw-border-opacity: 1;border-color:rgb(55 65 81 / var(--tw-border-opacity))}.dark\:text-white{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}.dark\:text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity))}.dark\:text-gray-500{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity))}}
-        </style>
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap"
+        rel="stylesheet">
 
-        <style>
-            body {
-                font-family: 'Nunito', sans-serif;
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+
+    <!-- Libraries Stylesheet -->
+    <link href="/landing_assets/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="/landing_assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/landing_assets/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="/landing_assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid bg-dark text-white py-2 shadow-lg">
+        <div class="d-flex justify-content-between align-items-center flex-wrap position-relative w-100">
+            <!-- Jam (Kiri) -->
+            <div id="liveClock" class="fw-bold date-time"></div>
+
+            <!-- Teks Berjalan (Tengah) -->
+            <div class="scrolling-container">
+                <div class="scrolling-text">
+                    <span class="char">P</span>
+                    <span class="char">o</span>
+                    <span class="char">n</span>
+                    <span class="char">d</span>
+                    <span class="char">o</span>
+                    <span class="char">k</span>
+                    <span class="char">&nbsp;</span>
+                    <span class="char">P</span>
+                    <span class="char">e</span>
+                    <span class="char">s</span>
+                    <span class="char">a</span>
+                    <span class="char">n</span>
+                    <span class="char">t</span>
+                    <span class="char">r</span>
+                    <span class="char">e</span>
+                    <span class="char">n</span>
+                    <span class="char">&nbsp;</span>
+                    <span class="char">D</span>
+                    <span class="char">a</span>
+                    <span class="char">r</span>
+                    <span class="char">u</span>
+                    <span class="char">l</span>
+                    <span class="char">&nbsp;</span>
+                    <span class="char">M</span>
+                    <span class="char">u</span>
+                    <span class="char">t</span>
+                    <span class="char">t</span>
+                    <span class="char">a</span>
+                    <span class="char">q</span>
+                    <span class="char">i</span>
+                    <span class="char">e</span>
+                    <span class="char">n</span>
+                    <span class="char">&nbsp;</span>
+                    <span class="char">-</span>
+                    <span class="char">&nbsp;</span>
+                    <span class="char">M</span>
+                    <span class="char">e</span>
+                    <span class="char">n</span>
+                    <span class="char">c</span>
+                    <span class="char">e</span>
+                    <span class="char">t</span>
+                    <span class="char">a</span>
+                    <span class="char">k</span>
+                    <span class="char">&nbsp;</span>
+                    <span class="char">G</span>
+                    <span class="char">e</span>
+                    <span class="char">n</span>
+                    <span class="char">e</span>
+                    <span class="char">r</span>
+                    <span class="char">a</span>
+                    <span class="char">s</span>
+                    <span class="char">i</span>
+                    <span class="char">&nbsp;</span>
+                    <span class="char">Q</span>
+                    <span class="char">u</span>
+                    <span class="char">r</span>
+                    <span class="char">'</span>
+                    <span class="char">a</span>
+                    <span class="char">n</span>
+                    <span class="char">i</span>
+                </div>
+            </div>
+
+            <!-- Tanggal (Kanan) -->
+            <div id="liveDate" class="fw-bold date-time"></div>
+        </div>
+    </div>
+
+    <script>
+        function updateClockAndDate() {
+            const now = new Date();
+
+            // Format Waktu (24 jam)
+            let hours = now.getHours().toString().padStart(2, '0');
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            let seconds = now.getSeconds().toString().padStart(2, '0');
+
+            let timeString = `${hours}:${minutes}:${seconds}`;
+            document.getElementById("liveClock").textContent = timeString;
+
+            // Format Hari dan Tanggal
+            const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+            const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
+                "Oktober", "November", "Desember"
+            ];
+
+            let day = days[now.getDay()];
+            let date = now.getDate();
+            let month = months[now.getMonth()];
+            let year = now.getFullYear();
+
+            let dateString = `${day}, ${date} ${month} ${year}`;
+            document.getElementById("liveDate").textContent = dateString;
+        }
+
+        // Perbarui setiap detik
+        setInterval(updateClockAndDate, 1000);
+        updateClockAndDate();
+    </script>
+
+    <style>
+        /* Efek Spinner */
+        #spinner {
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+        }
+
+        /* Teks Jam dan Tanggal */
+        .date-time {
+            background: linear-gradient(45deg, #ffcc00, #d4af37, #b8860b);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 1rem;
+            color: #fff;
+            text-shadow: 0 0 8px rgba(255, 204, 0, 0.8);
+        }
+
+        /* Efek Scrolling Teks */
+        .scrolling-container {
+            width: 80%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .scrolling-text {
+            display: inline-block;
+            white-space: nowrap;
+            animation: scrollText 10s linear infinite;
+        }
+
+        .scrolling-text .char {
+            display: inline-block;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeInOut 0.5s forwards;
+        }
+
+        @keyframes scrollText {
+            0% {
+                transform: translateX(100%);
             }
-        </style>
-    </head>
-    <body class="antialiased">
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-            @if (Route::has('login'))
-                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                    @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                        @endif
-                    @endauth
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Bayangan lembut untuk header */
+        .container-fluid {
+            font-size: 16px;
+            box-shadow: 0 2px 10px rgba(255, 204, 0, 0.4);
+        }
+    </style>
+
+    <!-- Header -->
+    <div class="container-fluid bg-dark text-white py-4 d-none d-lg-flex">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <!-- Logo Pondok -->
+                <div class="d-flex align-items-center">
+                    <img class="logo-img me-3" src="/landing_assets/img/logo_pondok.png" alt="Logo Pondok">
+                    <!-- Nama Pondok dengan Animasi -->
+                    <div class="heading">
+                        <h2 data-text="معهددارالمتقين الإسلامى" class="small-heading">
+                            <span class="arabic">معهددارالمتقين الإسلامى</span>
+                            <span class="latin" data-span="Pondok Pesantren Darul Muttaqien Al-Islami">
+                                Pondok Pesantren Darul Muttaqien Al-Islami
+                            </span>
+                        </h2>
+                    </div>
                 </div>
-            @endif
+                <!-- Tombol Login -->
+                <form action="{{ route('login') }}" method="get">
+                    @csrf
+                    <button type="submit">
+                        <img src="/landing_assets/img/ikon_santri.png" alt="Ikon Masuk">
+                        <span class="now">Sekarang!</span>
+                        <span class="play">Daftar</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
-                    <svg viewBox="0 0 651 192" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto text-gray-700 sm:h-20">
-                        <g clip-path="url(#clip0)" fill="#EF3B2D">
-                            <path d="M248.032 44.676h-16.466v100.23h47.394v-14.748h-30.928V44.676zM337.091 87.202c-2.101-3.341-5.083-5.965-8.949-7.875-3.865-1.909-7.756-2.864-11.669-2.864-5.062 0-9.69.931-13.89 2.792-4.201 1.861-7.804 4.417-10.811 7.661-3.007 3.246-5.347 6.993-7.016 11.239-1.672 4.249-2.506 8.713-2.506 13.389 0 4.774.834 9.26 2.506 13.459 1.669 4.202 4.009 7.925 7.016 11.169 3.007 3.246 6.609 5.799 10.811 7.66 4.199 1.861 8.828 2.792 13.89 2.792 3.913 0 7.804-.955 11.669-2.863 3.866-1.908 6.849-4.533 8.949-7.875v9.021h15.607V78.182h-15.607v9.02zm-1.431 32.503c-.955 2.578-2.291 4.821-4.009 6.73-1.719 1.91-3.795 3.437-6.229 4.582-2.435 1.146-5.133 1.718-8.091 1.718-2.96 0-5.633-.572-8.019-1.718-2.387-1.146-4.438-2.672-6.156-4.582-1.719-1.909-3.032-4.152-3.938-6.73-.909-2.577-1.36-5.298-1.36-8.161 0-2.864.451-5.585 1.36-8.162.905-2.577 2.219-4.819 3.938-6.729 1.718-1.908 3.77-3.437 6.156-4.582 2.386-1.146 5.059-1.718 8.019-1.718 2.958 0 5.656.572 8.091 1.718 2.434 1.146 4.51 2.674 6.229 4.582 1.718 1.91 3.054 4.152 4.009 6.729.953 2.577 1.432 5.298 1.432 8.162-.001 2.863-.479 5.584-1.432 8.161zM463.954 87.202c-2.101-3.341-5.083-5.965-8.949-7.875-3.865-1.909-7.756-2.864-11.669-2.864-5.062 0-9.69.931-13.89 2.792-4.201 1.861-7.804 4.417-10.811 7.661-3.007 3.246-5.347 6.993-7.016 11.239-1.672 4.249-2.506 8.713-2.506 13.389 0 4.774.834 9.26 2.506 13.459 1.669 4.202 4.009 7.925 7.016 11.169 3.007 3.246 6.609 5.799 10.811 7.66 4.199 1.861 8.828 2.792 13.89 2.792 3.913 0 7.804-.955 11.669-2.863 3.866-1.908 6.849-4.533 8.949-7.875v9.021h15.607V78.182h-15.607v9.02zm-1.432 32.503c-.955 2.578-2.291 4.821-4.009 6.73-1.719 1.91-3.795 3.437-6.229 4.582-2.435 1.146-5.133 1.718-8.091 1.718-2.96 0-5.633-.572-8.019-1.718-2.387-1.146-4.438-2.672-6.156-4.582-1.719-1.909-3.032-4.152-3.938-6.73-.909-2.577-1.36-5.298-1.36-8.161 0-2.864.451-5.585 1.36-8.162.905-2.577 2.219-4.819 3.938-6.729 1.718-1.908 3.77-3.437 6.156-4.582 2.386-1.146 5.059-1.718 8.019-1.718 2.958 0 5.656.572 8.091 1.718 2.434 1.146 4.51 2.674 6.229 4.582 1.718 1.91 3.054 4.152 4.009 6.729.953 2.577 1.432 5.298 1.432 8.162 0 2.863-.479 5.584-1.432 8.161zM650.772 44.676h-15.606v100.23h15.606V44.676zM365.013 144.906h15.607V93.538h26.776V78.182h-42.383v66.724zM542.133 78.182l-19.616 51.096-19.616-51.096h-15.808l25.617 66.724h19.614l25.617-66.724h-15.808zM591.98 76.466c-19.112 0-34.239 15.706-34.239 35.079 0 21.416 14.641 35.079 36.239 35.079 12.088 0 19.806-4.622 29.234-14.688l-10.544-8.158c-.006.008-7.958 10.449-19.832 10.449-13.802 0-19.612-11.127-19.612-16.884h51.777c2.72-22.043-11.772-40.877-33.023-40.877zm-18.713 29.28c.12-1.284 1.917-16.884 18.589-16.884 16.671 0 18.697 15.598 18.813 16.884h-37.402zM184.068 43.892c-.024-.088-.073-.165-.104-.25-.058-.157-.108-.316-.191-.46-.056-.097-.137-.176-.203-.265-.087-.117-.161-.242-.265-.345-.085-.086-.194-.148-.29-.223-.109-.085-.206-.182-.327-.252l-.002-.001-.002-.002-35.648-20.524a2.971 2.971 0 00-2.964 0l-35.647 20.522-.002.002-.002.001c-.121.07-.219.167-.327.252-.096.075-.205.138-.29.223-.103.103-.178.228-.265.345-.066.089-.147.169-.203.265-.083.144-.133.304-.191.46-.031.085-.08.162-.104.25-.067.249-.103.51-.103.776v38.979l-29.706 17.103V24.493a3 3 0 00-.103-.776c-.024-.088-.073-.165-.104-.25-.058-.157-.108-.316-.191-.46-.056-.097-.137-.176-.203-.265-.087-.117-.161-.242-.265-.345-.085-.086-.194-.148-.29-.223-.109-.085-.206-.182-.327-.252l-.002-.001-.002-.002L40.098 1.396a2.971 2.971 0 00-2.964 0L1.487 21.919l-.002.002-.002.001c-.121.07-.219.167-.327.252-.096.075-.205.138-.29.223-.103.103-.178.228-.265.345-.066.089-.147.169-.203.265-.083.144-.133.304-.191.46-.031.085-.08.162-.104.25-.067.249-.103.51-.103.776v122.09c0 1.063.568 2.044 1.489 2.575l71.293 41.045c.156.089.324.143.49.202.078.028.15.074.23.095a2.98 2.98 0 001.524 0c.069-.018.132-.059.2-.083.176-.061.354-.119.519-.214l71.293-41.045a2.971 2.971 0 001.489-2.575v-38.979l34.158-19.666a2.971 2.971 0 001.489-2.575V44.666a3.075 3.075 0 00-.106-.774zM74.255 143.167l-29.648-16.779 31.136-17.926.001-.001 34.164-19.669 29.674 17.084-21.772 12.428-43.555 24.863zm68.329-76.259v33.841l-12.475-7.182-17.231-9.92V49.806l12.475 7.182 17.231 9.92zm2.97-39.335l29.693 17.095-29.693 17.095-29.693-17.095 29.693-17.095zM54.06 114.089l-12.475 7.182V46.733l17.231-9.92 12.475-7.182v74.537l-17.231 9.921zM38.614 7.398l29.693 17.095-29.693 17.095L8.921 24.493 38.614 7.398zM5.938 29.632l12.475 7.182 17.231 9.92v79.676l.001.005-.001.006c0 .114.032.221.045.333.017.146.021.294.059.434l.002.007c.032.117.094.222.14.334.051.124.088.255.156.371a.036.036 0 00.004.009c.061.105.149.191.222.288.081.105.149.22.244.314l.008.01c.084.083.19.142.284.215.106.083.202.178.32.247l.013.005.011.008 34.139 19.321v34.175L5.939 144.867V29.632h-.001zm136.646 115.235l-65.352 37.625V148.31l48.399-27.628 16.953-9.677v33.862zm35.646-61.22l-29.706 17.102V66.908l17.231-9.92 12.475-7.182v33.841z"/>
-                        </g>
-                    </svg>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Poppins:wght@600&display=swap');
+
+        /* Ukuran dan Efek Logo */
+        .logo-img {
+            width: 80px;
+            height: auto;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo-img:hover {
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+            transform: scale(1.1);
+        }
+
+        /* Container untuk Heading */
+        .heading {
+            position: relative;
+            width: fit-content;
+        }
+
+        /* Efek pada teks utama */
+        .small-heading {
+            position: relative;
+            font-size: clamp(1rem, 5vw, 2.5rem);
+            text-transform: uppercase;
+            color: #d4af37;
+            background: linear-gradient(90deg, #ffcc00, #d4af37, #b8860b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        /* Efek Reveal pada Teks Arab */
+        .small-heading .arabic {
+            font-family: 'Amiri', serif;
+            font-size: 1.2em;
+            display: block;
+            position: relative;
+        }
+
+        .small-heading .arabic::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 20%;
+            height: 100%;
+            color: #ffcc00;
+            -webkit-text-stroke: 0.8px #ffcc00;
+            border-right: 2px solid #ffcc00;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: reveal 4s alternate ease-in-out infinite;
+        }
+
+        /* Efek Reveal pada Teks Latin */
+        .small-heading .latin {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.7em;
+            color: white;
+            display: block;
+            position: relative;
+        }
+
+        .small-heading .latin::before {
+            content: attr(data-span);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            color: #ffcc00;
+            -webkit-text-stroke: 0.6px #ffcc00;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: reveal 4s alternate ease-in-out infinite;
+        }
+
+        /* Animasi Reveal */
+        @keyframes reveal {
+            0% {
+                width: 0%;
+            }
+
+            100% {
+                width: 50%;
+            }
+        }
+
+        /* style tombol css */
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 10px;
+            color: white;
+            text-shadow: 2px 2px rgb(116, 116, 116);
+            text-transform: uppercase;
+            cursor: pointer;
+            border: solid 2px black;
+            letter-spacing: 1px;
+            font-weight: 600;
+            font-size: 17px;
+            background-color: hsl(49deg 98% 60%);
+            border-radius: 50px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        button:active {
+            transform: scale(0.9);
+            transition: all 100ms ease;
+        }
+
+        button png {
+            transition: all 0.5s ease;
+            z-index: 2;
+        }
+
+        .play {
+            transition: all 0.5s ease;
+            transition-delay: 300ms;
+        }
+
+        button:hover png {
+            transform: scale(3) translate(50%);
+        }
+
+        .now {
+            position: absolute;
+            left: 0;
+            transform: translateX(-100%);
+            transition: all 0.5s ease;
+            z-index: 2;
+        }
+
+        button:hover .now {
+            transform: translateX(10px);
+            transition-delay: 300ms;
+        }
+
+        button:hover .play {
+            transform: translateX(200%);
+            transition-delay: 300ms;
+        }
+
+        button img {
+            width: 36px;
+            height: 36px;
+            transition: all 0.5s ease;
+        }
+
+        button:hover img {
+            transform: scale(1.2);
+        }
+    </style>
+
+    <!-- Brand End -->
+
+
+    <!-- Navbar Start -->
+    <div class="container-fluid sticky-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white py-lg-0 px-lg-3">
+                <a href="index.html" class="navbar-brand d-lg-none">
+                    <h1 class="text-primary m-0">Darul<span class="text-dark">Muttaqien</span></h1>
+                </a>
+                <button type="button" class="navbar-toggler me-0" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav">
+                        <a href="index.html" class="nav-item nav-link active">Beranda</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Profile
+                                Pesantren</a>
+                            <div class="dropdown-menu bg-light m-0">
+                                <a href="feature.html" class="dropdown-item">Sejarah Pesantren</a>
+                                <a href="team.html" class="dropdown-item">Visi & Misi</a>
+                                <a href="testimonial.html" class="dropdown-item">Jenjang Pendidikan</a>
+                                <a href="appoinment.html" class="dropdown-item">Fasilitas</a>
+                                <a href="appoinment.html" class="dropdown-item">Tenaga Pengajar</a>
+                            </div>
+                        </div>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Contoh
+                                Pakaian</a>
+                            <div class="dropdown-menu bg-light m-0">
+                                <a href="feature.html" class="dropdown-item">Pakaian Putra</a>
+                                <a href="team.html" class="dropdown-item">Pakaian Putri</a>
+                            </div>
+                        </div>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Kegiatan</a>
+                            <div class="dropdown-menu bg-light m-0">
+                                <a href="feature.html" class="dropdown-item">Kegiatan Harian</a>
+                                <a href="team.html" class="dropdown-item">Bulanan</a>
+                                <a href="team.html" class="dropdown-item">Tahunan</a>
+                            </div>
+                        </div>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pendaftaran
+                                Santri Baru</a>
+                            <div class="dropdown-menu bg-light m-0">
+                                <a href="feature.html" class="dropdown-item">Pendaftaran Santri Baru</a>
+                                <a href="team.html" class="dropdown-item">Brosur Pendaftaran</a>
+                                <a href="testimonial.html" class="dropdown-item">Pendaftaran Online</a>
+                                <a href="testimonial.html" class="dropdown-item">Pengumuman</a>
+                            </div>
+                        </div>
+                        <a href="contact.html" class="nav-item nav-link">Pengumuman</a>
+                    </div>
+                    <div class="ms-auto d-none d-lg-flex">
+                        <div class="card">
+                            <span>Hubungi Kami</span>
+                            <a class="social-link" href="https://wa.me/6285609566926" target="_blank">
+                                <img src="https://img.icons8.com/fluency/48/whatsapp.png" alt="WhatsApp" />
+                            </a>
+                            <a class="social-link" href="https://www.facebook.com/profile.php?id=100026084807336"
+                                target="_blank">
+                                <img src="https://img.icons8.com/fluency/48/facebook-new.png" alt="Facebook" />
+                            </a>
+                            <a class="social-link"
+                                href="https://www.instagram.com/ppdm_muarabaru?igsh=OG9jeGZsYm5vMG5j" target="_blank">
+                                <img src="https://img.icons8.com/fluency/48/instagram-new.png" alt="Instagram" />
+                            </a>
+                            <a class="social-link"
+                                href="https://youtube.com/@santridarulmuttaqienmuarab2001?si=2POThxOSokpPSXIK"
+                                target="_blank">
+                                <img src="https://img.icons8.com/fluency/48/youtube-play.png" alt="YouTube" />
+                            </a>
+                        </div>
+                    </div>
                 </div>
+            </nav>
+        </div>
+    </div>
 
-                <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
-                    <div class="grid grid-cols-1 md:grid-cols-2">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laravel.com/docs" class="underline text-gray-900 dark:text-white">Documentation</a></div>
-                            </div>
+    <style>
+        .card img {
+            height: 25px;
+            width: 25px;
+            transition: transform 0.25s;
+        }
 
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laravel has wonderful, thorough documentation covering every aspect of the framework. Whether you are new to the framework or have previous experience with Laravel, we recommend reading all of the documentation from beginning to end.
-                                </div>
-                            </div>
-                        </div>
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            /* Pastikan ikon berjajar horizontal */
+            align-items: center;
+            justify-content: center;
+            background: #e7e7e7;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden;
+            height: 50px;
+            width: auto;
+            /* Sesuaikan lebar otomatis */
+            padding: 0 10px;
+            /* Tambahkan padding */
+        }
 
-                        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500"><path stroke-linecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laracasts.com" class="underline text-gray-900 dark:text-white">Laracasts</a></div>
-                            </div>
+        .card::before,
+        .card::after {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            width: 50%;
+            height: 100%;
+            transition: 0.25s linear;
+            z-index: 1;
+        }
 
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
-                                </div>
-                            </div>
-                        </div>
+        .card::before {
+            content: "";
+            left: 0;
+            justify-content: flex-end;
+            background-color: #4CAF50;
+            /* Hijau Soft */
+        }
 
-                        <div class="p-6 border-t border-gray-200 dark:border-gray-700">
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laravel-news.com/" class="underline text-gray-900 dark:text-white">Laravel News</a></div>
-                            </div>
+        .card::after {
+            content: "";
+            right: 0;
+            justify-content: flex-start;
+            background-color: #45a049;
+            /* Hijau Soft Lebih Gelap */
+        }
 
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.
-                                </div>
-                            </div>
-                        </div>
+        .card:hover {
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        }
 
-                        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-l">
-                            <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500"><path stroke-linecap="round" stroke-linejoin="round" d="M6.115 5.19l.319 1.913A6 6 0 008.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 002.288-4.042 1.087 1.087 0 00-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 01-.98-.314l-.295-.295a1.125 1.125 0 010-1.591l.13-.132a1.125 1.125 0 011.3-.21l.603.302a.809.809 0 001.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 001.528-1.732l.146-.292M6.115 5.19A9 9 0 1017.18 4.64M6.115 5.19A8.965 8.965 0 0112 3c1.929 0 3.716.607 5.18 1.64" /></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold text-gray-900 dark:text-white">Vibrant Ecosystem</div>
-                            </div>
+        .card:hover span {
+            opacity: 0;
+            z-index: -3;
+        }
 
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="underline">Forge</a>, <a href="https://vapor.laravel.com" class="underline">Vapor</a>, <a href="https://nova.laravel.com" class="underline">Nova</a>, and <a href="https://envoyer.io" class="underline">Envoyer</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="underline">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="underline">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="underline">Echo</a>, <a href="https://laravel.com/docs/horizon" class="underline">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="underline">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="underline">Telescope</a>, and more.
+        .card:hover::before {
+            opacity: 0.5;
+            transform: translateY(-100%);
+        }
+
+        .card:hover::after {
+            opacity: 0.5;
+            transform: translateY(100%);
+        }
+
+        .card span {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            color: whitesmoke;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            /* Ukuran font diperkecil */
+            font-weight: 700;
+            opacity: 1;
+            transition: opacity 0.25s;
+            z-index: 2;
+        }
+
+        .card .social-link {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            /* Lebar otomatis */
+            height: 100%;
+            color: whitesmoke;
+            font-size: 24px;
+            text-decoration: none;
+            transition: 0.25s;
+            margin: 0 5px;
+            /* Jarak antar ikon */
+        }
+
+        .card .social-link:hover {
+            background-color: rgba(249, 244, 255, 0.774);
+            animation: bounce_613 0.4s linear;
+        }
+
+        @keyframes bounce_613 {
+            40% {
+                transform: scale(1.4);
+            }
+
+            60% {
+                transform: scale(0.8);
+            }
+
+            80% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+    <!-- Navbar End -->
+
+    <!-- Carousel Start -->
+    <div class="container-fluid header-carousel px-0 mb-5">
+        <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <!-- Carousel Item 1 -->
+                <div class="carousel-item active">
+                    <img class="w-100" src="/landing_assets/img/pondok_1.jpg" alt="Pondok Pesantren">
+                    <div class="carousel-caption">
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-lg-7 text-start">
+                                    <h1 class="display-1 text-white animated slideInRight mb-3">Pondok Pesantren Modern
+                                    </h1>
+                                    <p class="mb-5 animated slideInRight">Mendidik generasi muda dengan ilmu agama dan
+                                        ilmu umum yang seimbang. Kami berkomitmen untuk menciptakan lingkungan belajar
+                                        yang kondusif dan inspiratif.</p>
+                                    <a href=""
+                                        class="btn btn-primary py-3 px-5 animated slideInRight">Selengkapnya</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
-                    <div class="text-center text-sm text-gray-500 sm:text-left">
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-mt-px w-5 h-5 text-gray-400">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                            </svg>
-
-                            <a href="https://laravel.bigcartel.com" class="ml-1 underline">
-                                Shop
-                            </a>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-4 -mt-px w-5 h-5 text-gray-400">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                            </svg>
-
-                            <a href="https://github.com/sponsors/taylorotwell" class="ml-1 underline">
-                                Sponsor
-                            </a>
+                <!-- Carousel Item 2 -->
+                <div class="carousel-item">
+                    <img class="w-100" src="/landing_assets/img/pondok_2.jpg" alt="Kegiatan Santri">
+                    <div class="carousel-caption">
+                        <div class="container">
+                            <div class="row justify-content-end">
+                                <div class="col-lg-7 text-end">
+                                    <h1 class="display-1 text-white animated slideInLeft mb-3">Kegiatan Santri</h1>
+                                    <p class="mb-5 animated slideInLeft">Santri kami terlibat dalam berbagai kegiatan
+                                        yang mendukung perkembangan spiritual, intelektual, dan fisik. Mulai dari kajian
+                                        kitab kuning, olahraga, hingga kegiatan seni.</p>
+                                    <a href=""
+                                        class="btn btn-primary py-3 px-5 animated slideInLeft">Selengkapnya</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#header-carousel"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <!-- Carousel End -->
 
-                    <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+
+    <!-- About Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                    <div class="row g-0">
+                        <div class="col-6">
+                            <img class="img-fluid" src="/landing_assets/img/about-1.jpg">
+                        </div>
+                        <div class="col-6">
+                            <img class="img-fluid" src="/landing_assets/img/about-2.jpg">
+                        </div>
+                        <div class="col-6">
+                            <img class="img-fluid" src="/landing_assets/img/about-3.jpg">
+                        </div>
+                        <div class="col-6">
+                            <div
+                                class="bg-primary w-100 h-100 mt-n5 ms-n5 d-flex flex-column align-items-center justify-content-center">
+                                <div class="icon-box-light">
+                                    <i class="bi bi-award text-dark"></i>
+                                </div>
+                                <h1 class="display-1 text-white mb-0" data-toggle="counter-up">25</h1>
+                                <small class="fs-5 text-white">Years Experience</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                    <h1 class="display-6 mb-4">Trusted Lab Experts and Latest Lab Technologies</h1>
+                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus augue,
+                        iaculis id elit eget, ultrices pulvinar tortor. Quisque vel lorem porttitor, malesuada arcu
+                        quis, fringilla risus. Pellentesque eu consequat augue.</p>
+                    <div class="row g-4 g-sm-5 justify-content-center">
+                        <div class="col-sm-6">
+                            <div class="about-fact btn-square flex-column rounded-circle bg-primary ms-sm-auto">
+                                <p class="text-white mb-0">Awards Winning</p>
+                                <h1 class="text-white mb-0" data-toggle="counter-up">9999</h1>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 text-start">
+                            <div class="about-fact btn-square flex-column rounded-circle bg-secondary me-sm-auto">
+                                <p class="text-white mb-0">Complete Cases</p>
+                                <h1 class="text-white mb-0" data-toggle="counter-up">9999</h1>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="about-fact mt-n130 btn-square flex-column rounded-circle bg-dark mx-sm-auto">
+                                <p class="text-white mb-0">Happy Clients</p>
+                                <h1 class="text-white mb-0" data-toggle="counter-up">9999</h1>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+    <!-- About End -->
+
+
+    <!-- Features Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row g-0 feature-row">
+                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
+                    <div class="feature-item border h-100 p-5">
+                        <div class="icon-box-primary mb-4">
+                            <i class="bi bi-award text-dark"></i>
+                        </div>
+                        <h5 class="mb-3">Award Winning</h5>
+                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus
+                            augue.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
+                    <div class="feature-item border h-100 p-5">
+                        <div class="icon-box-primary mb-4">
+                            <i class="bi bi-people text-dark"></i>
+                        </div>
+                        <h5 class="mb-3">Expet Doctors</h5>
+                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus
+                            augue.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
+                    <div class="feature-item border h-100 p-5">
+                        <div class="icon-box-primary mb-4">
+                            <i class="bi bi-cash-coin text-dark"></i>
+                        </div>
+                        <h5 class="mb-3">Fair Prices</h5>
+                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus
+                            augue.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
+                    <div class="feature-item border h-100 p-5">
+                        <div class="icon-box-primary mb-4">
+                            <i class="bi bi-headphones text-dark"></i>
+                        </div>
+                        <h5 class="mb-3">24/7 Support</h5>
+                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus
+                            augue.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Features End -->
+
+
+    <!-- Features Start -->
+    <div class="container-fluid feature mt-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row g-0">
+                <div class="col-lg-6 pt-lg-5">
+                    <div class="bg-white p-5 mt-lg-5">
+                        <h1 class="display-6 mb-4 wow fadeIn" data-wow-delay="0.3s">The Best Medical Test & Laboratory
+                            Solution</h1>
+                        <p class="mb-4 wow fadeIn" data-wow-delay="0.4s">Lorem ipsum dolor sit amet, consectetur
+                            adipiscing elit. Curabitur tellus augue, iaculis id elit eget, ultrices pulvinar tortor.
+                            Quisque vel lorem porttitor, malesuada arcu quis, fringilla risus. Pellentesque eu consequat
+                            augue.</p>
+                        <div class="row g-5 pt-2 mb-5">
+                            <div class="col-sm-6 wow fadeIn" data-wow-delay="0.3s">
+                                <div class="icon-box-primary mb-4">
+                                    <i class="bi bi-person-plus text-dark"></i>
+                                </div>
+                                <h5 class="mb-3">Experience Doctors</h5>
+                                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                            </div>
+                            <div class="col-sm-6 wow fadeIn" data-wow-delay="0.4s">
+                                <div class="icon-box-primary mb-4">
+                                    <i class="bi bi-check-all text-dark"></i>
+                                </div>
+                                <h5 class="mb-3">Advanced Microscopy</h5>
+                                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                            </div>
+                        </div>
+                        <a class="btn btn-primary py-3 px-5 wow fadeIn" data-wow-delay="0.5s" href="">Explore
+                            More</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row h-100 align-items-end">
+                        <div class="col-12 wow fadeIn" data-wow-delay="0.3s">
+                            <div class="d-flex align-items-center justify-content-center" style="min-height: 300px;">
+                                <button type="button" class="btn-play" data-bs-toggle="modal"
+                                    data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">
+                                    <span></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="bg-primary p-5">
+                                <div class="experience mb-4 wow fadeIn" data-wow-delay="0.3s">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-white">Sample Preparation</span>
+                                        <span class="text-white">90%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-dark" role="progressbar" aria-valuenow="90"
+                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <div class="experience mb-4 wow fadeIn" data-wow-delay="0.4s">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-white">Result Accuracy</span>
+                                        <span class="text-white">95%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-dark" role="progressbar" aria-valuenow="95"
+                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <div class="experience mb-0 wow fadeIn" data-wow-delay="0.5s">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-white">Lab Equipments</span>
+                                        <span class="text-white">90%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-dark" role="progressbar" aria-valuenow="90"
+                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Features End -->
+
+
+    <!-- Video Modal Start -->
+    <div class="modal modal-video fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLabel">Youtube Video</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- 16:9 aspect ratio -->
+                    <div class="ratio ratio-16x9">
+                        <iframe class="embed-responsive-item" src="" id="video" allowfullscreen
+                            allowscriptaccess="always" allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Video Modal End -->
+
+
+    <!-- Service Start -->
+    <div class="container-fluid container-service py-5">
+        <div class="container pt-5">
+            <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <h1 class="display-6 mb-3">Reliable & High-Quality Laboratory Service</h1>
+                <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus augue,
+                    iaculis
+                    id elit eget, ultrices pulvinar tortor.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item">
+                        <div class="icon-box-primary mb-4">
+                            <i class="bi bi-heart-pulse text-dark"></i>
+                        </div>
+                        <h5 class="mb-3">Pathology Testing</h4>
+                            <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus
+                                augue.</p>
+                            <a class="btn btn-light px-3" href="">Read More<i
+                                    class="bi bi-chevron-double-right ms-1"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="service-item">
+                        <div class="icon-box-primary mb-4">
+                            <i class="bi bi-lungs text-dark"></i>
+                        </div>
+                        <h5 class="mb-3">Microbiology Tests</h4>
+                            <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus
+                                augue.</p>
+                            <a class="btn btn-light px-3" href="">Read More<i
+                                    class="bi bi-chevron-double-right ms-1"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="service-item">
+                        <div class="icon-box-primary mb-4">
+                            <i class="bi bi-virus text-dark"></i>
+                        </div>
+                        <h5 class="mb-3">Biochemistry Tests</h4>
+                            <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus
+                                augue.</p>
+                            <a class="btn btn-light px-3" href="">Read More<i
+                                    class="bi bi-chevron-double-right ms-1"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="service-item">
+                        <div class="icon-box-primary mb-4">
+                            <i class="bi bi-capsule-pill text-dark"></i>
+                        </div>
+                        <h5 class="mb-3">Histopatology Tests</h4>
+                            <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus
+                                augue.</p>
+                            <a class="btn btn-light px-3" href="">Read More<i
+                                    class="bi bi-chevron-double-right ms-1"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item">
+                        <div class="icon-box-primary mb-4">
+                            <i class="bi bi-capsule text-dark"></i>
+                        </div>
+                        <h5 class="mb-3">Urine Tests</h4>
+                            <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus
+                                augue.</p>
+                            <a class="btn btn-light px-3" href="">Read More<i
+                                    class="bi bi-chevron-double-right ms-1"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="service-item">
+                        <div class="icon-box-primary mb-4">
+                            <i class="bi bi-prescription2 text-dark"></i>
+                        </div>
+                        <h5 class="mb-3">Blood Tests</h4>
+                            <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus
+                                augue.</p>
+                            <a class="btn btn-light px-3" href="">Read More<i
+                                    class="bi bi-chevron-double-right ms-1"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="service-item">
+                        <div class="icon-box-primary mb-4">
+                            <i class="bi bi-clipboard2-pulse text-dark"></i>
+                        </div>
+                        <h5 class="mb-3">Fever Tests</h4>
+                            <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus
+                                augue.</p>
+                            <a class="btn btn-light px-3" href="">Read More<i
+                                    class="bi bi-chevron-double-right ms-1"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="service-item">
+                        <div class="icon-box-primary mb-4">
+                            <i class="bi bi-file-medical text-dark"></i>
+                        </div>
+                        <h5 class="mb-3">Allergy Tests</h4>
+                            <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus
+                                augue.</p>
+                            <a class="btn btn-light px-3" href="">Read More<i
+                                    class="bi bi-chevron-double-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->
+
+
+    <!-- Appoinment Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <h1 class="display-6 mb-4">We Ensure You Will Always Get The Best Result</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus augue, iaculis id elit
+                        eget, ultrices pulvinar tortor. Quisque vel lorem porttitor, malesuada arcu quis, fringilla
+                        risus. Pellentesque eu consequat augue.</p>
+                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus augue,
+                        iaculis id elit eget, ultrices pulvinar tortor.</p>
+                    <div class="d-flex align-items-start wow fadeIn" data-wow-delay="0.3s">
+                        <div class="icon-box-primary">
+                            <i class="bi bi-geo-alt text-dark fs-1"></i>
+                        </div>
+                        <div class="ms-3">
+                            <h5>Office Address</h5>
+                            <span>123 Street, New York, USA</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex align-items-start wow fadeIn" data-wow-delay="0.4s">
+                        <div class="icon-box-primary">
+                            <i class="bi bi-clock text-dark fs-1"></i>
+                        </div>
+                        <div class="ms-3">
+                            <h5>Office Time</h5>
+                            <span>Mon-Sat 09am-5pm, Sun Closed</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <h2 class="mb-4">Online Appoinment</h2>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                <label for="name">Your Name</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-floating">
+                                <input type="email" class="form-control" id="mail" placeholder="Your Email">
+                                <label for="mail">Your Email</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="mobile" placeholder="Your Mobile">
+                                <label for="mobile">Your Mobile</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-floating">
+                                <select class="form-select" id="service">
+                                    <option selected>Pathology Testing</option>
+                                    <option value="">Microbiology Tests</option>
+                                    <option value="">Biochemistry Tests</option>
+                                    <option value="">Histopatology Tests</option>
+                                </select>
+                                <label for="service">Choose A Service</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 130px"></textarea>
+                                <label for="message">Message</label>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center">
+                            <button class="btn btn-primary w-100 py-3" type="submit">Submit Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Appoinment Start -->
+
+
+    <!-- Team Start -->
+    <div class="container-fluid container-team py-5">
+        <div class="container pb-5">
+            <div class="row g-5 align-items-center mb-5">
+                <div class="col-md-6 wow fadeIn" data-wow-delay="0.3s">
+                    <img class="img-fluid w-100" src="/landing_assets/img/team-1.jpg" alt="">
+                </div>
+                <div class="col-md-6 wow fadeIn" data-wow-delay="0.5s">
+                    <h1 class="display-6 mb-3">Dr. John Martin</h1>
+                    <p class="mb-1">CEO & Founder</p>
+                    <p class="mb-5">Labsky, New York, USA</p>
+                    <h3 class="mb-3">Biography</h3>
+                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus augue,
+                        iaculis id elit eget, ultrices pulvinar tortor. Quisque vel lorem porttitor, malesuada arcu
+                        quis, fringilla risus. Pellentesque eu consequat augue.</p>
+                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus augue,
+                        iaculis id elit eget, ultrices pulvinar tortor. Quisque vel lorem porttitor, malesuada arcu
+                        quis, fringilla risus. Pellentesque eu consequat augue.</p>
+                    <div class="d-flex">
+                        <a class="btn btn-lg-square btn-primary me-2" href=""><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-lg-square btn-primary me-2" href=""><i
+                                class="fab fa-twitter"></i></a>
+                        <a class="btn btn-lg-square btn-primary me-2" href=""><i
+                                class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-lg-square btn-primary me-2" href=""><i
+                                class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="team-item">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="/landing_assets/img/team-2.jpg" alt="">
+                            <div class="team-social">
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-linkedin-in"></i></a>
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-1">Alex Robin</h5>
+                            <span>Lab Assistant</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="team-item">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="/landing_assets/img/team-3.jpg" alt="">
+                            <div class="team-social">
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-linkedin-in"></i></a>
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-1">Andrew Bon</h5>
+                            <span>Lab Assistant</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="team-item">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="/landing_assets/img/team-4.jpg" alt="">
+                            <div class="team-social">
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-linkedin-in"></i></a>
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-1">Martin Tompson</h5>
+                            <span>Lab Assistant</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="team-item">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="/landing_assets/img/team-5.jpg" alt="">
+                            <div class="team-social">
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-linkedin-in"></i></a>
+                                <a class="btn btn-square btn-light mx-1" href=""><i
+                                        class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-1">Clarabelle Samber</h5>
+                            <span>Lab Assistant</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Team End -->
+
+
+    <!-- Testimonial Start -->
+    <div class="container-fluid testimonial py-5">
+        <div class="container pt-5">
+            <div class="row gy-5 gx-0">
+                <div class="col-lg-6 pe-lg-5 wow fadeIn" data-wow-delay="0.3s">
+                    <h1 class="display-6 text-white mb-4">What Clients Say About Our Lab Services!</h1>
+                    <p class="text-white mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+                        tellus
+                        augue, iaculis id elit eget, ultrices pulvinar tortor.</p>
+                    <a href="" class="btn btn-primary py-3 px-5">More Testimonials</a>
+                </div>
+                <div class="col-lg-6 mb-n5 wow fadeIn" data-wow-delay="0.5s">
+                    <div class="bg-white p-5">
+                        <div class="owl-carousel testimonial-carousel wow fadeIn" data-wow-delay="0.1s">
+                            <div class="testimonial-item">
+                                <div class="icon-box-primary mb-4">
+                                    <i class="bi bi-chat-left-quote text-dark"></i>
+                                </div>
+                                <p class="fs-5 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+                                    tellus augue, iaculis id elit eget, ultrices pulvinar tortor. Quisque vel lorem
+                                    porttitor, malesuada arcu quis, fringilla risus. Pellentesque eu consequat augue.
+                                </p>
+                                <div class="d-flex align-items-center">
+                                    <img class="flex-shrink-0" src="/landing_assets/img/testimonial-1.jpg"
+                                        alt="">
+                                    <div class="ps-3">
+                                        <h5 class="mb-1">Client Name</h5>
+                                        <span class="text-primary">Profession</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="testimonial-item">
+                                <div class="icon-box-primary mb-4">
+                                    <i class="bi bi-chat-left-quote text-dark"></i>
+                                </div>
+                                <p class="fs-5 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+                                    tellus augue, iaculis id elit eget, ultrices pulvinar tortor. Quisque vel lorem
+                                    porttitor, malesuada arcu quis, fringilla risus. Pellentesque eu consequat augue.
+                                </p>
+                                <div class="d-flex align-items-center">
+                                    <img class="flex-shrink-0" src="/landing_assets/img/testimonial-2.jpg"
+                                        alt="">
+                                    <div class="ps-3">
+                                        <h5 class="mb-1">Client Name</h5>
+                                        <span class="text-primary">Profession</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Testimonial End -->
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid footer position-relative bg-dark text-white-50 py-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row g-5 py-5">
+                <div class="col-lg-6 pe-lg-5">
+                    <a href="index.html" class="navbar-brand">
+                        <h1 class="h1 text-primary mb-0">Lab<span class="text-white">sky</span></h1>
+                    </a>
+                    <p class="fs-5 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus
+                        augue, iaculis id elit eget, ultrices pulvinar tortor.</p>
+                    <p><i class="fa fa-map-marker-alt me-2"></i>123 Street, New York, USA</p>
+                    <p><i class="fa fa-phone-alt me-2"></i>+012 345 67890</p>
+                    <p><i class="fa fa-envelope me-2"></i>info@example.com</p>
+                    <div class="d-flex mt-4">
+                        <a class="btn btn-lg-square btn-primary me-2" href="#"><i
+                                class="fab fa-twitter"></i></a>
+                        <a class="btn btn-lg-square btn-primary me-2" href="#"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-lg-square btn-primary me-2" href="#"><i
+                                class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-lg-square btn-primary me-2" href="#"><i
+                                class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-6 ps-lg-5">
+                    <div class="row g-5">
+                        <div class="col-sm-6">
+                            <h4 class="text-light mb-4">Quick Links</h4>
+                            <a class="btn btn-link" href="">About Us</a>
+                            <a class="btn btn-link" href="">Contact Us</a>
+                            <a class="btn btn-link" href="">Our Services</a>
+                            <a class="btn btn-link" href="">Terms & Condition</a>
+                            <a class="btn btn-link" href="">Support</a>
+                        </div>
+                        <div class="col-sm-6">
+                            <h4 class="text-light mb-4">Popular Links</h4>
+                            <a class="btn btn-link" href="">About Us</a>
+                            <a class="btn btn-link" href="">Contact Us</a>
+                            <a class="btn btn-link" href="">Our Services</a>
+                            <a class="btn btn-link" href="">Terms & Condition</a>
+                            <a class="btn btn-link" href="">Support</a>
+                        </div>
+                        <div class="col-sm-12">
+                            <h4 class="text-light mb-4">Newsletter</h4>
+                            <div class="w-100">
+                                <div class="input-group">
+                                    <input type="text" class="form-control border-0 py-3 px-4"
+                                        style="background: rgba(255, 255, 255, .1);"
+                                        placeholder="Your Email Address"><button class="btn btn-primary px-4">Sign
+                                        Up</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Copyright Start -->
+    <div class="container-fluid copyright bg-dark text-white-50 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; <a href="#">Your Site Name</a>. All Rights Reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    <p class="mb-0">Designed by <a href="https://htmlcodex.com">HTML Codex</a><br>Distributed by <a
+                            href="https://themewagon.com">ThemeWagon</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
+            class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/landing_assets/lib/wow/wow.min.js"></script>
+    <script src="/landing_assets/lib/easing/easing.min.js"></script>
+    <script src="/landing_assets/lib/waypoints/waypoints.min.js"></script>
+    <script src="/landing_assets/lib/counterup/counterup.min.js"></script>
+    <script src="/landing_assets/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/landing_assets/js/main.js"></script>
+</body>
+
 </html>

@@ -84,10 +84,12 @@ class AuthController extends Controller
      */
     public function dashboard(Request $request)
     {
+        // Pastikan variabel diinisialisasi sebagai null
         $Guru = "";
         $Santri = "";
 
         if (Auth::check()) {
+            // Cek role user yang sedang login
             if (Auth::user()->hasRole('Guru')) {
                 $Guru = Guru::where('email', auth()->user()->email)->first();
             } elseif (Auth::user()->hasRole('Santri')) {
@@ -107,6 +109,7 @@ class AuthController extends Controller
             }
             $hitung_santri_byfilter = $query->count();
 
+            // Statistik pendaftaran
             $jumlah_santri_mendaftar_tahun_ini = Santri::whereYear('created_at', Carbon::now()->year)->count();
             $jumlah_santri_yang_sudah_disetujui = Pendaftaran::where('status', 'disetujui')->count();
             $jumlah_santri_yang_menunggu_disetujui = Pendaftaran::where('status', 'proses')->count();

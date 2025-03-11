@@ -66,7 +66,7 @@
                                                 </div>
                                                 <div class="detail-content">
                                                     <span style="font-size: 0.8rem;">NIP</span>
-                                                    <h5 style="font-size: 0.9rem;">{{ $Guru->nip }}</h5>
+                                                    <h5 style="font-size: 0.9rem;">{{ $Guru->nip ?? "" }}</h5>
                                                 </div>
                                             </div>
                                     @endif
@@ -78,7 +78,7 @@
                                             </div>
                                             <div class="detail-content">
                                                 <span style="font-size: 0.8rem;">No. Telpon</span>
-                                                <h5 style="font-size: 0.9rem;">{{ $Guru->no_telpon }}</h5>
+                                                <h5 style="font-size: 0.9rem;">{{ $Guru->no_telpon ?? "" }}</h5>
                                             </div>
                                         </div>
                                     @endif
@@ -91,7 +91,7 @@
                                                 </div>
                                                 <div class="detail-content">
                                                     <span style="font-size: 0.8rem;">Status Guru</span>
-                                                    <h5 style="font-size: 0.9rem;">{{ $Guru->status_guru }}</h5>
+                                                    <h5 style="font-size: 0.9rem;">{{ $Guru->status_guru ?? "" }}</h5>
                                                 </div>
                                             </div>
                                     @endif
@@ -105,7 +105,7 @@
                                                 </div>
                                                 <div class="detail-content">
                                                     <span style="font-size: 0.8rem;">NIK</span>
-                                                    <h5 style="font-size: 0.9rem;">{{ $Santri->nik }}</h5>
+                                                    <h5 style="font-size: 0.9rem;">{{ $Santri->nik ?? "" }}</h5>
                                                 </div>
                                             </div>
                                     @endif
@@ -117,7 +117,7 @@
                                             </div>
                                             <div class="detail-content">
                                                 <span style="font-size: 0.8rem;">NISN</span>
-                                                <h5 style="font-size: 0.9rem;">{{ $Santri->nisn }}</h5>
+                                                <h5 style="font-size: 0.9rem;">{{ $Santri->nisn ?? "" }}</h5>
                                             </div>
                                         </div>
                                     @endif
@@ -130,7 +130,7 @@
                                                 </div>
                                                 <div class="detail-content">
                                                     <span style="font-size: 0.8rem;">Jenjang Pendidikan</span>
-                                                    <h5 style="font-size: 0.9rem;">{{ $Santri->jenjang_pendidikan }}</h5>
+                                                    <h5 style="font-size: 0.9rem;">{{ $Santri->jenjang_pendidikan ?? "" }}</h5>
                                                 </div>
                                             </div>
                                     @endif

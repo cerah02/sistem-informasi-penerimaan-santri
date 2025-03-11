@@ -53,7 +53,8 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Confirm Password:</strong>
-                            <input type="text" name="confirm-password" class="form-control" placeholder="Ulangi Password">
+                            <input type="text" name="confirm-password" class="form-control"
+                                placeholder="Ulangi Password">
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
