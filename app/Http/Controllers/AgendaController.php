@@ -16,7 +16,7 @@ class AgendaController extends Controller
     function __construct()
     {
         $this->middleware(
-            'permission:agenda-list|agenda-create|bantuan-edit|bantuan-delete',
+            'permission:agenda-list|agenda-create|agenda-edit|agenda-delete',
             ['only' => ['index', 'store']]
         );
         $this->middleware('permission:agenda-create', ['only' => ['create', 'store']]);

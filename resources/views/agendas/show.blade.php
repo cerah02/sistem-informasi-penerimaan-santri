@@ -3,48 +3,48 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="text-center">
-                <h2> Data Guru-Guru</h2>
+                <h2> Data Agenda</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('gurus.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('fasilitas.index') }}"> Back</a>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Nama :</strong>
-                {{ $guru->nama }}
+                <strong>Nama Agenda :</strong>
+                {{ $fasilita->nama_agenda }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Jenis Kelamin :</strong>
-                {{ $guru->jenis_kelamin }}
+                <strong>Jam Agenda :</strong>
+                {{ $fasilita->jam_agenda }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Alamat :</strong>
-                {{ $guru->alamat }}
+                <strong>Tanggal Agenda :</strong>
+                {{ $fasilita->tanggal_agenda }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>NIP :</strong>
-                {{ $guru->nip}}
+                <strong>Tempat Agenda :</strong>
+                {{ $fasilita->tempat_agenda}}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Email :</strong>
-                {{ $guru->email }}
+                <strong>Status Agenda :</strong>
+                {{ $fasilita->status_agenda }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Status Guru :</strong>
-                {{ $guru->status_guru }}
+                <strong> Foto Agenda :</strong>
+                {{ $fasilita->foto_agenda }}
             </div>
         </div>
     </div>

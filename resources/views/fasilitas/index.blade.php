@@ -3,11 +3,11 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Daftar Data Agenda</h2>
+                <h2>Daftar Data Guru</h2>
             </div>
-            @can('agenda-create')
+            @can('guru-create')
                 <div class="pull-right mb-2">
-                    <a class="btn btn-success" href="{{ route('agendas.create') }}"> Tambahkan Data Agenda</a>
+                    <a class="btn btn-success" href="{{ route('gurus.create') }}"> Tambahkan Data Guru</a>
 
                 </div>
             @endcan
@@ -34,12 +34,8 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama Agenda</th>
-                            <th>Jam Agenda</th>
-                            <th>Tanggal Agenda</th>
-                            <th>Tempat Agenda</th>
-                            <th>Status Agenda</th>
-                            <th>Foto Agenda</th>
+                            <th>Nama Fasilitas</th>>
+                            <th>Foto Fasilitas</th>
                             <th width="280px">Aksi</th>
                         </tr>
                     </thead>
@@ -56,34 +52,18 @@
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('agendas.index') }}",
+                ajax: "{{ route('gurus.index') }}",
                 columns: [{
                         data: 'id',
                         name: 'id'
                     },
                     {
-                        data: 'nama_agenda',
-                        name: 'nama_agenda'
+                        data: 'nama_fasilitas',
+                        name: 'nama_fasilitas'
                     },
                     {
-                        data: 'jam_agenda',
-                        name: 'jam_agenda'
-                    },
-                    {
-                        data: 'tanggal_agenda',
-                        name: 'tanggal_agenda'
-                    },
-                    {
-                        data: 'tempat_agenda',
-                        name: 'tempat_agenda'
-                    },
-                    {
-                        data: 'status_agenda',
-                        name: 'status_agenda'
-                    },
-                    {
-                        data: 'foto_agenda',
-                        name: 'foto_agenda'
+                        data: 'foto_fasilitas',
+                        name: 'foto_fasilitas'
                     },
                     {
                         data: 'aksi',
