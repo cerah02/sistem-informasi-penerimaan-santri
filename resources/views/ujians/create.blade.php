@@ -41,14 +41,9 @@
                         <div class="form-group">
                             <strong>Jenjang Pendidikan:</strong><br>
                             <label>
-                                <input type="radio" name="jenjang_pendidikan" value="SD" required> SD
+                                <input type="text" name="jenjang_pendidikan" value="{{$jenjang}}" required readonly>
                             </label><br>
-                            <label>
-                                <input type="radio" name="jenjang_pendidikan" value="MTS" required> MTS
-                            </label><br>
-                            <label>
-                                <input type="radio" name="jenjang_pendidikan" value="MA" required> MA
-                            </label>
+                           
                         </div>
                     </div>            
                     <div class="col-md-12">

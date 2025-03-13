@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Soal;
 use App\Models\Ujian;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -31,49 +32,77 @@ class UjianController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
+    public function index_buat_soal($jenjang)
+    {
+        $ujians = Ujian::where('jenjang_pendidikan', strtoupper($jenjang))->get();
+        // dd($ujians);
+
+        return view('ujians.buat_soal', compact('ujians','jenjang'));
+    }
+
+    // public function indexMTS()
+    // {
+    //     $ujians = Ujian::where('jenjang', 'MTS')->get();
+    //     return view('ujians.index', compact('ujians'));
+    // }
+
+    // public function indexMA()
+    // {
+    //     $ujians = Ujian::where('jenjang', 'MA')->get();
+    //     return view('ujians.index', compact('ujians'));
+    // }
+
     public function index(Request $request)
     {
-        if ($request->ajax()){
-            $query_data = new ujian();
+        // if ($request->ajax()){
+        //     $query_data = new ujian();
 
-            if($request->sSearch){
-                $search_value ='%'.$request->sSearch.'%';
-                $query_data=$query_data->where(function($query)use ($search_value) {
-                    $query->where('nama_ujian','like', $search_value)
-                    ->orwhere('kategori','like', $search_value)
-                    ->orwhere('jenjang_pendidikan','like', $search_value);
-                });
-            }
-            $data = $query_data->orderBy('nama_ujian','asc')->get();
-            return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('aksi', function ($row) {
-                $btn = '';
-            
-                
-                if (auth()->user()->can('ujian-show')) {
-                    $btn .= '<a class="btn btn-info" href="' . route('ujians.show', $row->id) . '">Show</a> ';
-                }
-            
-            
-                if (auth()->user()->can('ujian-edit')) {
-                    $btn .= '<a class="btn btn-primary" href="' . route('ujians.edit', $row->id) . '">Edit</a> ';
-                }
-            
-                if (auth()->user()->can('ujian-delete')) {
-                    $btn .= '
-                    <form action="' . route('ujians.destroy', $row->id) . '" method="POST" style="display:inline;">
-                        ' . csrf_field() . method_field('DELETE') . '
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>';
-                }
-            
-                return $btn;
-            })
-            ->rawColumns(['aksi'])
-            ->make(true);
-        }
-        return view('ujians.index');
+        //     if($request->sSearch){
+        //         $search_value ='%'.$request->sSearch.'%';
+        //         $query_data=$query_data->where(function($query)use ($search_value) {
+        //             $query->where('nama_ujian','like', $search_value)
+        //             ->orwhere('kategori','like', $search_value)
+        //             ->orwhere('jenjang_pendidikan','like', $search_value);
+        //         });
+        //     }
+        //     $data = $query_data->orderBy('nama_ujian','asc')->get();
+        //     return DataTables::of($data)
+        //     ->addIndexColumn()
+        //     ->addColumn('aksi', function ($row) {
+        //         $btn = '';
+
+
+        //         if (auth()->user()->can('ujian-show')) {
+        //             $btn .= '<a class="btn btn-info" href="' . route('ujians.show', $row->id) . '">Show</a> ';
+        //         }
+
+
+        //         if (auth()->user()->can('ujian-edit')) {
+        //             $btn .= '<a class="btn btn-primary" href="' . route('ujians.edit', $row->id) . '">Edit</a> ';
+        //         }
+
+        //         if (auth()->user()->can('ujian-delete')) {
+        //             $btn .= '
+        //             <form action="' . route('ujians.destroy', $row->id) . '" method="POST" style="display:inline;">
+        //                 ' . csrf_field() . method_field('DELETE') . '
+        //                 <button type="submit" class="btn btn-danger">Hapus</button>
+        //             </form>';
+        //         }
+
+        //         return $btn;
+        //     })
+        //     ->rawColumns(['aksi'])
+        //     ->make(true);
+        // }
+
+        $jenjang = [
+            "SD",
+            "MTS",
+            "MA"
+        ];
+
+
+        return view('ujians.index', compact('jenjang'));
     }
 
     /**
@@ -81,10 +110,10 @@ class UjianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($jenjang)
     {
-        //
-        return view('ujians.create');
+        
+        return view('ujians.create',compact('jenjang'));
     }
 
     /**
@@ -99,7 +128,7 @@ class UjianController extends Controller
         $request->validate([
             'nama_ujian' => 'required',
             'kategori' => 'required',
-            'jenjang_pendidikan' =>'required',
+            'jenjang_pendidikan' => 'required',
             'tanggal_mulai' => 'required',
             'tanggal_selesai' => 'required',
             'durasi' => 'required',
@@ -150,7 +179,7 @@ class UjianController extends Controller
         $request->validate([
             'nama_ujian' => 'required',
             'kategori' => 'required',
-            'jenjang_pendidikan' =>'required',
+            'jenjang_pendidikan' => 'required',
             'tanggal_mulai' => 'required',
             'tanggal_selesai' => 'required',
             'durasi' => 'required',
@@ -160,6 +189,12 @@ class UjianController extends Controller
         $ujian->update($request->all());
         return redirect()->route('ujians.index')
             ->with('success', 'Data Ujian Berhasil Diupdate');
+    }
+
+    public function form_buat_soal($id){    
+        $ujian = Ujian::where('id','=',$id)->first();
+        return view('soals.index',compact('ujian','id'));
+
     }
 
     /**

@@ -26,7 +26,7 @@
     <!-- Card sebagai Latar Belakang Tabel -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Tabel Data Guru</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Tabel Data Agenda</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -34,15 +34,12 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama</th>
-                            <th>NIP</th>
-                            <th>Jenis Kelamin</th>
-                            <th>Tempat Tanggal Lahir</th>
-                            <th>Alamat</th>
-                            <th>Nomor Telepon</th>
-                            <th>Email</th>
-                            <th>Foto</th>
-                            <th>Status Guru</th>
+                            <th>Nama Agenda</th>
+                            <th>Jam Agenda</th>
+                            <th>Tanggal Agenda</th>
+                            <th>Tempat Agenda</th>
+                            <th>Status Agenda</th>
+                            <th>Foto Agenda</th>
                             <th width="280px">Aksi</th>
                         </tr>
                     </thead>
@@ -65,36 +62,36 @@
                         name: 'id'
                     },
                     {
-                        data: 'nama',
-                        name: 'nama'
+                        data: 'nama_agenda',
+                        name: 'nama_agenda'
                     },
                     {
-                        data: 'nip',
-                        name: 'nip'
+                        data: 'jam_agenda',
+                        name: 'jam_agenda'
                     },
                     {
-                        data: 'jenis_kelamin',
-                        name: 'jenis_kelamin'
+                        data: 'tanggal_agenda',
+                        name: 'tanggal_agenda'
                     },
                     {
-                        data: 'ttl',
-                        name: 'ttl'
+                        data: 'tempat_agenda',
+                        name: 'tempat_agenda'
                     },
                     {
-                        data: 'alamat',
-                        name: 'alamat'
+                        data: 'status_agenda',
+                        name: 'status_agenda'
                     },
                     {
-                        data: 'no_telpon',
-                        name: 'no_telpon'
+                        data: 'foto_agenda',
+                        name: 'foto_agenda'
                     },
                     {
                         data: 'email',
                         name: 'email'
                     },
                     {
-                        data: 'foto',
-                        name: 'foto'
+                        data: 'guru_image',
+                        name: 'guru_image'
                     },
                     {
                         data: 'status_guru',

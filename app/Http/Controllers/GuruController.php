@@ -69,7 +69,7 @@ class GuruController extends Controller
             
                 return $btn;
             })
-            ->rawColumns(['aksi','guru_image'])
+            ->rawColumns(['aksi','foto'])
             ->make(true);
         }
         return view('gurus.index');

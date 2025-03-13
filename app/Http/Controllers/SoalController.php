@@ -33,7 +33,7 @@ class SoalController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
-    public function index(Request $request)
+    public function index(Request $request,$id)
     {
         if ($request->ajax()) {
             $query_data = new soal();
@@ -44,7 +44,7 @@ class SoalController extends Controller
                     $query->where('ujian_id', 'like', $search_value);
                 });
             }
-            $data = $query_data->orderBy('ujian_id', 'asc')->get();
+            $data = $query_data->where('ujian_id','=',$id)->orderBy('ujian_id', 'asc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($row) {

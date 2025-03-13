@@ -44,6 +44,11 @@ Route::resource('roles',RoleController::class);
 Route::resource('users',UserController::class);
 Route::get('edit-profile', [AuthController::class,'edit_profile'])->name('edit_profile');
 Route::post('update-profile', [AuthController::class, 'update_profile'])->name('update_profile');
+Route::get('/ujian/{jenjang}', [UjianController::class, 'index_buat_soal'])->name('ujians.sd');
+Route::get('form-buat-soal/{id}',[UjianController::class,'form_buat_soal'])->name('form_buat_soal');
+Route::get('soals_get/{id}',[SoalController::class,'index'])->name('soals_get');
+Route::get('/ujians/create/{jenjang}', [UjianController::class, 'create'])->name('ujians_create');
+
 
 
 /*

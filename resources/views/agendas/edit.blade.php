@@ -3,10 +3,10 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="text-center">
-                <h2>Form Data Guru</h2>
+                <h2>Edit Data Agenda</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('gurus.index') }}"> Kembali</a>
+                <a class="btn btn-primary" href="{{ route('agendas.index') }}"> Kembali</a>
             </div>
         </div>
     </div>
@@ -22,50 +22,44 @@
         </div>
     @endif
 
-    <form action="{{ route('gurus.update',$guru->id) }}" method="POST">
+    <form action="{{ route('agendas.update',$agenda->id) }}" method="POST">
         @csrf
         @method("PUT")
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Nama:</strong>
-                    <input type="text" name="nama" value="{{$guru->nama}}" class="form-control" placeholder="Nama">
+                    <strong>Nama Agenda:</strong>
+                    <input type="text" name="nama_agenda" value="{{$agenda->nama_agenda}}" class="form-control" placeholder="Nama Agenda">
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Jenis Kelamin:</strong>
-                    <input type="text" name="jenis_kelamin" value="{{$guru->jenis_kelamin}}" class="form-control" placeholder="Jenis Kelamin">
+                    <strong>Jam Agenda:</strong>
+                    <input type="time" name="jam_agenda" value="{{$agenda->jam_agenda}}" class="form-control" placeholder="jam Agenda">
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Alamat:</strong>
-                    <input type="text" name="alamat" value="{{$guru->alamat}}" class="form-control" placeholder="Alamat">
+                    <strong>Tanggal Agenda:</strong>
+                    <input type="date" name="tanggal_agenda" value="{{$agenda->tanggal_agenda}}" class="form-control" placeholder="Tanggal Agenda">
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>NIP:</strong>
-                    <input type="text" name="nip" value="{{$guru->nip}}" class="form-control" placeholder="NIP">
+                    <strong>Tempat Agenda:</strong>
+                    <input type="text" name="tempat_agenda" value="{{$agenda->tempat_agenda}}" class="form-control" placeholder="Tempat Agenda">
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Email:</strong>
-                    <input type="text" name="email" value="{{$guru->email}}" class="form-control" placeholder="Email">
+                    <strong>Status Agenda:</strong>
+                    <input type="text" name="status_agenda" value="{{$agenda->status_agenda}}" class="form-control" placeholder="Status Agenda">
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Status Guru:</strong>
-                    <input type="text" name="status_guru" value="{{$guru->status_guru}}" class="form-control" placeholder="Status Guru">
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="form-group">
-                    <strong>Foto Guru:</strong>
-                    <input type="file" name="foto" value="{{$guru->foto}}" class="form-control" placeholder="Foto Guru">
+                    <strong>Foto agenda:</strong>
+                    <input type="file" name="foto_agenda" value="{{$agenda->foto_agenda}}" class="form-control" placeholder="Foto Agenda">
                 </div>
             </div>
             <div class="col-md-12 text-center">

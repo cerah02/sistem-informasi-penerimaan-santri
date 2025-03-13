@@ -19,6 +19,8 @@
         </div>
     @endif
 
+    <input type="hidden" value="{{ $id }}" id="id">
+
     <!-- Card untuk tabel -->
     <div class="card">
         <div class="card-header">
@@ -51,53 +53,25 @@
 
     <script type="text/javascript">
         $(function() {
+            const id_parsing = $('#id').val();
+            console.log(id_parsing);
+            
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('soals.index') }}",
+                ajax: "{{ url('soals_get') }}/" + id_parsing,
                 scrollX: true, // Tambahkan opsi scrollX
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'ujian_id',
-                        name: 'ujian_id'
-                    },
-                    {
-                        data: 'pertanyaan',
-                        name: 'pertanyaan'
-                    },
-                    {
-                        data: 'jawaban_a',
-                        name: 'jawaban_a'
-                    },
-                    {
-                        data: 'jawaban_b',
-                        name: 'jawaban_b'
-                    },
-                    {
-                        data: 'jawaban_c',
-                        name: 'jawaban_c'
-                    },
-                    {
-                        data: 'jawaban_d',
-                        name: 'jawaban_d'
-                    },
-                    {
-                        data: 'jawaban_e',
-                        name: 'jawaban_e'
-                    },
-                    {
-                        data: 'jawaban_benar',
-                        name: 'jawaban_benar'
-                    },
-                    {
-                        data: 'aksi',
-                        name: 'aksi',
-                        orderable: false,
-                        searchable: false
-                    },
+                columns: [
+                    { data: 'id', name: 'id' },
+                    { data: 'ujian_id', name: 'ujian_id' },
+                    { data: 'pertanyaan', name: 'pertanyaan' },
+                    { data: 'jawaban_a', name: 'jawaban_a' },
+                    { data: 'jawaban_b', name: 'jawaban_b' },
+                    { data: 'jawaban_c', name: 'jawaban_c' },
+                    { data: 'jawaban_d', name: 'jawaban_d' },
+                    { data: 'jawaban_e', name: 'jawaban_e' },
+                    { data: 'jawaban_benar', name: 'jawaban_benar' },
+                    { data: 'aksi', name: 'aksi', orderable: false, searchable: false },
                 ]
             });
         });
