@@ -1,68 +1,44 @@
-@extends('soals.layout')
+@extends('layout')
 @section('content')
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="text-center">
-                <h2> Data Soal</h2>
-            </div>
-            <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('soals.index') }}"> Back</a>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Ujian Id :</strong>
-                {{ $soal->ujian_id}}
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Pertanyaan:</strong>
-                {{ $soal->pertanyaan }}
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Pertanyaan:</strong>
-                {{ $soal->pertanyaan }}
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Jawabann A:</strong>
-                {{ $soal->jawaban_a }}
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Jawaban B:</strong>
-                {{ $soal->jawaban_b }}
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Jawaban C:</strong>
-                {{ $soal->jawaban_c }}
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Jawaban D:</strong>
-                {{ $soal->jawaban_d }}
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Jawaban E:</strong>
-                {{ $soal->jawaban_e }}
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Jawaban Yang Benar:</strong>
-                {{ $soal->jawaban_benar }}
+    <div class="row mt-3">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header text-center bg-primary text-white">
+                    <h2>Data Soal</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3 text-end">
+                        <a class="btn btn-secondary" href="{{ route('soals_get',$soal->ujian_id) }}">Back</a>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Pertanyaan:</strong>
+                        <p class="form-control-plaintext border rounded p-1">{{ $soal->pertanyaan }}</p>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Jawaban A:</strong>
+                        <p class="form-control-plaintext border rounded p-1">{{ $soal->jawaban_a }}</p>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Jawaban B:</strong>
+                        <p class="form-control-plaintext border rounded p-1">{{ $soal->jawaban_b }}</p>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Jawaban C:</strong>
+                        <p class="form-control-plaintext border rounded p-1">{{ $soal->jawaban_c }}</p>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Jawaban D:</strong>
+                        <p class="form-control-plaintext border rounded p-1">{{ $soal->jawaban_d }}</p>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Jawaban E:</strong>
+                        <p class="form-control-plaintext border rounded p-1">{{ $soal->jawaban_e }}</p>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Jawaban Yang Benar:</strong>
+                        <p class="form-control-plaintext border rounded p-1 bg-success text-white">{{ $soal->jawaban_benar }}</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

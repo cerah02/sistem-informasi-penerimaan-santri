@@ -30,8 +30,16 @@
                 @foreach ($ujiansInJenjang as $ujian)
                     <div class="col-md-4 mb-4">
                         <div class="card shadow-sm border-0">
-                            <div class="card-header bg-primary text-white">
+                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                                 <h5 class="card-title mb-0">{{ $ujian->nama_ujian }}</h5>
+                                <div>
+                                    <a href="{{ route('ujians.edit', $ujian->id) }}" class="text-white me-2">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a href="{{ route('ujian.delete', $ujian->id) }}" class="text-white" onclick="return confirm('Apakah Anda yakin ingin menghapus ujian ini?');">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <p class="card-text"><strong>Kategori:</strong> {{ $ujian->kategori }}</p>
@@ -42,8 +50,7 @@
                                 <p class="card-text"><strong>Durasi:</strong> {{ $ujian->durasi / 60 }} menit</p>
                                 <p class="card-text">
                                     <strong>Status:</strong>
-                                    <span
-                                        class="badge 
+                                    <span class="badge 
                                         @if ($ujian->status == 'Aktif') bg-success 
                                         @elseif($ujian->status == 'Tidak Aktif') bg-danger 
                                         @else bg-warning @endif">
@@ -107,9 +114,13 @@
         box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
     }
 
-    /* Style untuk ikon */
-    .bi-plus-lg {
-        font-size: 1.1rem;
-        vertical-align: middle;
+    /* Style untuk ikon di card header */
+    .card-header a {
+        text-decoration: none;
+        font-size: 1.2rem;
+    }
+
+    .card-header a:hover {
+        opacity: 0.8;
     }
 </style>

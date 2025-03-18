@@ -6,7 +6,7 @@
                 <h2>Form Data Soal</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('soals.index') }}"> Kembali</a>
+                <a class="btn btn-primary" href="{{ route('form_buat_soal', $id) }}"> Kembali</a>
             </div>
         </div>
     </div>
@@ -29,13 +29,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="ujian_id">Pilih Ujian:</label>
-                            <select name="ujian_id" id="ujian_id" class="form-control">
-                                <option value="">-- Pilih Ujian --</option>
-                                @foreach ($ujians as $key => $ujian)
-                                    <option value="{{ $ujian->id }}">{{ $ujian->nama_ujian }}</option>
-                                @endforeach
-                            </select>
+                            @foreach ($ujians as $key => $ujian)
+                                <h2><input type="hidden" name="ujian_id" id="ujian_id"
+                                        value="{{ $ujian->id }}">{{ $ujian->nama_ujian }}</h2>
+                            @endforeach
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -43,7 +40,7 @@
                             <strong>Pertanyaan:</strong>
                             <input type="text" name="pertanyaan" class="form-control" placeholder="Pertanyaan">
                         </div>
-                    </div>           
+                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <strong>Jawaban A:</strong>
@@ -83,7 +80,7 @@
                             <label><input type="radio" name="jawaban_benar" value="D" required> D</label><br>
                             <label><input type="radio" name="jawaban_benar" value="E" required> E</label>
                         </div>
-                    </div>            
+                    </div>
                     <div class="col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>

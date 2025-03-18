@@ -82,7 +82,7 @@ class PermissionTableSeeder extends Seeder
             'waktu_ujian-delete',
             'waktu_ujian-show',
             'agenda-list',
-            'agenda-cretae',
+            'agenda-create',
             'agenda-edit',
             'agenda-delete',
             'agenda-show',

@@ -33,17 +33,17 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <strong>Nama Ujian:</strong>
-                            <input type="text" name="nama_ujian" class="form-control" placeholder="Masukkan Nama Ujian">
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <strong>Jenjang Pendidikan:</strong><br>
+                            {{-- <strong>Jenjang Pendidikan:</strong><br> --}}
                             <label>
-                                <input type="text" name="jenjang_pendidikan" value="{{$jenjang}}" required readonly>
-                            </label><br>
-                           
+                                <input type="hidden" name="jenjang_pendidikan" value="{{$jenjang}}" required readonly>
+                            </label>
+                            
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <strong>Nama Ujian:</strong>
+                                <input type="text" name="nama_ujian" class="form-control" placeholder="Masukkan Nama Ujian">
+                            </div>
                         </div>
                     </div>            
                     <div class="col-md-12">
@@ -67,7 +67,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <strong>Durasi:</strong>
-                            <input type="time" name="durasi" class="form-control" placeholder="Masukkan Durasi Ujian">
+                            <input type="number" name="durasi" class="form-control" placeholder="Masukkan Durasi Ujian">
                         </div>
                     </div>
                     <div class="col-md-12">

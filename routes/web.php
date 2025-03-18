@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\BantuanController;
 use App\Http\Controllers\KelasController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,7 @@ use App\Http\Controllers\KesehatanController;
 use App\Http\Controllers\OrtuController;
 use App\Http\Controllers\Waktu_ujianController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\FasilitasControllers;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Routing\Route as RoutingRoute;
@@ -23,12 +25,17 @@ Route::resource('kelas', KelasController::class);
 Route::resource('gurus',GuruController::class);
 Route::resource('pendaftarans',PendaftaranController::class);
 Route::resource('ujians',UjianController::class);
+Route::get('ujians-delete/{id}',[UjianController::class,'destroy'])->name('ujian.delete');
 Route::resource('soals',SoalController::class);
+Route::get('soal-create/{id}',[SoalController::class,'create'])->name('soal.create');
 Route::resource('jawabans',JawabanController::class);
 Route::resource('dokumens',DokumenController::class);
 Route::resource('ortus',OrtuController::class );
 Route::resource('kesehatans',KesehatanController::class);
 Route::resource('bantuans',BantuanController::class);
+Route::resource('waktu_ujians',Waktu_ujianController::class);
+Route::resource('agendas',AgendaController::class);
+Route::resource('fasilitas',FasilitasControllers::class);
 Route::resource('waktu_ujians',Waktu_ujianController::class);
 Route::get('soal-ujian/{id}',[SoalController::class,'ujian'])->name('ujian');
 Route::get('list-soal',[SoalController::class,'list_soal'])->name('list_soal');
@@ -48,6 +55,8 @@ Route::get('/ujian/{jenjang}', [UjianController::class, 'index_buat_soal'])->nam
 Route::get('form-buat-soal/{id}',[UjianController::class,'form_buat_soal'])->name('form_buat_soal');
 Route::get('soals_get/{id}',[SoalController::class,'index'])->name('soals_get');
 Route::get('/ujians/create/{jenjang}', [UjianController::class, 'create'])->name('ujians_create');
+Route::get('/tampilan-guru', [GuruController::class, 'tampilanGuru'])->name('guru.tampilan');
+Route::get('/tampilan-fasilitas', [FasilitasControllers::class, 'tampilanfasilitas'])->name('tampilan_fasilitas');
 
 
 

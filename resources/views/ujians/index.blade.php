@@ -7,7 +7,6 @@
             </div>
             @can('ujian-create')
                 <div class="pull-right">
-                    {{-- <a class="btn btn-success" href="{{ route('ujians.create') }}"> Tambahkan Data Ujian Santri</a> --}}
                 </div>
             @endcan
         </div>

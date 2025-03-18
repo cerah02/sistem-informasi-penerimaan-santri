@@ -101,10 +101,11 @@ class FasilitasControllers extends Controller
             $fotoPath = $request->file('foto_fasilitas')->storeAs('public/uploads/fasilitas', $fileName);
 
             // Simpan path ke database (tanpa "public/")
-            $input['foto'] = 'uploads/fasilitas/' . $fileName;
+            $input['foto_fasilitas'] = 'uploads/fasilitas/' . $fileName;
         }
 
         // Simpan ke database
+        // dd($input);
         Fasilitas::create($input);
 
         return redirect()->route('fasilitas.index')
@@ -162,5 +163,9 @@ class FasilitasControllers extends Controller
         $fasilitas->delete();
         return redirect()->route('fasilitas.index')
             ->with('success', 'Data Fasilitas Berhasil Dihapus');
+    }
+    public function tampilanfasilitas(){
+        $fasilitas=Fasilitas::all();
+        return view("tampilan_fasilitas", compact('fasilitas'));
     }
 }

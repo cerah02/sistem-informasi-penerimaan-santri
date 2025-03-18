@@ -7,7 +7,7 @@
             </div>
             @can('soal-create')
                 <div class="pull-right">
-                    <a class="btn btn-success" href="{{ route('soal.create',$id) }}"> Tambahkan Data Soal Santri</a>
+                    <a class="btn btn-success" href="{{ route('soals.create') }}"> Tambahkan Data Soal Santri</a>
                 </div>
             @endcan
         </div>
@@ -19,7 +19,7 @@
         </div>
     @endif
 
-    <input type="hidden" value="{{ $id }}" id="id">
+    {{-- <input type="hidden" value="{{ $id }}" id="id"> --}}
 
     <!-- Card untuk tabel -->
     <div class="card">
@@ -53,13 +53,13 @@
 
     <script type="text/javascript">
         $(function() {
-            const id_parsing = $('#id').val();
-            console.log(id_parsing);
+            // const id_parsing = $('#id').val();
+            // console.log(id_parsing);
             
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ url('soals_get') }}/" + id_parsing,
+                ajax: "{{ url('soals_get_index') }}",
                 scrollX: true, // Tambahkan opsi scrollX
                 columns: [
                     { data: 'id', name: 'id' },

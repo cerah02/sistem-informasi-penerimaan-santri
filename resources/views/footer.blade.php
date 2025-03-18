@@ -1,77 +1,152 @@
-
-    <!-- Footer Start -->
-    <div class="container-fluid footer position-relative bg-primary text-white-50 py-5 wow fadeIn"
-        data-wow-delay="0.1s">
-        <div class="container">
-            <div class="row g-5 py-5">
-                <!-- Kolom 1: Logo dan Deskripsi -->
-                <div class="col-lg-6 pe-lg-5">
-                    <a href="index.html" class="navbar-brand">
-                        <h1 class="h1 text-white mb-0">Lab<span class="text-light">sky</span></h1>
-                    </a>
-                    <p class="fs-5 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus
-                        augue, iaculis id elit eget, ultrices pulvinar tortor.</p>
-                    <p><i class="fa fa-map-marker-alt me-2"></i>123 Street, New York, USA</p>
-                    <p><i class="fa fa-phone-alt me-2"></i>+012 345 67890</p>
-                    <p><i class="fa fa-envelope me-2"></i>info@example.com</p>
-                    <div class="d-flex mt-4">
-                        <a class="btn btn-lg-square btn-light me-2" href="#"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-lg-square btn-light me-2" href="#"><i
-                                class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-lg-square btn-light me-2" href="#"><i
-                                class="fab fa-linkedin-in"></i></a>
-                        <a class="btn btn-lg-square btn-light me-2" href="#"><i
-                                class="fab fa-instagram"></i></a>
-                    </div>
+<!-- Footer Start -->
+<div class="container-fluid footer position-relative bg-primary text-white-50 py-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row g-5 py-5">
+            <!-- Kolom 1: Logo dan Deskripsi -->
+            <div class="col-lg-6 pe-lg-5">
+                <div class="heading">
+                    <h2 data-text="معهددارالمتقين الإسلامى" class="small-heading">
+                        <span class="arabic">معهددارالمتقين الإسلامى</span>
+                    </h2>
+                    <p>pondok pesantren darul muttaqien adalah </p>
                 </div>
+            </div>
 
-                <!-- Kolom 2: Quick Links dan Popular Links -->
-                <div class="col-lg-6 ps-lg-5">
-                    <div class="row g-5">
-                        <!-- Quick Links -->
-                        <div class="col-sm-6">
-                            <h4 class="text-light mb-4">Quick Links</h4>
-                            <a class="btn btn-link text-white-50 text-decoration-none d-block mb-2"
-                                href="#">About Us</a>
-                            <a class="btn btn-link text-white-50 text-decoration-none d-block mb-2"
-                                href="#">Contact Us</a>
-                            <a class="btn btn-link text-white-50 text-decoration-none d-block mb-2" href="#">Our
-                                Services</a>
-                            <a class="btn btn-link text-white-50 text-decoration-none d-block mb-2"
-                                href="#">Terms & Condition</a>
-                            <a class="btn btn-link text-white-50 text-decoration-none d-block mb-2"
-                                href="#">Support</a>
-                        </div>
+            <!-- Kolom 2: Quick Links dan Popular Links -->
+            <div class="col-lg-6 ps-lg-5">
+                <div class="row g-5">
+                    <!-- Quick Links -->
+                    <div class="footer-container">
+                        <div class="agenda-section">
+                            <h3>Agenda</h3>
 
-                        <!-- Popular Links -->
-                        <div class="col-sm-6">
-                            <h4 class="text-light mb-4">Popular Links</h4>
-                            <a class="btn btn-link text-white-50 text-decoration-none d-block mb-2"
-                                href="#">About Us</a>
-                            <a class="btn btn-link text-white-50 text-decoration-none d-block mb-2"
-                                href="#">Contact Us</a>
-                            <a class="btn btn-link text-white-50 text-decoration-none d-block mb-2" href="#">Our
-                                Services</a>
-                            <a class="btn btn-link text-white-50 text-decoration-none d-block mb-2"
-                                href="#">Terms & Condition</a>
-                            <a class="btn btn-link text-white-50 text-decoration-none d-block mb-2"
-                                href="#">Support</a>
-                        </div>
-
-                        <!-- Newsletter -->
-                        <div class="col-sm-12">
-                            <h4 class="text-light mb-4">Newsletter</h4>
-                            <div class="w-100">
-                                <div class="input-group">
-                                    <input type="text" class="form-control border-0 py-3 px-4"
-                                        style="background: rgba(255, 255, 255, .1);" placeholder="Your Email Address">
-                                    <button class="btn btn-light px-4">Sign Up</button>
-                                </div>
-                            </div>
+                            @if (isset($agendaFooter) && count($agendaFooter) > 0)
+                                @foreach ($agendaFooter as $item)
+                                    <div class="agenda-item"
+                                        onclick="showAgendaImage('{{ asset($item->foto_agenda) }}')">
+                                        <div class="date-box">
+                                            <span
+                                                class="date">{{ \Carbon\Carbon::parse($item->tanggal_agenda)->format('d') }}</span>
+                                            <span
+                                                class="month">{{ \Carbon\Carbon::parse($item->tanggal_agenda)->translatedFormat('M Y') }}</span>
+                                        </div>
+                                        <div class="agenda-info">
+                                            <span class="time">Waktu:
+                                                {{ \Carbon\Carbon::parse($item->jam_agenda)->format('H:i') }}</span>
+                                            <p>{{ $item->nama_agenda }}</p>
+                                            @if (\Carbon\Carbon::parse($item->tanggal_agenda)->isPast())
+                                                <span class="status">Agenda telah lewat</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <p>Tidak ada agenda terbaru.</p>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- Footer End -->
+
+            <!-- Popup Modal untuk Foto Agenda -->
+            <div id="agendaModal" class="modal">
+                <span class="close" onclick="closeAgendaImage()">&times;</span>
+                <img class="modal-content" id="agendaImage" src="">
+            </div>
+
+            <!-- CSS untuk Modal (DIPERBAIKI) -->
+            <style>
+                /* Modal full screen */
+                .modal {
+                    display: none;
+                    /* Pastikan modal disembunyikan awalnya */
+                    position: fixed;
+                    z-index: 1050;
+                    /* Pastikan modal berada di atas navbar */
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.9);
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                /* Gambar modal */
+                .modal-content {
+                    max-width: 80%;
+                    max-height: 80%;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                }
+
+                /* Tombol close */
+                .close {
+                    position: absolute;
+                    top: 15px;
+                    right: 25px;
+                    color: white;
+                    font-size: 35px;
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+
+                /* Agar navbar tersembunyi saat modal muncul */
+                body.modal-open {
+                    overflow: hidden;
+                }
+
+                /* Navbar tidak menghalangi modal */
+                .navbar {
+                    z-index: 100;
+                    /* Supaya navbar tidak di atas modal */
+                }
+            </style>
+
+            <!-- JavaScript untuk Modal -->
+            <script>
+                function showAgendaImage(imageUrl) {
+                    let modal = document.getElementById("agendaModal");
+                    let img = document.getElementById("agendaImage");
+
+                    if (imageUrl && imageUrl.trim() !== "") { // Pastikan URL gambar tidak kosong
+                        img.src = imageUrl; // Set gambar modal sesuai agenda yang diklik
+                        modal.style.display = "flex"; // Tampilkan modal
+                        document.body.classList.add("modal-open"); // Hentikan scroll
+                    }
+                }
+
+                function closeAgendaImage() {
+                    let modal = document.getElementById("agendaModal");
+                    let img = document.getElementById("agendaImage");
+
+                    modal.style.display = "none"; // Sembunyikan modal
+                    img.src = ""; // Hapus gambar agar tidak muncul otomatis lagi
+                    document.body.classList.remove("modal-open"); // Kembalikan scroll halaman
+                }
+
+                // Pastikan modal tidak muncul otomatis saat halaman dimuat
+                window.onload = function() {
+                    document.getElementById("agendaModal").style.display = "none";
+                };
+            </script>
+
+            <!-- Footer End -->
+
+{{-- 
+            <!-- Copyright Start -->
+            <div class="container-fluid copyright bg-dark text-white-50 py-4">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 text-center text-md-start">
+                            <p class="mb-0">&copy; <a href="#">Your Site Name</a>. All Rights Reserved.</p>
+                        </div>
+                        <div class="col-md-6 text-center text-md-end">
+                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                            <p class="mb-0">Designed by <a href="https://htmlcodex.com">HTML Codex</a><br>Distributed
+                                by <a href="https://themewagon.com">ThemeWagon</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+            <!-- Copyright End -->

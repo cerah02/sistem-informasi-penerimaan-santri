@@ -3,11 +3,11 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Daftar Data Guru</h2>
+                <h2>Daftar Data Fasilitas</h2>
             </div>
-            @can('guru-create')
+            @can('fasilitas-create')
                 <div class="pull-right mb-2">
-                    <a class="btn btn-success" href="{{ route('gurus.create') }}"> Tambahkan Data Guru</a>
+                    <a class="btn btn-success" href="{{ route('fasilitas.create') }}"> Tambahkan Data Fasilitas</a>
 
                 </div>
             @endcan
@@ -26,7 +26,7 @@
     <!-- Card sebagai Latar Belakang Tabel -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Tabel Data Agenda</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Tabel Data Fasilitas</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -52,7 +52,7 @@
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('gurus.index') }}",
+                ajax: "{{ route('fasilitas.index') }}",
                 columns: [{
                         data: 'id',
                         name: 'id'

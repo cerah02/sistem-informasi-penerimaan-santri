@@ -57,6 +57,10 @@
         .bg-soft-warning {
             background-color: rgba(255, 193, 7, 0.1);
         }
+
+        .collapse {
+            transition: height 0.3s ease-in-out;
+        }
     </style>
 </head>
 

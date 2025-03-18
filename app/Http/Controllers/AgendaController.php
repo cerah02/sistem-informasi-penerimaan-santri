@@ -94,7 +94,6 @@ class AgendaController extends Controller
             'tempat_agenda' => 'required',
             'status_agenda' => 'required',
             'foto_agenda' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
-            'status_guru' => 'required',
         ]);
         $input = $request->all();
         if ($request->hasFile('foto_agenda')) {
@@ -105,7 +104,7 @@ class AgendaController extends Controller
             $fotoPath = $request->file('foto_agenda')->move(public_path('uploads/agenda/foto_agenda'), $fileName);
 
             // Save the file path to the $data array
-            $input['foto'] = 'uploads/agenda/foto_agenda/' . $fileName;
+            $input['foto_agenda'] = 'uploads/agenda/foto_agenda/' . $fileName;
         }
 
         $status = Agenda::create($input);
@@ -151,7 +150,6 @@ class AgendaController extends Controller
             'tempat_agenda' => 'required',
             'status_agenda' => 'required',
             'foto_agenda' => 'required',
-            'status_guru' => 'required',
         ]);
 
         $agenda->update($request->all());

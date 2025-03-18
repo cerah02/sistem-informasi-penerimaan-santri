@@ -52,17 +52,17 @@ class SoalController extends Controller
                 
                     
                     if (auth()->user()->can('ujian-show')) {
-                        $btn .= '<a class="btn btn-info" href="' . route('ujians.show', $row->id) . '">Show</a> ';
+                        $btn .= '<a class="btn btn-info" href="' . route('soals.show', $row->id) . '">Show</a> ';
                     }
                 
                 
                     if (auth()->user()->can('ujian-edit')) {
-                        $btn .= '<a class="btn btn-primary" href="' . route('ujians.edit', $row->id) . '">Edit</a> ';
+                        $btn .= '<a class="btn btn-primary" href="' . route('soals.edit', $row->id) . '">Edit</a> ';
                     }
                 
                     if (auth()->user()->can('ujian-delete')) {
                         $btn .= '
-                        <form action="' . route('ujians.destroy', $row->id) . '" method="POST" style="display:inline;">
+                        <form action="' . route('soals.destroy', $row->ujian_id) . '" method="POST" style="display:inline;">
                             ' . csrf_field() . method_field('DELETE') . '
                             <button type="submit" class="btn btn-danger">Hapus</button>
                         </form>';
@@ -73,18 +73,18 @@ class SoalController extends Controller
                 ->rawColumns(['aksi'])
                 ->make(true);
         }
-        return view('soals.index');
+        return view('soals.index',compact('id'));
     }
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
 
-        $ujians = Ujian::all();
-        return view('soals.create', compact('ujians'));
+        $ujians = Ujian::where('id','=',$id)->get();
+        return view('soals.create', compact('ujians','id'));
     }
     public function list_soal()
     {
@@ -198,9 +198,9 @@ class SoalController extends Controller
             'jawaban_e' => 'required',
             'jawaban_benar' => 'required',
         ]);
-        Soal::create($request->all());
-        return redirect()->route('soals.index')
-            ->with('success', 'Data Soal Berhasil Disimpan.');
+        $soal = Soal::create($request->all());
+        // dd($soal);
+        return view('soals.index',['id'=>$soal->ujian_id]);
     }
 
     /**
@@ -211,7 +211,6 @@ class SoalController extends Controller
      */
     public function show(Soal $soal)
     {
-        //
         return view('soals.show', compact('soal'));
     }
 
@@ -223,7 +222,6 @@ class SoalController extends Controller
      */
     public function edit(Soal $soal)
     {
-        //
         return view('soals.edit', compact('soal'));
     }
 
@@ -234,7 +232,7 @@ class SoalController extends Controller
      * @param  \App\Models\Soal  $soal
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Soal $soal)
+    public function update(Request $request, $id_data)
     {
         //
         $request->validate([
@@ -248,9 +246,10 @@ class SoalController extends Controller
             'jawaban_benar' => 'required',
 
         ]);
+        $soal = Soal::where('id','=',$id_data)->first();
         $soal->update($request->all());
-        return redirect()->route('soals.index')
-            ->with('success', 'Data Soal Berhasil Diupdate');
+        $id = $soal->ujian_id;
+        return view('soals.index',compact('id'));
     }
 
     /**
@@ -259,11 +258,13 @@ class SoalController extends Controller
      * @param  \App\Models\Soal  $soal
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Soal $soal)
+    public function destroy($id)
     {
-        //
+        // dd($soal);
+        $soal = Soal::where('ujian_id','=',$id)->first();
         $soal->delete();
-        return redirect()->route('soals.index')
-            ->with('success', 'Data Soal Berhasil Dihapus');
+        return view('soals.index',[
+            'id' => $soal->ujian_id
+        ]);
     }
 }

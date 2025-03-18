@@ -33,44 +33,44 @@ class GuruController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->ajax()){            
+        if ($request->ajax()) {
             $query_data = new Guru();
-            if($request->sSearch){
-                $search_value ='%'.$request->sSearch.'%';
-                $query_data=$query_data->where(function($query)use ($search_value) {
-                    $query->where('nama','like', $search_value)
-                    ->orwhere('nip','like', $search_value);
+            if ($request->sSearch) {
+                $search_value = '%' . $request->sSearch . '%';
+                $query_data = $query_data->where(function ($query) use ($search_value) {
+                    $query->where('nama', 'like', $search_value)
+                        ->orwhere('nip', 'like', $search_value);
                 });
             }
-            $data = $query_data->orderBy('nama','asc')->get();
+            $data = $query_data->orderBy('nama', 'asc')->get();
             return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('aksi', function ($row) {
-                $btn = '';
-            
-                // Cek permission 'view santri'
-                if (auth()->user()->can('guru-show')) {
-                    $btn .= '<a class="btn btn-info" href="' . route('gurus.show', $row->id) . '">Show</a> ';
-                }
-            
-                // Cek permission 'edit guru'
-                if (auth()->user()->can('guru-edit')) {
-                    $btn .= '<a class="btn btn-primary" href="' . route('gurus.edit', $row->id) . '">Edit</a> ';
-                }
-            
-                // Cek permission 'delete guru'
-                if (auth()->user()->can('guru-delete')) {
-                    $btn .= '
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($row) {
+                    $btn = '';
+
+                    // Cek permission 'view santri'
+                    if (auth()->user()->can('guru-show')) {
+                        $btn .= '<a class="btn btn-info" href="' . route('gurus.show', $row->id) . '">Show</a> ';
+                    }
+
+                    // Cek permission 'edit guru'
+                    if (auth()->user()->can('guru-edit')) {
+                        $btn .= '<a class="btn btn-primary" href="' . route('gurus.edit', $row->id) . '">Edit</a> ';
+                    }
+
+                    // Cek permission 'delete guru'
+                    if (auth()->user()->can('guru-delete')) {
+                        $btn .= '
                     <form action="' . route('gurus.destroy', $row->id) . '" method="POST" style="display:inline;">
                         ' . csrf_field() . method_field('DELETE') . '
                         <button type="submit" class="btn btn-danger">Hapus</button>
                     </form>';
-                }
-            
-                return $btn;
-            })
-            ->rawColumns(['aksi','foto'])
-            ->make(true);
+                    }
+
+                    return $btn;
+                })
+                ->rawColumns(['aksi', 'foto'])
+                ->make(true);
         }
         return view('gurus.index');
     }
@@ -122,6 +122,12 @@ class GuruController extends Controller
         $status = Guru::create($input);
         return redirect()->route('gurus.index')
             ->with('success', 'Data Guru Berhasil Disimpan.');
+    }
+
+    public function tampilanGuru()
+    {
+        $gurus = Guru::all(); // Mengambil semua data guru dari database
+        return view('tampilan_guru', compact('gurus')); // Mengirimkan data ke view 'gurus.tampilan_guru'
     }
 
     /**

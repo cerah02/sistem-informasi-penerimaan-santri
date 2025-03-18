@@ -112,7 +112,6 @@ class UjianController extends Controller
      */
     public function create($jenjang)
     {
-        
         return view('ujians.create',compact('jenjang'));
     }
 
@@ -131,7 +130,7 @@ class UjianController extends Controller
             'jenjang_pendidikan' => 'required',
             'tanggal_mulai' => 'required',
             'tanggal_selesai' => 'required',
-            'durasi' => 'required',
+            'durasi' => 'required|numeric',
             'status' => 'required',
         ]);
 
@@ -162,7 +161,7 @@ class UjianController extends Controller
      */
     public function edit(Ujian $ujian)
     {
-        //
+        
         return view('ujians.edit', compact('ujian'));
     }
 
@@ -186,12 +185,14 @@ class UjianController extends Controller
             'status' => 'required',
         ]);
 
-        $ujian->update($request->all());
+        $input = $request->all();
+        $input['durasi'] = $request->durasi * 60;
+        $ujian->update($input);
         return redirect()->route('ujians.index')
             ->with('success', 'Data Ujian Berhasil Diupdate');
     }
 
-    public function form_buat_soal($id){    
+    public function form_buat_soal($id){
         $ujian = Ujian::where('id','=',$id)->first();
         return view('soals.index',compact('ujian','id'));
 
@@ -203,9 +204,10 @@ class UjianController extends Controller
      * @param  \App\Models\Ujian  $ujian
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ujian $ujian)
+    public function destroy($id)
     {
         //
+        $ujian = Ujian::where('id','=',$id)->first();
         $ujian->delete();
         return redirect()->route('ujians.index')
             ->with('success', 'Data Ujian Berhasil Dihapus');

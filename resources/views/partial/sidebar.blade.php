@@ -87,14 +87,36 @@
                 <!-- Ujian -->
                 @can('ujian-list')
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('ujians.index') ? 'active' : '' }}"
-                            href="{{ route('ujians.index') }}">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#ujianDropdown" aria-expanded="false" aria-controls="ujianDropdown">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="ni ni-paper-diploma text-dark text-sm opacity-10"></i>
                             </div>
                             <span class="nav-link-text ms-1">Ujian</span>
                         </a>
+                        <div class="collapse" id="ujianDropdown">
+                            <ul class="nav flex-column ms-3">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->is('ujian/sd') ? 'active' : '' }}"
+                                        href="{{ url('ujian/sd') }}">
+                                        Ujian SD
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->is('ujian/mts') ? 'active' : '' }}"
+                                        href="{{ url('ujian/mts') }}">
+                                        Ujian MTS
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->is('ujian/ma') ? 'active' : '' }}"
+                                        href="{{ url('ujian/ma') }}">
+                                        Ujian MA
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                 @endcan
 
@@ -218,8 +240,8 @@
                 <!-- List Agenda -->
                 @can('agenda-list')
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('agendas_index') ? 'active' : '' }}"
-                            href="{{ route('agendas_index') }}">
+                        <a class="nav-link {{ request()->routeIs('agendas.index') ? 'active' : '' }}"
+                            href="{{ route('agendas.index') }}">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
@@ -232,8 +254,8 @@
                 <!-- List Fasilitas -->
                 @can('fasilitas-list')
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('fasilitas_index') ? 'active' : '' }}"
-                            href="{{ route('fasilitas_index') }}">
+                        <a class="nav-link {{ request()->routeIs('fasilitas.index') ? 'active' : '' }}"
+                            href="{{ route('fasilitas.index') }}">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>

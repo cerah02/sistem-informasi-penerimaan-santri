@@ -1,3 +1,4 @@
+<!-- Navbar Start -->
 <div class="container-fluid sticky-top">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-white py-lg-0 px-lg-3">
@@ -18,8 +19,8 @@
                             <a href="feature.html" class="dropdown-item">Sejarah Pesantren</a>
                             <a href="team.html" class="dropdown-item">Visi & Misi</a>
                             <a href="testimonial.html" class="dropdown-item">Jenjang Pendidikan</a>
-                            <a href="appoinment.html" class="dropdown-item">Fasilitas</a>
-                            <a href="appoinment.html" class="dropdown-item">Tenaga Pengajar</a>
+                            <a href="{{ route('tampilan_fasilitas')}}" class="dropdown-item">Fasilitas</a>
+                            <a href="{{ route('guru.tampilan') }}" class="dropdown-item">Tenaga Pengajar</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">

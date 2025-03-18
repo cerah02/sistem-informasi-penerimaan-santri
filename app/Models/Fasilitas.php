@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Fasilitas extends Model
 {
     use HasFactory;
+    protected $guarded=["id"];
+    protected $fillable = ['nama_fasilitas', 'foto_fasilitas'];
 }

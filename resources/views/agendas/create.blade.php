@@ -63,7 +63,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <strong>Foto:</strong>
-                            <input type="file" name="foto" class="form-control" placeholder="Foto">
+                            <input type="file" name="foto_agenda" class="form-control" placeholder="Foto">
                         </div>
                     </div>
                     <div class="col-md-12 text-center mt-3">
