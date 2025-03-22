@@ -42,8 +42,15 @@
                     {{ number_format($nilai, 2) }} / 100
                 </p>
                 <p class="mt-1 text-gray-700 text-lg font-medium">
-                    {{ $nilai >= 60 ? '🎉 Selamat, Anda Lulus!' : '😢 Maaf, Anda Belum Lulus' }}
+                    {{ $nilai >= 60 ? '🎉 Selamat, Nilai Kamu Bagus! Pertahankan...' : '😢 Maaf, Nilai Kamu Kurang Bagus! Jangan Hawatir Perbaiki Di ujian Selanjutnya' }}
                 </p>
+            </div>
+
+            <!-- Tombol Kembali ke List Soal -->
+            <div class="mt-6 text-center">
+                <a href="/list-soal" class="inline-block px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-300">
+                    Kembali ke List Soal
+                </a>
             </div>
 
         @else

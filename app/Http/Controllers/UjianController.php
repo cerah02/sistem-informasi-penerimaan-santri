@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Soal;
 use App\Models\Ujian;
 use Illuminate\Http\Request;
@@ -37,70 +36,17 @@ class UjianController extends Controller
         $ujians = Ujian::where('jenjang_pendidikan', strtoupper($jenjang))->get();
         // dd($ujians);
 
-        return view('ujians.buat_soal', compact('ujians','jenjang'));
+        return view('ujians.buat_soal', compact('ujians', 'jenjang'));
     }
-
-    // public function indexMTS()
-    // {
-    //     $ujians = Ujian::where('jenjang', 'MTS')->get();
-    //     return view('ujians.index', compact('ujians'));
-    // }
-
-    // public function indexMA()
-    // {
-    //     $ujians = Ujian::where('jenjang', 'MA')->get();
-    //     return view('ujians.index', compact('ujians'));
-    // }
 
     public function index(Request $request)
     {
-        // if ($request->ajax()){
-        //     $query_data = new ujian();
-
-        //     if($request->sSearch){
-        //         $search_value ='%'.$request->sSearch.'%';
-        //         $query_data=$query_data->where(function($query)use ($search_value) {
-        //             $query->where('nama_ujian','like', $search_value)
-        //             ->orwhere('kategori','like', $search_value)
-        //             ->orwhere('jenjang_pendidikan','like', $search_value);
-        //         });
-        //     }
-        //     $data = $query_data->orderBy('nama_ujian','asc')->get();
-        //     return DataTables::of($data)
-        //     ->addIndexColumn()
-        //     ->addColumn('aksi', function ($row) {
-        //         $btn = '';
-
-
-        //         if (auth()->user()->can('ujian-show')) {
-        //             $btn .= '<a class="btn btn-info" href="' . route('ujians.show', $row->id) . '">Show</a> ';
-        //         }
-
-
-        //         if (auth()->user()->can('ujian-edit')) {
-        //             $btn .= '<a class="btn btn-primary" href="' . route('ujians.edit', $row->id) . '">Edit</a> ';
-        //         }
-
-        //         if (auth()->user()->can('ujian-delete')) {
-        //             $btn .= '
-        //             <form action="' . route('ujians.destroy', $row->id) . '" method="POST" style="display:inline;">
-        //                 ' . csrf_field() . method_field('DELETE') . '
-        //                 <button type="submit" class="btn btn-danger">Hapus</button>
-        //             </form>';
-        //         }
-
-        //         return $btn;
-        //     })
-        //     ->rawColumns(['aksi'])
-        //     ->make(true);
-        // }
 
         $jenjang = [
             "SD",
             "MTS",
             "MA"
         ];
-
 
         return view('ujians.index', compact('jenjang'));
     }
@@ -112,7 +58,7 @@ class UjianController extends Controller
      */
     public function create($jenjang)
     {
-        return view('ujians.create',compact('jenjang'));
+        return view('ujians.create', compact('jenjang'));
     }
 
     /**
@@ -123,7 +69,7 @@ class UjianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validasi input
         $request->validate([
             'nama_ujian' => 'required',
             'kategori' => 'required',
@@ -134,10 +80,15 @@ class UjianController extends Controller
             'status' => 'required',
         ]);
 
+        // Simpan data ujian
         $input = $request->all();
-        $input['durasi'] = $request->durasi * 60;
-        Ujian::create($input);
-        return redirect()->route('ujians.index')
+        $input['durasi'] = $request->durasi * 60; // Konversi durasi ke detik
+        $ujian = Ujian::create($input);
+
+        // Ambil jenjang pendidikan untuk redirect
+        $jenjang = strtolower($ujian->jenjang_pendidikan);
+
+        return redirect()->route('ujians.sd', ['jenjang' => $jenjang])
             ->with('success', 'Data Ujian Berhasil Disimpan.');
     }
 
@@ -161,7 +112,7 @@ class UjianController extends Controller
      */
     public function edit(Ujian $ujian)
     {
-        
+
         return view('ujians.edit', compact('ujian'));
     }
 
@@ -174,28 +125,34 @@ class UjianController extends Controller
      */
     public function update(Request $request, Ujian $ujian)
     {
-        //
+        // Validasi input
         $request->validate([
             'nama_ujian' => 'required',
             'kategori' => 'required',
             'jenjang_pendidikan' => 'required',
             'tanggal_mulai' => 'required',
             'tanggal_selesai' => 'required',
-            'durasi' => 'required',
+            'durasi' => 'required|numeric',
             'status' => 'required',
         ]);
 
+        // Update data ujian
         $input = $request->all();
-        $input['durasi'] = $request->durasi * 60;
+        $input['durasi'] = $request->durasi * 60; // Konversi durasi ke detik
         $ujian->update($input);
-        return redirect()->route('ujians.index')
+
+        // Ambil jenjang pendidikan untuk redirect
+        $jenjang = strtolower($ujian->jenjang_pendidikan);
+
+        return redirect()->route('ujians.sd', ['jenjang' => $jenjang])
             ->with('success', 'Data Ujian Berhasil Diupdate');
     }
 
-    public function form_buat_soal($id){
-        $ujian = Ujian::where('id','=',$id)->first();
-        return view('soals.index',compact('ujian','id'));
 
+    public function form_buat_soal($id)
+    {
+        $ujian = Ujian::where('id', '=', $id)->first();
+        return view('soals.index', compact('ujian', 'id'));
     }
 
     /**
@@ -206,10 +163,16 @@ class UjianController extends Controller
      */
     public function destroy($id)
     {
-        //
-        $ujian = Ujian::where('id','=',$id)->first();
-        $ujian->delete();
-        return redirect()->route('ujians.index')
-            ->with('success', 'Data Ujian Berhasil Dihapus');
+        $ujian = Ujian::where('id', '=', $id)->first();
+
+        if ($ujian) {
+            $jenjang = strtolower($ujian->jenjang_pendidikan); // Ambil jenjang pendidikan dari data ujian
+            $ujian->delete();
+
+            return redirect()->route('ujians.sd', ['jenjang' => $jenjang])
+                ->with('success', 'Data Ujian Berhasil Dihapus');
+        }
+
+        return redirect()->back()->with('error', 'Ujian tidak ditemukan');
     }
 }

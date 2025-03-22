@@ -40,7 +40,7 @@ class PermissionTableSeeder extends Seeder
             'jawaban-create',
             'jawaban-edit',
             'jawaban-show',
-            'jawaban-delet',
+            'jawaban-delete',
             'dokumen-list',
             'dokumen-create',
             'dokumen-edit',

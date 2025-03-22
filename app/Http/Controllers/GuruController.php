@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
 class GuruController extends Controller
@@ -106,8 +109,15 @@ class GuruController extends Controller
             'foto' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
             'status_guru' => 'required',
         ]);
+        $user = User::create([
+            'name' => $request->nama,
+            'email' => $request->email,
+            'password' => Hash::make('12341234')
+        ]);
+        $role = Role::where('name','=','Guru')->orWhere('name','=','guru')->first();
+        $user->assignRole([$role->id]);
         $input = $request->all();
-        $input['ttl'] = $request->tempat_lahir . ' ' . $request->tanggal_lahir;
+        $input['ttl'] = $request->tempat_lahir . '|' . $request->tanggal_lahir; // Menggunakan pemisah '|'
         if ($request->hasFile('foto')) {
             // Construct the file name with the correct extension
             $fileName = time() . '_' . $request->nama . '.' . $request->file('foto')->getClientOriginalExtension();
@@ -168,15 +178,22 @@ class GuruController extends Controller
             'nama' => 'required',
             'nip' => 'required',
             'jenis_kelamin' => 'required',
-            'ttl' => 'required',
             'alamat' => 'required',
             'no_telpon' => 'required',
             'email' => 'required',
             'foto' => 'required',
             'status_guru' => 'required',
         ]);
+        $user = User::where('email','=',$request->email)->first();  
+        $user->update([
+            'name' => $request->nama,
+            'email' => $request->email
+        ]);
+        $input = $request->all();
+        $input['ttl'] = $request->tempat_lahir . '|' . $request->tanggal_lahir;
 
-        $guru->update($request->all());
+        $guru->update($input);
+
         return redirect()->route('gurus.index')
             ->with('success', 'Data Guru Berhasil Diupdate');
     }

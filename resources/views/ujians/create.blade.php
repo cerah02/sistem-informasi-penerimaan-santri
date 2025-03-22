@@ -6,7 +6,7 @@
                 <h2>Form Data Ujian</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('ujians.index') }}"> Kembali</a>
+                <a class="btn btn-primary" href="{{ route('ujians.sd', $jenjang) }}"> Kembali</a>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
         {{-- Tombol Tambah Data --}}
         <div class="row mb-4">
             <div class="col-12 text-end">
-                <a href="{{ route('ujians_create',$jenjang) }}" class="btn btn-primary">
+                <a href="{{ route('ujians_create', $jenjang) }}" class="btn btn-primary">
                     <i class="bi bi-plus-lg me-2"></i>Tambah Data Ujian
                 </a>
             </div>
@@ -30,27 +30,33 @@
                 @foreach ($ujiansInJenjang as $ujian)
                     <div class="col-md-4 mb-4">
                         <div class="card shadow-sm border-0">
-                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <div
+                                class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                                 <h5 class="card-title mb-0">{{ $ujian->nama_ujian }}</h5>
                                 <div>
                                     <a href="{{ route('ujians.edit', $ujian->id) }}" class="text-white me-2">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
-                                    <a href="{{ route('ujian.delete', $ujian->id) }}" class="text-white" onclick="return confirm('Apakah Anda yakin ingin menghapus ujian ini?');">
+                                    <a href="{{ route('ujian.delete', $ujian->id) }}" class="text-white"
+                                        onclick="return confirm('Apakah Anda yakin ingin menghapus ujian ini?');">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <p class="card-text"><strong>Kategori:</strong> {{ $ujian->kategori }}</p>
-                                <p class="card-text"><strong>Tanggal:</strong>
-                                    {{ date('d M Y', strtotime($ujian->tanggal_mulai)) }} -
+                                <p class="card-text"><strong>Tanggal Mulai:</strong>
+                                    {{ date('d M Y', strtotime($ujian->tanggal_mulai)) }}
+                                </p>
+
+                                <p class="card-text"><strong>Tanggal Selesai:</strong>
                                     {{ date('d M Y', strtotime($ujian->tanggal_selesai)) }}
                                 </p>
                                 <p class="card-text"><strong>Durasi:</strong> {{ $ujian->durasi / 60 }} menit</p>
                                 <p class="card-text">
                                     <strong>Status:</strong>
-                                    <span class="badge 
+                                    <span
+                                        class="badge 
                                         @if ($ujian->status == 'Aktif') bg-success 
                                         @elseif($ujian->status == 'Tidak Aktif') bg-danger 
                                         @else bg-warning @endif">

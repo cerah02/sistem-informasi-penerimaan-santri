@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Santri;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 use Symfony\Contracts\Service\Attribute\Required;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -34,7 +37,7 @@ class SantriController extends Controller
 
     public function index(Request $request)
     {
-             if ($request->ajax()) {
+        if ($request->ajax()) {
             $query_data = new Santri();
 
             if ($request->sSearch) {
@@ -48,30 +51,30 @@ class SantriController extends Controller
             $data = $query_data->orderBy('nama', 'asc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
-                    ->addColumn('aksi', function ($row) {
-                        $btn = '';
-                    
-                        // Cek permission 'view santri'
-                        if (auth()->user()->can('santri-show')) {
-                            $btn .= '<a class="btn btn-info" href="' . route('santris.show', $row->id) . '">Show</a> ';
-                        }
-                    
-                        // Cek permission 'edit santri'
-                        if (auth()->user()->can('santri-edit')) {
-                            $btn .= '<a class="btn btn-primary" href="' . route('santris.edit', $row->id) . '">Edit</a> ';
-                        }
-                    
-                        // Cek permission 'delete santri'
-                        if (auth()->user()->can('santri-delete')) {
-                            $btn .= '
+                ->addColumn('aksi', function ($row) {
+                    $btn = '';
+
+                    // Cek permission 'view santri'
+                    if (auth()->user()->can('santri-show')) {
+                        $btn .= '<a class="btn btn-info" href="' . route('santris.show', $row->id) . '">Show</a> ';
+                    }
+
+                    // Cek permission 'edit santri'
+                    if (auth()->user()->can('santri-edit')) {
+                        $btn .= '<a class="btn btn-primary" href="' . route('santris.edit', $row->id) . '">Edit</a> ';
+                    }
+
+                    // Cek permission 'delete santri'
+                    if (auth()->user()->can('santri-delete')) {
+                        $btn .= '
                             <form action="' . route('santris.destroy', $row->id) . '" method="POST" style="display:inline;">
                                 ' . csrf_field() . method_field('DELETE') . '
                                 <button type="submit" class="btn btn-danger">Hapus</button>
                             </form>';
-                        }
-                    
-                        return $btn;
-                    })
+                    }
+
+                    return $btn;
+                })
                 ->rawColumns(['aksi'])
                 ->make(true);
         }
@@ -118,8 +121,16 @@ class SantriController extends Controller
             'email' => 'required',
             'jenjang_pendidikan' => 'required',
         ]);
+        $user = User::create([
+            'name' => $request->nama,
+            'email' => $request->email,
+            'password' => Hash::make('12341234')
+        ]);
+        $role = Role::where('name', '=', 'Santri')->orWhere('name', '=', 'santri')->first();
+        $user->assignRole([$role->id]);
         $input = $request->all();
-        $input['ttl'] = $request->tempat_lahir . ' ' . $request->tanggal_lahir;
+        $input['user_id'] = $user->id;
+        $input['ttl'] = $request->tempat_lahir . '|' . $request->tanggal_lahir; // Menggunakan pemisah '|'
         Santri::create($input);
         return redirect()->route('santris.index')
             ->with('success', 'Data Santri Berhasil Disimpan.');
@@ -158,31 +169,63 @@ class SantriController extends Controller
      */
     public function update(Request $request, Santri $santri)
     {
-        //
         $request->validate([
             'nama' => 'required',
             'nisn' => 'required',
             'nik' => 'required',
             'asal_sekolah' => 'required',
             'jenis_kelamin' => 'required',
-            'ttl' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required|date',
             'kondisi' => 'required',
             'kondisi_ortu' => 'required',
             'status_dkluarga' => 'required',
-            'tinggal' => 'required',
+            'tempat_tinggal' => 'required',
             'kewarganegaraan' => 'required',
-            'anak_ke' => 'requires',
-            'jumlah_saudara' => 'required',
+            'anak_ke' => 'required|integer',
+            'jumlah_saudara' => 'required|integer',
             'alamat' => 'required',
-            'tanggal_lahir' => 'required',
-            'nomor_telpon' => 'required',
-            'email' => 'required',
+            'nomor_telpon' => 'required|numeric',
+            'email' => 'required|email',
             'jenjang_pendidikan' => 'required',
         ]);
 
-        $santri->update($request->all());
+        // Pastikan user dengan email yang diberikan ada
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return redirect()->back()->withErrors(['email' => 'User tidak ditemukan.']);
+        }
+
+        // Update data user
+        $user->update([
+            'name' => $request->nama,
+            'email' => $request->email
+        ]);
+
+        // Update data santri
+        $santri->update([
+            'nama' => $request->nama,
+            'nisn' => $request->nisn,
+            'nik' => $request->nik,
+            'asal_sekolah' => $request->asal_sekolah,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'ttl' => $request->tempat_lahir . '|' . $request->tanggal_lahir,
+            'kondisi' => $request->kondisi,
+            'kondisi_ortu' => $request->kondisi_ortu,
+            'status_dkluarga' => $request->status_dkluarga,
+            'tempat_tinggal' => $request->tempat_tinggal,
+            'kewarganegaraan' => $request->kewarganegaraan,
+            'anak_ke' => $request->anak_ke,
+            'jumlah_saudara' => $request->jumlah_saudara,
+            'alamat' => $request->alamat,
+            'nomor_telpon' => $request->nomor_telpon,
+            'jenjang_pendidikan' => $request->jenjang_pendidikan,
+            'user_id' => $user->id,
+        ]);
+
         return redirect()->route('santris.index')
-            ->with('success', 'Data Santri Berhasil Diupdate');
+            ->with('success', 'Data Santri Berhasil Diperbarui.');
     }
 
     /**

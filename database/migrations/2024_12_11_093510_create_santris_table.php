@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('santris', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade')->after('id');
             $table->string("nama");
             $table->bigInteger('nisn');
             $table->bigInteger('nik');
