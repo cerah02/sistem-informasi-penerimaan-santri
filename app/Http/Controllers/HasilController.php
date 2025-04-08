@@ -6,23 +6,23 @@ use App\Models\Hasil;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class OrtuController extends Controller
+class HasilController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    function __construct()
-    {
-        $this->middleware(
-            'permission:hasil-list|hasil-create|hasil-edit|hasil-delete',
-            ['only' => ['index', 'store']]
-        );
-        $this->middleware('permission:hasil-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:hasil-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:hasil-delete', ['only' => ['destroy']]);
-    }
+    // function __construct()
+    // {
+    //     $this->middleware(
+    //         'permission:hasil-list|hasil-create|hasil-edit|hasil-delete',
+    //         ['only' => ['index', 'store']]
+    //     );
+    //     $this->middleware('permission:hasil-create', ['only' => ['create', 'store']]);
+    //     $this->middleware('permission:hasil-edit', ['only' => ['edit', 'update']]);
+    //     $this->middleware('permission:hasil-delete', ['only' => ['destroy']]);
+    // }
 
     public function index(Request $request)
     {
@@ -74,11 +74,11 @@ class OrtuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-        return view('ortus.create');
-    }
+    // public function create()
+    // {
+    //     //
+    //     return view('ortus.create');
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -86,24 +86,24 @@ class OrtuController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-        $request->validate([
-            'santri_id' => 'required',
-            'nama_ayah' => 'required',
-            'pendidikan_ayah'=>'required',
-            'pekerjaan_ayah'=>'required',
-            'nama_ibu'=>'required',
-            'pendidikan_ibu' => 'required',
-            'pekerjaan_ibu'=>'required',
-            'no_hp'=>'required',
-            'alamat'=>'required',
-            ]);
-            Ortu::create($request->all());
-            return redirect()->route('ortus.index')
-            ->with('success','Data Orang Tua Berhasil Disimpan.');
-    }
+    // public function store(Request $request)
+    // {
+    //     //
+    //     $request->validate([
+    //         'santri_id' => 'required',
+    //         'nama_ayah' => 'required',
+    //         'pendidikan_ayah'=>'required',
+    //         'pekerjaan_ayah'=>'required',
+    //         'nama_ibu'=>'required',
+    //         'pendidikan_ibu' => 'required',
+    //         'pekerjaan_ibu'=>'required',
+    //         'no_hp'=>'required',
+    //         'alamat'=>'required',
+    //         ]);
+    //         Ortu::create($request->all());
+    //         return redirect()->route('ortus.index')
+    //         ->with('success','Data Orang Tua Berhasil Disimpan.');
+    // }
 
     /**
      * Display the specified resource.
@@ -111,62 +111,62 @@ class OrtuController extends Controller
      * @param  \App\Models\Ortu  $ortu
      * @return \Illuminate\Http\Response
      */
-    public function show(Ortu $ortu)
-    {
-        //
-        return view('ortus.show',compact('ortu'));
-    }
+    // public function show(Ortu $ortu)
+    // {
+    //     //
+    //     return view('ortus.show',compact('ortu'));
+    // }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Ortu  $ortu
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Ortu $ortu)
-    {
-        //
-        return view('ortus.edit',compact('ortu'));
-    }
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  *
+    //  * @param  \App\Models\Ortu  $ortu
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function edit(Ortu $ortu)
+    // {
+    //     //
+    //     return view('ortus.edit',compact('ortu'));
+    // }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Ortu  $ortu
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Ortu $ortu)
-    {
-        //
-        $request->validate([
-            'santri_id' => 'required',
-            'nama_ayah' => 'required',
-            'pendidikan_ayah'=>'required',
-            'pekerjaan_ayah'=>'required',
-            'nama_ibu'=>'required',
-            'pendidikan_ibu' => 'required',
-            'pekerjaan_ibu'=>'required',
-            'no_hp'=>'required',
-            'alamat'=>'required',
-            ]);
+    // /**
+    //  * Update the specified resource in storage.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @param  \App\Models\Ortu  $ortu
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function update(Request $request, Ortu $ortu)
+    // {
+    //     //
+    //     $request->validate([
+    //         'santri_id' => 'required',
+    //         'nama_ayah' => 'required',
+    //         'pendidikan_ayah'=>'required',
+    //         'pekerjaan_ayah'=>'required',
+    //         'nama_ibu'=>'required',
+    //         'pendidikan_ibu' => 'required',
+    //         'pekerjaan_ibu'=>'required',
+    //         'no_hp'=>'required',
+    //         'alamat'=>'required',
+    //         ]);
 
-            $ortu->update($request->all());
-            return redirect()->route('ortus.index')
-            ->with('success','Data Orang Tua Berhasil Diupdate');
-    }
+    //         $ortu->update($request->all());
+    //         return redirect()->route('ortus.index')
+    //         ->with('success','Data Orang Tua Berhasil Diupdate');
+    // }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Ortu  $ortu
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Ortu $ortu)
-    {
-        //
-        $ortu->delete();
-        return redirect()->route('ortus.index')
-        ->with('success','Data Orang Tua Berhasil Dihapus');
-    }
+    // /**
+    //  * Remove the specified resource from storage.
+    //  *
+    //  * @param  \App\Models\Ortu  $ortu
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy(Ortu $ortu)
+    // {
+    //     //
+    //     $ortu->delete();
+    //     return redirect()->route('ortus.index')
+    //     ->with('success','Data Orang Tua Berhasil Dihapus');
+    // }
 }

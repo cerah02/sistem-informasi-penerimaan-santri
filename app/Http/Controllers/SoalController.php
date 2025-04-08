@@ -7,6 +7,8 @@ use App\Models\Soal;
 use App\Models\Ujian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use LDAP\Result;
 use Yajra\DataTables\Facades\DataTables;
 
 class SoalController extends Controller
@@ -165,6 +167,35 @@ class SoalController extends Controller
                 'status' => $status_jawaban,
             ];
         }
+
+        $ujian_id = $request->ujian_id;
+        $jumlah_soal = count($results);
+        $jawaban_benar = 0;
+        $jawaban_salah = 0;
+        $keterangan = null;
+
+
+
+        foreach ($results as $result) {
+            if ($result['status'] === 'Benar') {
+                $jawaban_benar++;
+            } elseif ($result['status'] === 'Salah') {
+                $jawaban_salah++;
+            }
+        }
+
+        $total_nilai_kategori = ($jawaban_benar * 10) + ($jawaban_salah * -5);
+
+        DB::table("hasils")->insert([
+            'santri_id' => $santri_id,
+            'ujian_id' => $ujian_id,
+            'jumlah_soal' => $jumlah_soal,
+            'jawaban_benar' => $jawaban_benar,
+            'jawaban_salah' => $jawaban_salah,
+            'total_nilai_kategori' => $total_nilai_kategori,
+            'keterangan' => $keterangan,
+        ]);
+
 
         // Redirect ke halaman hasil dengan data results
         return view('soals.hasil', compact('results'));

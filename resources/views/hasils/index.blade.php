@@ -36,8 +36,7 @@
                             <th>Jumlah Soal</th>
                             <th>Jawaban Benar</th>
                             <th>Jawaban Salah</th>
-                            <th>Nilai Akhir</th>
-                            <th>Status</th>
+                            <th>Total Nilai Kategori</th>
                             <th>Keterangan</th> 
                             <th width="280px">Aksi</th>
                         </tr>
@@ -82,12 +81,8 @@
                         name: 'jawaban_salah'
                     },
                     {
-                        data: 'nilai_akhir',
-                        name: 'nilai_akhir'
-                    },
-                    {
-                        data: 'status_lulus',
-                        name: 'status_lulus'
+                        data: 'total_nilai_kategori',
+                        name: 'total_nilai_kategori'
                     },
                     {
                         data: 'keterangan',
