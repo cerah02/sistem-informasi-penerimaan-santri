@@ -184,7 +184,15 @@ class SoalController extends Controller
             }
         }
 
-        $total_nilai_kategori = ($jawaban_benar * 10) + ($jawaban_salah * -5);
+        $total_nilai_kategori = ($jawaban_benar / $jumlah_soal) * 100;
+
+        if ($total_nilai_kategori <= 70) {
+            $keterangan = 'Kurang Baik';
+        } elseif ($total_nilai_kategori > 70 && $total_nilai_kategori <= 85) {
+            $keterangan = 'Baik';
+        } elseif ($total_nilai_kategori > 85) {
+            $keterangan = 'Amat Baik';
+        }
 
         DB::table("hasils")->insert([
             'santri_id' => $santri_id,

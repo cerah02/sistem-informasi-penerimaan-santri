@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Guru;
+use App\Models\Hasil;
 use App\Models\Pendaftaran;
 use App\Models\Santri;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -113,6 +115,38 @@ class AuthController extends Controller
             $jumlah_santri_mendaftar_tahun_ini = Santri::whereYear('created_at', Carbon::now()->year)->count();
             $jumlah_santri_yang_sudah_disetujui = Pendaftaran::where('status', 'disetujui')->count();
             $jumlah_santri_yang_menunggu_disetujui = Pendaftaran::where('status', 'proses')->count();
+            $data_hasil = Hasil::with(['santri', 'ujian'])->get();
+
+            $data_ujian = $data_hasil->groupBy('santri_id')->map(function ($group) {
+                $santri = $group->first()->santri;
+                $jenjang = $santri->jenjang_pendidikan;
+
+                // Filter hasil ujian yang sesuai jenjang
+                $hasil_sesuai_jenjang = $group->filter(function ($item) use ($jenjang) {
+                    return $item->ujian->jenjang_pendidikan == $jenjang;
+                });
+
+                // Ambil nilai per mata pelajaran
+                $nilai_permapel = $hasil_sesuai_jenjang->mapWithKeys(function ($item) {
+                    return [$item->ujian->nama_ujian => $item->total_nilai_kategori];
+                });
+
+                $total_nilai = $hasil_sesuai_jenjang->sum('total_nilai_kategori');
+                $jumlah_ujian = $hasil_sesuai_jenjang->count();
+                $rata_rata = $jumlah_ujian > 0 ? $total_nilai / $jumlah_ujian : 0;
+                $status = $rata_rata >= 70 ? 'Lulus' : 'Tidak Lulus';
+
+                return [
+                    'nama_santri' => $santri->nama,
+                    'jenjang' => $jenjang,
+                    'nilai_permapel' => $nilai_permapel,
+                    'total_nilai' => $total_nilai,
+                    'rata_rata' => round($rata_rata, 2),
+                    'status_kelulusan' => $status,
+                ];
+            })->values();
+
+            $jenjang_list = $data_ujian->pluck('jenjang')->unique();
 
             return view('auth.dashboard', compact(
                 'Guru',
@@ -121,11 +155,13 @@ class AuthController extends Controller
                 'hitung_santri_byfilter',
                 'jumlah_santri_mendaftar_tahun_ini',
                 'jumlah_santri_yang_sudah_disetujui',
-                'jumlah_santri_yang_menunggu_disetujui'
+                'jumlah_santri_yang_menunggu_disetujui',
+                'data_ujian',
+                'jenjang_list'
             ));
         }
 
-        return redirect("login")->withErrors('Maaf! Kamu tidak memiliki akses');
+        return redirect("login")->withErrors('Maaf! Kamu tidak memiliki akses masuk');
     }
 
     /**

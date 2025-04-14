@@ -91,7 +91,7 @@
                             data-bs-target="#ujianDropdown" aria-expanded="false" aria-controls="ujianDropdown">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-paper-diploma text-dark text-sm opacity-10"></i>
+                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
                             </div>
                             <span class="nav-link-text ms-1">Ujian</span>
                         </a>
@@ -120,20 +120,6 @@
                     </li>
                 @endcan
 
-                <!-- Soal -->
-                @can('soal-list')
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('soals.index') ? 'active' : '' }}"
-                            href="{{ route('soals.index') }}">
-                            <div
-                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Soal</span>
-                        </a>
-                    </li>
-                @endcan
-
                 <!-- Jawaban -->
                 @can('jawaban-list')
                     <li class="nav-item">
@@ -144,6 +130,21 @@
                                 <i class="ni ni-check-bold text-dark text-sm opacity-10"></i>
                             </div>
                             <span class="nav-link-text ms-1">Jawaban</span>
+                        </a>
+                    </li>
+                @endcan
+
+                <!-- Hasil -->
+                @can('hasil-list')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('hasils.index') ? 'active' : '' }}"
+                            href="{{ route('hasils.index') }}">
+                            <div
+                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-paper-diploma text-dark text-sm opacity-10"></i>
+                                
+                            </div>
+                            <span class="nav-link-text ms-1">Hasil Ujian</span>
                         </a>
                     </li>
                 @endcan

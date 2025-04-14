@@ -13,16 +13,16 @@ class HasilController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // function __construct()
-    // {
-    //     $this->middleware(
-    //         'permission:hasil-list|hasil-create|hasil-edit|hasil-delete',
-    //         ['only' => ['index', 'store']]
-    //     );
-    //     $this->middleware('permission:hasil-create', ['only' => ['create', 'store']]);
-    //     $this->middleware('permission:hasil-edit', ['only' => ['edit', 'update']]);
-    //     $this->middleware('permission:hasil-delete', ['only' => ['destroy']]);
-    // }
+    function __construct()
+    {
+        $this->middleware(
+            'permission:hasil-list|hasil-create|hasil-edit|hasil-delete',
+            ['only' => ['index', 'store']]
+        );
+        $this->middleware('permission:hasil-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:hasil-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:hasil-delete', ['only' => ['destroy']]);
+    }
 
     public function index(Request $request)
     {
@@ -123,7 +123,7 @@ class HasilController extends Controller
     //  * @param  \App\Models\Ortu  $ortu
     //  * @return \Illuminate\Http\Response
     //  */
-    // public function edit(Ortu $ortu)
+    // public function edit(Hasil $hasil)
     // {
     //     //
     //     return view('ortus.edit',compact('ortu'));

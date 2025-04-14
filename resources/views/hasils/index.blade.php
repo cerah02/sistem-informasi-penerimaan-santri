@@ -7,7 +7,7 @@
             </div>
             @can('ortu-create')
             <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('hasils.create') }}"> Tambahkan Data Orang Tua Santri</a>
+                <a class="btn btn-success" href="{{ route('hasils.create') }}"> Tambah Data Hasil Ujian Santri</a>
             </div>    
             @endcan
         </div>
@@ -54,7 +54,7 @@
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('ortus.index') }}",
+                ajax: "{{ route('hasils.index') }}",
 
                 columns: [{
                         data: 'id',
