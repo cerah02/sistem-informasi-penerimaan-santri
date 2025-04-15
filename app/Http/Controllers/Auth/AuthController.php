@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -86,22 +87,18 @@ class AuthController extends Controller
      */
     public function dashboard(Request $request)
     {
-        // Pastikan variabel diinisialisasi sebagai null
         $Guru = "";
         $Santri = "";
 
         if (Auth::check()) {
-            // Cek role user yang sedang login
             if (Auth::user()->hasRole('Guru')) {
                 $Guru = Guru::where('email', auth()->user()->email)->first();
             } elseif (Auth::user()->hasRole('Santri')) {
                 $Santri = Santri::where('email', auth()->user()->email)->first();
             }
 
-            // Total seluruh santri tanpa filter
             $jumlah_santri = Santri::count();
 
-            // Total santri sesuai filter
             $query = Santri::query();
             if ($request->jenjang_filter) {
                 $query->where('jenjang_pendidikan', $request->jenjang_filter);
@@ -111,7 +108,6 @@ class AuthController extends Controller
             }
             $hitung_santri_byfilter = $query->count();
 
-            // Statistik pendaftaran
             $jumlah_santri_mendaftar_tahun_ini = Santri::whereYear('created_at', Carbon::now()->year)->count();
             $jumlah_santri_yang_sudah_disetujui = Pendaftaran::where('status', 'disetujui')->count();
             $jumlah_santri_yang_menunggu_disetujui = Pendaftaran::where('status', 'proses')->count();
@@ -121,12 +117,10 @@ class AuthController extends Controller
                 $santri = $group->first()->santri;
                 $jenjang = $santri->jenjang_pendidikan;
 
-                // Filter hasil ujian yang sesuai jenjang
                 $hasil_sesuai_jenjang = $group->filter(function ($item) use ($jenjang) {
                     return $item->ujian->jenjang_pendidikan == $jenjang;
                 });
 
-                // Ambil nilai per mata pelajaran
                 $nilai_permapel = $hasil_sesuai_jenjang->mapWithKeys(function ($item) {
                     return [$item->ujian->nama_ujian => $item->total_nilai_kategori];
                 });
@@ -148,6 +142,37 @@ class AuthController extends Controller
 
             $jenjang_list = $data_ujian->pluck('jenjang')->unique();
 
+            // ======================= Tambahan untuk Chart Perkembangan Santri ========================
+            $data = Santri::select('tahun_masuk', 'jenjang_pendidikan', DB::raw('count(*) as total'))
+                ->groupBy('tahun_masuk', 'jenjang_pendidikan')
+                ->orderBy('tahun_masuk')
+                ->get();
+
+            $years = $data->pluck('tahun_masuk')->unique()->sort()->values();
+            $jenjangs = ['SD', 'MTS', 'MA'];
+            $chartData = [];
+
+            foreach ($jenjangs as $jenjang) {
+                $chartData[$jenjang] = [];
+
+                foreach ($years as $year) {
+                    $count = $data->firstWhere(fn($item) => $item->tahun_masuk == $year && $item->jenjang_pendidikan == $jenjang);
+                    $chartData[$jenjang][] = $count ? $count->total : 0;
+                }
+            }
+            // =========================================================================================
+            $genderQuery = Santri::query();
+
+            if ($request->year) {
+                $genderQuery->where('tahun_masuk', $request->year);
+            }
+            if ($request->jenjang_filter) {
+                $genderQuery->where('jenjang_pendidikan', $request->jenjang_filter);
+            }
+
+            $jumlah_laki_laki = (clone $genderQuery)->where('jenis_kelamin', 'laki-laki')->count();
+            $jumlah_perempuan = (clone $genderQuery)->where('jenis_kelamin', 'perempuan')->count();
+
             return view('auth.dashboard', compact(
                 'Guru',
                 'Santri',
@@ -157,13 +182,17 @@ class AuthController extends Controller
                 'jumlah_santri_yang_sudah_disetujui',
                 'jumlah_santri_yang_menunggu_disetujui',
                 'data_ujian',
-                'jenjang_list'
+                'jenjang_list',
+                'years',         // Tambahan
+                'chartData',      // Tambahan
+                'jumlah_laki_laki',
+                'jumlah_perempuan',
+
             ));
         }
 
         return redirect("login")->withErrors('Maaf! Kamu tidak memiliki akses masuk');
     }
-
     /**
      * Write code on Method
      *
@@ -171,11 +200,13 @@ class AuthController extends Controller
      */
     public function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $user = User::create([
+            'nama' => $data['nama'],
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
         ]);
+        $role = Role::where('name', '=', 'Santri')->orWhere('name', '=', 'santri')->first();
+        $user->assignRole([$role->id]);
     }
 
     public function update_profile(Request $request)

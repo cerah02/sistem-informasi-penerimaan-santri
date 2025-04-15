@@ -138,6 +138,10 @@
                         name: 'jenjang_pendidikan'
                     },
                     {
+                        data: 'tahun_masuk',
+                        name: 'tahun_masuk'
+                    },
+                    {
                         data: 'aksi',
                         name: 'aksi',
                         orderable: false,

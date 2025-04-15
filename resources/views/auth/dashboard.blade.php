@@ -365,57 +365,6 @@
             });
         </script>
 
-        <!-- Sales by Country Card -->
-        <div class="row mt-4">
-            <div class="col-lg-7 mb-lg-0 mb-4">
-                <div class="card shadow-lg border-0 hover-scale">
-                    <div class="card-header pb-0 p-3">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="mb-2">Sales by Country</h6>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table align-items-center">
-                            <tbody>
-                                <tr>
-                                    <td class="w-30">
-                                        <div class="d-flex px-2 py-1 align-items-center">
-                                            <div>
-                                                <img src="../assets/img/icons/flags/US.png" alt="Country flag">
-                                            </div>
-                                            <div class="ms-4">
-                                                <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                                <h6 class="text-sm mb-0">United States</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                            <h6 class="text-sm mb-0">2500</h6>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                            <h6 class="text-sm mb-0">$230,900</h6>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-sm">
-                                        <div class="col text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                            <h6 class="text-sm mb-0">29.9%</h6>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Repeat for other countries -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="col-xl-8 col-lg-6 mb-4">
             <div class="card border-0 shadow transition-all" style="border-radius: 15px;">
                 <div class="card-body p-4">
@@ -430,15 +379,12 @@
                                 <i class="fas fa-sliders-h me-1"></i> Opsi
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#" onclick="changeChartType('line')">Garis</a>
-                                </li>
-                                <li><a class="dropdown-item" href="#" onclick="changeChartType('bar')">Batang</a>
-                                </li>
+                                <li><a class="dropdown-item" href="#" onclick="changeChartType('line')">Garis</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="changeChartType('bar')">Batang</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="#" onclick="exportChart()">Ekspor Gambar</a>
-                                </li>
+                                <li><a class="dropdown-item" href="#" onclick="exportChart()">Ekspor Gambar</a></li>
                             </ul>
                         </div>
                     </div>
@@ -454,6 +400,7 @@
             </div>
         </div>
 
+
         <!-- Chart.js Script -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
@@ -461,13 +408,19 @@
 
             document.addEventListener('DOMContentLoaded', function() {
                 const ctx = document.getElementById('santriGrowthChart').getContext('2d');
+
+                const years = @json($years);
+                const sdData = @json($chartData['SD']);
+                const mtsData = @json($chartData['MTS']);
+                const maData = @json($chartData['MA']);
+
                 santriChart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: ['2019', '2020', '2021', '2022', '2023'],
+                        labels: years,
                         datasets: [{
                                 label: 'SD',
-                                data: [120, 135, 145, 160, 175],
+                                data: sdData,
                                 borderColor: '#4e73df',
                                 backgroundColor: 'rgba(78, 115, 223, 0.1)',
                                 borderWidth: 2,
@@ -476,7 +429,7 @@
                             },
                             {
                                 label: 'MTS',
-                                data: [150, 165, 180, 190, 210],
+                                data: mtsData,
                                 borderColor: '#1cc88a',
                                 backgroundColor: 'rgba(28, 200, 138, 0.1)',
                                 borderWidth: 2,
@@ -485,7 +438,7 @@
                             },
                             {
                                 label: 'MA',
-                                data: [50, 60, 75, 85, 95],
+                                data: maData,
                                 borderColor: '#f6c23e',
                                 backgroundColor: 'rgba(246, 194, 62, 0.1)',
                                 borderWidth: 2,
@@ -508,14 +461,14 @@
                         },
                         scales: {
                             y: {
-                                beginAtZero: false,
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)'
-                                },
+                                beginAtZero: true,
                                 ticks: {
                                     callback: function(value) {
                                         return value + ' santri';
                                     }
+                                },
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)'
                                 }
                             },
                             x: {
@@ -544,6 +497,142 @@
                 link.click();
             }
         </script>
+
+        <div class="col-xl-4 col-lg-6 mb-4">
+            <div class="card border-0 shadow-lg transition-all hover-shadow-lg"
+                style="border-radius: 15px; overflow: hidden;">
+                <!-- Card Header with Gradient Background -->
+                <div class="card-header bg-gradient-primary text-white py-3"
+                    style="border-radius: 15px 15px 0 0 !important;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title mb-0 fw-bold">Statistik Jenis Kelamin</h5>
+                        </div>
+                        <i class="fas fa-venus-mars fa-2x opacity-50"></i>
+                    </div>
+                </div>
+
+                <!-- Filter Section -->
+                <div class="px-4 pt-3 pb-2 bg-light">
+                    <form method="GET" action="{{ route('dashboard') }}">
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <select name="year" class="form-select form-select-sm" onchange="this.form.submit()">
+                                    <option value="">-- Pilih Tahun --</option>
+                                    @foreach (\App\Models\Santri::select('tahun_masuk')->distinct()->pluck('tahun_masuk') as $tahun)
+                                        <option value="{{ $tahun }}"
+                                            {{ request('year') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <select name="jenjang_filter" class="form-select form-select-sm"
+                                    onchange="this.form.submit()">
+                                    <option value="">-- Pilih Jenjang --</option>
+                                    @foreach (['SD', 'MTS', 'MA'] as $jenjang)
+                                        <option value="{{ $jenjang }}"
+                                            {{ request('jenjang_filter') == $jenjang ? 'selected' : '' }}>
+                                            {{ $jenjang }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="card-body p-4">
+                    <div style="position: relative; height: 280px;">
+                        <canvas id="genderChart"></canvas>
+                    </div>
+
+                    <!-- Stats Summary -->
+                    <div class="row mt-4 text-center">
+                        <div class="col-6">
+                            <div class="border-end">
+                                <h3 class="fw-bold text-primary mb-1">{{ $jumlah_laki_laki }}</h3>
+                                <p class="text-muted small mb-0">
+                                    <i class="fas fa-male text-primary me-1"></i> Santri Laki-laki
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <h3 class="fw-bold text-pink mb-1">{{ $jumlah_perempuan }}</h3>
+                                <p class="text-muted small mb-0">
+                                    <i class="fas fa-female text-pink me-1"></i> Santri Prempuan
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const genderCtx = document.getElementById('genderChart').getContext('2d');
+                new Chart(genderCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Laki-laki', 'Perempuan'],
+                        datasets: [{
+                            label: 'Students',
+                            data: [{{ $jumlah_laki_laki }}, {{ $jumlah_perempuan }}],
+                            backgroundColor: ['#4e73df', '#e83e8c'],
+                            borderColor: ['#ffffff', '#ffffff'],
+                            borderWidth: 3,
+                            hoverOffset: 10
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    usePointStyle: true,
+                                    pointStyle: 'circle',
+                                    font: {
+                                        family: "'Nunito', sans-serif",
+                                        size: 12
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: '#2d3748',
+                                titleFont: {
+                                    family: "'Nunito', sans-serif",
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                bodyFont: {
+                                    family: "'Nunito', sans-serif",
+                                    size: 12
+                                },
+                                callbacks: {
+                                    label: function(context) {
+                                        let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        let value = context.parsed;
+                                        let percent = (value / total * 100).toFixed(1);
+                                        return `${context.label}: ${value} students (${percent}%)`;
+                                    }
+                                }
+                            }
+                        },
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        }
+                    }
+                });
+            });
+        </script>
+
 
         <!-- Footer -->
         <footer class="footer pt-3">

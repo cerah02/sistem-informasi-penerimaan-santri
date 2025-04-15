@@ -100,26 +100,25 @@ class SantriController extends Controller
     public function store(Request $request)
     {
 
-
-        //dd($request->all());
         $request->validate([
-            'nama' => 'required',
-            'nisn' => 'required',
-            'nik' => 'required',
-            'asal_sekolah' => 'required',
-            'jenis_kelamin' => 'required',
-            'kondisi' => 'required',
-            'kondisi_ortu' => 'required',
-            'status_dkluarga' => 'required',
-            'tempat_tinggal' => 'required',
-            'kewarganegaraan' => 'required',
-            'anak_ke' => 'required',
-            'jumlah_saudara' => 'required',
-            'alamat' => 'required',
-            'tanggal_lahir' => 'required',
-            'nomor_telpon' => 'required',
-            'email' => 'required',
-            'jenjang_pendidikan' => 'required',
+            'nama' => 'nullable',
+            'nisn' => 'nullable',
+            'nik' => 'nullable',
+            'asal_sekolah' => 'nullable',
+            'jenis_kelamin' => 'nullable',
+            'kondisi' => 'nullable',
+            'kondisi_ortu' => 'nullable',
+            'status_dkluarga' => 'nullable',
+            'tempat_tinggal' => 'nullable',
+            'kewarganegaraan' => 'nullable',
+            'anak_ke' => 'nullable',
+            'jumlah_saudara' => 'nullable',
+            'alamat' => 'nullable',
+            'tanggal_lahir' => 'nullable',
+            'nomor_telpon' => 'nullable',
+            'email' => 'nullable',
+            'jenjang_pendidikan' => 'nullable',
+            'tahun_masuk' => 'nullable'
         ]);
         $user = User::create([
             'name' => $request->nama,
@@ -188,6 +187,7 @@ class SantriController extends Controller
             'nomor_telpon' => 'required|numeric',
             'email' => 'required|email',
             'jenjang_pendidikan' => 'required',
+            'tahun_masuk' => 'required',
         ]);
 
         // Pastikan user dengan email yang diberikan ada
@@ -221,6 +221,7 @@ class SantriController extends Controller
             'alamat' => $request->alamat,
             'nomor_telpon' => $request->nomor_telpon,
             'jenjang_pendidikan' => $request->jenjang_pendidikan,
+            'tahun_masuk' => $request->tahun_masuk,
             'user_id' => $user->id,
         ]);
 

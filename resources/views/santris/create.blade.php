@@ -304,12 +304,22 @@
                                 <input class="form-check-input" type="radio" id="jenjang_ma" name="jenjang_pendidikan" value="MA" required>
                                 <label class="form-check-label" for="jenjang_ma">MA</label>
                             </div>
-                        </div>
-                        @error('jenjang_pendidikan')
+                            @error('jenjang_pendidikan')
                             <div class="invalid-feedback d-block">
                                 {{ $message }}
                             </div>
-                        @enderror
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tahun_masuk" class="form-label">Tahun Masuk:</label>
+                            <input type="year" id="tahun_masuk" name="tahun_masuk" class="form-control" required>
+                            @error('tahun_masuk')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
                     <div class="text-center mt-4">
                         <button type="submit" class="btn btn-primary px-4">Submit</button>
