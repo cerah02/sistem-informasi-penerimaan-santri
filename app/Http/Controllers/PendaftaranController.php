@@ -76,7 +76,7 @@ class PendaftaranController extends Controller
                     }
 
                     return $btn;
-                })->addColumn('nama_santri',function($row){
+                })->addColumn('nama_santri', function ($row) {
                     return $row->santri->nama;
                 })
                 ->rawColumns(['aksi'])
@@ -93,19 +93,20 @@ class PendaftaranController extends Controller
     {
         $request->validate([
             'nama' => 'required',
-            'nisn' => 'required',
-            'nik' => 'required',
+            'nisn' => 'required|numeric',
+            'nik' => 'required|numeric',
             'asal_sekolah' => 'required',
-            'jenis_kelamin' => 'required',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required|date',
             'kondisi' => 'required',
             'kondisi_ortu' => 'required',
             'status_dkluarga' => 'required',
-            'tempat_tinggal' => 'required', // Tetap validasi untuk field ini
+            'tempat_tinggal' => 'required',
             'kewarganegaraan' => 'required',
-            'anak_ke' => 'required|numeric',
+            'anak_ke' => 'required',
             'jumlah_saudara' => 'required|numeric',
             'alamat' => 'required',
-            'tanggal_lahir' => 'required|date',
             'nomor_telpon' => 'required',
             'email' => 'required|email',
             'jenjang_pendidikan' => 'required',
@@ -117,53 +118,88 @@ class PendaftaranController extends Controller
             'pekerjaan_ibu' => 'required',
             'no_hp' => 'required',
             'golongan_darah' => 'required',
-            'tb' => 'required',
-            'bb' => 'required',
+            'tb' => 'required|numeric',
+            'bb' => 'required|numeric',
             'riwayat_penyakit' => 'required',
-            'ijazah' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
-            'nilai_raport' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
-            'skhun' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
-            'foto' => 'required|file|mimes:jpg,jpeg,png,docx|max:2048',
-            'kk' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
-            'ktp_ayah' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
-            'ktp_ibu' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
+            'ijazah' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'nilai_raport' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'skhun' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'foto' => 'required|file|mimes:jpg,jpeg,png|max:2048',
+            'kk' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'ktp_ayah' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'ktp_ibu' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'nama_bantuan' => 'required',
             'tingkat' => 'required',
-            'no_kip' => 'required',
-            'tempat_tinggal_lainnya' => 'required_if:tempat_tinggal,Lainnya' // Validasi khusus untuk opsi lainnya
+            'no_kip' => 'required|numeric',
         ]);
-
-        // Handle tempat tinggal
-        $tempatTinggal = $request->tempat_tinggal === 'Lainnya'
-            ? $request->tempat_tinggal_lainnya
-            : $request->tempat_tinggal;
-
-        $input = $request->all();
-        $input['tempat_tinggal'] = $tempatTinggal;
-        $input['ttl'] = $request->tempat_lahir . '|' . $request->tanggal_lahir;
-
-        // Hapus field yang tidak perlu
-        unset($input['tempat_tinggal_lainnya']);
+        // dd($request);
 
         try {
             DB::beginTransaction();
 
-            $santri = Santri::create($input);
+            $user = auth()->user();
 
-            // Create related records
-            Ortu::create([
-                'santri_id' => $santri->id,
-                'nama_ayah' => $request->nama_ayah,
-                'pendidikan_ayah' => $request->pendidikan_ayah,
-                'pekerjaan_ayah' => $request->pekerjaan_ayah,
-                'nama_ibu' => $request->nama_ibu,
-                'pendidikan_ibu' => $request->pendidikan_ibu,
-                'pekerjaan_ibu' => $request->pekerjaan_ibu,
-                'no_hp' => $request->no_hp,
+            $santri = Santri::where('user_id', $user->id)->first();
+            if (!$santri) {
+                $santri = new Santri();
+                $santri->user_id = $user->id;
+            }
+
+            $santri->fill([
+                'nama' => $request->nama,
+                'nisn' => $request->nisn,
+                'nik' => $request->nik,
+                'asal_sekolah' => $request->asal_sekolah,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'ttl' => $request->tempat_lahir . '|' . $request->tanggal_lahir,
+                'kondisi' => $request->kondisi,
+                'kondisi_ortu' => $request->kondisi_ortu,
+                'status_dkluarga' => $request->status_dkluarga,
+                'tempat_tinggal' => $request->tempat_tinggal,
+                'kewarganegaraan' => $request->kewarganegaraan,
+                'anak_ke' => $request->anak_ke,
+                'jumlah_saudara' => $request->jumlah_saudara,
                 'alamat' => $request->alamat,
+                'nomor_telpon' => $request->nomor_telpon,
+                'email' => $request->email,
+                'jenjang_pendidikan' => $request->jenjang_pendidikan,
+                'tahun_masuk' => date('Y')
             ]);
+            $santri->save();
 
-            // Handle file uploads
+            Ortu::updateOrCreate(
+                ['santri_id' => $santri->id],
+                [
+                    'nama_ayah' => $request->nama_ayah,
+                    'pendidikan_ayah' => $request->pendidikan_ayah,
+                    'pekerjaan_ayah' => $request->pekerjaan_ayah,
+                    'nama_ibu' => $request->nama_ibu,
+                    'pendidikan_ibu' => $request->pendidikan_ibu,
+                    'pekerjaan_ibu' => $request->pekerjaan_ibu,
+                    'no_hp' => $request->no_hp,
+                    'alamat' => $request->alamat,
+                ]
+            );
+
+            Kesehatan::updateOrCreate(
+                ['santri_id' => $santri->id],
+                [
+                    'golongan_darah' => $request->golongan_darah,
+                    'tb' => $request->tb,
+                    'bb' => $request->bb,
+                    'riwayat_penyakit' => $request->riwayat_penyakit
+                ]
+            );
+
+            Bantuan::updateOrCreate(
+                ['santri_id' => $santri->id],
+                [
+                    'nama_bantuan' => $request->nama_bantuan,
+                    'tingkat' => $request->tingkat,
+                    'no_kip' => $request->no_kip
+                ]
+            );
+
             $dokumenData = ['santri_id' => $santri->id];
             $fileFields = [
                 'ijazah',
@@ -184,43 +220,22 @@ class PendaftaranController extends Controller
                 }
             }
 
-            Dokumen::create($dokumenData);
+            Dokumen::updateOrCreate(
+                ['santri_id' => $santri->id],
+                $dokumenData
+            );
 
-            Kesehatan::create([
-                'santri_id' => $santri->id,
-                'golongan_darah' => $request->golongan_darah,
-                'tb' => $request->tb,
-                'bb' => $request->bb,
-                'riwayat_penyakit' => $request->riwayat_penyakit
-            ]);
-
-            Bantuan::create([
-                'santri_id' => $santri->id,
-                'nama_bantuan' => $request->nama_bantuan,
-                'tingkat' => $request->tingkat,
-                'no_kip' => $request->no_kip
-            ]);
-
-            User::create([
-                'name' => $santri->nama,
-                'email' => $santri->email,
-                'password' => Hash::make('123123')
-            ]);
-
-            Pendaftaran::create([
-                'santri_id' => $santri->id,
-                'tanggal_pendaftaran' => now(),
-                'status' => 'proses'
-            ]);
+            Pendaftaran::updateOrCreate(
+                ['santri_id' => $santri->id],
+                ['tanggal_pendaftaran' => now(), 'status' => 'proses']
+            );
 
             DB::commit();
 
-            return redirect()->route('santris.index')
-                ->with('success', 'Pendaftaran berhasil disimpan');
+            return redirect()->route('santri_pendaftaran_view')->with('success', 'Pendaftaran berhasil disimpan!');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 

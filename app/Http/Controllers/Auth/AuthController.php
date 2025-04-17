@@ -183,8 +183,8 @@ class AuthController extends Controller
                 'jumlah_santri_yang_menunggu_disetujui',
                 'data_ujian',
                 'jenjang_list',
-                'years',         // Tambahan
-                'chartData',      // Tambahan
+                'years',    
+                'chartData',   
                 'jumlah_laki_laki',
                 'jumlah_perempuan',
 
@@ -201,9 +201,13 @@ class AuthController extends Controller
     public function create(array $data)
     {
         $user = User::create([
-            'nama' => $data['nama'],
+            'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
+        ]);
+        $santri = Santri::create([
+            'user_id' => $user->id,
+            'nama' => $user->name
         ]);
         $role = Role::where('name', '=', 'Santri')->orWhere('name', '=', 'santri')->first();
         $user->assignRole([$role->id]);

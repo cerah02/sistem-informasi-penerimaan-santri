@@ -76,6 +76,7 @@ class PermissionTableSeeder extends Seeder
             'user-show',
             'user-delete',
             'user-edit',
+            'pendaftaran-santri',
             'pendaftaran-list',
             'pendaftaran-create',
             'pendaftaran-show',

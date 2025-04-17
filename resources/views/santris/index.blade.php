@@ -48,6 +48,7 @@
                             <th>Nomor Telepon</th>
                             <th>Email</th>
                             <th>Jenjang Pendidikan</th>
+                            <th>Tahun Masuk</th>
                             <th width="280px">Aksi</th>
                         </tr>
                     </thead>
