@@ -85,10 +85,21 @@ class PendaftaranController extends Controller
 
         return view('pendaftarans.index');
     }
+
+
     public function santri_pendaftaran_view()
     {
-        return view('pendaftarans.main');
+        $user = auth()->user();
+
+        // Ambil data santri beserta relasi-relasinya
+        $santri = Santri::with(['ortu', 'kesehatan', 'bantuan', 'dokumen'])
+            ->where('user_id', $user->id)
+            ->first();
+
+        return view('pendaftarans.main', compact('santri'));
     }
+
+
     public function pendaftara_santri_simpan(Request $request)
     {
         $request->validate([

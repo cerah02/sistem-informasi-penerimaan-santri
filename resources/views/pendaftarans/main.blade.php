@@ -1,31 +1,32 @@
 @extends('layout')
 @section('content')
     <div class="container mt-5">
-        @if ($errors->any())
-            <div class="alert alert-danger">
 
-                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+        <h2>{{ $santri ? 'Edit' : 'Formulir' }} Pendaftaran Santri Baru</h2>
 
-                <ul>
-
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-
-                </ul>
-
-            </div>
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
         @endif
-        <h2 class="text-center mb-4">Formulir Pendaftaran Santri</h2>
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
         <div class="card shadow mb-5">
-            <form action="{{ route('pendaftaransantri.simpan') }}" method="POST" class="needs-validation"
+            <form id="multiStepForm" action="{{ $santri ? route('santris.update') : route('santris.store') }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
+                @if ($santri)
+                    @method('PUT')
+                @endif
+
+                {{-- @dd($santri) --}}
+
                 <div class="step" id="step-1">
                     <h5 class="mb-3">Data Diri Santri</h5>
                     <div class="mb-3">
                         <label for="nama" class="form-label">Nama:</label>
-                        <input type="text" id="nama" name="nama" class="form-control" required>
+                        <input type="text" id="nama" name="nama" class="form-control"
+                            value="{{ old('nama', isset($santri) ? $santri->nama : '') }}" required>
                         @error('nama')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -35,7 +36,8 @@
 
                     <div class="mb-3">
                         <label for="nisn" class="form-label">NISN:</label>
-                        <input type="text" id="nisn" name="nisn" class="form-control" required>
+                        <input type="text" id="nisn" name="nisn" class="form-control"
+                            value="{{ old('nisn', isset($santri) ? $santri->nisn : '') }}" required>
                         @error('nisn')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -45,7 +47,8 @@
 
                     <div class="mb-3">
                         <label for="nik" class="form-label">NIK:</label>
-                        <input type="text" id="nik" name="nik" class="form-control" required>
+                        <input type="text" id="nik" name="nik" class="form-control"
+                            value="{{ old('nik', isset($santri) ? $santri->nik : '') }}" required>
                         @error('nik')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -55,7 +58,8 @@
 
                     <div class="mb-3">
                         <label for="asal_sekolah" class="form-label">Asal Sekolah:</label>
-                        <input type="text" id="asal_sekolah" name="asal_sekolah" class="form-control" required>
+                        <input type="text" id="asal_sekolah" name="asal_sekolah" class="form-control"
+                            value="{{ old('asal_sekolah', isset($santri) ? $santri->asal_sekolah : '') }}" required>
                         @error('asal_sekolah')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -68,12 +72,16 @@
                         <div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="jenis_kelamin_laki" name="jenis_kelamin"
-                                    value="laki-laki" required>
+                                    value="laki-laki"
+                                    {{ old('jenis_kelamin', $santri->jenis_kelamin ?? '') == 'laki-laki' ? 'checked' : '' }}
+                                    required>
                                 <label class="form-check-label" for="jenis_kelamin_laki">Laki-laki</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="jenis_kelamin_perempuan"
-                                    name="jenis_kelamin" value="perempuan" required>
+                                    name="jenis_kelamin" value="perempuan"
+                                    {{ old('jenis_kelamin', $santri->jenis_kelamin ?? '') == 'perempuan' ? 'checked' : '' }}
+                                    required>
                                 <label class="form-check-label" for="jenis_kelamin_perempuan">Perempuan</label>
                             </div>
                         </div>
@@ -83,18 +91,24 @@
                             </div>
                         @enderror
                     </div>
+
                     <div class="mb-3">
                         <label for="ttl" class="form-label">Tempat Lahir</label>
-                        <input type="text" id="ttl" name="tempat_lahir" class="form-control" required>
-                        @error('tanggal_lahir')
+                        <input type="text" id="ttl" name="tempat_lahir" class="form-control"
+                            value="{{ old('tempat_lahir', isset($santri) ? explode('|', $santri->ttl)[0] : '') }}"
+                            required>
+                        @error('tempat_lahir')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
                     </div>
+
                     <div class="mb-3">
                         <label for="tanggal_lahir" class="form-label">Tanggal Lahir:</label>
-                        <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control" required>
+                        <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control"
+                            value="{{ old('tanggal_lahir', isset($santri) ? explode('|', $santri->ttl)[1] ?? '' : '') }}"
+                            required>
                         @error('tanggal_lahir')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -107,12 +121,16 @@
                         <div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="kondisi_berkecukupan" name="kondisi"
-                                    value="Berkecukupan" required>
+                                    value="Berkecukupan"
+                                    {{ old('kondisi', $santri->kondisi ?? '') == 'Berkecukupan' ? 'checked' : '' }}
+                                    required>
                                 <label class="form-check-label" for="kondisi_berkecukupan">Berkecukupan</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="kondisi_kurang_mampu" name="kondisi"
-                                    value="Kurang Mampu" required>
+                                    value="Kurang Mampu"
+                                    {{ old('kondisi', $santri->kondisi ?? '') == 'Kurang Mampu' ? 'checked' : '' }}
+                                    required>
                                 <label class="form-check-label" for="kondisi_kurang_mampu">Kurang Mampu</label>
                             </div>
                         </div>
@@ -122,27 +140,36 @@
                             </div>
                         @enderror
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Kondisi Orang Tua:</label>
                         <div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="kondisi_ortu_lengkap"
-                                    name="kondisi_ortu" value="Lengkap" required>
+                                    name="kondisi_ortu" value="Lengkap"
+                                    {{ old('kondisi_ortu', $santri->kondisi_ortu ?? '') == 'Lengkap' ? 'checked' : '' }}
+                                    required>
                                 <label class="form-check-label" for="kondisi_ortu_lengkap">Lengkap</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="kondisi_ortu_yatim"
-                                    name="kondisi_ortu" value="Yatim" required>
+                                    name="kondisi_ortu" value="Yatim"
+                                    {{ old('kondisi_ortu', $santri->kondisi_ortu ?? '') == 'Yatim' ? 'checked' : '' }}
+                                    required>
                                 <label class="form-check-label" for="kondisi_ortu_yatim">Yatim</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="kondisi_ortu_piatu"
-                                    name="kondisi_ortu" value="Piatu" required>
+                                    name="kondisi_ortu" value="Piatu"
+                                    {{ old('kondisi_ortu', $santri->kondisi_ortu ?? '') == 'Piatu' ? 'checked' : '' }}
+                                    required>
                                 <label class="form-check-label" for="kondisi_ortu_piatu">Piatu</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="kondisi_ortu_yatim_piatu"
-                                    name="kondisi_ortu" value="Yatim Piatu" required>
+                                    name="kondisi_ortu" value="Yatim Piatu"
+                                    {{ old('kondisi_ortu', $santri->kondisi_ortu ?? '') == 'Yatim Piatu' ? 'checked' : '' }}
+                                    required>
                                 <label class="form-check-label" for="kondisi_ortu_yatim_piatu">Yatim Piatu</label>
                             </div>
                         </div>
@@ -152,27 +179,36 @@
                             </div>
                         @enderror
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Status dalam Keluarga:</label>
                         <div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="status_kandung"
-                                    name="status_dkluarga" value="Anak Kandung" required>
+                                    name="status_dkluarga" value="Anak Kandung"
+                                    {{ old('status_dkluarga', $santri->status_dkluarga ?? '') == 'Anak Kandung' ? 'checked' : '' }}
+                                    required>
                                 <label class="form-check-label" for="status_kandung">Anak Kandung</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="status_tiri_ayah"
-                                    name="status_dkluarga" value="Anak Tiri Dari Ayah" required>
+                                    name="status_dkluarga" value="Anak Tiri Dari Ayah"
+                                    {{ old('status_dkluarga', $santri->status_dkluarga ?? '') == 'Anak Tiri Dari Ayah' ? 'checked' : '' }}
+                                    required>
                                 <label class="form-check-label" for="status_tiri_ayah">Anak Tiri Dari Ayah</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="status_tiri_ibu"
-                                    name="status_dkluarga" value="Anak Tiri Dari Ibu" required>
+                                    name="status_dkluarga" value="Anak Tiri Dari Ibu"
+                                    {{ old('status_dkluarga', $santri->status_dkluarga ?? '') == 'Anak Tiri Dari Ibu' ? 'checked' : '' }}
+                                    required>
                                 <label class="form-check-label" for="status_tiri_ibu">Anak Tiri Dari Ibu</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="status_angkat" name="status_dkluarga"
-                                    value="Anak Angkat" required>
+                                    value="Anak Angkat"
+                                    {{ old('status_dkluarga', $santri->status_dkluarga ?? '') == 'Anak Angkat' ? 'checked' : '' }}
+                                    required>
                                 <label class="form-check-label" for="status_angkat">Anak Angkat</label>
                             </div>
                         </div>
@@ -182,47 +218,62 @@
                             </div>
                         @enderror
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Tempat Tinggal:</label>
                         <div>
+                            @php
+                                $tempatTinggal = old('tempat_tinggal', $santri->tempat_tinggal ?? '');
+                            @endphp
+
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="tinggal_orang_tua"
-                                    name="tempat_tinggal" value="Orang Tua" required>
+                                    name="tempat_tinggal" value="Orang Tua"
+                                    {{ $tempatTinggal == 'Orang Tua' ? 'checked' : '' }} required>
                                 <label class="form-check-label" for="tinggal_orang_tua">Orang Tua</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="tinggal_kakek_nenek"
-                                    name="tempat_tinggal" value="Kakek/Nenek" required>
+                                    name="tempat_tinggal" value="Kakek/Nenek"
+                                    {{ $tempatTinggal == 'Kakek/Nenek' ? 'checked' : '' }} required>
                                 <label class="form-check-label" for="tinggal_kakek_nenek">Kakek/Nenek</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="tinggal_paman_bibi"
-                                    name="tempat_tinggal" value="Paman/Bibi" required>
+                                    name="tempat_tinggal" value="Paman/Bibi"
+                                    {{ $tempatTinggal == 'Paman/Bibi' ? 'checked' : '' }} required>
                                 <label class="form-check-label" for="tinggal_paman_bibi">Paman/Bibi</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="tinggal_saudara_kandung"
-                                    name="tempat_tinggal" value="Saudara Kandung" required>
+                                    name="tempat_tinggal" value="Saudara Kandung"
+                                    {{ $tempatTinggal == 'Saudara Kandung' ? 'checked' : '' }} required>
                                 <label class="form-check-label" for="tinggal_saudara_kandung">Saudara Kandung</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="tinggal_kerabat"
-                                    name="tempat_tinggal" value="Kerabat" required>
+                                    name="tempat_tinggal" value="Kerabat"
+                                    {{ $tempatTinggal == 'Kerabat' ? 'checked' : '' }} required>
                                 <label class="form-check-label" for="tinggal_kerabat">Kerabat</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="tinggal_panti_ponten"
-                                    name="tempat_tinggal" value="Panti/Ponten" required>
+                                    name="tempat_tinggal" value="Panti/Ponten"
+                                    {{ $tempatTinggal == 'Panti/Ponten' ? 'checked' : '' }} required>
                                 <label class="form-check-label" for="tinggal_panti_ponten">Panti/Ponten</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="tinggal_lainnya"
-                                    name="tempat_tinggal" value="Lainnya" required>
+                                    name="tempat_tinggal" value="Lainnya"
+                                    {{ $tempatTinggal == 'Lainnya' ? 'checked' : '' }} required>
                                 <label class="form-check-label" for="tinggal_lainnya">Lainnya</label>
                             </div>
-                            <div id="lainnya_input_container" class="mt-2" style="display: none;">
+
+                            <div id="lainnya_input_container" class="mt-2"
+                                style="display: {{ $tempatTinggal == 'Lainnya' ? 'block' : 'none' }};">
                                 <input type="text" id="lainnya_input" name="tempat_tinggal_lainnya"
-                                    class="form-control" placeholder="Silakan isi tempat tinggal lainnya">
+                                    class="form-control" placeholder="Silakan isi tempat tinggal lainnya"
+                                    value="{{ old('tempat_tinggal_lainnya', $santri->tempat_tinggal_lainnya ?? '') }}">
                             </div>
                         </div>
                         @error('tempat_tinggal')
@@ -232,9 +283,19 @@
                         @enderror
                     </div>
 
+                    <script>
+                        document.querySelectorAll('input[name="tempat_tinggal"]').forEach((input) => {
+                            input.addEventListener('change', function() {
+                                const container = document.getElementById('lainnya_input_container');
+                                container.style.display = this.value === 'Lainnya' ? 'block' : 'none';
+                            });
+                        });
+                    </script>
+
                     <div class="mb-3">
                         <label for="kewarganegaraan" class="form-label">Kewarganegaraan:</label>
-                        <input type="text" id="kewarganegaraan" name="kewarganegaraan" class="form-control" required>
+                        <input type="text" id="kewarganegaraan" name="kewarganegaraan" class="form-control"
+                            value="{{ old('kewarganegaraan', isset($santri) ? $santri->kewarganegaraan : '') }}" required>
                         @error('kewarganegaraan')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -244,7 +305,8 @@
 
                     <div class="mb-3">
                         <label for="anak_ke" class="form-label">Anak Ke:</label>
-                        <input type="number" id="anak_ke" name="anak_ke" class="form-control" required>
+                        <input type="number" id="anak_ke" name="anak_ke" class="form-control"
+                            value="{{ old('anak_ke', isset($santri) ? $santri->anak_ke : '') }}" required>
                         @error('anak_ke')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -254,7 +316,8 @@
 
                     <div class="mb-3">
                         <label for="jumlah_saudara" class="form-label">Jumlah Saudara:</label>
-                        <input type="number" id="jumlah_saudara" name="jumlah_saudara" class="form-control" required>
+                        <input type="number" id="jumlah_saudara" name="jumlah_saudara" class="form-control"
+                            value="{{ old('jumlah_saudara', isset($santri) ? $santri->jumlah_saudara : '') }}" required>
                         @error('jumlah_saudara')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -264,16 +327,19 @@
 
                     <div class="mb-3">
                         <label for="alamat" class="form-label">Alamat:</label>
-                        <textarea id="alamat" name="alamat" class="form-control" rows="3" required></textarea>
+                        <textarea id="alamat" name="alamat" class="form-control" rows="3" required>{{ old('alamat') }}</textarea>
                         @error('alamat')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
                     </div>
+
                     <div class="mb-3">
                         <label for="nomor_telpon" class="form-label">Nomor Telepon:</label>
-                        <input type="tel" id="nomor_telpon" name="nomor_telpon" class="form-control" required>
+                        <input type="tel" id="nomor_telpon" name="nomor_telpon" class="form-control"
+                            pattern="^\+?[0-9]{1,4}?[-. \(\)]?([0-9]{1,3})?[-. ]?[0-9]{1,4}[-. ]?[0-9]{1,4}$"
+                            value="{{ old('nomor_telpon', isset($santri) ? $santri->nomor_telpon : '') }}" required>
                         @error('nomor_telpon')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -283,29 +349,36 @@
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Email:</label>
-                        <input type="email" id="email" name="email" class="form-control" required>
+                        <input type="email" id="email" name="email" class="form-control"
+                            value="{{ old('email', isset($santri) ? $santri->email : '') }}" required>
                         @error('email')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Jenjang Pendidikan:</label>
                         <div>
+                            @php
+                                $jenjang = old('jenjang_pendidikan', $santri->jenjang_pendidikan ?? '');
+                            @endphp
+
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="jenjang_sd" name="jenjang_pendidikan"
-                                    value="SD" required>
+                                    value="SD" {{ $jenjang == 'SD' ? 'checked' : '' }} required>
                                 <label class="form-check-label" for="jenjang_sd">SD</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="jenjang_mts"
-                                    name="jenjang_pendidikan" value="MTS" required>
+                                    name="jenjang_pendidikan" value="MTS" {{ $jenjang == 'MTS' ? 'checked' : '' }}
+                                    required>
                                 <label class="form-check-label" for="jenjang_mts">MTS</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="jenjang_ma" name="jenjang_pendidikan"
-                                    value="MA" required>
+                                    value="MA" {{ $jenjang == 'MA' ? 'checked' : '' }} required>
                                 <label class="form-check-label" for="jenjang_ma">MA</label>
                             </div>
                         </div>
@@ -315,6 +388,7 @@
                             </div>
                         @enderror
                     </div>
+
                     <div class="text-end">
                         <button type="button" class="btn btn-primary next-step">Selanjutnya</button>
                     </div>
