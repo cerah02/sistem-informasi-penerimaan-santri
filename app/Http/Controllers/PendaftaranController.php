@@ -102,6 +102,13 @@ class PendaftaranController extends Controller
 
     public function pendaftara_santri_simpan(Request $request)
     {
+        $user = auth()->user();
+
+        // Cek apakah santri dan dokumennya sudah ada
+        $santri = Santri::with('dokumen')->where('user_id', $user->id)->first();
+        $dokumen = $santri ? $santri->dokumen : null;
+
+        // Validasi request
         $request->validate([
             'nama' => 'required',
             'nisn' => 'required|numeric',
@@ -132,25 +139,22 @@ class PendaftaranController extends Controller
             'tb' => 'required|numeric',
             'bb' => 'required|numeric',
             'riwayat_penyakit' => 'required',
-            'ijazah' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'nilai_raport' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'skhun' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'foto' => 'required|file|mimes:jpg,jpeg,png|max:2048',
-            'kk' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'ktp_ayah' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'ktp_ibu' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'ijazah' => ($dokumen && $dokumen->ijazah) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048' : 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'nilai_raport' => ($dokumen && $dokumen->nilai_raport) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048' : 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'skhun' => ($dokumen && $dokumen->skhun) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048' : 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'foto' => ($dokumen && $dokumen->foto) ? 'nullable|file|mimes:jpg,jpeg,png|max:2048' : 'required|file|mimes:jpg,jpeg,png|max:2048',
+            'kk' => ($dokumen && $dokumen->kk) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048' : 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'ktp_ayah' => ($dokumen && $dokumen->ktp_ayah) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048' : 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'ktp_ibu' => ($dokumen && $dokumen->ktp_ibu) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048' : 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'nama_bantuan' => 'required',
             'tingkat' => 'required',
             'no_kip' => 'required|numeric',
         ]);
-        // dd($request);
 
         try {
             DB::beginTransaction();
 
-            $user = auth()->user();
-
-            $santri = Santri::where('user_id', $user->id)->first();
+            // Cek ulang atau buat baru
             if (!$santri) {
                 $santri = new Santri();
                 $santri->user_id = $user->id;
@@ -178,6 +182,7 @@ class PendaftaranController extends Controller
             ]);
             $santri->save();
 
+            // ORTU
             Ortu::updateOrCreate(
                 ['santri_id' => $santri->id],
                 [
@@ -192,6 +197,7 @@ class PendaftaranController extends Controller
                 ]
             );
 
+            // KESEHATAN
             Kesehatan::updateOrCreate(
                 ['santri_id' => $santri->id],
                 [
@@ -202,6 +208,7 @@ class PendaftaranController extends Controller
                 ]
             );
 
+            // BANTUAN
             Bantuan::updateOrCreate(
                 ['santri_id' => $santri->id],
                 [
@@ -211,23 +218,24 @@ class PendaftaranController extends Controller
                 ]
             );
 
+            // DOKUMEN
             $dokumenData = ['santri_id' => $santri->id];
-            $fileFields = [
-                'ijazah',
-                'nilai_raport',
-                'skhun',
-                'foto',
-                'kk',
-                'ktp_ayah',
-                'ktp_ibu'
-            ];
+            $fileFields = ['ijazah', 'nilai_raport', 'skhun', 'foto', 'kk', 'ktp_ayah', 'ktp_ibu'];
 
             foreach ($fileFields as $field) {
                 if ($request->hasFile($field)) {
+                    // Hapus file lama jika ada
+                    if ($dokumen && $dokumen->$field && Storage::disk('public')->exists($dokumen->$field)) {
+                        Storage::disk('public')->delete($dokumen->$field);
+                    }
+
                     $file = $request->file($field);
                     $fileName = time() . '_' . $file->getClientOriginalName();
                     $path = $file->storeAs('uploads/' . $field, $fileName, 'public');
                     $dokumenData[$field] = $path;
+                } elseif ($dokumen && $dokumen->$field) {
+                    // Jika tidak upload ulang, simpan path lama
+                    $dokumenData[$field] = $dokumen->$field;
                 }
             }
 
@@ -236,13 +244,13 @@ class PendaftaranController extends Controller
                 $dokumenData
             );
 
+            // PENDAFTARAN
             Pendaftaran::updateOrCreate(
                 ['santri_id' => $santri->id],
                 ['tanggal_pendaftaran' => now(), 'status' => 'proses']
             );
 
             DB::commit();
-
             return redirect()->route('santri_pendaftaran_view')->with('success', 'Pendaftaran berhasil disimpan!');
         } catch (\Exception $e) {
             DB::rollBack();

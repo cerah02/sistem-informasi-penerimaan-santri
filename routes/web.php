@@ -67,7 +67,8 @@ Route::get('soals_get/{id}', [SoalController::class, 'index'])->name('soals_get'
 Route::get('/ujians/create/{jenjang}', [UjianController::class, 'create'])->name('ujians_create');
 Route::get('/tampilan-guru', [GuruController::class, 'tampilanGuru'])->name('guru.tampilan');
 Route::get('/tampilan-fasilitas', [FasilitasControllers::class, 'tampilanfasilitas'])->name('tampilan_fasilitas');
-
+Route::view('/sejarah', 'sejarah');
+Route::view('/visi-misi', 'visi-misi');
 
 
 /*

@@ -5,8 +5,7 @@
             <a href="index.html" class="navbar-brand d-lg-none">
                 <h1 class="text-primary m-0">Darul<span class="text-dark">Muttaqien</span></h1>
             </a>
-            <button type="button" class="navbar-toggler me-0" data-bs-toggle="collapse"
-                data-bs-target="#navbarCollapse">
+            <button type="button" class="navbar-toggler me-0" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -16,10 +15,10 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Profile
                             Pesantren</a>
                         <div class="dropdown-menu bg-light m-0">
-                            <a href="feature.html" class="dropdown-item">Sejarah Pesantren</a>
-                            <a href="team.html" class="dropdown-item">Visi & Misi</a>
+                            <a href="/sejarah" class="dropdown-item">Sejarah Pesantren</a>
+                            <a href="/visi-misi" class="dropdown-item">Visi & Misi</a>
                             <a href="testimonial.html" class="dropdown-item">Jenjang Pendidikan</a>
-                            <a href="{{ route('tampilan_fasilitas')}}" class="dropdown-item">Fasilitas</a>
+                            <a href="{{ route('tampilan_fasilitas') }}" class="dropdown-item">Fasilitas</a>
                             <a href="{{ route('guru.tampilan') }}" class="dropdown-item">Tenaga Pengajar</a>
                         </div>
                     </div>
@@ -61,8 +60,8 @@
                             target="_blank">
                             <img src="https://img.icons8.com/fluency/48/facebook-new.png" alt="Facebook" />
                         </a>
-                        <a class="social-link"
-                            href="https://www.instagram.com/ppdm_muarabaru?igsh=OG9jeGZsYm5vMG5j" target="_blank">
+                        <a class="social-link" href="https://www.instagram.com/ppdm_muarabaru?igsh=OG9jeGZsYm5vMG5j"
+                            target="_blank">
                             <img src="https://img.icons8.com/fluency/48/instagram-new.png" alt="Instagram" />
                         </a>
                         <a class="social-link"

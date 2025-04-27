@@ -391,17 +391,6 @@
         }
     }
 
-    footer {
-        background: #f8f8f8;
-        padding: 20px;
-        position: relative;
-    }
-
-    .footer-container {
-        display: flex;
-        justify-content: center;
-    }
-
     .agenda-section {
         max-width: 400px;
     }

@@ -628,7 +628,7 @@
                     <div class="carousel-caption">
                         <div class="container">
                             <div class="row justify-content-start">
-                                {{-- <div class="col-lg-7 text-start">
+                                <div class="col-lg-7 text-start">
                                     <h1 class="display-1 text-white animated slideInRight mb-3">Pondok Pesantren Modern
                                     </h1>
                                     <p class="mb-5 animated slideInRight">Mendidik generasi muda dengan ilmu agama dan
@@ -636,7 +636,7 @@
                                         yang kondusif dan inspiratif.</p>
                                     <a href=""
                                         class="btn btn-primary py-3 px-5 animated slideInRight">Selengkapnya</a>
-                                </div> --}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -646,7 +646,7 @@
                     <img class="w-100" src="/landing_assets/img/pondok_2.jpg" alt="Kegiatan Santri">
                     <div class="carousel-caption">
                         <div class="container">
-                            {{-- <div class="row justify-content-end">
+                            <div class="row justify-content-end">
                                 <div class="col-lg-7 text-end">
                                     <h1 class="display-1 text-white animated slideInLeft mb-3">Kegiatan Santri</h1>
                                     <p class="mb-5 animated slideInLeft">Santri kami terlibat dalam berbagai kegiatan
@@ -655,8 +655,8 @@
                                     <a href=""
                                         class="btn btn-primary py-3 px-5 animated slideInLeft">Selengkapnya</a>
                                 </div>
-                            </div> --}}
-                        </div>
+                            </div>
+                        </div> 
                     </div>
                 </div>
             </div>

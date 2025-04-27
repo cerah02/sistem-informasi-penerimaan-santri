@@ -327,7 +327,8 @@
 
                     <div class="mb-3">
                         <label for="alamat" class="form-label">Alamat:</label>
-                        <textarea id="alamat" name="alamat" class="form-control" rows="3" required>{{ old('alamat') }}</textarea>
+                        <textarea id="alamat" name="alamat" class="form-control @error('alamat') is-invalid @enderror" rows="3"
+                            required>{{ old('alamat', $santri->alamat ?? '') }}</textarea>
                         @error('alamat')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -400,39 +401,88 @@
                         <!-- Upload Dokumen -->
                         <div class="col-md-6">
                             <label for="ijazah" class="form-label"><strong>Ijazah</strong></label>
-                            <input type="file" name="ijazah" id="ijazah" class="form-control" required>
+                            @if (!empty($santri->dokumen) && $santri->dokumen->ijazah)
+                                <div class="mb-2">
+                                    <a href="{{ asset('storage/' . $santri->dokumen->ijazah) }}" target="_blank">Lihat
+                                        Ijazah</a>
+                                </div>
+                            @endif
+                            <input type="file" name="ijazah" id="ijazah" class="form-control"
+                                {{ empty($santri->dokumen->ijazah) ? 'required' : '' }}>
                         </div>
 
                         <div class="col-md-6">
                             <label for="nilai_raport" class="form-label"><strong>Nilai Raport</strong></label>
-                            <input type="file" name="nilai_raport" id="nilai_raport" class="form-control" required>
+                            @if (!empty($santri->dokumen) && $santri->dokumen->nilai_raport)
+                                <div class="mb-2">
+                                    <a href="{{ asset('storage/' . $santri->dokumen->nilai_raport) }}"
+                                        target="_blank">Lihat Nilai Raport</a>
+                                </div>
+                            @endif
+                            <input type="file" name="nilai_raport" id="nilai_raport" class="form-control"
+                                {{ empty($santri->dokumen->nilai_raport) ? 'required' : '' }}>
                         </div>
 
                         <div class="col-md-6">
                             <label for="skhun" class="form-label"><strong>SKHUN</strong></label>
-                            <input type="file" name="skhun" id="skhun" class="form-control" required>
+                            @if (!empty($santri->dokumen) && $santri->dokumen->skhun)
+                                <div class="mb-2">
+                                    <a href="{{ asset('storage/' . $santri->dokumen->skhun) }}" target="_blank">Lihat
+                                        SKHUN</a>
+                                </div>
+                            @endif
+                            <input type="file" name="skhun" id="skhun" class="form-control"
+                                {{ empty($santri->dokumen->skhun) ? 'required' : '' }}>
                         </div>
 
                         <div class="col-md-6">
                             <label for="foto" class="form-label"><strong>Foto</strong></label>
-                            <input type="file" name="foto" id="foto" class="form-control" required>
+                            @if (!empty($santri->dokumen) && $santri->dokumen->foto)
+                                <div class="mb-2">
+                                    <a href="{{ asset('storage/' . $santri->dokumen->foto) }}" target="_blank">Lihat
+                                        Foto</a>
+                                </div>
+                            @endif
+                            <input type="file" name="foto" id="foto" class="form-control"
+                                {{ empty($santri->dokumen->foto) ? 'required' : '' }}>
                         </div>
 
                         <div class="col-md-6">
                             <label for="kk" class="form-label"><strong>Kartu Keluarga (KK)</strong></label>
-                            <input type="file" name="kk" id="kk" class="form-control" required>
+                            @if (!empty($santri->dokumen) && $santri->dokumen->kk)
+                                <div class="mb-2">
+                                    <a href="{{ asset('storage/' . $santri->dokumen->kk) }}" target="_blank">Lihat KK</a>
+                                </div>
+                            @endif
+                            <input type="file" name="kk" id="kk" class="form-control"
+                                {{ empty($santri->dokumen->kk) ? 'required' : '' }}>
                         </div>
 
                         <div class="col-md-6">
                             <label for="ktp_ayah" class="form-label"><strong>KTP Ayah</strong></label>
-                            <input type="file" name="ktp_ayah" id="ktp_ayah" class="form-control" required>
+                            @if (!empty($santri->dokumen) && $santri->dokumen->ktp_ayah)
+                                <div class="mb-2">
+                                    <a href="{{ asset('storage/' . $santri->dokumen->ktp_ayah) }}" target="_blank">Lihat
+                                        KTP Ayah</a>
+                                </div>
+                            @endif
+                            <input type="file" name="ktp_ayah" id="ktp_ayah" class="form-control"
+                                {{ empty($santri->dokumen->ktp_ayah) ? 'required' : '' }}>
                         </div>
 
                         <div class="col-md-6">
                             <label for="ktp_ibu" class="form-label"><strong>KTP Ibu</strong></label>
-                            <input type="file" name="ktp_ibu" id="ktp_ibu" class="form-control" required>
+                            @if (!empty($santri->dokumen) && $santri->dokumen->ktp_ibu)
+                                <div class="mb-2">
+                                    <a href="{{ asset('storage/' . $santri->dokumen->ktp_ibu) }}" target="_blank">Lihat
+                                        KTP Ibu</a>
+                                </div>
+                            @endif
+                            <input type="file" name="ktp_ibu" id="ktp_ibu" class="form-control"
+                                {{ empty($santri->dokumen->ktp_ibu) ? 'required' : '' }}>
                         </div>
                     </div>
+
                     <div class="d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary prev-step">Sebelumnya</button>
                         <button type="button" class="btn btn-primary next-step">Selanjutnya</button>
@@ -445,42 +495,55 @@
                     <div class="mb-3">
                         <label for="nama_ayah" class="form-label"><strong>Nama Ayah:</strong></label>
                         <input type="text" name="nama_ayah" class="form-control" id="nama_ayah"
-                            placeholder="Masukan Nama Ayah">
+                            placeholder="Masukan Nama Ayah"
+                            value="{{ old('nama_ayah', $santri->ortu->nama_ayah ?? '') }}">
                     </div>
+
                     <div class="mb-3">
                         <label for="pendidikan_ayah" class="form-label"><strong>Pendidikan Ayah:</strong></label>
                         <input type="text" name="pendidikan_ayah" class="form-control" id="pendidikan_ayah"
-                            placeholder="Masukan Pendidikan Terakhir Ayah">
+                            placeholder="Masukan Pendidikan Terakhir Ayah"
+                            value="{{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') }}">
                     </div>
+
                     <div class="mb-3">
                         <label for="pekerjaan_ayah" class="form-label"><strong>Pekerjaan Ayah:</strong></label>
                         <input type="text" name="pekerjaan_ayah" class="form-control" id="pekerjaan_ayah"
-                            placeholder="Masukan Pekerjaan Ayah">
+                            placeholder="Masukan Pekerjaan Ayah"
+                            value="{{ old('pekerjaan_ayah', $santri->ortu->pekerjaan_ayah ?? '') }}">
                     </div>
+
                     <div class="mb-3">
                         <label for="nama_ibu" class="form-label"><strong>Nama Ibu:</strong></label>
                         <input type="text" name="nama_ibu" class="form-control" id="nama_ibu"
-                            placeholder="Masukan Nama Ibu">
+                            placeholder="Masukan Nama Ibu" value="{{ old('nama_ibu', $santri->ortu->nama_ibu ?? '') }}">
                     </div>
+
                     <div class="mb-3">
                         <label for="pendidikan_ibu" class="form-label"><strong>Pendidikan Ibu:</strong></label>
                         <input type="text" name="pendidikan_ibu" class="form-control" id="pendidikan_ibu"
-                            placeholder="Masukan Pendidikan Terakhir Ibu">
+                            placeholder="Masukan Pendidikan Terakhir Ibu"
+                            value="{{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') }}">
                     </div>
+
                     <div class="mb-3">
                         <label for="pekerjaan_ibu" class="form-label"><strong>Pekerjaan Ibu:</strong></label>
                         <input type="text" name="pekerjaan_ibu" class="form-control" id="pekerjaan_ibu"
-                            placeholder="Masukan Pekerjaan Ibu">
+                            placeholder="Masukan Pekerjaan Ibu"
+                            value="{{ old('pekerjaan_ibu', $santri->ortu->pekerjaan_ibu ?? '') }}">
                     </div>
+
                     <div class="mb-3">
                         <label for="no_hp" class="form-label"><strong>No Hp:</strong></label>
                         <input type="text" name="no_hp" class="form-control" id="no_hp"
-                            placeholder="Masukan No Hp">
+                            placeholder="Masukan No Hp" value="{{ old('no_hp', $santri->ortu->no_hp ?? '') }}">
                     </div>
+
                     <div class="mb-3">
                         <label for="alamat" class="form-label"><strong>Alamat:</strong></label>
-                        <textarea name="alamat" class="form-control" id="alamat" rows="3" placeholder="Masukan Alamat"></textarea>
+                        <textarea name="alamat" class="form-control" id="alamat" rows="3" placeholder="Masukan Alamat">{{ old('alamat', $santri->ortu->alamat ?? '') }}</textarea>
                     </div>
+
                     <div class="d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary prev-step">Sebelumnya</button>
                         <button type="button" class="btn btn-primary next-step">Selanjutnya</button>
@@ -493,22 +556,26 @@
                         <div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="golongan_darah"
-                                    id="golongan_darah_a" value="A">
+                                    id="golongan_darah_a" value="A"
+                                    {{ old('golongan_darah', $santri->kesehatan->golongan_darah ?? '') == 'A' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="golongan_darah_a">A</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="golongan_darah"
-                                    id="golongan_darah_b" value="B">
+                                    id="golongan_darah_b" value="B"
+                                    {{ old('golongan_darah', $santri->kesehatan->golongan_darah ?? '') == 'B' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="golongan_darah_b">B</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="golongan_darah"
-                                    id="golongan_darah_ab" value="AB">
+                                    id="golongan_darah_ab" value="AB"
+                                    {{ old('golongan_darah', $santri->kesehatan->golongan_darah ?? '') == 'AB' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="golongan_darah_ab">AB</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="golongan_darah"
-                                    id="golongan_darah_o" value="O">
+                                    id="golongan_darah_o" value="O"
+                                    {{ old('golongan_darah', $santri->kesehatan->golongan_darah ?? '') == 'O' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="golongan_darah_o">O</label>
                             </div>
                         </div>
@@ -517,18 +584,23 @@
                     <div class="mb-3">
                         <label for="tb" class="form-label"><strong>Tinggi Badan:</strong></label>
                         <input type="text" name="tb" class="form-control" id="tb"
-                            placeholder="Masukan Tinggi Badan (cm)">
+                            placeholder="Masukan Tinggi Badan (cm)"
+                            value="{{ old('tb', $santri->kesehatan->tb ?? '') }}">
                     </div>
+
                     <div class="mb-3">
                         <label for="bb" class="form-label"><strong>Berat Badan:</strong></label>
-                        <input type="text" name="bb" class="form-control" id="pekerjaan_ayah"
-                            placeholder="Masukan Berat Badan (Kg)">
+                        <input type="text" name="bb" class="form-control" id="bb"
+                            placeholder="Masukan Berat Badan (Kg)" value="{{ old('bb', $santri->kesehatan->bb ?? '') }}">
                     </div>
+
                     <div class="mb-3">
                         <label for="riwayat_penyakit" class="form-label"><strong>Riwayat Penyakit:</strong></label>
                         <input type="text" name="riwayat_penyakit" class="form-control" id="riwayat_penyakit"
-                            placeholder="Masukan Riwayat Penyakit">
+                            placeholder="Masukan Riwayat Penyakit"
+                            value="{{ old('riwayat_penyakit', $santri->kesehatan->riwayat_penyakit ?? '') }}">
                     </div>
+
                     <div class="d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary prev-step">Sebelumnya</button>
                         <button type="button" class="btn btn-primary next-step">Selanjutnya</button>
@@ -541,22 +613,28 @@
                         <div class="form-group">
                             <strong>Nama Bantuan:</strong>
                             <input type="text" name="nama_bantuan" class="form-control"
-                                placeholder="Masukan Nama Bantuan Yang Pernah Diterima">
+                                placeholder="Masukan Nama Bantuan Yang Pernah Diterima"
+                                value="{{ old('nama_bantuan', $santri->bantuan->nama_bantuan ?? '') }}">
                         </div>
                     </div>
+
                     <div class="mb-3">
                         <div class="form-group">
                             <strong>Tingkat :</strong>
                             <input type="text" name="tingkat" class="form-control"
-                                placeholder="Masukan Tingkat Bantuan Yang pernah Diterima">
+                                placeholder="Masukan Tingkat Bantuan Yang Pernah Diterima"
+                                value="{{ old('tingkat', $santri->bantuan->tingkat ?? '') }}">
                         </div>
                     </div>
+
                     <div class="mb-3">
                         <div class="form-group">
                             <strong>No KIP :</strong>
-                            <input type="text" name="no_kip" class="form-control" placeholder="Masukan Nomor KIP">
+                            <input type="text" name="no_kip" class="form-control" placeholder="Masukan Nomor KIP"
+                                value="{{ old('no_kip', $santri->bantuan->no_kip ?? '') }}">
                         </div>
                     </div>
+
                     <div class="d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary prev-step">Sebelumnya</button>
                         <button type="submit" class="btn btn-success">Submit</button>
