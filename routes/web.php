@@ -17,6 +17,7 @@ use App\Http\Controllers\Waktu_ujianController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\FasilitasControllers;
 use App\Http\Controllers\HasilController;
+use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Routing\Route as RoutingRoute;
@@ -33,8 +34,9 @@ Route::get('soal-create/{id}', [SoalController::class, 'create'])->name('soal.cr
 Route::resource('jawabans', JawabanController::class);
 Route::resource('dokumens', DokumenController::class);
 Route::resource('ortus', OrtuController::class);
-Route::resource('kesehatans', KesehatanController::class);
 Route::resource('bantuans', BantuanController::class);
+Route::resource('kesehatans', KesehatanController::class);
+Route::resource('pengumuman', PengumumanController::class);
 Route::resource('waktu_ujians', Waktu_ujianController::class);
 Route::resource('agendas', AgendaController::class);
 Route::resource('fasilitas', FasilitasControllers::class);
@@ -69,6 +71,12 @@ Route::get('/tampilan-guru', [GuruController::class, 'tampilanGuru'])->name('gur
 Route::get('/tampilan-fasilitas', [FasilitasControllers::class, 'tampilanfasilitas'])->name('tampilan_fasilitas');
 Route::view('/sejarah', 'sejarah');
 Route::view('/visi-misi', 'visi-misi');
+Route::view('/beranda ','welcome');
+Route::view('/jenjang ','jenjang');
+// Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman');
+Route::view('/pakaian-putra ','pakaian_putra');
+Route::view('/pakaian-putri ','pakaian_putri');
+Route::view('/kegiatan-harian ','kegiatan_harian');
 
 
 /*

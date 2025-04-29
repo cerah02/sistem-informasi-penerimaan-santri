@@ -10,14 +10,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav">
-                    <a href="index.html" class="nav-item nav-link active">Beranda</a>
+                    <a href="/beranda" class="nav-item nav-link active">Beranda</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Profile
                             Pesantren</a>
                         <div class="dropdown-menu bg-light m-0">
                             <a href="/sejarah" class="dropdown-item">Sejarah Pesantren</a>
                             <a href="/visi-misi" class="dropdown-item">Visi & Misi</a>
-                            <a href="testimonial.html" class="dropdown-item">Jenjang Pendidikan</a>
+                            <a href="/jenjang" class="dropdown-item">Jenjang Pendidikan</a>
                             <a href="{{ route('tampilan_fasilitas') }}" class="dropdown-item">Fasilitas</a>
                             <a href="{{ route('guru.tampilan') }}" class="dropdown-item">Tenaga Pengajar</a>
                         </div>
@@ -26,14 +26,14 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Contoh
                             Pakaian</a>
                         <div class="dropdown-menu bg-light m-0">
-                            <a href="feature.html" class="dropdown-item">Pakaian Putra</a>
-                            <a href="team.html" class="dropdown-item">Pakaian Putri</a>
+                            <a href="/pakaian-putra" class="dropdown-item">Pakaian Putra</a>
+                            <a href="/pakaian-putri" class="dropdown-item">Pakaian Putri</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Kegiatan</a>
                         <div class="dropdown-menu bg-light m-0">
-                            <a href="feature.html" class="dropdown-item">Kegiatan Harian</a>
+                            <a href="/kegiatan-harian" class="dropdown-item">Kegiatan Harian</a>
                             <a href="team.html" class="dropdown-item">Bulanan</a>
                             <a href="team.html" class="dropdown-item">Tahunan</a>
                         </div>
@@ -44,11 +44,11 @@
                         <div class="dropdown-menu bg-light m-0">
                             <a href="feature.html" class="dropdown-item">Pendaftaran Santri Baru</a>
                             <a href="team.html" class="dropdown-item">Brosur Pendaftaran</a>
-                            <a href="testimonial.html" class="dropdown-item">Pendaftaran Online</a>
-                            <a href="testimonial.html" class="dropdown-item">Pengumuman</a>
+                            <a href="login" class="dropdown-item">Pendaftaran Online</a>
+                            <a href="{{ route('login') }}" class="dropdown-item">Pengumuman</a>
                         </div>
                     </div>
-                    <a href="contact.html" class="nav-item nav-link">Pengumuman</a>
+                    <a href="{{ route('login') }}" class="nav-item nav-link">Pengumuman</a>
                 </div>
                 <div class="ms-auto d-none d-lg-flex">
                     <div class="card">

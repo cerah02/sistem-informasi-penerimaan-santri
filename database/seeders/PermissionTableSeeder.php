@@ -97,6 +97,11 @@ class PermissionTableSeeder extends Seeder
             'fasilitas-edit',
             'fasilitas-delete',
             'fasilitas-show',
+            'pengumuman-list',
+            'pengumuman-create',
+            'pengumuman-edit',
+            'pengumuman-delete',
+            'pengumuman-show',
 
         ];
         foreach ($permissions as $permission) {
