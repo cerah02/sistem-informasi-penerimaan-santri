@@ -20,9 +20,9 @@
     </div>
 @endif
 
-<div class="card">
-    <div class="card-header">
-        <h4 class="card-title">Role List</h4>
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h3 class="card-title">Role List</h3>
     </div>
     <div class="card-body">
         <table class="table table-bordered">

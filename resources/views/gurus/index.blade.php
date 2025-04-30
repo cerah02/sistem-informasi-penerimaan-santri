@@ -6,7 +6,7 @@
                 <h2>Daftar Data Guru</h2>
             </div>
             @can('guru-create')
-                <div class="pull-right mb-2">
+                <div class="pull-right">
                     <a class="btn btn-success" href="{{ route('gurus.create') }}"> Tambahkan Data Guru</a>
 
                 </div>
@@ -20,17 +20,14 @@
         </div>
     @endif
     
-    <!-- Tambahkan div dengan margin-top untuk menurunkan card -->
-    <div style="margin-top: 20px;"></div>
-    
     <!-- Card sebagai Latar Belakang Tabel -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Tabel Data Guru</h6>
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title mb-0">Tabel Data Guru</h3>
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered data-table" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered data-table">
                     <thead>
                         <tr>
                             <th>No</th>

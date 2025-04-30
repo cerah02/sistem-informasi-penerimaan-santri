@@ -1,9 +1,8 @@
 @extends('layout_landingpage')
 
-@section('title', 'Daftar Fasilitas')
+@section('title', 'Pengumuman Kelulusan Santri')
 
 @section('content')
-    <title>Pengumuman Kelulusan Santri</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Amiri:wght@400;700&display=swap"
         rel="stylesheet">
     <style>
@@ -328,6 +327,7 @@
     </style>
 
     <body class="pengumuman-santri-body">
+
         <div class="pengumuman-santri-container">
             <header class="pengumuman-santri-header">
                 <h1 class="pengumuman-santri-title">Pengumuman Kelulusan</h1>
@@ -376,8 +376,13 @@
                 </div>
             @endforeach
 
+            <div class="pengumuman-santri-card">
+                <h2 class="pengumuman-santri-card-title">{{ $pengumuman->judul }}</h2>
+                <p>{!! nl2br(e($pengumuman->konten)) !!}</p>
+            </div>
+
             <footer class="pengumuman-santri-footer">
-                <p>© 2024 Pondok Pesantren Al-Hikmah | Pengumuman Kelulusan Santri Baru</p>
+                <p>© 2025 Pondok Pesantren Darul Muttaqien | Pengumuman Kelulusan Santri Baru</p>
             </footer>
         </div>
 

@@ -71,12 +71,12 @@ Route::get('/tampilan-guru', [GuruController::class, 'tampilanGuru'])->name('gur
 Route::get('/tampilan-fasilitas', [FasilitasControllers::class, 'tampilanfasilitas'])->name('tampilan_fasilitas');
 Route::view('/sejarah', 'sejarah');
 Route::view('/visi-misi', 'visi-misi');
-Route::view('/beranda ','welcome');
-Route::view('/jenjang ','jenjang');
-// Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('pengumuman');
-Route::view('/pakaian-putra ','pakaian_putra');
-Route::view('/pakaian-putri ','pakaian_putri');
-Route::view('/kegiatan-harian ','kegiatan_harian');
+Route::view('/beranda ', 'welcome');
+Route::view('/jenjang ', 'jenjang');
+Route::get('/kelulusan-info', [PengumumanController::class, 'showKelulusan'])->name('pengumuman.kelulusan');
+Route::view('/pakaian-putra ', 'pakaian_putra');
+Route::view('/pakaian-putri ', 'pakaian_putri');
+Route::view('/kegiatan-harian ', 'kegiatan_harian');
 
 
 /*

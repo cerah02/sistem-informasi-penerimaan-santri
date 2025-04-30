@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <!-- Card Total Santri -->
-            <div class="col-xl-4 col-lg-6 mb-4">
+            <div class="col-xl-4 col-md-4 mb-4">
                 <div class="card shadow-lg border-0 bg-gradient-info text-white hover-scale h-100">
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div class="d-flex justify-content-between align-items-start mb-2">
@@ -40,33 +40,37 @@
             </div>
 
             <!-- Card Santri Disetujui -->
-            <div class="col-xl-4 col-lg-6 mb-4">
-                <div class="card shadow-lg border-0 bg-gradient-success text-white hover-scale h-100">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="fw-bold mb-1">Santri Disetujui</h6>
-                            <h3 class="fw-bold mb-0">{{ $jumlah_santri_yang_sudah_disetujui }}</h3>
-                        </div>
-                        <div class="icon bg-white text-success rounded-circle p-3 ms-3">
-                            <i class="fas fa-check-circle fa-2x"></i>
+            <div class="col-xl-4 col-md-4 mb-4">
+                <a href="{{ route('pendaftarans.index', ['status' => 'diterima']) }}" class="text-decoration-none">
+                    <div class="card shadow-lg border-0 bg-gradient-success text-white hover-scale h-100">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="fw-bold mb-1">Santri Disetujui</h6>
+                                <h3 class="fw-bold mb-0">{{ $jumlah_santri_yang_sudah_disetujui }}</h3>
+                            </div>
+                            <div class="icon bg-white text-success rounded-circle p-3 ms-3">
+                                <i class="fas fa-check-circle fa-2x"></i>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <!-- Card Santri Menunggu -->
-            <div class="col-xl-4 col-lg-6 mb-4">
-                <div class="card shadow-lg border-0 bg-gradient-warning text-white hover-scale h-100">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="fw-bold mb-1">Santri Menunggu Disetujui</h6>
-                            <h3 class="fw-bold mb-0">{{ $jumlah_santri_yang_menunggu_disetujui }}</h3>
-                        </div>
-                        <div class="icon bg-white text-warning rounded-circle p-3 ms-3">
-                            <i class="fas fa-clock fa-2x"></i>
+            <div class="col-xl-4 col-md-4 mb-4">
+                <a href="{{ route('pendaftarans.index', ['status' => 'proses']) }}" class="text-decoration-none">
+                    <div class="card shadow-lg border-0 bg-gradient-warning text-white hover-scale h-100">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="fw-bold mb-1">Santri Menunggu Disetujui</h6>
+                                <h3 class="fw-bold mb-0">{{ $jumlah_santri_yang_menunggu_disetujui }}</h3>
+                            </div>
+                            <div class="icon bg-white text-warning rounded-circle p-3 ms-3">
+                                <i class="fas fa-clock fa-2x"></i>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
 

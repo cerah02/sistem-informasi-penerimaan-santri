@@ -21,9 +21,9 @@
     @endif
 
     <!-- Card untuk Tabel -->
-    <div class="card shadow mb-4 mt-4"> <!-- Tambahkan card di sini -->
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Tabel Data Santri</h6> <!-- Judul card -->
+    <div class="card shadow-sm"> <!-- Tambahkan card di sini -->
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title mb-0">Tabel Data Santri</h3> <!-- Judul card -->
         </div>
         <div class="card-body">
             <div class="table-responsive">

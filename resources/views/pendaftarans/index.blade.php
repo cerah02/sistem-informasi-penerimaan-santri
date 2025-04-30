@@ -1,10 +1,9 @@
 @extends('layout')
 
 @section('content')
-    <div class="content-wrapper">
+    {{-- <div class="content-wrapper"> --}}
         <div class="container-fluid">
             <!-- Breadcrumb dengan margin yang ditingkatkan -->
-
             <div class="row mt-4">
                 @can('pendaftaran-create')
                     <div class="col-sm-3">
@@ -15,37 +14,42 @@
                         </div>
                     </div>
                 @endcan
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-header"><i class="fa fa-table"></i> Daftar Santri Mendaftar</div>
-                        <div class="card-body">
-                            @if ($message = Session::get('success'))
-                                <div class="alert alert-success alert-dismissible" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert">×</button>
-                                    <div class="alert-icon contrast-alert">
-                                        <i class="icon-check"></i>
-                                    </div>
-                                    <div class="alert-message">
-                                        <span><strong>Berhasil!</strong> {{ $message }}</span>
-                                    </div>
-                                </div>
-                            @endif
 
-                            <div class="table-responsive">
-                                <table id="pendaftaranTable" class="table table-bordered table-hover table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Nama Santri</th>
-                                            <th>Tanggal Pendaftaran</th>
-                                            <th>Status</th>
-                                            <th width="15%">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
+                <div class="card shadow-sm">
+
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title mb-0">Data Pendaftaran Santri</h3>
                     </div>
+                    <div class="card-body">
+
+                        @if ($message = Session::get('success'))
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <div class="alert-icon contrast-alert">
+                                    <i class="icon-check"></i>
+                                </div>
+                                <div class="alert-message">
+                                    <span><strong>Berhasil!</strong> {{ $message }}</span>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="table-responsive">
+                            <table id="pendaftaranTable" class="table table-bordered table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Santri</th>
+                                        <th>Tanggal Pendaftaran</th>
+                                        <th>Status</th>
+                                        <th width="15%">Aksi</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -57,7 +61,12 @@
                 $('#pendaftaranTable').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('pendaftarans.index') }}",
+                    ajax: {
+                        url: "{{ route('pendaftarans.index') }}",
+                        data: function(d) {
+                            d.status = "{{ request('status') }}"; // Ambil parameter status dari URL
+                        }
+                    },
                     language: {
                         url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Indonesian.json"
                     },
@@ -82,10 +91,21 @@
                             name: 'status',
                             className: 'text-center',
                             render: function(data) {
-                                let badge = 'secondary';
-                                if (data === 'Diterima') badge = 'success';
-                                if (data === 'Ditolak') badge = 'danger';
-                                return `<span class="badge badge-${badge}">${data}</span>`;
+                                let badgeClass = 'badge-secondary';
+                                let style = 'color: white';
+
+                                if (data === 'diterima') {
+                                    badgeClass = 'badge-success';
+                                    style = 'color: white';
+                                } else if (data === 'proses') {
+                                    badgeClass = 'badge-warning';
+                                    style = 'color: black'; // agar tulisan tidak putih
+                                } else if (data === 'ditolak') {
+                                    badgeClass = 'badge-danger';
+                                    style = 'color: white';
+                                }
+
+                                return `<span class="badge ${badgeClass}" style="${style}">${data}</span>`;
                             }
                         },
                         {

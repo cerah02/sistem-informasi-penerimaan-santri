@@ -45,10 +45,10 @@
                             <a href="feature.html" class="dropdown-item">Pendaftaran Santri Baru</a>
                             <a href="team.html" class="dropdown-item">Brosur Pendaftaran</a>
                             <a href="login" class="dropdown-item">Pendaftaran Online</a>
-                            <a href="{{ route('login') }}" class="dropdown-item">Pengumuman</a>
+                            <a href="{{ route('pengumuman.kelulusan') }}" class="dropdown-item">Pengumuman</a>
                         </div>
                     </div>
-                    <a href="{{ route('login') }}" class="nav-item nav-link">Pengumuman</a>
+                    <a href="{{ route('pengumuman.kelulusan') }}" class="nav-item nav-link">Pengumuman</a>
                 </div>
                 <div class="ms-auto d-none d-lg-flex">
                     <div class="card">

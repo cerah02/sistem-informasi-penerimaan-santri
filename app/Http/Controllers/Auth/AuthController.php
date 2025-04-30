@@ -109,7 +109,7 @@ class AuthController extends Controller
             $hitung_santri_byfilter = $query->count();
 
             $jumlah_santri_mendaftar_tahun_ini = Santri::whereYear('created_at', Carbon::now()->year)->count();
-            $jumlah_santri_yang_sudah_disetujui = Pendaftaran::where('status', 'disetujui')->count();
+            $jumlah_santri_yang_sudah_disetujui = Pendaftaran::where('status', 'diterima')->count();
             $jumlah_santri_yang_menunggu_disetujui = Pendaftaran::where('status', 'proses')->count();
             $data_hasil = Hasil::with(['santri', 'ujian'])->get();
 

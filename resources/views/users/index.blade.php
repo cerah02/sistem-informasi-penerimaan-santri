@@ -19,8 +19,8 @@
     @endif
 
     <!-- Card untuk tabel -->
-    <div class="card">
-        <div class="card-header">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
             <h3 class="card-title">Daftar Pengguna</h3>
         </div>
         <div class="card-body">
