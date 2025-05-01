@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-    {{-- <div class="content-wrapper"> --}}
+    <div class="content-wrapper">
         <div class="container-fluid">
             <!-- Breadcrumb dengan margin yang ditingkatkan -->
             <div class="row mt-4">

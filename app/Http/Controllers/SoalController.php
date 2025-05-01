@@ -211,30 +211,52 @@ class SoalController extends Controller
 
     public function list_soal()
     {
-        $Santri = auth()->user()->santri; // Ambil data santri dari user yang login
+        $Santri = auth()->user()->santri;
 
         if (!$Santri) {
             return redirect()->route('dashboard')->with('error', 'Data santri tidak ditemukan.');
         }
 
+        // Cek status pendaftaran dari tabel pendaftarans
+        $pendaftaran = \App\Models\Pendaftaran::where('santri_id', $Santri->id)->first();
+
+        if (!$pendaftaran) {
+            return redirect()->route('santri_pendaftaran_view')->with('error', 'Silakan isi data diri dan lengkapi berkas terlebih dahulu.');
+        }
+
+        if (strtolower($pendaftaran->status) !== 'diterima') {
+            return redirect()->route('santri_pendaftaran_view')->with('error', 'Status pendaftaran Anda masih dalam proses pengecekkan oleh panitia. Harap sabar dan jika ada kendala hubungi kepanitian.');
+        }
+
         // Ambil semua ujian sesuai jenjang pendidikan santri
         $ujians = Ujian::where('jenjang_pendidikan', $Santri->jenjang_pendidikan)
-            ->with('soals') // Ambil soal untuk pengecekan jumlah
+            ->with('soals')
             ->get();
 
-        // Ambil semua ujian yang sudah dikerjakan oleh santri
+        $today = now()->toDateString(); // Format: YYYY-MM-DD
+
         foreach ($ujians as $ujian) {
             $jumlahSoal = $ujian->soals->count();
             $jumlahJawabanSantri = Jawaban::where('santri_id', $Santri->id)
                 ->whereIn('soal_id', $ujian->soals->pluck('id'))
                 ->count();
 
-            // Jika semua soal telah dijawab, set ujian sebagai selesai
+            // Cek apakah santri sudah mengerjakan semua soal
             $ujian->user_already_submit = ($jumlahJawabanSantri >= $jumlahSoal);
+
+            // Tambahkan status ujian berdasarkan tanggal
+            if ($today < $ujian->tanggal_mulai) {
+                $ujian->ujian_status = 'belum_dimulai';
+            } elseif ($today > $ujian->tanggal_selesai) {
+                $ujian->ujian_status = 'waktu_habis';
+            } else {
+                $ujian->ujian_status = 'tersedia';
+            }
         }
 
         return view('soals.list_soal', compact('ujians'));
     }
+
 
     /**
      * Store a newly created resource in storage.

@@ -97,20 +97,32 @@ class AuthController extends Controller
                 $Santri = Santri::where('email', auth()->user()->email)->first();
             }
 
-            $jumlah_santri = Santri::count();
+            // Hitung total santri yang memiliki jenjang dan tahun masuk
+            $jumlah_santri = Santri::whereNotNull('jenjang_pendidikan')
+                ->whereNotNull('tahun_masuk')
+                ->count();
 
+            // Filter untuk santri
             $query = Santri::query();
             if ($request->jenjang_filter) {
                 $query->where('jenjang_pendidikan', $request->jenjang_filter);
             }
             if ($request->year) {
-                $query->whereYear('created_at', $request->year);
+                $query->where('tahun_masuk', $request->year);
             }
+
+            // Tambahkan pengecekan kolom tidak null
+            $query->whereNotNull('jenjang_pendidikan')
+                ->whereNotNull('tahun_masuk');
+
             $hitung_santri_byfilter = $query->count();
 
+            // Data tambahan
             $jumlah_santri_mendaftar_tahun_ini = Santri::whereYear('created_at', Carbon::now()->year)->count();
             $jumlah_santri_yang_sudah_disetujui = Pendaftaran::where('status', 'diterima')->count();
             $jumlah_santri_yang_menunggu_disetujui = Pendaftaran::where('status', 'proses')->count();
+
+            // Data nilai hasil ujian
             $data_hasil = Hasil::with(['santri', 'ujian'])->get();
 
             $data_ujian = $data_hasil->groupBy('santri_id')->map(function ($group) {
@@ -142,8 +154,10 @@ class AuthController extends Controller
 
             $jenjang_list = $data_ujian->pluck('jenjang')->unique();
 
-            // ======================= Tambahan untuk Chart Perkembangan Santri ========================
+            // Data untuk Chart Perkembangan Santri
             $data = Santri::select('tahun_masuk', 'jenjang_pendidikan', DB::raw('count(*) as total'))
+                ->whereNotNull('jenjang_pendidikan')
+                ->whereNotNull('tahun_masuk')
                 ->groupBy('tahun_masuk', 'jenjang_pendidikan')
                 ->orderBy('tahun_masuk')
                 ->get();
@@ -154,14 +168,15 @@ class AuthController extends Controller
 
             foreach ($jenjangs as $jenjang) {
                 $chartData[$jenjang] = [];
-
                 foreach ($years as $year) {
                     $count = $data->firstWhere(fn($item) => $item->tahun_masuk == $year && $item->jenjang_pendidikan == $jenjang);
                     $chartData[$jenjang][] = $count ? $count->total : 0;
                 }
             }
-            // =========================================================================================
-            $genderQuery = Santri::query();
+
+            // Data gender santri sesuai filter dan validasi kolom
+            $genderQuery = Santri::whereNotNull('jenjang_pendidikan')
+                ->whereNotNull('tahun_masuk');
 
             if ($request->year) {
                 $genderQuery->where('tahun_masuk', $request->year);
@@ -173,6 +188,73 @@ class AuthController extends Controller
             $jumlah_laki_laki = (clone $genderQuery)->where('jenis_kelamin', 'laki-laki')->count();
             $jumlah_perempuan = (clone $genderQuery)->where('jenis_kelamin', 'perempuan')->count();
 
+            // Data kelengkapan tabel santri, ortu, dokumen, kesehatan, bantuan
+            $santriData = $query->get()->map(function ($santri) {
+                // Mengecek kelengkapan data dari tabel santri
+                $santri_complete = $santri->nama &&
+                    $santri->nisn &&
+                    $santri->nik &&
+                    $santri->asal_sekolah &&
+                    $santri->jenis_kelamin &&
+                    $santri->ttl &&
+                    $santri->kondisi &&
+                    $santri->kondisi_ortu &&
+                    $santri->status_dkluarga &&
+                    $santri->tempat_tinggal &&
+                    $santri->kewarganegaraan &&
+                    $santri->anak_ke &&
+                    $santri->jumlah_saudara !== null &&
+                    $santri->alamat &&
+                    $santri->nomor_telpon &&
+                    $santri->email &&
+                    $santri->jenjang_pendidikan &&
+                    $santri->tahun_masuk ? 'Lengkap' : 'Tidak Lengkap';
+
+                // Mengecek kelengkapan data dari tabel ortu
+                $ortu_complete = $santri->ortu &&
+                    $santri->ortu->nama_ayah &&
+                    $santri->ortu->pendidikan_ayah &&
+                    $santri->ortu->pekerjaan_ayah &&
+                    $santri->ortu->nama_ibu &&
+                    $santri->ortu->pendidikan_ibu &&
+                    $santri->ortu->pekerjaan_ibu &&
+                    $santri->ortu->no_hp &&
+                    $santri->ortu->alamat ? 'Lengkap' : 'Tidak Lengkap';
+
+                // Mengecek kelengkapan data dari tabel dokumen
+                $dokumen_complete = $santri->dokumen &&
+                    $santri->dokumen->ijazah &&
+                    $santri->dokumen->nilai_raport &&
+                    $santri->dokumen->skhun &&
+                    $santri->dokumen->foto &&
+                    $santri->dokumen->kk &&
+                    $santri->dokumen->ktp_ayah &&
+                    $santri->dokumen->ktp_ibu ? 'Lengkap' : 'Tidak Lengkap';
+
+                // Mengecek kelengkapan data dari tabel kesehatan
+                $kesehatan_complete = $santri->kesehatan &&
+                $santri->kesehatan->golongan_darah &&
+                $santri->kesehatan->tb !== null &&
+                $santri->kesehatan->bb !== null &&
+                $santri->kesehatan->riwayat_penyakit ? 'Lengkap' : 'Tidak Lengkap';
+
+                // Mengecek kelengkapan data dari tabel bantuan
+                $bantuan_complete = $santri->bantuan &&
+                $santri->bantuan->nama_bantuan &&
+                $santri->bantuan->tingkat &&
+                $santri->bantuan->no_kip ? 'Lengkap' : 'Tidak Lengkap';
+
+                return [
+                    'nama_santri' => $santri->nama,
+                    'jenjang_pendidikan' => $santri->jenjang_pendidikan,
+                    'santri_complete' => $santri_complete,
+                    'ortu_complete' => $ortu_complete,
+                    'dokumen_complete' => $dokumen_complete,
+                    'kesehatan_complete' => $kesehatan_complete,
+                    'bantuan_complete' => $bantuan_complete,
+                ];
+            });
+
             return view('auth.dashboard', compact(
                 'Guru',
                 'Santri',
@@ -183,16 +265,17 @@ class AuthController extends Controller
                 'jumlah_santri_yang_menunggu_disetujui',
                 'data_ujian',
                 'jenjang_list',
-                'years',    
-                'chartData',   
+                'years',
+                'chartData',
                 'jumlah_laki_laki',
                 'jumlah_perempuan',
-
+                'santriData'
             ));
         }
 
         return redirect("login")->withErrors('Maaf! Kamu tidak memiliki akses masuk');
     }
+
     /**
      * Write code on Method
      *

@@ -8,7 +8,7 @@
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <div>
-                                <h6 class="fw-bold mb-2">Total Santri</h6>
+                                <h6 class="fw-bold mb-2">Total Santri Mendaftar</h6>
                                 <h3 class="fw-bold mb-0 text-white">
                                     {{ request('jenjang_filter') || request('year') ? $hitung_santri_byfilter : $jumlah_santri }}
                                 </h3>
@@ -45,7 +45,7 @@
                     <div class="card shadow-lg border-0 bg-gradient-success text-white hover-scale h-100">
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="fw-bold mb-1">Santri Disetujui</h6>
+                                <h6 class="fw-bold mb-1">Total Santri Diterima</h6>
                                 <h3 class="fw-bold mb-0">{{ $jumlah_santri_yang_sudah_disetujui }}</h3>
                             </div>
                             <div class="icon bg-white text-success rounded-circle p-3 ms-3">
@@ -62,7 +62,7 @@
                     <div class="card shadow-lg border-0 bg-gradient-warning text-white hover-scale h-100">
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="fw-bold mb-1">Santri Menunggu Disetujui</h6>
+                                <h6 class="fw-bold mb-1">Santri Menunggu Diterima</h6>
                                 <h3 class="fw-bold mb-0">{{ $jumlah_santri_yang_menunggu_disetujui }}</h3>
                             </div>
                             <div class="icon bg-white text-warning rounded-circle p-3 ms-3">
@@ -71,6 +71,94 @@
                         </div>
                     </div>
                 </a>
+            </div>
+        </div>
+
+        <div class="results-container mt-5 mb-5">
+            <div class="filter-title-section">
+                <h4 class="section-title">Tabel Kelengkapan Syarat Santri</h4>
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <label for="filterJenjang" class="filter-label">Filter Jenjang:</label>
+                        <select id="filterJenjang" class="filter-select" name="jenjang_filter">
+                            <option value="">Semua</option>
+                            @foreach ($jenjang_list as $jenjang)
+                                <option value="{{ $jenjang }}"
+                                    {{ request('jenjang_filter') == $jenjang ? 'selected' : '' }}>{{ $jenjang }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filterYear" class="filter-label">Filter Tahun Masuk:</label>
+                        <select id="filterYear" class="filter-select" name="year">
+                            <option value="">Semua</option>
+                            @foreach ($years as $year)
+                                <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>
+                                    {{ $year }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table id="tabelKelengkapanSyarat" class="results-table">
+                    <thead>
+                        <tr>
+                            <th class="student-col">Nama Santri</th>
+                            <th class="level-col">Jenjang Pendidikan</th>
+                            <th class="santri-col">Data Santri</th>
+                            <th class="ortu-col">Data Orang Tua</th>
+                            <th class="dokumen-col">Dokumen</th>
+                            <th class="kesehatan-col">Data Kesehatan</th>
+                            <th class="bantuan-col">Data Bantuan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($santriData as $data)
+                            <tr>
+                                <td class="student-name">{{ $data['nama_santri'] }}</td>
+                                <td class="level">{{ $data['jenjang_pendidikan'] }}</td>
+                                <td class="santri-status">
+                                    @if ($data['santri_complete'] == 'Lengkap')
+                                        <span class="status-badge bg-green">Lengkap</span>
+                                    @else
+                                        <span class="status-badge bg-red">Tidak Lengkap</span>
+                                    @endif
+                                </td>
+                                <td class="ortu-status">
+                                    @if ($data['ortu_complete'] == 'Lengkap')
+                                        <span class="status-badge bg-green">Lengkap</span>
+                                    @else
+                                        <span class="status-badge bg-red">Tidak Lengkap</span>
+                                    @endif
+                                </td>
+                                <td class="dokumen-status">
+                                    @if ($data['dokumen_complete'] == 'Lengkap')
+                                        <span class="status-badge bg-green">Lengkap</span>
+                                    @else
+                                        <span class="status-badge bg-red">Tidak Lengkap</span>
+                                    @endif
+                                </td>
+                                <td class="kesehatan-status">
+                                    @if ($data['kesehatan_complete'] == 'Lengkap')
+                                        <span class="status-badge bg-green">Lengkap</span>
+                                    @else
+                                        <span class="status-badge bg-red">Tidak Lengkap</span>
+                                    @endif
+                                </td>
+                                <td class="bantuan-status">
+                                    @if ($data['bantuan_complete'] == 'Lengkap')
+                                        <span class="status-badge bg-green">Lengkap</span>
+                                    @else
+                                        <span class="status-badge bg-red">Tidak Lengkap</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -147,9 +235,11 @@
                                     <i class="fas fa-sliders-h me-1"></i> Opsi
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#" onclick="changeChartType('line')">Garis</a>
+                                    <li><a class="dropdown-item" href="#"
+                                            onclick="changeChartType('line')">Garis</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="#" onclick="changeChartType('bar')">Batang</a>
+                                    <li><a class="dropdown-item" href="#"
+                                            onclick="changeChartType('bar')">Batang</a>
                                     </li>
                                     <li>
                                         <hr class="dropdown-divider">
@@ -325,28 +415,8 @@
                             Dari Alumni 2020.
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                            <li class="nav-item">
-                                <a href="https://www.creative-tim.com" class="nav-link text-muted"
-                                    target="_blank">Creative Tim</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted"
-                                    target="_blank">About Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://www.creative-tim.com/blog" class="nav-link text-muted"
-                                    target="_blank">Blog</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted"
-                                    target="_blank">License</a>
-                            </li>
-                        </ul>
-                    </div>
+
                 </div>
-            </div>
         </footer>
     </div>
 
@@ -792,6 +862,20 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+        }
+
+        .status-badge.bg-red {
+            background-color: #ef4444;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .status-badge.bg-green {
+            background-color: #10b981;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
         }
 
         /* style 3 card atas */
