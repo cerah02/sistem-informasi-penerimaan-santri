@@ -284,7 +284,7 @@
 
             // Durasi ujian dalam detik (contoh: 1 jam = 3600 detik)
             let durasiUjian =
-            {{ $ujian->durasi }}; // Ambil durasi dari database (dalam menit) dan konversi ke detik
+                {{ $ujian->durasi }}; // Ambil durasi dari database (dalam menit) dan konversi ke detik
 
             // Fungsi untuk mengirim jawaban otomatis
             function submitJawabanOtomatis() {
@@ -294,38 +294,69 @@
                 const answers = JSON.parse(localStorage.getItem('answers')) || {};
 
                 // Tambahkan jawaban ke form
+                // Tambahkan jawaban ke form
                 $('form').find('input[type="hidden"]').remove(); // Hapus input hidden sebelumnya
+
+                // Tambahkan CSRF token ke form
+                $(`<input type="hidden" name="_token" value="${$('meta[name="csrf-token"]').attr('content')}">`)
+                    .appendTo($('form'));
+
+                // Tambahkan semua jawaban
                 for (const [questionId, answer] of Object.entries(answers)) {
                     $(`<input type="hidden" name="jawaban[${questionId}]" value="${answer}">`).appendTo($('form'));
                 }
 
                 // Submit form
                 $('form').submit();
+
             }
 
-            // Timer countdown
-            function startTimer(duration, display) {
-                let timer = duration,
-                    minutes, seconds;
+            // const durasiUjian = 120 * 60; // 120 menit dalam detik
+
+            function setCookie(name, value, minutes) {
+                const expires = new Date(Date.now() + minutes * 60 * 1000).toUTCString();
+                document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+            }
+
+            function getCookie(name) {
+                const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+                return match ? match[2] : null;
+            }
+
+            function startTimer(durationInSeconds, display) {
+                let endTime = getCookie("ujianEndTime");
+
+                if (!endTime) {
+                    const now = Date.now();
+                    endTime = now + durationInSeconds * 1000;
+                    setCookie("ujianEndTime", endTime, durationInSeconds / 60);
+                } else {
+                    endTime = parseInt(endTime);
+                }
+
                 const interval = setInterval(function() {
-                    minutes = parseInt(timer / 60, 10);
-                    seconds = parseInt(timer % 60, 10);
+                    const now = Date.now();
+                    let sisaWaktu = Math.floor((endTime - now) / 1000);
 
-                    minutes = minutes < 10 ? "0" + minutes : minutes;
-                    seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                    display.textContent = minutes + ":" + seconds;
-
-                    if (--timer < 0) {
+                    if (sisaWaktu <= 0) {
                         clearInterval(interval);
-                        submitJawabanOtomatis(); // Panggil fungsi submit otomatis
+                        display.textContent = "00:00";
+                        document.cookie = "ujianEndTime=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                        submitJawabanOtomatis();
+                        return;
                     }
+
+                    const minutes = String(Math.floor(sisaWaktu / 60)).padStart(2, "0");
+                    const seconds = String(sisaWaktu % 60).padStart(2, "0");
+                    display.textContent = `${minutes}:${seconds}`;
                 }, 1000);
             }
 
-            // Jalankan timer saat halaman dimuat
+
             const display = document.querySelector('#timer');
             startTimer(durasiUjian, display);
+
+
 
             // Fungsi untuk menyimpan jawaban ke localStorage
             function saveAnswer(questionId, answer) {
@@ -435,6 +466,28 @@
             window.addEventListener('beforeunload', function() {
                 localStorage.removeItem('answers'); // Hapus data jawaban dari localStorage
             });
+        });
+
+        // ========== CEGAH KEMBALI ==========
+        history.pushState(null, null, window.location.href);
+        window.addEventListener('popstate', function(event) {
+            history.pushState(null, null, window.location.href);
+            alert("Anda tidak boleh kembali saat ujian berlangsung.");
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if ((e.altKey && e.key === 'ArrowLeft') || e.key === 'Backspace') {
+                e.preventDefault();
+                alert("Aksi kembali dinonaktifkan saat ujian.");
+            }
+        });
+
+        // ========== DETEKSI TAB BARU / PINDAH FOKUS ==========
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                alert("Terjadi aktivitas mencurigakan: membuka tab lain. Ujian akan dikirim!");
+                document.getElementById('ujianForm').submit();
+            }
         });
     </script>
 </body>
