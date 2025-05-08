@@ -23,7 +23,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Routing\Route as RoutingRoute;
 
 Route::resource('santris', SantriController::class);
-Route::resource('kelas', KelasController::class);
 Route::resource('gurus', GuruController::class);
 Route::resource('pendaftarans', PendaftaranController::class);
 Route::resource('hasils', HasilController::class);

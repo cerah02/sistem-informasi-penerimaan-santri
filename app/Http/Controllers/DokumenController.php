@@ -226,7 +226,7 @@ class DokumenController extends Controller
     public function show(Dokumen $dokumen)
     {
         //
-        return view('dokumens.show', compact('santri'));
+        return view('dokumens.show', compact('dokumen'));
     }
 
     /**
@@ -238,7 +238,7 @@ class DokumenController extends Controller
     public function edit(Dokumen $dokumen)
     {
         //
-        return view('dokumens.edit', compact('santri'));
+        return view('dokumens.edit', compact('dokumen'));
     }
 
     /**

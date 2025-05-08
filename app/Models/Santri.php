@@ -31,4 +31,8 @@ class Santri extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+    public function hasil()
+    {
+        return $this->hasMany(Hasil::class, 'santri_id');
+    }
 }

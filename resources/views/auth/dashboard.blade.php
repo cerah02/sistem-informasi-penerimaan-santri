@@ -1,7 +1,6 @@
 @extends('layout')
 @section('content')
     <div class="container">
-        {{-- <?php dd(Auth::user()->roles[0]['name']); ?> --}}
         @if (Auth::user()->roles[0]['name'] === 'Admin' || Auth::user()->roles[0]['name'] === 'Guru')
             <div class="row">
                 <!-- Card Total Santri -->
@@ -340,48 +339,94 @@
                 </div>
             </div>
         @elseif (Auth::user()->roles[0]['name'] === 'Santri')
-            <div class="merek-step-container">
-                <div class="merek-step-row">
-                    <div class="merek-step-item">
-                        <img src="/assets/img/logo_pondok.png" alt="Registrasi akun">
-                        <p>Registrasi akun <br><span class="merek-step-highlight">merek.dgip.go.id</span></p>
-                    </div>
-                    <div class="merek-step-item">
-                        <img src="/assets/img/logo_pondok.png" alt="Permohonan Baru">
-                        <p>Klik tambah untuk membuat <strong>Permohonan Baru</strong></p>
-                    </div>
-                    <div class="merek-step-item">
-                        <img src="/assets/img/logo_pondok.png" alt="Isi formulir">
-                        <p>Isi <strong>seluruh formulir</strong> yang tersedia</p>
-                    </div>
-                    <div class="merek-step-item">
-                        <img src="/assets/img/logo_pondok.png" alt="Unggah dokumen">
-                        <p>Unggah <strong>data dukung</strong> yang dibutuhkan</p>
-                    </div>
+            <!-- Hero Banner Section -->
+            <section class="dm-hero-banner">
+                <div class="container">
+                    <h1 class="dm-hero-title dm-animate">Penerimaan Santri Baru<br>Pondok Pesantren Darul Muttaqien</h1>
+                    <p class="dm-hero-subtitle dm-animate" style="animation-delay: 0.2s;">Silahkan ikuti langkah-langkah
+                        pendaftaran dibawah ini</p>
                 </div>
+            </section>
 
-                <div class="merek-step-row">
-                    <div class="merek-step-item">
-                        <img src="icon5.png" alt="Generate Billing">
-                        <p>Pesan Kode Pembayaran dengan klik <strong>Generate Kode Billing</strong></p>
+            <div class="container">
+                <!-- Acceptance Card -->
+                @if ($kelulusan_santri['status_kelulusan'] == 'Lulus')
+                    <div class="dm-acceptance-card dm-animate" style="animation-delay: 0.3s;">
+                        <div class="row align-items-center">
+                            <div class="col-md-3 text-center">
+                                <img src="{{ asset('storage/' . $kelulusan_santri['foto']) }}" alt="Foto Santri"
+                                    class="dm-student-photo img-fluid">
+                            </div>
+                            <div class="col-md-9">
+                                <h2 class="dm-student-name">{{ $kelulusan_santri['nama_santri'] }}</h2>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><span class="dm-info-label">Jenjang:</span> <span
+                                                class="fw-bold">{{ $kelulusan_santri['jenjang'] }}</span></p>
+                                        <p><span class="dm-info-label">NISN:</span> {{ $kelulusan_santri['nisn'] }}</p>
+                                        <p><span class="dm-info-label">NIK:</span> {{ $kelulusan_santri['nik'] }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><span class="dm-info-label">TTL:</span> {{ $kelulusan_santri['ttl'] }}</p>
+                                        <p><span class="dm-info-label">Jenis Kelamin:</span>
+                                            {{ ucfirst($kelulusan_santri['jenis_kelamin']) }}</p>
+                                        <p><span class="dm-info-label">Asal Sekolah:</span>
+                                            {{ $kelulusan_santri['asal_sekolah'] }}</p>
+                                    </div>
+                                </div>
+                                <p class="mt-3"><span class="dm-info-label">Alamat:</span>
+                                    {{ $kelulusan_santri['alamat'] }}</p>
+                            </div>
+                        </div>
+
+                        <div class="dm-divider"></div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <div class="dm-score-display text-center h-100">
+                                    <h5 class="text-muted">Total Nilai</h5>
+                                    <p class="dm-score-value">{{ $kelulusan_santri['total_nilai'] }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="dm-score-display text-center h-100">
+                                    <h5 class="text-muted">Rata-rata</h5>
+                                    <p class="dm-score-value">{{ $kelulusan_santri['rata_rata'] }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p class="mb-3">Status Kelulusan:</p>
+                            @if ($kelulusan_santri['status_kelulusan'] == 'Lulus')
+                                <span class="dm-status-badge dm-status-passed">
+                                    <i class="fas fa-check-circle me-2"></i>LULUS - SELAMAT!
+                                </span>
+                            @else
+                                <span class="dm-status-badge dm-status-failed">
+                                    <i class="fas fa-times-circle me-2"></i>TIDAK LULUS
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button onclick="printKelulusanCard()" class="btn dm-print-btn text-white">
+                                <i class="fas fa-print me-2"></i>Cetak Bukti Kelulusan
+                            </button>
+                        </div>
                     </div>
-                    <div class="merek-step-item">
-                        <img src="icon6.png" alt="Pembayaran">
-                        <p>Lakukan <strong>pembayaran sesuai dengan kode billing</strong><br>maks. pukul 23.59 WIB di hari
-                            yang sama</p>
-                    </div>
-                    <div class="merek-step-item">
-                        <img src="icon7.png" alt="Klik selesai">
-                        <p>Jika semua dirasa sudah benar klik <strong>selesai</strong></p>
-                    </div>
-                    <div class="merek-step-item">
-                        <img src="icon8.png" alt="Diterima DJKI">
-                        <p><strong>Permohonan Anda</strong><br>sudah diterima oleh DJKI</p>
-                    </div>
+                @endif
+
+                <!-- Registration Steps -->
+                <div class="dm-steps-container dm-animate" style="animation-delay: 0.5s;">
+                    <h2 class="dm-steps-title">
+                        <i class="fas fa-map-marked-alt"></i>Alur Pendaftaran
+                    </h2>
+                    <img src="{{ asset('/assets/img/alur-daftar.png') }}" alt="Alur Pendaftaran"
+                        class="dm-steps-image img-fluid">
                 </div>
             </div>
         @endif
-
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -660,6 +705,298 @@
             link.click();
         }
     </script>
+    <style>
+        :root {
+            --dm-primary: #28a745;
+            --dm-secondary: #e8f5ee;
+            --dm-accent: #f5b82e;
+            --dm-dark: #28a745;
+            --dm-light: #f9fdfb;
+            --dm-success: #28a745;
+            --dm-danger: #dc3545;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Hero Banner */
+        .dm-hero-banner {
+            background: linear-gradient(135deg, var(--dm-primary), var(--dm-dark));
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 10px 30px rgba(26, 93, 62, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dm-hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.03)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+            opacity: 0.5;
+        }
+
+        .dm-hero-title {
+            font-weight: 800;
+            font-size: 2.8rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            margin-bottom: 1rem;
+        }
+
+        .dm-hero-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--dm-accent);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .dm-hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            font-weight: 300;
+        }
+
+        /* Steps Container */
+        .dm-steps-container {
+            background-color: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            margin-bottom: 3rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dm-steps-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--dm-primary), var(--dm-accent));
+        }
+
+        .dm-steps-title {
+            color: var(--dm-primary);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dm-steps-title i {
+            margin-right: 15px;
+            font-size: 1.8rem;
+            color: var(--dm-accent);
+        }
+
+        .dm-steps-image {
+            width: 100%;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .dm-steps-image:hover {
+            transform: scale(1.02) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Acceptance Card */
+        .dm-acceptance-card {
+            background: white;
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            border-left: 6px solid var(--dm-primary);
+            transition: all 0.4s ease;
+            background: linear-gradient(to bottom right, white, var(--dm-secondary));
+            margin-bottom: 3rem;
+            padding: 2.5rem;
+        }
+
+        .dm-acceptance-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .dm-student-photo {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            border-radius: 10px;
+        }
+
+        .dm-student-photo:hover {
+            transform: scale(1.08);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .dm-student-name {
+            color: var(--dm-primary);
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .dm-student-name::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background-color: var(--dm-accent);
+            border-radius: 2px;
+        }
+
+        .dm-info-label {
+            font-weight: 600;
+            color: var(--dm-dark);
+            min-width: 140px;
+            display: inline-block;
+        }
+
+        .dm-status-badge {
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .dm-status-passed {
+            background-color: rgba(40, 167, 69, 0.15);
+            color: var(--dm-success);
+            border: 2px solid var(--dm-success);
+        }
+
+        .dm-status-failed {
+            background-color: rgba(220, 53, 69, 0.15);
+            color: var(--dm-danger);
+            border: 2px solid var(--dm-danger);
+        }
+
+        .dm-divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--dm-primary), transparent);
+            margin: 2rem 0;
+            opacity: 0.2;
+        }
+
+        .dm-print-btn {
+            background: linear-gradient(to right, var(--dm-primary), var(--dm-dark));
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            transition: all 0.4s ease;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(26, 93, 62, 0.3);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .dm-print-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(26, 93, 62, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .dm-score-display {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .dm-score-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dm-primary);
+            margin-top: 5px;
+        }
+
+        /* Animations */
+        @keyframes dmFadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dm-animate {
+            animation: dmFadeInUp 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+        }
+
+        @media (max-width: 768px) {
+            .dm-hero-title {
+                font-size: 2.2rem;
+            }
+
+            .dm-hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .dm-steps-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .dm-acceptance-card {
+                padding: 1.5rem;
+            }
+
+            .dm-student-photo {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 1.5rem;
+            }
+
+            .dm-student-name {
+                font-size: 1.5rem;
+            }
+
+            .dm-info-label {
+                min-width: 110px;
+                display: block;
+                margin-top: 10px;
+            }
+        }
+    </style>
 
     <style>
         .hover-scale {
@@ -935,51 +1272,12 @@
         .transition-all {
             transition: all 0.3s ease-in-out;
         }
-
-        /* khusus santri */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fff;
-            padding: 20px;
-        }
-
-        .merek-step-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 40px;
-        }
-
-        .merek-step-row {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-
-        .merek-step-item {
-            text-align: center;
-            max-width: 180px;
-        }
-
-        .merek-step-item img {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-            margin-bottom: 10px;
-        }
-
-        .merek-step-highlight {
-            display: inline-block;
-            background-color: #ffd400;
-            padding: 4px 8px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-
-        strong {
-            color: #001d6e;
-        }
     </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function printKelulusanCard() {
+            window.print();
+        }
+    </script>
 @endsection

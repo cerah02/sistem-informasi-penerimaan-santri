@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bantuan;
+use App\Models\Santri;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -81,8 +82,8 @@ class BantuanController extends Controller
      */
     public function create()
     {
-        //
-        return view('bantuans.create');
+        $santris = Santri::all();
+        return view('bantuans.create', compact('santris'));
     }
 
     /**

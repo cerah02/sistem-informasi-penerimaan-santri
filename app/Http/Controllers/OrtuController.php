@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ortu;
+use App\Models\Santri;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -83,8 +84,8 @@ class OrtuController extends Controller
      */
     public function create()
     {
-        //
-        return view('ortus.create');
+        $santris = Santri::all();
+        return view('ortus.create', compact('santris'));
     }
 
     /**

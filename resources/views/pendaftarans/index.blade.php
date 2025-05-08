@@ -8,7 +8,7 @@
                 @can('pendaftaran-create')
                     <div class="col-sm-3">
                         <div class="btn-group float-sm-right">
-                            <a class="btn btn-success waves-effect waves-light" href="{{ route('pendaftarans.create') }}">
+                            <a class="btn btn-success waves-effect waves-light" href="{{ route('santri_pendaftaran_view') }}">
                                 <i class="fa fa-plus mr-1"></i> Tambah Data
                             </a>
                         </div>

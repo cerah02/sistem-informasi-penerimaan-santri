@@ -1,698 +1,1084 @@
 @extends('layout')
 @section('content')
-    <div class="container mt-5">
+    <div class="container mt-4">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">{{ $santri ? 'Edit' : 'Formulir' }} Pendaftaran Santri Baru</h3>
+            </div>
 
-        <h2>{{ $santri ? 'Edit' : 'Formulir' }} Pendaftaran Santri Baru</h2>
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show mx-3 mt-3" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show mx-3 mt-3" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
 
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
+            <div class="card-body">
+                <form id="multiStepForm" action="{{ $santri ? route('santris.update') : route('santris.store') }}"
+                    method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @if ($santri)
+                        @method('PUT')
+                    @endif
 
-        <div class="card shadow mb-5">
-            <form id="multiStepForm" action="{{ $santri ? route('santris.update') : route('santris.store') }}" method="POST"
-                enctype="multipart/form-data">
-                @csrf
-                @if ($santri)
-                    @method('PUT')
-                @endif
+                    <!-- Step 1: Data Diri Santri -->
+                    <div class="step" id="step-1">
+                        <h5 class="mb-4 text-primary"><i class="bi bi-person-vcard me-2"></i>Data Diri Santri</h5>
 
-                {{-- @dd($santri) --}}
-
-                <div class="step" id="step-1">
-                    <h5 class="mb-3">Data Diri Santri</h5>
-                    <div class="mb-3">
-                        <label for="nama" class="form-label">Nama:</label>
-                        <input type="text" id="nama" name="nama" class="form-control"
-                            value="{{ old('nama', isset($santri) ? $santri->nama : '') }}" required>
-                        @error('nama')
-                            <div class="invalid-feedback">
-                                {{ $message }}
+                        <div class="row g-3">
+                            <!-- Personal Information -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="nama" name="nama"
+                                        class="form-control @error('nama') is-invalid @enderror"
+                                        value="{{ old('nama', $santri->nama ?? '') }}" placeholder="Nama Lengkap" required>
+                                    <label for="nama">Nama Lengkap</label>
+                                    @error('nama')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
                             </div>
-                        @enderror
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="nisn" class="form-label">NISN:</label>
-                        <input type="text" id="nisn" name="nisn" class="form-control"
-                            value="{{ old('nisn', isset($santri) ? $santri->nisn : '') }}" required>
-                        @error('nisn')
-                            <div class="invalid-feedback">
-                                {{ $message }}
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="nisn" name="nisn"
+                                        class="form-control @error('nisn') is-invalid @enderror"
+                                        value="{{ old('nisn', $santri->nisn ?? '') }}" placeholder="NISN" required>
+                                    <label for="nisn">NISN</label>
+                                    @error('nisn')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
                             </div>
-                        @enderror
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="nik" class="form-label">NIK:</label>
-                        <input type="text" id="nik" name="nik" class="form-control"
-                            value="{{ old('nik', isset($santri) ? $santri->nik : '') }}" required>
-                        @error('nik')
-                            <div class="invalid-feedback">
-                                {{ $message }}
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="nik" name="nik"
+                                        class="form-control @error('nik') is-invalid @enderror"
+                                        value="{{ old('nik', $santri->nik ?? '') }}" placeholder="NIK" required>
+                                    <label for="nik">NIK</label>
+                                    @error('nik')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
                             </div>
-                        @enderror
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="asal_sekolah" class="form-label">Asal Sekolah:</label>
-                        <input type="text" id="asal_sekolah" name="asal_sekolah" class="form-control"
-                            value="{{ old('asal_sekolah', isset($santri) ? $santri->asal_sekolah : '') }}" required>
-                        @error('asal_sekolah')
-                            <div class="invalid-feedback">
-                                {{ $message }}
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="asal_sekolah" name="asal_sekolah"
+                                        class="form-control @error('asal_sekolah') is-invalid @enderror"
+                                        value="{{ old('asal_sekolah', $santri->asal_sekolah ?? '') }}"
+                                        placeholder="Asal Sekolah" required>
+                                    <label for="asal_sekolah">Asal Sekolah</label>
+                                    @error('asal_sekolah')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
                             </div>
-                        @enderror
-                    </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Jenis Kelamin:</label>
-                        <div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="jenis_kelamin_laki" name="jenis_kelamin"
-                                    value="laki-laki"
-                                    {{ old('jenis_kelamin', $santri->jenis_kelamin ?? '') == 'laki-laki' ? 'checked' : '' }}
-                                    required>
-                                <label class="form-check-label" for="jenis_kelamin_laki">Laki-laki</label>
+                            <!-- Gender and Birth Information -->
+                            <div class="col-md-6">
+                                <label class="form-label">Jenis Kelamin</label>
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" id="jenis_kelamin_laki" name="jenis_kelamin"
+                                        value="laki-laki"
+                                        {{ old('jenis_kelamin', $santri->jenis_kelamin ?? '') == 'laki-laki' ? 'checked' : '' }}
+                                        required>
+                                    <label class="btn btn-outline-primary" for="jenis_kelamin_laki">
+                                        <i class="bi bi-gender-male me-1"></i> Laki-laki
+                                    </label>
+
+                                    <input type="radio" class="btn-check" id="jenis_kelamin_perempuan"
+                                        name="jenis_kelamin" value="perempuan"
+                                        {{ old('jenis_kelamin', $santri->jenis_kelamin ?? '') == 'perempuan' ? 'checked' : '' }}
+                                        required>
+                                    <label class="btn btn-outline-primary" for="jenis_kelamin_perempuan">
+                                        <i class="bi bi-gender-female me-1"></i> Perempuan
+                                    </label>
+                                </div>
+                                @error('jenis_kelamin')
+                                    <div class="text-danger small mt-1">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="jenis_kelamin_perempuan"
-                                    name="jenis_kelamin" value="perempuan"
-                                    {{ old('jenis_kelamin', $santri->jenis_kelamin ?? '') == 'perempuan' ? 'checked' : '' }}
-                                    required>
-                                <label class="form-check-label" for="jenis_kelamin_perempuan">Perempuan</label>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="ttl" name="tempat_lahir"
+                                        class="form-control @error('tempat_lahir') is-invalid @enderror"
+                                        value="{{ old('tempat_lahir', isset($santri) ? explode('|', $santri->ttl)[0] : '') }}"
+                                        placeholder="Tempat Lahir" required>
+                                    <label for="ttl">Tempat Lahir</label>
+                                    @error('tempat_lahir')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="date" id="tanggal_lahir" name="tanggal_lahir"
+                                        class="form-control @error('tanggal_lahir') is-invalid @enderror"
+                                        value="{{ old('tanggal_lahir', isset($santri) ? explode('|', $santri->ttl)[1] ?? '' : '') }}"
+                                        required>
+                                    <label for="tanggal_lahir">Tanggal Lahir</label>
+                                    @error('tanggal_lahir')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Status Information -->
+                            <div class="col-md-6">
+                                <label class="form-label">Kondisi Ekonomi</label>
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" id="kondisi_berkecukupan" name="kondisi"
+                                        value="Berkecukupan"
+                                        {{ old('kondisi', $santri->kondisi ?? '') == 'Berkecukupan' ? 'checked' : '' }}
+                                        required>
+                                    <label class="btn btn-outline-primary" for="kondisi_berkecukupan">Berkecukupan</label>
+
+                                    <input type="radio" class="btn-check" id="kondisi_kurang_mampu" name="kondisi"
+                                        value="Kurang Mampu"
+                                        {{ old('kondisi', $santri->kondisi ?? '') == 'Kurang Mampu' ? 'checked' : '' }}
+                                        required>
+                                    <label class="btn btn-outline-primary" for="kondisi_kurang_mampu">Kurang
+                                        Mampu</label>
+                                </div>
+                                @error('kondisi')
+                                    <div class="text-danger small mt-1">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Kondisi Orang Tua</label>
+                                <select class="form-select @error('kondisi_ortu') is-invalid @enderror"
+                                    name="kondisi_ortu" required>
+                                    <option value="">Pilih Kondisi Orang Tua</option>
+                                    <option value="Lengkap"
+                                        {{ old('kondisi_ortu', $santri->kondisi_ortu ?? '') == 'Lengkap' ? 'selected' : '' }}>
+                                        Lengkap</option>
+                                    <option value="Yatim"
+                                        {{ old('kondisi_ortu', $santri->kondisi_ortu ?? '') == 'Yatim' ? 'selected' : '' }}>
+                                        Yatim</option>
+                                    <option value="Piatu"
+                                        {{ old('kondisi_ortu', $santri->kondisi_ortu ?? '') == 'Piatu' ? 'selected' : '' }}>
+                                        Piatu</option>
+                                    <option value="Yatim Piatu"
+                                        {{ old('kondisi_ortu', $santri->kondisi_ortu ?? '') == 'Yatim Piatu' ? 'selected' : '' }}>
+                                        Yatim Piatu</option>
+                                </select>
+                                @error('kondisi_ortu')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Status dalam Keluarga</label>
+                                <select class="form-select @error('status_dkluarga') is-invalid @enderror"
+                                    name="status_dkluarga" required>
+                                    <option value="">Pilih Status dalam Keluarga</option>
+                                    <option value="Anak Kandung"
+                                        {{ old('status_dkluarga', $santri->status_dkluarga ?? '') == 'Anak Kandung' ? 'selected' : '' }}>
+                                        Anak Kandung</option>
+                                    <option value="Anak Tiri Dari Ayah"
+                                        {{ old('status_dkluarga', $santri->status_dkluarga ?? '') == 'Anak Tiri Dari Ayah' ? 'selected' : '' }}>
+                                        Anak Tiri Dari Ayah</option>
+                                    <option value="Anak Tiri Dari Ibu"
+                                        {{ old('status_dkluarga', $santri->status_dkluarga ?? '') == 'Anak Tiri Dari Ibu' ? 'selected' : '' }}>
+                                        Anak Tiri Dari Ibu</option>
+                                    <option value="Anak Angkat"
+                                        {{ old('status_dkluarga', $santri->status_dkluarga ?? '') == 'Anak Angkat' ? 'selected' : '' }}>
+                                        Anak Angkat</option>
+                                </select>
+                                @error('status_dkluarga')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Tempat Tinggal</label>
+                                <select class="form-select @error('tempat_tinggal') is-invalid @enderror"
+                                    id="tempat_tinggal" name="tempat_tinggal" required>
+                                    <option value="">Pilih Tempat Tinggal</option>
+                                    <option value="Orang Tua"
+                                        {{ old('tempat_tinggal', $santri->tempat_tinggal ?? '') == 'Orang Tua' ? 'selected' : '' }}>
+                                        Orang Tua</option>
+                                    <option value="Kakek/Nenek"
+                                        {{ old('tempat_tinggal', $santri->tempat_tinggal ?? '') == 'Kakek/Nenek' ? 'selected' : '' }}>
+                                        Kakek/Nenek</option>
+                                    <option value="Paman/Bibi"
+                                        {{ old('tempat_tinggal', $santri->tempat_tinggal ?? '') == 'Paman/Bibi' ? 'selected' : '' }}>
+                                        Paman/Bibi</option>
+                                    <option value="Saudara Kandung"
+                                        {{ old('tempat_tinggal', $santri->tempat_tinggal ?? '') == 'Saudara Kandung' ? 'selected' : '' }}>
+                                        Saudara Kandung</option>
+                                    <option value="Kerabat"
+                                        {{ old('tempat_tinggal', $santri->tempat_tinggal ?? '') == 'Kerabat' ? 'selected' : '' }}>
+                                        Kerabat</option>
+                                    <option value="Panti/Ponten"
+                                        {{ old('tempat_tinggal', $santri->tempat_tinggal ?? '') == 'Panti/Ponten' ? 'selected' : '' }}>
+                                        Panti/Ponten</option>
+                                    <option value="Lainnya"
+                                        {{ old('tempat_tinggal', $santri->tempat_tinggal ?? '') == 'Lainnya' ? 'selected' : '' }}>
+                                        Lainnya</option>
+                                </select>
+                                <div id="lainnya_input_container" class="mt-2"
+                                    style="display: {{ old('tempat_tinggal', $santri->tempat_tinggal ?? '') == 'Lainnya' ? 'block' : 'none' }};">
+                                    <input type="text" id="lainnya_input" name="tempat_tinggal_lainnya"
+                                        class="form-control" placeholder="Silakan isi tempat tinggal lainnya"
+                                        value="{{ old('tempat_tinggal_lainnya', $santri->tempat_tinggal_lainnya ?? '') }}">
+                                </div>
+                                @error('tempat_tinggal')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <!-- Contact Information -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="kewarganegaraan" name="kewarganegaraan"
+                                        class="form-control @error('kewarganegaraan') is-invalid @enderror"
+                                        value="{{ old('kewarganegaraan', $santri->kewarganegaraan ?? '') }}"
+                                        placeholder="Kewarganegaraan" required>
+                                    <label for="kewarganegaraan">Kewarganegaraan</label>
+                                    @error('kewarganegaraan')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="number" id="anak_ke" name="anak_ke"
+                                        class="form-control @error('anak_ke') is-invalid @enderror"
+                                        value="{{ old('anak_ke', $santri->anak_ke ?? '') }}" placeholder="Anak Ke-"
+                                        required>
+                                    <label for="anak_ke">Anak Ke-</label>
+                                    @error('anak_ke')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="number" id="jumlah_saudara" name="jumlah_saudara"
+                                        class="form-control @error('jumlah_saudara') is-invalid @enderror"
+                                        value="{{ old('jumlah_saudara', $santri->jumlah_saudara ?? '') }}"
+                                        placeholder="Jumlah Saudara" required>
+                                    <label for="jumlah_saudara">Jumlah Saudara</label>
+                                    @error('jumlah_saudara')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <textarea id="alamat" name="alamat" class="form-control @error('alamat') is-invalid @enderror"
+                                        placeholder="Alamat Lengkap" style="height: 100px" required>{{ old('alamat', $santri->alamat ?? '') }}</textarea>
+                                    <label for="alamat">Alamat Lengkap</label>
+                                    @error('alamat')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="tel" id="nomor_telpon" name="nomor_telpon"
+                                        class="form-control @error('nomor_telpon') is-invalid @enderror"
+                                        {{-- pattern="^\+?[0-9]{1,4}?[-. \(\)]?([0-9]{1,3})?[-. ]?[0-9]{1,4}[-. ]?[0-9]{1,4}$" --}}
+                                        value="{{ old('nomor_telpon', $santri->nomor_telpon ?? '') }}"
+                                        placeholder="Nomor Telepon" required>
+                                    <label for="nomor_telpon">Nomor Telepon</label>
+                                    @error('nomor_telpon')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" id="email" name="email"
+                                        class="form-control @error('email') is-invalid @enderror"
+                                        value="{{ old('email', $santri->email ?? '') }}" placeholder="Alamat Email"
+                                        required>
+                                    <label for="email">Alamat Email</label>
+                                    @error('email')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Jenjang Pendidikan</label>
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" id="jenjang_sd" name="jenjang_pendidikan"
+                                        value="SD"
+                                        {{ old('jenjang_pendidikan', $santri->jenjang_pendidikan ?? '') == 'SD' ? 'checked' : '' }}
+                                        required>
+                                    <label class="btn btn-outline-primary" for="jenjang_sd">SD</label>
+
+                                    <input type="radio" class="btn-check" id="jenjang_mts" name="jenjang_pendidikan"
+                                        value="MTS"
+                                        {{ old('jenjang_pendidikan', $santri->jenjang_pendidikan ?? '') == 'MTS' ? 'checked' : '' }}
+                                        required>
+                                    <label class="btn btn-outline-primary" for="jenjang_mts">MTS</label>
+
+                                    <input type="radio" class="btn-check" id="jenjang_ma" name="jenjang_pendidikan"
+                                        value="MA"
+                                        {{ old('jenjang_pendidikan', $santri->jenjang_pendidikan ?? '') == 'MA' ? 'checked' : '' }}
+                                        required>
+                                    <label class="btn btn-outline-primary" for="jenjang_ma">MA</label>
+                                </div>
+                                @error('jenjang_pendidikan')
+                                    <div class="text-danger small mt-1">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                         </div>
-                        @error('jenis_kelamin')
-                            <div class="invalid-feedback d-block">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="ttl" class="form-label">Tempat Lahir</label>
-                        <input type="text" id="ttl" name="tempat_lahir" class="form-control"
-                            value="{{ old('tempat_lahir', isset($santri) ? explode('|', $santri->ttl)[0] : '') }}"
-                            required>
-                        @error('tempat_lahir')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="tanggal_lahir" class="form-label">Tanggal Lahir:</label>
-                        <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control"
-                            value="{{ old('tanggal_lahir', isset($santri) ? explode('|', $santri->ttl)[1] ?? '' : '') }}"
-                            required>
-                        @error('tanggal_lahir')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="kondisi" class="form-label">Kondisi:</label>
-                        <div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="kondisi_berkecukupan" name="kondisi"
-                                    value="Berkecukupan"
-                                    {{ old('kondisi', $santri->kondisi ?? '') == 'Berkecukupan' ? 'checked' : '' }}
-                                    required>
-                                <label class="form-check-label" for="kondisi_berkecukupan">Berkecukupan</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="kondisi_kurang_mampu" name="kondisi"
-                                    value="Kurang Mampu"
-                                    {{ old('kondisi', $santri->kondisi ?? '') == 'Kurang Mampu' ? 'checked' : '' }}
-                                    required>
-                                <label class="form-check-label" for="kondisi_kurang_mampu">Kurang Mampu</label>
-                            </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <button type="button" class="btn btn-primary next-step">
+                                Selanjutnya <i class="bi bi-arrow-right ms-2"></i>
+                            </button>
                         </div>
-                        @error('kondisi')
-                            <div class="invalid-feedback d-block">
-                                {{ $message }}
-                            </div>
-                        @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Kondisi Orang Tua:</label>
-                        <div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="kondisi_ortu_lengkap"
-                                    name="kondisi_ortu" value="Lengkap"
-                                    {{ old('kondisi_ortu', $santri->kondisi_ortu ?? '') == 'Lengkap' ? 'checked' : '' }}
-                                    required>
-                                <label class="form-check-label" for="kondisi_ortu_lengkap">Lengkap</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="kondisi_ortu_yatim"
-                                    name="kondisi_ortu" value="Yatim"
-                                    {{ old('kondisi_ortu', $santri->kondisi_ortu ?? '') == 'Yatim' ? 'checked' : '' }}
-                                    required>
-                                <label class="form-check-label" for="kondisi_ortu_yatim">Yatim</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="kondisi_ortu_piatu"
-                                    name="kondisi_ortu" value="Piatu"
-                                    {{ old('kondisi_ortu', $santri->kondisi_ortu ?? '') == 'Piatu' ? 'checked' : '' }}
-                                    required>
-                                <label class="form-check-label" for="kondisi_ortu_piatu">Piatu</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="kondisi_ortu_yatim_piatu"
-                                    name="kondisi_ortu" value="Yatim Piatu"
-                                    {{ old('kondisi_ortu', $santri->kondisi_ortu ?? '') == 'Yatim Piatu' ? 'checked' : '' }}
-                                    required>
-                                <label class="form-check-label" for="kondisi_ortu_yatim_piatu">Yatim Piatu</label>
-                            </div>
-                        </div>
-                        @error('kondisi_ortu')
-                            <div class="invalid-feedback d-block">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Status dalam Keluarga:</label>
-                        <div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="status_kandung"
-                                    name="status_dkluarga" value="Anak Kandung"
-                                    {{ old('status_dkluarga', $santri->status_dkluarga ?? '') == 'Anak Kandung' ? 'checked' : '' }}
-                                    required>
-                                <label class="form-check-label" for="status_kandung">Anak Kandung</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="status_tiri_ayah"
-                                    name="status_dkluarga" value="Anak Tiri Dari Ayah"
-                                    {{ old('status_dkluarga', $santri->status_dkluarga ?? '') == 'Anak Tiri Dari Ayah' ? 'checked' : '' }}
-                                    required>
-                                <label class="form-check-label" for="status_tiri_ayah">Anak Tiri Dari Ayah</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="status_tiri_ibu"
-                                    name="status_dkluarga" value="Anak Tiri Dari Ibu"
-                                    {{ old('status_dkluarga', $santri->status_dkluarga ?? '') == 'Anak Tiri Dari Ibu' ? 'checked' : '' }}
-                                    required>
-                                <label class="form-check-label" for="status_tiri_ibu">Anak Tiri Dari Ibu</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="status_angkat" name="status_dkluarga"
-                                    value="Anak Angkat"
-                                    {{ old('status_dkluarga', $santri->status_dkluarga ?? '') == 'Anak Angkat' ? 'checked' : '' }}
-                                    required>
-                                <label class="form-check-label" for="status_angkat">Anak Angkat</label>
-                            </div>
-                        </div>
-                        @error('status_dkluarga')
-                            <div class="invalid-feedback d-block">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Tempat Tinggal:</label>
-                        <div>
-                            @php
-                                $tempatTinggal = old('tempat_tinggal', $santri->tempat_tinggal ?? '');
-                            @endphp
-
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="tinggal_orang_tua"
-                                    name="tempat_tinggal" value="Orang Tua"
-                                    {{ $tempatTinggal == 'Orang Tua' ? 'checked' : '' }} required>
-                                <label class="form-check-label" for="tinggal_orang_tua">Orang Tua</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="tinggal_kakek_nenek"
-                                    name="tempat_tinggal" value="Kakek/Nenek"
-                                    {{ $tempatTinggal == 'Kakek/Nenek' ? 'checked' : '' }} required>
-                                <label class="form-check-label" for="tinggal_kakek_nenek">Kakek/Nenek</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="tinggal_paman_bibi"
-                                    name="tempat_tinggal" value="Paman/Bibi"
-                                    {{ $tempatTinggal == 'Paman/Bibi' ? 'checked' : '' }} required>
-                                <label class="form-check-label" for="tinggal_paman_bibi">Paman/Bibi</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="tinggal_saudara_kandung"
-                                    name="tempat_tinggal" value="Saudara Kandung"
-                                    {{ $tempatTinggal == 'Saudara Kandung' ? 'checked' : '' }} required>
-                                <label class="form-check-label" for="tinggal_saudara_kandung">Saudara Kandung</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="tinggal_kerabat"
-                                    name="tempat_tinggal" value="Kerabat"
-                                    {{ $tempatTinggal == 'Kerabat' ? 'checked' : '' }} required>
-                                <label class="form-check-label" for="tinggal_kerabat">Kerabat</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="tinggal_panti_ponten"
-                                    name="tempat_tinggal" value="Panti/Ponten"
-                                    {{ $tempatTinggal == 'Panti/Ponten' ? 'checked' : '' }} required>
-                                <label class="form-check-label" for="tinggal_panti_ponten">Panti/Ponten</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="tinggal_lainnya"
-                                    name="tempat_tinggal" value="Lainnya"
-                                    {{ $tempatTinggal == 'Lainnya' ? 'checked' : '' }} required>
-                                <label class="form-check-label" for="tinggal_lainnya">Lainnya</label>
-                            </div>
-
-                            <div id="lainnya_input_container" class="mt-2"
-                                style="display: {{ $tempatTinggal == 'Lainnya' ? 'block' : 'none' }};">
-                                <input type="text" id="lainnya_input" name="tempat_tinggal_lainnya"
-                                    class="form-control" placeholder="Silakan isi tempat tinggal lainnya"
-                                    value="{{ old('tempat_tinggal_lainnya', $santri->tempat_tinggal_lainnya ?? '') }}">
-                            </div>
-                        </div>
-                        @error('tempat_tinggal')
-                            <div class="invalid-feedback d-block">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
 
                     <script>
-                        document.querySelectorAll('input[name="tempat_tinggal"]').forEach((input) => {
-                            input.addEventListener('change', function() {
-                                const container = document.getElementById('lainnya_input_container');
-                                container.style.display = this.value === 'Lainnya' ? 'block' : 'none';
-                            });
+                        document.getElementById('tempat_tinggal').addEventListener('change', function() {
+                            const container = document.getElementById('lainnya_input_container');
+                            container.style.display = this.value === 'Lainnya' ? 'block' : 'none';
                         });
                     </script>
 
-                    <div class="mb-3">
-                        <label for="kewarganegaraan" class="form-label">Kewarganegaraan:</label>
-                        <input type="text" id="kewarganegaraan" name="kewarganegaraan" class="form-control"
-                            value="{{ old('kewarganegaraan', isset($santri) ? $santri->kewarganegaraan : '') }}" required>
-                        @error('kewarganegaraan')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
+                    <!-- Step 2: Upload Berkas -->
+                    <div class="step d-none" id="step-2">
+                        <h5 class="mb-4 text-primary"><i class="bi bi-cloud-upload me-2"></i>Upload Berkas Santri</h5>
 
-                    <div class="mb-3">
-                        <label for="anak_ke" class="form-label">Anak Ke:</label>
-                        <input type="number" id="anak_ke" name="anak_ke" class="form-control"
-                            value="{{ old('anak_ke', isset($santri) ? $santri->anak_ke : '') }}" required>
-                        @error('anak_ke')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
+                        <div class="row g-4">
+                            <!-- Ijazah -->
+                            <div class="col-md-6">
+                                <div class="border p-3 rounded">
+                                    <label for="ijazah" class="form-label fw-bold">
+                                        <i class="bi bi-file-pdf me-1 text-danger"></i>Ijazah
+                                        @if (empty($santri->dokumen->ijazah))
+                                            <span class="text-danger">*</span>
+                                        @endif
+                                    </label>
 
-                    <div class="mb-3">
-                        <label for="jumlah_saudara" class="form-label">Jumlah Saudara:</label>
-                        <input type="number" id="jumlah_saudara" name="jumlah_saudara" class="form-control"
-                            value="{{ old('jumlah_saudara', isset($santri) ? $santri->jumlah_saudara : '') }}" required>
-                        @error('jumlah_saudara')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
+                                    @if (!empty($santri->dokumen) && $santri->dokumen->ijazah)
+                                        <div class="alert alert-light d-flex align-items-center p-2 mb-3">
+                                            <i class="bi bi-paperclip me-2"></i>
+                                            <a href="{{ asset('storage/' . $santri->dokumen->ijazah) }}" target="_blank"
+                                                class="text-decoration-none">
+                                                Lihat Dokumen
+                                            </a>
+                                        </div>
+                                    @endif
 
-                    <div class="mb-3">
-                        <label for="alamat" class="form-label">Alamat:</label>
-                        <textarea id="alamat" name="alamat" class="form-control @error('alamat') is-invalid @enderror" rows="3"
-                            required>{{ old('alamat', $santri->alamat ?? '') }}</textarea>
-                        @error('alamat')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="nomor_telpon" class="form-label">Nomor Telepon:</label>
-                        <input type="tel" id="nomor_telpon" name="nomor_telpon" class="form-control"
-                            pattern="^\+?[0-9]{1,4}?[-. \(\)]?([0-9]{1,3})?[-. ]?[0-9]{1,4}[-. ]?[0-9]{1,4}$"
-                            value="{{ old('nomor_telpon', isset($santri) ? $santri->nomor_telpon : '') }}" required>
-                        @error('nomor_telpon')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email:</label>
-                        <input type="email" id="email" name="email" class="form-control"
-                            value="{{ old('email', isset($santri) ? $santri->email : '') }}" required>
-                        @error('email')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Jenjang Pendidikan:</label>
-                        <div>
-                            @php
-                                $jenjang = old('jenjang_pendidikan', $santri->jenjang_pendidikan ?? '');
-                            @endphp
-
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="jenjang_sd" name="jenjang_pendidikan"
-                                    value="SD" {{ $jenjang == 'SD' ? 'checked' : '' }} required>
-                                <label class="form-check-label" for="jenjang_sd">SD</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="jenjang_mts"
-                                    name="jenjang_pendidikan" value="MTS" {{ $jenjang == 'MTS' ? 'checked' : '' }}
-                                    required>
-                                <label class="form-check-label" for="jenjang_mts">MTS</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="jenjang_ma" name="jenjang_pendidikan"
-                                    value="MA" {{ $jenjang == 'MA' ? 'checked' : '' }} required>
-                                <label class="form-check-label" for="jenjang_ma">MA</label>
-                            </div>
-                        </div>
-                        @error('jenjang_pendidikan')
-                            <div class="invalid-feedback d-block">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-
-                    <div class="text-end">
-                        <button type="button" class="btn btn-primary next-step">Selanjutnya</button>
-                    </div>
-                </div>
-
-                <div class="step d-none" id="step-2">
-                    <h5 class="mb-3">Upload Berkas Santri</h5>
-                    <div class="row mb-3">
-                        <!-- Upload Dokumen -->
-                        <div class="col-md-6">
-                            <label for="ijazah" class="form-label"><strong>Ijazah</strong></label>
-                            @if (!empty($santri->dokumen) && $santri->dokumen->ijazah)
-                                <div class="mb-2">
-                                    <a href="{{ asset('storage/' . $santri->dokumen->ijazah) }}" target="_blank">Lihat
-                                        Ijazah</a>
+                                    <div class="file-upload-input">
+                                        <input type="file" name="ijazah" id="ijazah"
+                                            class="form-control @error('ijazah') is-invalid @enderror"
+                                            {{ empty($santri->dokumen->ijazah) ? 'required' : '' }}>
+                                        <small class="text-muted">Format: PDF (Maks. 2MB)</small>
+                                        @error('ijazah')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
-                            @endif
-                            <input type="file" name="ijazah" id="ijazah" class="form-control"
-                                {{ empty($santri->dokumen->ijazah) ? 'required' : '' }}>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="nilai_raport" class="form-label"><strong>Nilai Raport</strong></label>
-                            @if (!empty($santri->dokumen) && $santri->dokumen->nilai_raport)
-                                <div class="mb-2">
-                                    <a href="{{ asset('storage/' . $santri->dokumen->nilai_raport) }}"
-                                        target="_blank">Lihat Nilai Raport</a>
-                                </div>
-                            @endif
-                            <input type="file" name="nilai_raport" id="nilai_raport" class="form-control"
-                                {{ empty($santri->dokumen->nilai_raport) ? 'required' : '' }}>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="skhun" class="form-label"><strong>SKHUN</strong></label>
-                            @if (!empty($santri->dokumen) && $santri->dokumen->skhun)
-                                <div class="mb-2">
-                                    <a href="{{ asset('storage/' . $santri->dokumen->skhun) }}" target="_blank">Lihat
-                                        SKHUN</a>
-                                </div>
-                            @endif
-                            <input type="file" name="skhun" id="skhun" class="form-control"
-                                {{ empty($santri->dokumen->skhun) ? 'required' : '' }}>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="foto" class="form-label"><strong>Foto</strong></label>
-                            @if (!empty($santri->dokumen) && $santri->dokumen->foto)
-                                <div class="mb-2">
-                                    <a href="{{ asset('storage/' . $santri->dokumen->foto) }}" target="_blank">Lihat
-                                        Foto</a>
-                                </div>
-                            @endif
-                            <input type="file" name="foto" id="foto" class="form-control"
-                                {{ empty($santri->dokumen->foto) ? 'required' : '' }}>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="kk" class="form-label"><strong>Kartu Keluarga (KK)</strong></label>
-                            @if (!empty($santri->dokumen) && $santri->dokumen->kk)
-                                <div class="mb-2">
-                                    <a href="{{ asset('storage/' . $santri->dokumen->kk) }}" target="_blank">Lihat KK</a>
-                                </div>
-                            @endif
-                            <input type="file" name="kk" id="kk" class="form-control"
-                                {{ empty($santri->dokumen->kk) ? 'required' : '' }}>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="ktp_ayah" class="form-label"><strong>KTP Ayah</strong></label>
-                            @if (!empty($santri->dokumen) && $santri->dokumen->ktp_ayah)
-                                <div class="mb-2">
-                                    <a href="{{ asset('storage/' . $santri->dokumen->ktp_ayah) }}" target="_blank">Lihat
-                                        KTP Ayah</a>
-                                </div>
-                            @endif
-                            <input type="file" name="ktp_ayah" id="ktp_ayah" class="form-control"
-                                {{ empty($santri->dokumen->ktp_ayah) ? 'required' : '' }}>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="ktp_ibu" class="form-label"><strong>KTP Ibu</strong></label>
-                            @if (!empty($santri->dokumen) && $santri->dokumen->ktp_ibu)
-                                <div class="mb-2">
-                                    <a href="{{ asset('storage/' . $santri->dokumen->ktp_ibu) }}" target="_blank">Lihat
-                                        KTP Ibu</a>
-                                </div>
-                            @endif
-                            <input type="file" name="ktp_ibu" id="ktp_ibu" class="form-control"
-                                {{ empty($santri->dokumen->ktp_ibu) ? 'required' : '' }}>
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary prev-step">Sebelumnya</button>
-                        <button type="button" class="btn btn-primary next-step">Selanjutnya</button>
-                    </div>
-                </div>
-
-                <div class="step d-none" id="step-3">
-                    <h5 class="mb-3">Upload Berkas Santri</h5>
-
-                    <div class="mb-3">
-                        <label for="nama_ayah" class="form-label"><strong>Nama Ayah:</strong></label>
-                        <input type="text" name="nama_ayah" class="form-control" id="nama_ayah"
-                            placeholder="Masukan Nama Ayah"
-                            value="{{ old('nama_ayah', $santri->ortu->nama_ayah ?? '') }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="pendidikan_ayah" class="form-label"><strong>Pendidikan Ayah:</strong></label>
-                        <input type="text" name="pendidikan_ayah" class="form-control" id="pendidikan_ayah"
-                            placeholder="Masukan Pendidikan Terakhir Ayah"
-                            value="{{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="pekerjaan_ayah" class="form-label"><strong>Pekerjaan Ayah:</strong></label>
-                        <input type="text" name="pekerjaan_ayah" class="form-control" id="pekerjaan_ayah"
-                            placeholder="Masukan Pekerjaan Ayah"
-                            value="{{ old('pekerjaan_ayah', $santri->ortu->pekerjaan_ayah ?? '') }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="nama_ibu" class="form-label"><strong>Nama Ibu:</strong></label>
-                        <input type="text" name="nama_ibu" class="form-control" id="nama_ibu"
-                            placeholder="Masukan Nama Ibu" value="{{ old('nama_ibu', $santri->ortu->nama_ibu ?? '') }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="pendidikan_ibu" class="form-label"><strong>Pendidikan Ibu:</strong></label>
-                        <input type="text" name="pendidikan_ibu" class="form-control" id="pendidikan_ibu"
-                            placeholder="Masukan Pendidikan Terakhir Ibu"
-                            value="{{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="pekerjaan_ibu" class="form-label"><strong>Pekerjaan Ibu:</strong></label>
-                        <input type="text" name="pekerjaan_ibu" class="form-control" id="pekerjaan_ibu"
-                            placeholder="Masukan Pekerjaan Ibu"
-                            value="{{ old('pekerjaan_ibu', $santri->ortu->pekerjaan_ibu ?? '') }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="no_hp" class="form-label"><strong>No Hp:</strong></label>
-                        <input type="text" name="no_hp" class="form-control" id="no_hp"
-                            placeholder="Masukan No Hp" value="{{ old('no_hp', $santri->ortu->no_hp ?? '') }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="alamat" class="form-label"><strong>Alamat:</strong></label>
-                        <textarea name="alamat" class="form-control" id="alamat" rows="3" placeholder="Masukan Alamat">{{ old('alamat', $santri->ortu->alamat ?? '') }}</textarea>
-                    </div>
-
-                    <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary prev-step">Sebelumnya</button>
-                        <button type="button" class="btn btn-primary next-step">Selanjutnya</button>
-                    </div>
-                </div>
-                <div class="step d-none" id="step-4">
-                    <h5 class="mb-3">Upload Berkas Santri</h5>
-                    <div class="mb-3">
-                        <label class="form-label"><strong>Golongan Darah:</strong></label>
-                        <div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="golongan_darah"
-                                    id="golongan_darah_a" value="A"
-                                    {{ old('golongan_darah', $santri->kesehatan->golongan_darah ?? '') == 'A' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="golongan_darah_a">A</label>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="golongan_darah"
-                                    id="golongan_darah_b" value="B"
-                                    {{ old('golongan_darah', $santri->kesehatan->golongan_darah ?? '') == 'B' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="golongan_darah_b">B</label>
+
+                            <!-- Nilai Raport -->
+                            <div class="col-md-6">
+                                <div class="border p-3 rounded">
+                                    <label for="nilai_raport" class="form-label fw-bold">
+                                        <i class="bi bi-file-spreadsheet me-1 text-success"></i>Nilai Raport
+                                        @if (empty($santri->dokumen->nilai_raport))
+                                            <span class="text-danger">*</span>
+                                        @endif
+                                    </label>
+
+                                    @if (!empty($santri->dokumen) && $santri->dokumen->nilai_raport)
+                                        <div class="alert alert-light d-flex align-items-center p-2 mb-3">
+                                            <i class="bi bi-paperclip me-2"></i>
+                                            <a href="{{ asset('storage/' . $santri->dokumen->nilai_raport) }}"
+                                                target="_blank" class="text-decoration-none">
+                                                Lihat Dokumen
+                                            </a>
+                                        </div>
+                                    @endif
+
+                                    <div class="file-upload-input">
+                                        <input type="file" name="nilai_raport" id="nilai_raport"
+                                            class="form-control @error('nilai_raport') is-invalid @enderror"
+                                            {{ empty($santri->dokumen->nilai_raport) ? 'required' : '' }}>
+                                        <small class="text-muted">Format: PDF (Maks. 2MB)</small>
+                                        @error('nilai_raport')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="golongan_darah"
-                                    id="golongan_darah_ab" value="AB"
-                                    {{ old('golongan_darah', $santri->kesehatan->golongan_darah ?? '') == 'AB' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="golongan_darah_ab">AB</label>
+
+                            <!-- SKHUN -->
+                            <div class="col-md-6">
+                                <div class="border p-3 rounded">
+                                    <label for="skhun" class="form-label fw-bold">
+                                        <i class="bi bi-file-text me-1 text-primary"></i>SKHUN
+                                        @if (empty($santri->dokumen->skhun))
+                                            <span class="text-danger">*</span>
+                                        @endif
+                                    </label>
+
+                                    @if (!empty($santri->dokumen) && $santri->dokumen->skhun)
+                                        <div class="alert alert-light d-flex align-items-center p-2 mb-3">
+                                            <i class="bi bi-paperclip me-2"></i>
+                                            <a href="{{ asset('storage/' . $santri->dokumen->skhun) }}" target="_blank"
+                                                class="text-decoration-none">
+                                                Lihat Dokumen
+                                            </a>
+                                        </div>
+                                    @endif
+
+                                    <div class="file-upload-input">
+                                        <input type="file" name="skhun" id="skhun"
+                                            class="form-control @error('skhun') is-invalid @enderror"
+                                            {{ empty($santri->dokumen->skhun) ? 'required' : '' }}>
+                                        <small class="text-muted">Format: PDF (Maks. 2MB)</small>
+                                        @error('skhun')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="golongan_darah"
-                                    id="golongan_darah_o" value="O"
-                                    {{ old('golongan_darah', $santri->kesehatan->golongan_darah ?? '') == 'O' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="golongan_darah_o">O</label>
+
+                            <!-- Foto -->
+                            <div class="col-md-6">
+                                <div class="border p-3 rounded">
+                                    <label for="foto" class="form-label fw-bold">
+                                        <i class="bi bi-camera me-1 text-warning"></i>Foto
+                                        @if (empty($santri->dokumen->foto))
+                                            <span class="text-danger">*</span>
+                                        @endif
+                                    </label>
+
+                                    @if (!empty($santri->dokumen) && $santri->dokumen->foto)
+                                        <div class="alert alert-light d-flex align-items-center p-2 mb-3">
+                                            <i class="bi bi-paperclip me-2"></i>
+                                            <a href="{{ asset('storage/' . $santri->dokumen->foto) }}" target="_blank"
+                                                class="text-decoration-none">
+                                                Lihat Foto
+                                            </a>
+                                        </div>
+                                    @endif
+
+                                    <div class="file-upload-input">
+                                        <input type="file" name="foto" id="foto"
+                                            class="form-control @error('foto') is-invalid @enderror" accept="image/*"
+                                            {{ empty($santri->dokumen->foto) ? 'required' : '' }}>
+                                        <small class="text-muted">Format: JPG/PNG (Maks. 2MB)</small>
+                                        @error('foto')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Kartu Keluarga -->
+                            <div class="col-md-6">
+                                <div class="border p-3 rounded">
+                                    <label for="kk" class="form-label fw-bold">
+                                        <i class="bi bi-people-fill me-1 text-info"></i>Kartu Keluarga
+                                        @if (empty($santri->dokumen->kk))
+                                            <span class="text-danger">*</span>
+                                        @endif
+                                    </label>
+
+                                    @if (!empty($santri->dokumen) && $santri->dokumen->kk)
+                                        <div class="alert alert-light d-flex align-items-center p-2 mb-3">
+                                            <i class="bi bi-paperclip me-2"></i>
+                                            <a href="{{ asset('storage/' . $santri->dokumen->kk) }}" target="_blank"
+                                                class="text-decoration-none">
+                                                Lihat Dokumen
+                                            </a>
+                                        </div>
+                                    @endif
+
+                                    <div class="file-upload-input">
+                                        <input type="file" name="kk" id="kk"
+                                            class="form-control @error('kk') is-invalid @enderror"
+                                            {{ empty($santri->dokumen->kk) ? 'required' : '' }}>
+                                        <small class="text-muted">Format: PDF (Maks. 2MB)</small>
+                                        @error('kk')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- KTP Ayah -->
+                            <div class="col-md-6">
+                                <div class="border p-3 rounded">
+                                    <label for="ktp_ayah" class="form-label fw-bold">
+                                        <i class="bi bi-person-badge me-1 text-secondary"></i>KTP Ayah
+                                        @if (empty($santri->dokumen->ktp_ayah))
+                                            <span class="text-danger">*</span>
+                                        @endif
+                                    </label>
+
+                                    @if (!empty($santri->dokumen) && $santri->dokumen->ktp_ayah)
+                                        <div class="alert alert-light d-flex align-items-center p-2 mb-3">
+                                            <i class="bi bi-paperclip me-2"></i>
+                                            <a href="{{ asset('storage/' . $santri->dokumen->ktp_ayah) }}"
+                                                target="_blank" class="text-decoration-none">
+                                                Lihat Dokumen
+                                            </a>
+                                        </div>
+                                    @endif
+
+                                    <div class="file-upload-input">
+                                        <input type="file" name="ktp_ayah" id="ktp_ayah"
+                                            class="form-control @error('ktp_ayah') is-invalid @enderror"
+                                            {{ empty($santri->dokumen->ktp_ayah) ? 'required' : '' }}>
+                                        <small class="text-muted">Format: PDF (Maks. 2MB)</small>
+                                        @error('ktp_ayah')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- KTP Ibu -->
+                            <div class="col-md-6">
+                                <div class="border p-3 rounded">
+                                    <label for="ktp_ibu" class="form-label fw-bold">
+                                        <i class="bi bi-person-badge me-1 text-secondary"></i>KTP Ibu
+                                        @if (empty($santri->dokumen->ktp_ibu))
+                                            <span class="text-danger">*</span>
+                                        @endif
+                                    </label>
+
+                                    @if (!empty($santri->dokumen) && $santri->dokumen->ktp_ibu)
+                                        <div class="alert alert-light d-flex align-items-center p-2 mb-3">
+                                            <i class="bi bi-paperclip me-2"></i>
+                                            <a href="{{ asset('storage/' . $santri->dokumen->ktp_ibu) }}" target="_blank"
+                                                class="text-decoration-none">
+                                                Lihat Dokumen
+                                            </a>
+                                        </div>
+                                    @endif
+
+                                    <div class="file-upload-input">
+                                        <input type="file" name="ktp_ibu" id="ktp_ibu"
+                                            class="form-control @error('ktp_ibu') is-invalid @enderror"
+                                            {{ empty($santri->dokumen->ktp_ibu) ? 'required' : '' }}>
+                                        <small class="text-muted">Format: PDF (Maks. 2MB)</small>
+                                        @error('ktp_ibu')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="tb" class="form-label"><strong>Tinggi Badan:</strong></label>
-                        <input type="text" name="tb" class="form-control" id="tb"
-                            placeholder="Masukan Tinggi Badan (cm)"
-                            value="{{ old('tb', $santri->kesehatan->tb ?? '') }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="bb" class="form-label"><strong>Berat Badan:</strong></label>
-                        <input type="text" name="bb" class="form-control" id="bb"
-                            placeholder="Masukan Berat Badan (Kg)" value="{{ old('bb', $santri->kesehatan->bb ?? '') }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="riwayat_penyakit" class="form-label"><strong>Riwayat Penyakit:</strong></label>
-                        <input type="text" name="riwayat_penyakit" class="form-control" id="riwayat_penyakit"
-                            placeholder="Masukan Riwayat Penyakit"
-                            value="{{ old('riwayat_penyakit', $santri->kesehatan->riwayat_penyakit ?? '') }}">
-                    </div>
-
-                    <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary prev-step">Sebelumnya</button>
-                        <button type="button" class="btn btn-primary next-step">Selanjutnya</button>
-                    </div>
-                </div>
-
-                <div class="step d-none" id="step-5">
-                    <h5 class="mb-3">Upload Berkas Santri</h5>
-                    <div class="mb-3">
-                        <div class="form-group">
-                            <strong>Nama Bantuan:</strong>
-                            <input type="text" name="nama_bantuan" class="form-control"
-                                placeholder="Masukan Nama Bantuan Yang Pernah Diterima"
-                                value="{{ old('nama_bantuan', $santri->bantuan->nama_bantuan ?? '') }}">
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-secondary prev-step">
+                                <i class="bi bi-arrow-left me-2"></i>Sebelumnya
+                            </button>
+                            <button type="button" class="btn btn-primary next-step">
+                                Selanjutnya <i class="bi bi-arrow-right ms-2"></i>
+                            </button>
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <div class="form-group">
-                            <strong>Tingkat :</strong>
-                            <input type="text" name="tingkat" class="form-control"
-                                placeholder="Masukan Tingkat Bantuan Yang Pernah Diterima"
-                                value="{{ old('tingkat', $santri->bantuan->tingkat ?? '') }}">
+                    <!-- Step 3: Data Orang Tua -->
+                    <div class="step d-none" id="step-3">
+                        <h5 class="mb-4 text-primary"><i class="bi bi-people-fill me-2"></i>Data Orang Tua/Wali</h5>
+
+                        <div class="row g-3">
+                            <!-- Data Ayah -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="nama_ayah"
+                                        class="form-control @error('nama_ayah') is-invalid @enderror" id="nama_ayah"
+                                        placeholder="Nama Ayah"
+                                        value="{{ old('nama_ayah', $santri->ortu->nama_ayah ?? '') }}" required>
+                                    <label for="nama_ayah"><i class="bi bi-gender-male me-1 text-primary"></i>Nama
+                                        Ayah</label>
+                                    @error('nama_ayah')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="pendidikan_ayah"
+                                        class="form-control @error('pendidikan_ayah') is-invalid @enderror"
+                                        id="pendidikan_ayah" placeholder="Pendidikan Ayah"
+                                        value="{{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') }}"
+                                        required>
+                                    <label for="pendidikan_ayah"><i
+                                            class="bi bi-mortarboard me-1 text-info"></i>Pendidikan
+                                        Terakhir</label>
+                                    @error('pendidikan_ayah')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="pekerjaan_ayah"
+                                        class="form-control @error('pekerjaan_ayah') is-invalid @enderror"
+                                        id="pekerjaan_ayah" placeholder="Pekerjaan Ayah"
+                                        value="{{ old('pekerjaan_ayah', $santri->ortu->pekerjaan_ayah ?? '') }}" required>
+                                    <label for="pekerjaan_ayah"><i
+                                            class="bi bi-briefcase me-1 text-success"></i>Pekerjaan</label>
+                                    @error('pekerjaan_ayah')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Data Ibu -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="nama_ibu"
+                                        class="form-control @error('nama_ibu') is-invalid @enderror" id="nama_ibu"
+                                        placeholder="Nama Ibu"
+                                        value="{{ old('nama_ibu', $santri->ortu->nama_ibu ?? '') }}" required>
+                                    <label for="nama_ibu"><i class="bi bi-gender-female me-1 text-danger"></i>Nama
+                                        Ibu</label>
+                                    @error('nama_ibu')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="pendidikan_ibu"
+                                        class="form-control @error('pendidikan_ibu') is-invalid @enderror"
+                                        id="pendidikan_ibu" placeholder="Pendidikan Ibu"
+                                        value="{{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') }}" required>
+                                    <label for="pendidikan_ibu"><i class="bi bi-mortarboard me-1 text-info"></i>Pendidikan
+                                        Terakhir</label>
+                                    @error('pendidikan_ibu')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="pekerjaan_ibu"
+                                        class="form-control @error('pekerjaan_ibu') is-invalid @enderror"
+                                        id="pekerjaan_ibu" placeholder="Pekerjaan Ibu"
+                                        value="{{ old('pekerjaan_ibu', $santri->ortu->pekerjaan_ibu ?? '') }}" required>
+                                    <label for="pekerjaan_ibu"><i
+                                            class="bi bi-briefcase me-1 text-success"></i>Pekerjaan</label>
+                                    @error('pekerjaan_ibu')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Kontak dan Alamat -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="tel" name="no_hp"
+                                        class="form-control @error('no_hp') is-invalid @enderror" id="no_hp"
+                                        placeholder="Nomor HP" {{-- pattern="^\+?[0-9]{1,4}?[-. \(\)]?([0-9]{1,3})?[-. ]?[0-9]{1,4}[-. ]?[0-9]{1,4}$" --}}
+                                        value="{{ old('no_hp', $santri->ortu->no_hp ?? '') }}" required>
+                                    <label for="no_hp"><i class="bi bi-phone me-1 text-warning"></i>Nomor HP</label>
+                                    @error('no_hp')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <textarea name="alamat" class="form-control @error('alamat') is-invalid @enderror" id="alamat"
+                                        placeholder="Alamat" style="height: 100px" required>{{ old('alamat', $santri->ortu->alamat ?? '') }}</textarea>
+                                    <label for="alamat"><i class="bi bi-house-door me-1 text-secondary"></i>Alamat
+                                        Lengkap</label>
+                                    @error('alamat')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-secondary prev-step">
+                                <i class="bi bi-arrow-left me-2"></i>Sebelumnya
+                            </button>
+                            <button type="button" class="btn btn-primary next-step">
+                                Selanjutnya <i class="bi bi-arrow-right ms-2"></i>
+                            </button>
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <div class="form-group">
-                            <strong>No KIP :</strong>
-                            <input type="text" name="no_kip" class="form-control" placeholder="Masukan Nomor KIP"
-                                value="{{ old('no_kip', $santri->bantuan->no_kip ?? '') }}">
+                    <!-- Step 4: Data Kesehatan -->
+                    <div class="step d-none" id="step-4">
+                        <h5 class="mb-4 text-primary"><i class="bi bi-heart-pulse me-2"></i>Data Kesehatan Santri</h5>
+
+                        <div class="row g-3">
+                            <!-- Golongan Darah -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold"><i class="bi bi-droplet me-1 text-danger"></i>Golongan
+                                    Darah</label>
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" name="golongan_darah" id="golongan_darah_a"
+                                        value="A"
+                                        {{ old('golongan_darah', $santri->kesehatan->golongan_darah ?? '') == 'A' ? 'checked' : '' }}>
+                                    <label class="btn btn-outline-danger d-flex align-items-center"
+                                        for="golongan_darah_a">
+                                        <i class="bi bi-bloodletter fs-5 me-2"></i>A
+                                    </label>
+
+                                    <input type="radio" class="btn-check" name="golongan_darah" id="golongan_darah_b"
+                                        value="B"
+                                        {{ old('golongan_darah', $santri->kesehatan->golongan_darah ?? '') == 'B' ? 'checked' : '' }}>
+                                    <label class="btn btn-outline-danger d-flex align-items-center"
+                                        for="golongan_darah_b">
+                                        <i class="bi bi-bloodletter fs-5 me-2"></i>B
+                                    </label>
+
+                                    <input type="radio" class="btn-check" name="golongan_darah" id="golongan_darah_ab"
+                                        value="AB"
+                                        {{ old('golongan_darah', $santri->kesehatan->golongan_darah ?? '') == 'AB' ? 'checked' : '' }}>
+                                    <label class="btn btn-outline-danger d-flex align-items-center"
+                                        for="golongan_darah_ab">
+                                        <i class="bi bi-bloodletter fs-5 me-2"></i>AB
+                                    </label>
+
+                                    <input type="radio" class="btn-check" name="golongan_darah" id="golongan_darah_o"
+                                        value="O"
+                                        {{ old('golongan_darah', $santri->kesehatan->golongan_darah ?? '') == 'O' ? 'checked' : '' }}>
+                                    <label class="btn btn-outline-danger d-flex align-items-center"
+                                        for="golongan_darah_o">
+                                        <i class="bi bi-bloodletter fs-5 me-2"></i>O
+                                    </label>
+                                </div>
+                                @error('golongan_darah')
+                                    <div class="text-danger small mt-1">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <!-- Tinggi Badan -->
+                            <div class="col-md-10">
+                                <div class="form-floating">
+                                    <input type="number" name="tb"
+                                        class="form-control @error('tb') is-invalid @enderror" id="tb"
+                                        placeholder="Tinggi Badan" step="0.1"
+                                        value="{{ old('tb', $santri->kesehatan->tb ?? '') }}" required>
+                                    <label for="tb"><i class="bi bi-arrow-up me-1 text-success"></i>Tinggi
+                                        Badan</label>
+                                    <div class="position-absolute end-0 top-0 mt-2 me-3">
+                                        <span class="badge bg-secondary">cm</span>
+                                    </div>
+                                    @error('tb')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Berat Badan -->
+                            <div class="col-md-10">
+                                <div class="form-floating">
+                                    <input type="number" name="bb"
+                                        class="form-control @error('bb') is-invalid @enderror" id="bb"
+                                        placeholder="Berat Badan" step="0.1"
+                                        value="{{ old('bb', $santri->kesehatan->bb ?? '') }}" required>
+                                    <label for="bb"><i class="bi bi-arrow-down me-1 text-warning"></i>Berat
+                                        Badan</label>
+                                    <div class="position-absolute end-0 top-0 mt-2 me-3">
+                                        <span class="badge bg-secondary">kg</span>
+                                    </div>
+                                    @error('bb')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Riwayat Penyakit -->
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <textarea name="riwayat_penyakit" class="form-control @error('riwayat_penyakit') is-invalid @enderror"
+                                        id="riwayat_penyakit" placeholder="Riwayat Penyakit" style="height: 100px">{{ old('riwayat_penyakit', $santri->kesehatan->riwayat_penyakit ?? '') }}</textarea>
+                                    <label for="riwayat_penyakit">
+                                        <i class="bi bi-clipboard2-pulse me-1 text-danger"></i>Riwayat Penyakit
+                                    </label>
+                                    <small class="text-muted">Kosongkan jika tidak ada</small>
+                                    @error('riwayat_penyakit')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-secondary prev-step">
+                                <i class="bi bi-arrow-left me-2"></i>Sebelumnya
+                            </button>
+                            <button type="button" class="btn btn-primary next-step">
+                                <i class="bi bi-arrow-right ms-2"></i>Selanjutnya
+                            </button>
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary prev-step">Sebelumnya</button>
-                        <button type="submit" class="btn btn-success">Submit</button>
+                    <!-- Step 5: Data Bantuan -->
+                    <div class="step d-none" id="step-5">
+                        <h5 class="mb-4 text-primary"><i class="bi bi-hand-thumbs-up me-2"></i>Data Bantuan Pendidikan
+                        </h5>
+
+                        <div class="row g-3">
+                            <!-- Nama Bantuan -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="nama_bantuan"
+                                        class="form-control @error('nama_bantuan') is-invalid @enderror"
+                                        id="nama_bantuan" placeholder="Nama Bantuan"
+                                        value="{{ old('nama_bantuan', $santri->bantuan->nama_bantuan ?? '') }}">
+                                    <label for="nama_bantuan">
+                                        <i class="bi bi-card-heading me-1 text-success"></i>Nama Bantuan
+                                    </label>
+                                    <small class="text-muted">Contoh: PIP, KIP, BSM</small>
+                                    @error('nama_bantuan')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Tingkat Bantuan -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="tingkat"
+                                        class="form-control @error('tingkat') is-invalid @enderror" id="tingkat"
+                                        placeholder="Tingkat Bantuan"
+                                        value="{{ old('tingkat', $santri->bantuan->tingkat ?? '') }}">
+                                    <label for="tingkat">
+                                        <i class="bi bi-award me-1 text-warning"></i>Tingkat Bantuan
+                                    </label>
+                                    <small class="text-muted">Contoh: Nasional, Provinsi, Kabupaten</small>
+                                    @error('tingkat')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Nomor KIP -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="no_kip"
+                                        class="form-control @error('no_kip') is-invalid @enderror" id="no_kip"
+                                        placeholder="Nomor KIP"
+                                        value="{{ old('no_kip', $santri->bantuan->no_kip ?? '') }}">
+                                    <label for="no_kip">
+                                        <i class="bi bi-credit-card me-1 text-info"></i>Nomor KIP
+                                    </label>
+                                    <small class="text-muted">Format: 0000 0000 0000 0000</small>
+                                    @error('no_kip')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-secondary prev-step">
+                                <i class="bi bi-arrow-left me-2"></i>Sebelumnya
+                            </button>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-circle me-2"></i>Simpan Data
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const lainnyaRadio = document.getElementById('tinggal_lainnya');
-            const lainnyaInputContainer = document.getElementById('lainnya_input_container');
-            const lainnyaInput = document.getElementById('lainnya_input');
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const lainnyaRadio = document.getElementById('tinggal_lainnya');
+                const lainnyaInputContainer = document.getElementById('lainnya_input_container');
+                const lainnyaInput = document.getElementById('lainnya_input');
 
-            // Show/hide the input field based on the "Lainnya" radio button selection
-            document.querySelectorAll('input[name="tempat_tinggal"]').forEach(radio => {
-                radio.addEventListener('change', function() {
-                    if (radio.id === 'tinggal_lainnya' && radio.checked) {
-                        lainnyaInputContainer.style.display = 'block';
-                        lainnyaInput.required = true;
-                    } else {
-                        lainnyaInputContainer.style.display = 'none';
-                        lainnyaInput.value = '';
-                        lainnyaInput.required = false;
-                    }
+                // Show/hide the input field based on the "Lainnya" radio button selection
+                document.querySelectorAll('input[name="tempat_tinggal"]').forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        if (radio.id === 'tinggal_lainnya' && radio.checked) {
+                            lainnyaInputContainer.style.display = 'block';
+                            lainnyaInput.required = true;
+                        } else {
+                            lainnyaInputContainer.style.display = 'none';
+                            lainnyaInput.value = '';
+                            lainnyaInput.required = false;
+                        }
+                    });
                 });
             });
-        });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            let currentStep = 1;
-            const totalSteps = 5;
+            document.addEventListener('DOMContentLoaded', function() {
+                let currentStep = 1;
+                const totalSteps = 5;
 
-            function showStep(step) {
-                document.querySelectorAll('.step').forEach(el => el.classList.add('d-none'));
-                const current = document.getElementById(`step-${step}`);
-                if (current) current.classList.remove('d-none');
+                function showStep(step) {
+                    document.querySelectorAll('.step').forEach(el => el.classList.add('d-none'));
+                    const current = document.getElementById(`step-${step}`);
+                    if (current) current.classList.remove('d-none');
+                }
+
+                document.querySelectorAll('.next-step').forEach(button => {
+                    button.addEventListener('click', function() {
+                        if (currentStep < totalSteps) {
+                            currentStep++;
+                            showStep(currentStep);
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.prev-step').forEach(button => {
+                    button.addEventListener('click', function() {
+                        if (currentStep > 1) {
+                            currentStep--;
+                            showStep(currentStep);
+                        }
+                    });
+                });
+
+                showStep(currentStep);
+            });
+        </script>
+        <style>
+            .file-upload-input {
+                position: relative;
             }
 
-            document.querySelectorAll('.next-step').forEach(button => {
-                button.addEventListener('click', function() {
-                    if (currentStep < totalSteps) {
-                        currentStep++;
-                        showStep(currentStep);
-                    }
-                });
-            });
+            .file-upload-input input[type="file"] {
+                padding: 0.375rem 0.75rem;
+            }
 
-            document.querySelectorAll('.prev-step').forEach(button => {
-                button.addEventListener('click', function() {
-                    if (currentStep > 1) {
-                        currentStep--;
-                        showStep(currentStep);
-                    }
-                });
-            });
+            .file-upload-input small {
+                font-size: 0.8em;
+                display: block;
+                margin-top: 0.25rem;
+            }
 
-            showStep(currentStep);
-        });
-    </script>
-@endsection
+            .alert-light a {
+                color: #333;
+                transition: color 0.2s;
+            }
+
+            .alert-light a:hover {
+                color: #0d6efd;
+                text-decoration: underline;
+            }
+
+            .form-floating label {
+                padding-left: 2.5rem;
+            }
+
+            .form-floating>.bi {
+                position: absolute;
+                left: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 3;
+            }
+
+            .form-floating>.form-control:focus~.bi {
+                color: #0d6efd;
+            }
+        </style>
+    @endsection

@@ -8,5 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Bantuan extends Model
 {
     use HasFactory;
-    protected $guarded=["id"];
+    protected $guarded = ["id"];
+    
+    public function santri()
+    {
+        return $this->hasOne(Santri::class, 'id', 'santri_id');
+    }
 }

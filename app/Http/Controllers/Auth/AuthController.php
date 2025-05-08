@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Guru;
 use App\Models\Hasil;
 use App\Models\Pendaftaran;
+use App\Models\Pengumuman;
 use App\Models\Santri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -94,7 +95,39 @@ class AuthController extends Controller
             if (Auth::user()->hasRole('Guru')) {
                 $Guru = Guru::where('email', auth()->user()->email)->first();
             } elseif (Auth::user()->hasRole('Santri')) {
-                $Santri = Santri::where('email', auth()->user()->email)->first();
+                $Santri = Santri::with(['dokumen', 'hasil.ujian'])->where('email', auth()->user()->email)->first();
+            }
+
+            // Cek pengumuman aktif
+            $pengumuman = Pengumuman::where('is_active', true)
+                ->where('tanggal_rilis', '<=', now())
+                ->first();
+
+            $kelulusan_santri = null;
+            if ($Santri && $pengumuman) {
+                $hasil_sesuai_jenjang = $Santri->hasil->filter(function ($item) use ($Santri) {
+                    return $item->ujian->jenjang_pendidikan === $Santri->jenjang_pendidikan;
+                });
+
+                $total_nilai = $hasil_sesuai_jenjang->sum('total_nilai_kategori');
+                $jumlah_ujian = $hasil_sesuai_jenjang->count();
+                $rata_rata = $jumlah_ujian > 0 ? $total_nilai / $jumlah_ujian : 0;
+                $status = $rata_rata >= 70 ? 'Lulus' : 'Tidak Lulus';
+
+                $kelulusan_santri = [
+                    'nama_santri' => $Santri->nama,
+                    'foto' => $Santri->dokumen->foto ?? null,
+                    'jenjang' => $Santri->jenjang_pendidikan,
+                    'nisn' => $Santri->nisn,
+                    'nik' => $Santri->nik,
+                    'ttl' => $Santri->ttl,
+                    'jenis_kelamin' => $Santri->jenis_kelamin,
+                    'asal_sekolah' => $Santri->asal_sekolah,
+                    'alamat' => $Santri->alamat,
+                    'total_nilai' => $total_nilai,
+                    'rata_rata' => round($rata_rata, 2),
+                    'status_kelulusan' => $status,
+                ];
             }
 
             // Hitung total santri yang memiliki jenjang dan tahun masuk
@@ -233,16 +266,16 @@ class AuthController extends Controller
 
                 // Mengecek kelengkapan data dari tabel kesehatan
                 $kesehatan_complete = $santri->kesehatan &&
-                $santri->kesehatan->golongan_darah &&
-                $santri->kesehatan->tb !== null &&
-                $santri->kesehatan->bb !== null &&
-                $santri->kesehatan->riwayat_penyakit ? 'Lengkap' : 'Tidak Lengkap';
+                    $santri->kesehatan->golongan_darah &&
+                    $santri->kesehatan->tb !== null &&
+                    $santri->kesehatan->bb !== null &&
+                    $santri->kesehatan->riwayat_penyakit ? 'Lengkap' : 'Tidak Lengkap';
 
                 // Mengecek kelengkapan data dari tabel bantuan
                 $bantuan_complete = $santri->bantuan &&
-                $santri->bantuan->nama_bantuan &&
-                $santri->bantuan->tingkat &&
-                $santri->bantuan->no_kip ? 'Lengkap' : 'Tidak Lengkap';
+                    $santri->bantuan->nama_bantuan &&
+                    $santri->bantuan->tingkat &&
+                    $santri->bantuan->no_kip ? 'Lengkap' : 'Tidak Lengkap';
 
                 return [
                     'nama_santri' => $santri->nama,
@@ -258,6 +291,7 @@ class AuthController extends Controller
             return view('auth.dashboard', compact(
                 'Guru',
                 'Santri',
+                'kelulusan_santri',
                 'jumlah_santri',
                 'hitung_santri_byfilter',
                 'jumlah_santri_mendaftar_tahun_ini',

@@ -27,20 +27,83 @@
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
                 </li>
+                
+                <!-- Pendaftaran Santri -->
+                @php
+                    $aksesPendaftaran =
+                        auth()->user()->can('pendaftaran-list') ||
+                        auth()->user()->can('santri-list') ||
+                        auth()->user()->can('dokumen-list') ||
+                        auth()->user()->can('ortu-list') ||
+                        auth()->user()->can('kesehatan-list') ||
+                        auth()->user()->can('bantuan-list');
+                @endphp
 
-                <!-- Santri -->
-                @can('santri-list')
+                @if ($aksesPendaftaran)
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('santris.index') ? 'active' : '' }}"
-                            href="{{ route('santris.index') }}">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#pendaftaranDropdown" aria-expanded="false"
+                            aria-controls="pendaftaranDropdown">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+                                <i class="ni ni-collection text-dark text-sm opacity-10"></i>
                             </div>
-                            <span class="nav-link-text ms-1">Santri</span>
+                            <span class="nav-link-text ms-1">Pendaftaran Santri</span>
                         </a>
+                        <div class="collapse" id="pendaftaranDropdown">
+                            <ul class="nav flex-column ms-3">
+                                @can('pendaftaran-list')
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->routeIs('pendaftarans.index') ? 'active' : '' }}"
+                                            href="{{ route('pendaftarans.index') }}">
+                                            <i class="ni ni-badge text-sm me-2"></i> Pendaftaran
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('santri-list')
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->routeIs('santris.index') ? 'active' : '' }}"
+                                            href="{{ route('santris.index') }}">
+                                            <i class="ni ni-single-02 text-sm me-2"></i> Santri
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('dokumen-list')
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->routeIs('dokumens.index') ? 'active' : '' }}"
+                                            href="{{ route('dokumens.index') }}">
+                                            <i class="ni ni-folder-17 text-sm me-2"></i> Dokumen
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('ortu-list')
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->routeIs('ortus.index') ? 'active' : '' }}"
+                                            href="{{ route('ortus.index') }}">
+                                            <i class="ni ni-hat-3 text-sm me-2"></i> Orang Tua
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('kesehatan-list')
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->routeIs('kesehatans.index') ? 'active' : '' }}"
+                                            href="{{ route('kesehatans.index') }}">
+                                            <i class="ni ni-ambulance text-sm me-2"></i> Kesehatan
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('bantuan-list')
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->routeIs('bantuans.index') ? 'active' : '' }}"
+                                            href="{{ route('bantuans.index') }}">
+                                            <i class="ni ni-money-coins text-sm me-2"></i> Bantuan
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </div>
                     </li>
-                @endcan
+                @endif
 
                 @can('pendaftaran-santri')
                     <li class="nav-item">
@@ -55,20 +118,6 @@
                     </li>
                 @endcan
 
-                <!-- Kelas -->
-                @can('kelas-list')
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('kelas.index') ? 'active' : '' }}"
-                            href="{{ route('kelas.index') }}">
-                            <div
-                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-bullet-list-67 text-dark text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Kelas</span>
-                        </a>
-                    </li>
-                @endcan
-
                 <!-- Guru -->
                 @can('guru-list')
                     <li class="nav-item">
@@ -79,20 +128,6 @@
                                 <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
                             </div>
                             <span class="nav-link-text ms-1">Guru</span>
-                        </a>
-                    </li>
-                @endcan
-
-                <!-- Pendaftaran -->
-                @can('pendaftaran-list')
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('pendaftarans.index') ? 'active' : '' }}"
-                            href="{{ route('pendaftarans.index') }}">
-                            <div
-                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-collection text-dark text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Pendaftaran</span>
                         </a>
                     </li>
                 @endcan
@@ -155,65 +190,9 @@
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="ni ni-paper-diploma text-dark text-sm opacity-10"></i>
-                                
+
                             </div>
                             <span class="nav-link-text ms-1">Hasil Ujian</span>
-                        </a>
-                    </li>
-                @endcan
-
-                <!-- Dokumen -->
-                @can('dokumen-list')
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('dokumens.index') ? 'active' : '' }}"
-                            href="{{ route('dokumens.index') }}">
-                            <div
-                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-folder-17 text-dark text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Dokumen</span>
-                        </a>
-                    </li>
-                @endcan
-
-                <!-- Orang Tua -->
-                @can('ortu-list')
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('ortus.index') ? 'active' : '' }}"
-                            href="{{ route('ortus.index') }}">
-                            <div
-                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Orang Tua</span>
-                        </a>
-                    </li>
-                @endcan
-
-                <!-- Kesehatan -->
-                @can('kesehatan-list')
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('kesehatans.index') ? 'active' : '' }}"
-                            href="{{ route('kesehatans.index') }}">
-                            <div
-                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-ambulance text-dark text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Kesehatan</span>
-                        </a>
-                    </li>
-                @endcan
-
-                <!-- Bantuan -->
-                @can('bantuan-list')
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('bantuans.index') ? 'active' : '' }}"
-                            href="{{ route('bantuans.index') }}">
-                            <div
-                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-money-coins text-dark text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Bantuan</span>
                         </a>
                     </li>
                 @endcan
@@ -247,12 +226,12 @@
                 @endcan
 
                 <!-- Account Pages Section -->
-                <li class="nav-item mt-3">
-                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Informasi Pondok</h6>
-                </li>
 
                 <!-- List Agenda -->
                 @can('agenda-list')
+                    <li class="nav-item mt-3">
+                        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Informasi Pondok</h6>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('agendas.index') ? 'active' : '' }}"
                             href="{{ route('agendas.index') }}">
@@ -300,7 +279,7 @@
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
                 </li>
 
-                <!-- Login -->
+                {{-- <!-- Login -->
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('login') ? 'active' : '' }}"
                         href="{{ route('login') }}">
@@ -310,9 +289,9 @@
                         </div>
                         <span class="nav-link-text ms-1">Login</span>
                     </a>
-                </li>
+                </li> --}}
 
-                <!-- Register -->
+                {{-- <!-- Register -->
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('register') ? 'active' : '' }}"
                         href="{{ route('register') }}">
@@ -322,7 +301,7 @@
                         </div>
                         <span class="nav-link-text ms-1">Register</span>
                     </a>
-                </li>
+                </li> --}}
 
                 <!-- Roles -->
                 @can('role-list')

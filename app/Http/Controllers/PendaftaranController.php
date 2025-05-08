@@ -300,8 +300,12 @@ class PendaftaranController extends Controller
      */
     public function show(Pendaftaran $pendaftaran)
     {
-        //
-        return view('pendaftarans.show', compact('pendaftaran'));
+        $santri = $pendaftaran->santri;
+
+        // Pastikan relasi sudah di-load
+        $santri->load(['ortu', 'kesehatan', 'bantuan', 'dokumen']);
+
+        return view('pendaftarans.show', compact('santri'));
     }
 
     /**

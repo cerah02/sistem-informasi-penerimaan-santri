@@ -115,6 +115,7 @@ class SantriController extends Controller
             'jumlah_saudara' => 'nullable',
             'alamat' => 'nullable',
             'tanggal_lahir' => 'nullable',
+            'tempat_lahir' => 'nullable',
             'nomor_telpon' => 'nullable',
             'email' => 'nullable',
             'jenjang_pendidikan' => 'nullable',

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kesehatan;
+use App\Models\Santri;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -82,8 +83,8 @@ class KesehatanController extends Controller
      */
     public function create()
     {
-        //
-        return view('kesehatans.create');
+        $santris = Santri::all();
+        return view('kesehatans.create', compact('santris'));
     }
 
     /**

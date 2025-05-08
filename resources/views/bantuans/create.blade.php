@@ -25,23 +25,29 @@
     <form action="{{ route('bantuans.store') }}" method="POST">
         @csrf
         <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <strong>Id Santri:</strong>
-                    <label for="santri_id"></label>
-                    <input type="text" name="santri_id" id="santri_id" class="form-control" placeholder="Masukan Id Santri">
-                </div>
+            <div class="col-md-6">
+                <label for="santri_id" class="form-label"><strong>ID Santri</strong></label>
+                <select name="santri_id" id="santri_id" class="form-control" required>
+                    <option value="">-- Pilih Santri --</option>
+                    @foreach ($santris as $santri)
+                        <option value="{{ $santri->id }}">
+                            {{ $santri->id }} - {{ $santri->nama }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
                     <strong>Nama Bantuan:</strong>
-                    <input type="text" name="nama_bantuan" class="form-control" placeholder="Masukan Nama Bantuan Yang Pernah Diterima">
+                    <input type="text" name="nama_bantuan" class="form-control"
+                        placeholder="Masukan Nama Bantuan Yang Pernah Diterima">
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
                     <strong>Tingkat :</strong>
-                    <input type="text" name="tingkat" class="form-control" placeholder="Masukan Tingkat Bantuan Yang pernah Diterima">
+                    <input type="text" name="tingkat" class="form-control"
+                        placeholder="Masukan Tingkat Bantuan Yang pernah Diterima">
                 </div>
             </div>
             <div class="col-md-12">
