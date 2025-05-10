@@ -34,6 +34,83 @@
             <div class="ms-md-auto pe-md-3 d-flex align-items-center"></div>
 
             <ul class="navbar-nav justify-content-end">
+
+                @if (Auth::check() && Auth::user()->hasRole('Santri'))
+                    @php
+                        $unread = Auth::user()->unreadNotifications;
+                    @endphp
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-white position-relative px-3" href="#" id="notifDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bell fa-lg"></i>
+                            @if ($unread->count() > 0)
+                                <span
+                                    class="position-absolute top-2 start-100 translate-middle badge rounded-pill bg-danger py-1 px-2">
+                                    {{ $unread->count() }}
+                                    <span class="visually-hidden">unread notifications</span>
+                                </span>
+                                <div class="pulse-ring"></div>
+                            @endif
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end py-0 shadow-lg" aria-labelledby="notifDropdown"
+                            style="width: 350px; max-height: 500px; overflow-y: auto;">
+                            <li class="dropdown-header bg-light py-3">
+                                <div class="d-flex justify-content-between align-items-center px-3">
+                                    <h6 class="m-0 text-dark fw-bold">NOTIFICATIONS</h6>
+                                    <span class="badge bg-primary">{{ $unread->count() }} New</span>
+                                </div>
+                            </li>
+
+                            <div class="dropdown-divider m-0"></div>
+
+                            @forelse ($unread as $notification)
+                                <li>
+                                    <a href="{{ $notification->data['url'] ?? '#' }}"
+                                        class="dropdown-item py-3 position-relative">
+                                        <div class="d-flex align-items-start">
+                                            <div class="me-3">
+                                                <i class="fas fa-bell text-primary bg-light p-2 rounded-circle"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                                    <h6 class="mb-0 fw-bold text-dark">
+                                                        {{ $notification->data['title'] }}</h6>
+                                                    <small
+                                                        class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                                                </div>
+                                                <p class="mb-0 text-muted text-truncate-2"
+                                                    style="font-size: 0.9rem; line-height: 1.4">
+                                                    {{ $notification->data['message'] }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <span
+                                            class="position-absolute top-50 end-0 translate-middle-y p-1 bg-primary rounded-circle"
+                                            style="right: 15px"></span>
+                                    </a>
+                                    <div class="dropdown-divider m-0"></div>
+                                </li>
+                            @empty
+                                <li class="py-3 px-4 text-center">
+                                    <i class="fas fa-bell-slash fa-2x text-muted mb-2"></i>
+                                    <p class="text-muted mb-0">Tidak ada notifikasi baru</p>
+                                </li>
+                            @endforelse
+
+                            @if ($unread->count() > 0)
+                                <li>
+                                    <a class="dropdown-item text-center py-3 bg-light-hover"
+                                        href="{{ route('notifikasi.baca-semua') }}">
+                                        <span class="text-primary fw-bold">Tandai semua sudah dibaca</span>
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    </li>
+                @endif
+
                 <!-- Profile Dropdown -->
                 <li class="nav-item dropdown pe-2">
                     <a class="nav-link dropdown-toggle p-0 d-flex align-items-center" href="javascript:;"
@@ -187,7 +264,54 @@
         </div>
     </div>
 </nav>
+<style>
+    .pulse-ring {
+        position: absolute;
+        top: 5px;
+        right: 2px;
+        width: 8px;
+        height: 8px;
+        background: rgba(255, 82, 82, 0.7);
+        border-radius: 50%;
+        animation: pulsate 1.5s ease-out infinite;
+    }
 
+    @keyframes pulsate {
+        0% {
+            transform: scale(0.1, 0.1);
+            opacity: 0.0;
+        }
+
+        50% {
+            opacity: 1.0;
+        }
+
+        100% {
+            transform: scale(1.2, 1.2);
+            opacity: 0.0;
+        }
+    }
+
+    .text-truncate-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .bg-light-hover:hover {
+        background-color: #f8f9fa !important;
+    }
+
+    .dropdown-menu::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .dropdown-menu::-webkit-scrollbar-thumb {
+        background-color: #dee2e6;
+        border-radius: 10px;
+    }
+</style>
 <style>
     /* Custom CSS untuk dropdown profil */
     .card-profile {

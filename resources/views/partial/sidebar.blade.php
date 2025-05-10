@@ -27,7 +27,7 @@
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
                 </li>
-                
+
                 <!-- Pendaftaran Santri -->
                 @php
                     $aksesPendaftaran =
@@ -258,7 +258,7 @@
                     </li>
                 @endcan
 
-
+                {{-- 
                 <!-- List Fasilitas -->
                 @can('fasilitas-list')
                     <li class="nav-item">
@@ -271,7 +271,7 @@
                             <span class="nav-link-text ms-1">Fasilitas Pondok</span>
                         </a>
                     </li>
-                @endcan
+                @endcan --}}
 
 
                 <!-- Account Pages Section -->

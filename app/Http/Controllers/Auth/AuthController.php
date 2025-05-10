@@ -11,6 +11,7 @@ use App\Models\Santri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Notifications\WelcomeSantriNotification;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
@@ -328,6 +329,10 @@ class AuthController extends Controller
         ]);
         $role = Role::where('name', '=', 'Santri')->orWhere('name', '=', 'santri')->first();
         $user->assignRole([$role->id]);
+        // Kirim notifikasi selamat datang ke user
+        $user->notify(new WelcomeSantriNotification());
+
+        return $user;
     }
 
     public function update_profile(Request $request)

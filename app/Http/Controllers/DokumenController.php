@@ -62,7 +62,7 @@ class DokumenController extends Controller
                 })->addColumn('foto', function ($row) {
                     $path = asset('storage/' . $row->foto);
                     $extension = pathinfo($row->foto, PATHINFO_EXTENSION);
-                    
+
                     if (in_array(strtolower($extension), ['pdf', 'docx'])) {
                         return '
                             <div class="btn-group">
@@ -75,7 +75,7 @@ class DokumenController extends Controller
                 })->addColumn('ijazah', function ($row) {
                     $path = asset('storage/' . $row->ijazah);
                     $extension = pathinfo($row->ijazah, PATHINFO_EXTENSION);
-                    
+
                     if (in_array(strtolower($extension), ['pdf', 'docx'])) {
                         return '
                             <div class="btn-group">
@@ -88,7 +88,7 @@ class DokumenController extends Controller
                 })->addColumn('nilai_raport', function ($row) {
                     $path = asset('storage/' . $row->nilai_raport);
                     $extension = pathinfo($row->nilai_raport, PATHINFO_EXTENSION);
-                    
+
                     if (in_array(strtolower($extension), ['pdf', 'docx'])) {
                         return '
                             <div class="btn-group">
@@ -101,7 +101,7 @@ class DokumenController extends Controller
                 })->addColumn('kk', function ($row) {
                     $path = asset('storage/' . $row->kk);
                     $extension = pathinfo($row->kk, PATHINFO_EXTENSION);
-                    
+
                     if (in_array(strtolower($extension), ['pdf', 'docx'])) {
                         return '
                             <div class="btn-group">
@@ -114,7 +114,7 @@ class DokumenController extends Controller
                 })->addColumn('ktp_ayah', function ($row) {
                     $path = asset('storage/' . $row->ktp_ayah);
                     $extension = pathinfo($row->ktp_ayah, PATHINFO_EXTENSION);
-                    
+
                     if (in_array(strtolower($extension), ['pdf', 'docx'])) {
                         return '
                             <div class="btn-group">
@@ -127,7 +127,7 @@ class DokumenController extends Controller
                 })->addColumn('ktp_ibu', function ($row) {
                     $path = asset('storage/' . $row->ktp_ibu);
                     $extension = pathinfo($row->ktp_ibu, PATHINFO_EXTENSION);
-                    
+
                     if (in_array(strtolower($extension), ['pdf', 'docx'])) {
                         return '
                             <div class="btn-group">
@@ -140,7 +140,7 @@ class DokumenController extends Controller
                 })->addColumn('skhun', function ($row) {
                     $path = asset('storage/' . $row->skhun);
                     $extension = pathinfo($row->skhun, PATHINFO_EXTENSION);
-                    
+
                     if (in_array(strtolower($extension), ['pdf', 'docx'])) {
                         return '
                             <div class="btn-group">
@@ -250,19 +250,31 @@ class DokumenController extends Controller
      */
     public function update(Request $request, Dokumen $dokumen)
     {
-        //
         $request->validate([
             'santri_id' => 'required',
-            'ijazah' => 'required',
-            'nilai_raport' => 'required',
-            'skhun' => 'required',
-            'foto' => 'required',
-            'kk' => 'required',
-            'ktp_ayah' => 'required',
-            'ktp_ibu' => 'required',
+            'ijazah' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'nilai_raport' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'skhun' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'foto' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'kk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'ktp_ayah' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'ktp_ibu' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
-        $dokumen->update($request->all());
-        return redirect()->route('dokumenss.index')
+
+        $data = [
+            'santri_id' => $request->santri_id,
+        ];
+
+        foreach (['ijazah', 'nilai_raport', 'skhun', 'foto', 'kk', 'ktp_ayah', 'ktp_ibu'] as $field) {
+            if ($request->hasFile($field)) {
+                $path = $request->file($field)->store('dokumen', 'public');
+                $data[$field] = $path;
+            }
+        }
+
+        $dokumen->update($data);
+
+        return redirect()->route('dokumens.index') // pastikan ini bukan typo: 'dokumenss'
             ->with('success', 'Dokumen Berhasil Diupdate');
     }
 

@@ -19,7 +19,7 @@
                 <h5 class="card-title m-0"> Edit Data Santri</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('santris.update', $santri->id) }}" method="POST" class="needs-validation" novalidate>
+                <form action="{{ route('santris.ubah', $santri->id) }}" method="POST" class="needs-validation" novalidate>
                     <!-- Add CSRF Token and Method Spoofing -->
                     @csrf
                     @method('PUT')
@@ -342,6 +342,17 @@
                         </div>
                         @error('jenjang_pendidikan')
                             <div class="invalid-feedback d-block">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tahun_masuk" class="form-label">Tahun Masuk:</label>
+                        <input type="tahun_masuk" id="tahun_masuk" name="tahun_masuk" class="form-control"
+                            value="{{ $santri->tahun_masuk }}" required>
+                        @error('tahun_masuk')
+                            <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror

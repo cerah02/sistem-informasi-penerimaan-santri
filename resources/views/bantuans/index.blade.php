@@ -31,7 +31,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Id Santri</th>
+                            <th>Nama Santri</th>
                             <th>Nama Bantuan</th>
                             <th>Tingkat</th>
                             <th>KIP</th>
@@ -58,8 +58,8 @@
                         name: 'id'
                     },
                     {
-                        data: 'santri_id',
-                        name: 'santri_id'
+                        data: 'nama_santri',
+                        name: 'santri.nama_lengkap'
                     },
                     {
                         data: 'nama_bantuan',

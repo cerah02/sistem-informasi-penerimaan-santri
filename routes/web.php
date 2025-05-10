@@ -58,6 +58,9 @@ Route::post('pendaftara_santri_simpan', [PendaftaranController::class, 'pendafta
 // Update data santri yang sudah pernah diisi
 Route::put('pendaftara_santri_update', [PendaftaranController::class, 'pendaftara_santri_simpan'])->name('santris.update');
 
+Route::post('santri_tambah', [SantriController::class, 'tambah'])->name('santris.tambah');
+
+Route::put('santri_ubah', [SantriController::class, 'ubah'])->name('santris.ubah');
 Route::resource('roles', RoleController::class);
 Route::resource('users', UserController::class);
 Route::get('edit-profile', [AuthController::class, 'edit_profile'])->name('edit_profile');
@@ -76,6 +79,12 @@ Route::get('/kelulusan-info', [PengumumanController::class, 'showKelulusan'])->n
 Route::view('/pakaian-putra ', 'pakaian_putra');
 Route::view('/pakaian-putri ', 'pakaian_putri');
 Route::view('/kegiatan-harian ', 'kegiatan_harian');
+
+Route::get('/notifikasi/baca-semua', function () {
+    auth()->user()->unreadNotifications->markAsRead();
+    return back();
+})->name('notifikasi.baca-semua')->middleware('auth');
+
 
 
 /*

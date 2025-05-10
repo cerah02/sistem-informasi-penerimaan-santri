@@ -1,4 +1,5 @@
 @extends('layout')
+
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -6,9 +7,9 @@
                 <h2>Daftar Data Orang Tua Santri</h2>
             </div>
             @can('ortu-create')
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('ortus.create') }}"> Tambahkan Data Orang Tua Santri</a>
-            </div>    
+                <div class="pull-right">
+                    <a class="btn btn-success" href="{{ route('ortus.create') }}"> Tambahkan Data Orang Tua Santri</a>
+                </div>
             @endcan
         </div>
     </div>
@@ -19,19 +20,17 @@
         </div>
     @endif
 
-    <!-- Card untuk tabel -->
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
             <h3 class="card-title mb-0">Data Orang Tua Santri</h3>
         </div>
         <div class="card-body">
-            <!-- Tambahkan div dengan class table-responsive untuk scroll horizontal -->
             <div class="table-responsive">
                 <table class="table table-bordered data-table">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Id Santri</th>
+                            <th>Nama Santri</th>
                             <th>Nama Ayah</th>
                             <th>Pendidikan Ayah</th>
                             <th>Pekerjaan Ayah</th>
@@ -43,13 +42,11 @@
                             <th width="280px">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
     </div>
-    <!-- End of Card -->
 
     <script type="text/javascript">
         $(function() {
@@ -57,14 +54,13 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('ortus.index') }}",
-
                 columns: [{
-                        data: 'id',
-                        name: 'id'
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
                     },
                     {
-                        data: 'santri_id',
-                        name: 'santri_id'
+                        data: 'nama_santri',
+                        name: 'santri.nama_lengkap'
                     },
                     {
                         data: 'nama_ayah',

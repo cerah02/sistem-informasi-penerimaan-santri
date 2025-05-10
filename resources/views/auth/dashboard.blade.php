@@ -350,167 +350,181 @@
 
             <div class="container">
                 <!-- Acceptance Card -->
-                @if ($kelulusan_santri['status_kelulusan'] == 'Lulus')
-                    <div class="dm-acceptance-card dm-animate" style="animation-delay: 0.3s;">
-                        <div class="row align-items-center">
-                            <div class="col-md-3 text-center">
-                                <img src="{{ asset('storage/' . $kelulusan_santri['foto']) }}" alt="Foto Santri"
-                                    class="dm-student-photo img-fluid">
-                            </div>
-                            <div class="col-md-9">
-                                <h2 class="dm-student-name">{{ $kelulusan_santri['nama_santri'] }}</h2>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p><span class="dm-info-label">Jenjang:</span> <span
-                                                class="fw-bold">{{ $kelulusan_santri['jenjang'] }}</span></p>
-                                        <p><span class="dm-info-label">NISN:</span> {{ $kelulusan_santri['nisn'] }}</p>
-                                        <p><span class="dm-info-label">NIK:</span> {{ $kelulusan_santri['nik'] }}</p>
+                @if ($kelulusan_santri && $kelulusan_santri['status_kelulusan'] == 'Lulus')
+                    <div class="dm-acceptance-card dm-animate" style="animation-delay: 0.3s;" id="kelulusanCard">
+                        <div class="dm-card-bg" style="background-image: url('/assets/img/logo_pondok.png');"></div>
+
+                        <div class="position-relative z-index-1">
+                            <div class="row align-items-center">
+                                <div class="col-md-3 text-center">
+                                    <img src="{{ asset('storage/' . $kelulusan_santri['foto']) }}" alt="Foto Santri"
+                                        class="dm-student-photo img-fluid">
+                                </div>
+                                <div class="col-md-9">
+                                    <h2 class="dm-student-name">{{ $kelulusan_santri['nama_santri'] }}</h2>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><span class="dm-info-label">Jenjang:</span> <span
+                                                    class="fw-bold">{{ $kelulusan_santri['jenjang'] }}</span></p>
+                                            <p><span class="dm-info-label">NISN:</span>
+                                                {{ $kelulusan_santri['nisn'] }}
+                                            </p>
+                                            <p><span class="dm-info-label">NIK:</span> {{ $kelulusan_santri['nik'] }}
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><span class="dm-info-label">TTL:</span> {{ $kelulusan_santri['ttl'] }}
+                                            </p>
+                                            <p><span class="dm-info-label">Jenis Kelamin:</span>
+                                                {{ ucfirst($kelulusan_santri['jenis_kelamin']) }}</p>
+                                            <p><span class="dm-info-label">Asal Sekolah:</span>
+                                                {{ $kelulusan_santri['asal_sekolah'] }}</p>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <p><span class="dm-info-label">TTL:</span> {{ $kelulusan_santri['ttl'] }}</p>
-                                        <p><span class="dm-info-label">Jenis Kelamin:</span>
-                                            {{ ucfirst($kelulusan_santri['jenis_kelamin']) }}</p>
-                                        <p><span class="dm-info-label">Asal Sekolah:</span>
-                                            {{ $kelulusan_santri['asal_sekolah'] }}</p>
+                                    <p class="mt-3"><span class="dm-info-label">Alamat:</span>
+                                        {{ $kelulusan_santri['alamat'] }}</p>
+                                </div>
+                            </div>
+
+                            <div class="dm-divider"></div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <div class="dm-score-display text-center h-100">
+                                        <h5 class="text-muted">Total Nilai</h5>
+                                        <p class="dm-score-value">{{ $kelulusan_santri['total_nilai'] }}</p>
                                     </div>
                                 </div>
-                                <p class="mt-3"><span class="dm-info-label">Alamat:</span>
-                                    {{ $kelulusan_santri['alamat'] }}</p>
-                            </div>
-                        </div>
-
-                        <div class="dm-divider"></div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3 mb-md-0">
-                                <div class="dm-score-display text-center h-100">
-                                    <h5 class="text-muted">Total Nilai</h5>
-                                    <p class="dm-score-value">{{ $kelulusan_santri['total_nilai'] }}</p>
+                                <div class="col-md-6">
+                                    <div class="dm-score-display text-center h-100">
+                                        <h5 class="text-muted">Rata-rata</h5>
+                                        <p class="dm-score-value">{{ $kelulusan_santri['rata_rata'] }}</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="dm-score-display text-center h-100">
-                                    <h5 class="text-muted">Rata-rata</h5>
-                                    <p class="dm-score-value">{{ $kelulusan_santri['rata_rata'] }}</p>
-                                </div>
+
+                            <div class="text-center mt-4">
+                                <p class="mb-3">Status Kelulusan:</p>
+                                @if ($kelulusan_santri['status_kelulusan'] == 'Lulus')
+                                    <span class="dm-status-badge dm-status-passed">
+                                        <i class="fas fa-check-circle me-2"></i>LULUS - SELAMAT!
+                                    </span>
+                                @else
+                                    <span class="dm-status-badge dm-status-failed">
+                                        <i class="fas fa-times-circle me-2"></i>TIDAK LULUS
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <button onclick="printKelulusanCard()" class="btn dm-print-btn text-white">
+                                    <i class="fas fa-print me-2"></i>Cetak Bukti Kelulusan
+                                </button>
                             </div>
                         </div>
 
-                        <div class="text-center mt-4">
-                            <p class="mb-3">Status Kelulusan:</p>
-                            @if ($kelulusan_santri['status_kelulusan'] == 'Lulus')
-                                <span class="dm-status-badge dm-status-passed">
-                                    <i class="fas fa-check-circle me-2"></i>LULUS - SELAMAT!
-                                </span>
-                            @else
-                                <span class="dm-status-badge dm-status-failed">
-                                    <i class="fas fa-times-circle me-2"></i>TIDAK LULUS
-                                </span>
-                            @endif
-                        </div>
-
-                        <div class="text-center mt-4">
-                            <button onclick="printKelulusanCard()" class="btn dm-print-btn text-white">
-                                <i class="fas fa-print me-2"></i>Cetak Bukti Kelulusan
-                            </button>
-                        </div>
                     </div>
-                @endif
-
-                <!-- Registration Steps -->
-                <div class="dm-steps-container dm-animate" style="animation-delay: 0.5s;">
-                    <h2 class="dm-steps-title">
-                        <i class="fas fa-map-marked-alt"></i>Alur Pendaftaran
-                    </h2>
-                    <img src="{{ asset('/assets/img/alur-daftar.png') }}" alt="Alur Pendaftaran"
-                        class="dm-steps-image img-fluid">
-                </div>
+            </div>
+        @else
+            <div class="alert alert-warning">
+                Data kelulusan belum tersedia atau santri tidak lulus.
             </div>
         @endif
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const genderCtx = document.getElementById('genderChart').getContext('2d');
-                new Chart(genderCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Laki-laki', 'Perempuan'],
-                        datasets: [{
-                            label: 'Students',
-                            data: [{{ $jumlah_laki_laki }}, {{ $jumlah_perempuan }}],
-                            backgroundColor: ['#4e73df', '#e83e8c'],
-                            borderColor: ['#ffffff', '#ffffff'],
-                            borderWidth: 3,
-                            hoverOffset: 10
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        cutout: '70%',
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    padding: 20,
-                                    usePointStyle: true,
-                                    pointStyle: 'circle',
-                                    font: {
-                                        family: "'Nunito', sans-serif",
-                                        size: 12
-                                    }
-                                }
-                            },
-                            tooltip: {
-                                backgroundColor: '#2d3748',
-                                titleFont: {
-                                    family: "'Nunito', sans-serif",
-                                    size: 14,
-                                    weight: 'bold'
-                                },
-                                bodyFont: {
+        <!-- Registration Steps -->
+        <div class="dm-steps-container dm-animate" style="animation-delay: 0.5s;">
+            <h2 class="dm-steps-title">
+                <i class="fas fa-map-marked-alt"></i>Alur Pendaftaran
+            </h2>
+            <img src="{{ asset('/assets/img/alur-daftar.png') }}" alt="Alur Pendaftaran"
+                class="dm-steps-image img-fluid">
+        </div>
+    </div>
+    @endif
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const genderCtx = document.getElementById('genderChart').getContext('2d');
+            new Chart(genderCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Laki-laki', 'Perempuan'],
+                    datasets: [{
+                        label: 'Students',
+                        data: [{{ $jumlah_laki_laki }}, {{ $jumlah_perempuan }}],
+                        backgroundColor: ['#4e73df', '#e83e8c'],
+                        borderColor: ['#ffffff', '#ffffff'],
+                        borderWidth: 3,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                font: {
                                     family: "'Nunito', sans-serif",
                                     size: 12
-                                },
-                                callbacks: {
-                                    label: function(context) {
-                                        let total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                        let value = context.parsed;
-                                        let percent = (value / total * 100).toFixed(1);
-                                        return `${context.label}: ${value} students (${percent}%)`;
-                                    }
                                 }
                             }
                         },
-                        animation: {
-                            animateScale: true,
-                            animateRotate: true
+                        tooltip: {
+                            backgroundColor: '#2d3748',
+                            titleFont: {
+                                family: "'Nunito', sans-serif",
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            bodyFont: {
+                                family: "'Nunito', sans-serif",
+                                size: 12
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    let value = context.parsed;
+                                    let percent = (value / total * 100).toFixed(1);
+                                    return `${context.label}: ${value} students (${percent}%)`;
+                                }
+                            }
                         }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
                     }
-                });
+                }
             });
-        </script>
+        });
+    </script>
 
 
-        <!-- Footer -->
-        <footer class="footer pt-3">
-            <div class="container-fluid">
-                <div class="row align-items-center justify-content-lg-between">
-                    <div class="col-lg-6 mb-lg-0 mb-4">
-                        <div class="copyright text-center text-sm text-muted text-lg-start">
-                            ©
-                            <script>
-                                document.write(new Date().getFullYear())
-                            </script>,
-                            dibuat <i class="fa fa-heart"></i> oleh
-                            <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Muhamad
-                                Cerah</a>
-                            Dari Alumni 2020.
-                        </div>
+    <!-- Footer -->
+    <footer class="footer pt-3">
+        <div class="container-fluid">
+            <div class="row align-items-center justify-content-lg-between">
+                <div class="col-lg-6 mb-lg-0 mb-4">
+                    <div class="copyright text-center text-sm text-muted text-lg-start">
+                        ©
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script>,
+                        dibuat <i class="fa fa-heart"></i> oleh
+                        <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Muhamad
+                            Cerah</a>
+                        Dari Alumni 2020.
                     </div>
-
                 </div>
-        </footer>
+
+            </div>
+    </footer>
     </div>
 
     <!-- JavaScript untuk Filter -->
@@ -610,7 +624,6 @@
 
     {{-- scrip jenis kelamin --}}
     <!-- Chart.js Script -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         let santriChart;
 
@@ -1274,10 +1287,126 @@
         }
     </style>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        @media print {
+
+            /* Perbaikan untuk menampilkan background */
+            #kelulusanCard {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                background-image: url('/assets/img/logo_pondok.png') !important;
+                background-size: 70% auto !important;
+                background-repeat: no-repeat !important;
+                background-position: center !important;
+                border: 2px solid #000 !important;
+            }
+
+            /* Tambahkan layer background kedua untuk keamanan */
+            #kelulusanCard::after {
+                content: "";
+                background-image: url('/assets/img/logo_pondok.png');
+                background-size: 50% auto;
+                background-position: center;
+                opacity: 0.1;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+            }
+
+            .dm-card-bg {
+                display: block !important;
+                opacity: 0.2 !important;
+                filter: blur(2px) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* Perbaikan stacking context */
+            #kelulusanCard>*:not(.dm-card-bg) {
+                position: relative;
+                z-index: 2;
+            }
+
+            /* Tetap pertahankan properti sebelumnya */
+            body * {
+                visibility: hidden;
+            }
+
+            #kelulusanCard,
+            #kelulusanCard * {
+                visibility: visible;
+            }
+
+            #kelulusanCard {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100% !important;
+                box-shadow: none;
+                border: none;
+                background: white !important;
+                page-break-inside: avoid;
+            }
+
+            .dm-print-btn {
+                display: none !important;
+            }
+
+            @page {
+                margin: 20px;
+                size: auto;
+            }
+        }
+    </style>
+    <style>
+        .dm-acceptance-card {
+            background: rgba(255, 255, 255, 0.95);
+            /* Tambahkan opacity untuk kontras */
+            position: relative;
+        }
+
+        .dm-card-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: 50%;
+            /* Sesuaikan ukuran logo */
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.2;
+            /* Atur opacity logo */
+            filter: blur(2px);
+            z-index: 0;
+        }
+
+        .z-index-1 {
+            z-index: 1;
+        }
+    </style>
     <script>
         function printKelulusanCard() {
+            // Clone element card untuk menghindari perubahan layout di halaman asli
+            const card = document.getElementById('kelulusanCard').cloneNode(true);
+            card.id = "tempPrintCard"; // Ganti ID sementara
+
+            // Sembunyikan tombol dalam card yang dicetak
+            const buttons = card.getElementsByTagName('button');
+            for (let btn of buttons) {
+                btn.style.display = 'none';
+            }
+
+            // Tambahkan ke body dan cetak
+            document.body.appendChild(card);
             window.print();
+
+            // Hapus clone setelah selesai mencetak
+            document.body.removeChild(card);
         }
     </script>
+
 @endsection

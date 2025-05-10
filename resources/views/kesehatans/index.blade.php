@@ -31,7 +31,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Id Santri</th>
+                            <th>Nama Santri</th>
                             <th>Golongan Darah</th>
                             <th>Tinggi Badan</th>
                             <th>Berat Badan</th>
@@ -59,8 +59,8 @@
                         name: 'id'
                     },
                     {
-                        data: 'santri_id',
-                        name: 'santri_id'
+                        data: 'nama_santri',
+                        name: 'santri.nama_lengkap'
                     },
                     {
                         data: 'golongan_darah',

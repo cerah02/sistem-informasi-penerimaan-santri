@@ -9,6 +9,8 @@ use App\Models\Ortu;
 use App\Models\Pendaftaran;
 use App\Models\Santri;
 use App\Models\User;
+use App\Notifications\ApproveDataSantriNotification;
+use App\Notifications\FormCompletedNotification;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -255,6 +257,9 @@ class PendaftaranController extends Controller
                 ['tanggal_pendaftaran' => now(), 'status' => 'proses']
             );
 
+            // Kirim notifikasi selamat datang ke user
+            $user->notify(new FormCompletedNotification());
+
             DB::commit();
             return redirect()->route('santri_pendaftaran_view')->with('success', 'Pendaftaran berhasil disimpan!');
         } catch (\Exception $e) {
@@ -333,14 +338,27 @@ class PendaftaranController extends Controller
             'status' => 'required|in:proses,diterima,ditolak',
         ]);
 
+        $oldStatus = $pendaftaran->status;
+
         $pendaftaran->update([
             'tanggal_pendaftaran' => $request->tanggal_pendaftaran,
             'status' => $request->status,
         ]);
 
+        // Kirim notifikasi jika status diterima
+        // Hanya kirim notifikasi jika status berubah menjadi 'diterima'
+        if ($oldStatus !== 'diterima' && $request->status === 'diterima') {
+            $user = $pendaftaran->santri->user ?? null;
+
+            if ($user) {
+                $user->notify(new ApproveDataSantriNotification());
+            }
+        }
+
         return redirect()->route('pendaftarans.index')
             ->with('success', 'Data pendaftaran berhasil diperbarui.');
     }
+
     /**
      * Remove the specified resource from storage.
      *

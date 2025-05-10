@@ -35,7 +35,7 @@ class KesehatanController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()){
-            $query_data = new kesehatan();
+            $query_data = Kesehatan::with('santri');
 
             if($request->sSearch){
                 $search_value ='%'.$request->sSearch.'%';
@@ -46,7 +46,9 @@ class KesehatanController extends Controller
             $data = $query_data->orderBy('santri_id','asc')->get();
             return DataTables::of($data)
             ->addIndexColumn()
-            ->addIndexColumn()
+            ->addColumn('nama_santri', function ($row) {
+                return $row->santri->nama ?? '-'; // sesuaikan nama kolom
+            })
             ->addColumn('aksi', function ($row) {
                 $btn = '';
             

@@ -97,7 +97,7 @@ class SantriController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function tambah(Request $request)
     {
 
         $request->validate([
@@ -167,7 +167,7 @@ class SantriController extends Controller
      * @param  \App\Models\Santri  $santri
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Santri $santri)
+    public function ubah(Request $request, Santri $santri)
     {
         $request->validate([
             'nama' => 'required',

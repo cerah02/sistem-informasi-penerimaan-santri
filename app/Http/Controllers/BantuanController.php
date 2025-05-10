@@ -35,7 +35,7 @@ class BantuanController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()){
-            $query_data = new bantuan();
+            $query_data = Bantuan::with('santri');
 
             if($request->sSearch){
                 $search_value ='%'.$request->sSearch.'%';
@@ -46,6 +46,9 @@ class BantuanController extends Controller
             $data = $query_data->orderBy('santri_id','asc')->get();
             return DataTables::of($data)
             ->addIndexColumn()
+            ->addColumn('nama_santri', function ($row) {
+                return $row->santri->nama ?? '-'; // sesuaikan nama kolom
+            })
             ->addColumn('aksi', function ($row) {
                 $btn = '';
             
