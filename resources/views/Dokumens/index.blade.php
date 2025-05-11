@@ -31,6 +31,7 @@
                             <th>No</th>
                             <th>Nama Santri</th>
                             <th>Ijazah</th>
+                            <th>Akta Kelahiran</th>
                             <th>Nilai Raport</th>
                             <th>SKHUN</th>
                             <th>Foto</th>
@@ -81,6 +82,7 @@
                 { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                 { data: 'santri_nama', name: 'santri_nama' },
                 { data: 'ijazah', name: 'ijazah' },
+                { data: 'akta_kelahiran', name: 'akta_kelahiran' },
                 { data: 'nilai_raport', name: 'nilai_raport' },
                 { data: 'skhun', name: 'skhun' },
                 { data: 'foto', name: 'foto' },

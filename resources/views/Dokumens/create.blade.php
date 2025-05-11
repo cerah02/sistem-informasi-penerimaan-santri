@@ -62,6 +62,11 @@
             </div>
 
             <div class="col-md-6">
+                <label for="akta_kelahiran" class="form-label"><strong>Akta Kelahiran</strong></label>
+                <input type="file" name="akta_kelahiran" id="akta_kelahiran" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
                 <label for="nilai_raport" class="form-label"><strong>Nilai Raport</strong></label>
                 <input type="file" name="nilai_raport" id="nilai_raport" class="form-control" required>
             </div>

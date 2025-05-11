@@ -38,6 +38,14 @@
                                     </a>
                                 </li>
                                 <li class="list-group-item">
+                                    <i class="fas fa-file-pdf text-danger mr-2"></i>
+                                    Akta Kelahiran
+                                    <a href="{{ asset('storage/' . $dokumen->akta_kelahiran) }}" target="_blank"
+                                        class="btn btn-link btn-sm float-right">
+                                        Lihat <i class="fas fa-external-link-alt ml-1"></i>
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
                                     <i class="fas fa-chart-line text-info mr-2"></i>
                                     Nilai Raport
                                     <a href="{{ asset('storage/' . $dokumen->nilai_raport) }}" target="_blank"

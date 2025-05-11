@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminNotifikasiController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\BantuanController;
 use App\Http\Controllers\KelasController;
@@ -15,7 +16,6 @@ use App\Http\Controllers\KesehatanController;
 use App\Http\Controllers\OrtuController;
 use App\Http\Controllers\Waktu_ujianController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\FasilitasControllers;
 use App\Http\Controllers\HasilController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\RoleController;
@@ -38,7 +38,6 @@ Route::resource('kesehatans', KesehatanController::class);
 Route::resource('pengumuman', PengumumanController::class);
 Route::resource('waktu_ujians', Waktu_ujianController::class);
 Route::resource('agendas', AgendaController::class);
-Route::resource('fasilitas', FasilitasControllers::class);
 Route::resource('waktu_ujians', Waktu_ujianController::class);
 Route::get('soal-ujian/{id}', [SoalController::class, 'ujian'])->name('ujian');
 Route::get('list-soal', [SoalController::class, 'list_soal'])->name('list_soal');
@@ -70,7 +69,6 @@ Route::get('form-buat-soal/{id}', [UjianController::class, 'form_buat_soal'])->n
 Route::get('soals_get/{id}', [SoalController::class, 'index'])->name('soals_get');
 Route::get('/ujians/create/{jenjang}', [UjianController::class, 'create'])->name('ujians_create');
 Route::get('/tampilan-guru', [GuruController::class, 'tampilanGuru'])->name('guru.tampilan');
-Route::get('/tampilan-fasilitas', [FasilitasControllers::class, 'tampilanfasilitas'])->name('tampilan_fasilitas');
 Route::view('/sejarah', 'sejarah');
 Route::view('/visi-misi', 'visi-misi');
 Route::view('/beranda ', 'welcome');
@@ -85,6 +83,14 @@ Route::get('/notifikasi/baca-semua', function () {
     return back();
 })->name('notifikasi.baca-semua')->middleware('auth');
 
+Route::prefix('admin')->group(function () {
+    Route::get('notifikasi', [AdminNotifikasiController::class, 'index'])->name('notifikasi.index');
+    Route::get('notifikasi/create', [AdminNotifikasiController::class, 'create'])->name('notifikasi.create');
+    Route::post('notifikasi', [AdminNotifikasiController::class, 'store'])->name('admin.notifikasi.store');
+    Route::delete('/admin/notifikasi/{id}', [AdminNotifikasiController::class, 'destroy'])->name('notifikasi.destroy');
+    Route::get('/admin/notifikasi/{id}/edit', [AdminNotifikasiController::class, 'edit'])->name('notifikasi.edit');
+    Route::put('/admin/notifikasi/{id}', [AdminNotifikasiController::class, 'update'])->name('notifikasi.update');
+});
 
 
 /*

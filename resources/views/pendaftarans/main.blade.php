@@ -423,9 +423,43 @@
                                     <div class="file-upload-input">
                                         <input type="file" name="ijazah" id="ijazah"
                                             class="form-control @error('ijazah') is-invalid @enderror"
-                                            {{ empty($santri->dokumen->ijazah) ? 'required' : '' }}>
+                                            {{ empty($santri->dokumen->ijazah) ? 'nullable' : '' }}>
                                         <small class="text-muted">Format: PDF (Maks. 2MB)</small>
                                         @error('ijazah')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Akta Kelahiran -->
+                            <div class="col-md-6">
+                                <div class="border p-3 rounded">
+                                    <label for="akta_kelahiran" class="form-label fw-bold">
+                                        <i class="bi bi-file-pdf me-1 text-danger"></i>Akta Kelahiran
+                                        @if (empty($santri->dokumen->akta_kelahiran))
+                                            <span class="text-danger">*</span>
+                                        @endif
+                                    </label>
+
+                                    @if (!empty($santri->dokumen) && $santri->dokumen->akta_kelahiran)
+                                        <div class="alert alert-light d-flex align-items-center p-2 mb-3">
+                                            <i class="bi bi-paperclip me-2"></i>
+                                            <a href="{{ asset('storage/' . $santri->dokumen->akta_kelahiran) }}" target="_blank"
+                                                class="text-decoration-none">
+                                                Lihat Dokumen
+                                            </a>
+                                        </div>
+                                    @endif
+
+                                    <div class="file-upload-input">
+                                        <input type="file" name="akta_kelahiran" id="akta_kelahiran"
+                                            class="form-control @error('ijazah') is-invalid @enderror"
+                                            {{ empty($santri->dokumen->akta_kelahiran) ? 'required' : '' }}>
+                                        <small class="text-muted">Format: PDF (Maks. 2MB)</small>
+                                        @error('akta_kelahiran')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
@@ -457,7 +491,7 @@
                                     <div class="file-upload-input">
                                         <input type="file" name="nilai_raport" id="nilai_raport"
                                             class="form-control @error('nilai_raport') is-invalid @enderror"
-                                            {{ empty($santri->dokumen->nilai_raport) ? 'required' : '' }}>
+                                            {{ empty($santri->dokumen->nilai_raport) ? 'nullable' : '' }}>
                                         <small class="text-muted">Format: PDF (Maks. 2MB)</small>
                                         @error('nilai_raport')
                                             <div class="invalid-feedback">
@@ -491,7 +525,7 @@
                                     <div class="file-upload-input">
                                         <input type="file" name="skhun" id="skhun"
                                             class="form-control @error('skhun') is-invalid @enderror"
-                                            {{ empty($santri->dokumen->skhun) ? 'required' : '' }}>
+                                            {{ empty($santri->dokumen->skhun) ? 'nullable' : '' }}>
                                         <small class="text-muted">Format: PDF (Maks. 2MB)</small>
                                         @error('skhun')
                                             <div class="invalid-feedback">

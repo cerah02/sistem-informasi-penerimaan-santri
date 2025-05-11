@@ -102,6 +102,11 @@ class PermissionTableSeeder extends Seeder
             'pengumuman-edit',
             'pengumuman-delete',
             'pengumuman-show',
+            'notifikasi-list',
+            'notifikasi-create',
+            'notifikasi-edit',
+            'notifikasi-delete',
+            'notifikasi-show'
 
         ];
         foreach ($permissions as $permission) {

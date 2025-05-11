@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('dokumens', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('santri_id');
-            $table->string('ijazah');
-            $table->string('nilai_raport');
-            $table->string('skhun');
+            $table->string('akta_kelahiran');
+            $table->string('ijazah')->nullable();;
+            $table->string('nilai_raport')->nullable();;
+            $table->string('skhun')->nullable();;
             $table->string('foto');
             $table->string('kk');
             $table->string('ktp_ayah');

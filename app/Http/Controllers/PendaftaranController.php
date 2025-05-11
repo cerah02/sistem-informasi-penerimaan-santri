@@ -146,13 +146,14 @@ class PendaftaranController extends Controller
             'tb' => 'required|numeric',
             'bb' => 'required|numeric',
             'riwayat_penyakit' => 'required',
-            'ijazah' => ($dokumen && $dokumen->ijazah) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'nilai_raport' => ($dokumen && $dokumen->nilai_raport) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'skhun' => ($dokumen && $dokumen->skhun) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'akta_kelahiran' => ($dokumen && $dokumen->akta_kelahiran) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
             'foto' => ($dokumen && $dokumen->foto) ? 'nullable|file|mimes:jpg,jpeg,png|max:5120' : 'required|file|mimes:jpg,jpeg,png|max:5120',
-            'kk' => ($dokumen && $dokumen->kk) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
             'ktp_ayah' => ($dokumen && $dokumen->ktp_ayah) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
             'ktp_ibu' => ($dokumen && $dokumen->ktp_ibu) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'kk' => ($dokumen && $dokumen->kk) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'ijazah' => ($dokumen && $dokumen->ijazah) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'skhun' => ($dokumen && $dokumen->skhun) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'nilai_raport' => ($dokumen && $dokumen->nilai_raport) ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             'nama_bantuan' => 'required',
             'tingkat' => 'required',
             'no_kip' => 'required|numeric',
@@ -227,7 +228,7 @@ class PendaftaranController extends Controller
 
             // DOKUMEN
             $dokumenData = ['santri_id' => $santri->id];
-            $fileFields = ['ijazah', 'nilai_raport', 'skhun', 'foto', 'kk', 'ktp_ayah', 'ktp_ibu'];
+            $fileFields = ['ijazah', 'akta_kelahiran', 'nilai_raport', 'skhun', 'foto', 'kk', 'ktp_ayah', 'ktp_ibu'];
 
             foreach ($fileFields as $field) {
                 if ($request->hasFile($field)) {

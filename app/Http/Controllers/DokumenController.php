@@ -85,6 +85,19 @@ class DokumenController extends Controller
                     } else {
                         return '<img src="' . $path . '" width="50" />';
                     }
+                })->addColumn('akta_kelahiran', function ($row) {
+                    $path = asset('storage/' . $row->akta_kelahiran);
+                    $extension = pathinfo($row->akta_kelahiran, PATHINFO_EXTENSION);
+
+                    if (in_array(strtolower($extension), ['pdf', 'docx'])) {
+                        return '
+                            <div class="btn-group">
+                                <a href="' . $path . '" target="_blank" class="btn btn-sm btn-info">Lihat</a>
+                                <a href="' . $path . '" download class="btn btn-sm btn-success">Unduh</a>
+                            </div>';
+                    } else {
+                        return '<img src="' . $path . '" width="50" />';
+                    }
                 })->addColumn('nilai_raport', function ($row) {
                     $path = asset('storage/' . $row->nilai_raport);
                     $extension = pathinfo($row->nilai_raport, PATHINFO_EXTENSION);
@@ -151,7 +164,7 @@ class DokumenController extends Controller
                         return '<img src="' . $path . '" width="50" />';
                     }
                 })
-                ->rawColumns(['foto', 'ijazah', 'nilai_raport', 'kk', 'ktp_ayah', 'ktp_ibu', 'skhun', 'action'])
+                ->rawColumns(['foto', 'ijazah', 'akta_kelahiran', 'nilai_raport', 'kk', 'ktp_ayah', 'ktp_ibu', 'skhun', 'action'])
                 ->make(true);
         }
 
@@ -180,9 +193,10 @@ class DokumenController extends Controller
         // Validasi input
         $request->validate([
             'santri_id' => 'required',
-            'ijazah' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
-            'nilai_raport' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
-            'skhun' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'ijazah' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'akta_kelahiran' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'nilai_raport' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'skhun' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
             'foto' => 'required|file|mimes:jpg,jpeg,png,docx|max:5120',
             'kk' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
             'ktp_ayah' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
@@ -195,7 +209,7 @@ class DokumenController extends Controller
         ];
 
         // Daftar kolom file yang perlu diproses
-        $fileColumns = ['ijazah', 'nilai_raport', 'skhun', 'foto', 'kk', 'ktp_ayah', 'ktp_ibu'];
+        $fileColumns = ['ijazah', 'nilai_raport', 'akta_kelahiran', 'skhun', 'foto', 'kk', 'ktp_ayah', 'ktp_ibu'];
 
         // Proses setiap file
         foreach ($fileColumns as $column) {
@@ -252,20 +266,21 @@ class DokumenController extends Controller
     {
         $request->validate([
             'santri_id' => 'required',
-            'ijazah' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'nilai_raport' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'skhun' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'foto' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
-            'kk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'ktp_ayah' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'ktp_ibu' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'ijazah' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'akta_kelahiran' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'nilai_raport' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'skhun' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'foto' => 'nullable|file|mimes:jpg,jpeg,png|max:5120',
+            'kk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'ktp_ayah' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'ktp_ibu' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
         $data = [
             'santri_id' => $request->santri_id,
         ];
 
-        foreach (['ijazah', 'nilai_raport', 'skhun', 'foto', 'kk', 'ktp_ayah', 'ktp_ibu'] as $field) {
+        foreach (['ijazah', 'akta_kelahiran', 'nilai_raport', 'skhun', 'foto', 'kk', 'ktp_ayah', 'ktp_ibu'] as $field) {
             if ($request->hasFile($field)) {
                 $path = $request->file($field)->store('dokumen', 'public');
                 $data[$field] = $path;
