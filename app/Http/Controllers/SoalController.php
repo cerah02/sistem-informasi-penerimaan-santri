@@ -202,8 +202,46 @@ class SoalController extends Controller
             'jawaban_salah' => $jawaban_salah,
             'total_nilai_kategori' => $total_nilai_kategori,
             'keterangan' => $keterangan,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
+        // =====================================
+        // Tambahan: Logika untuk total_hasils
+        // =====================================
+
+        // Hitung total jadwal ujian untuk jenjang santri
+        $jenjang = Auth::user()->santri->jenjang_pendidikan;
+        $totalUjianJenjang = DB::table('ujians')
+            ->where('jenjang_pendidikan', $jenjang)
+            ->count();
+
+        // Hitung jumlah hasil ujian yang sudah dikerjakan oleh santri
+        // $jumlahHasil = DB::table('hasils')
+        //     ->where('santri_id', $santri_id)
+        //     ->count();
+        $jumlahHasil = DB::table('hasils')
+            ->where('santri_id', $santri_id)
+            ->distinct('ujian_id')
+            ->count('ujian_id');
+
+        if ($jumlahHasil == $totalUjianJenjang) {
+            // Hitung rata-rata nilai
+            $rataRata = DB::table('hasils')
+                ->where('santri_id', $santri_id)
+                ->avg('total_nilai_kategori');
+
+            $statusKelulusan = $rataRata >= 75 ? 'Lulus' : 'Tidak Lulus';
+
+            // Simpan atau update ke tabel total_hasils
+            DB::table('total_hasils')->updateOrInsert(
+                ['santri_id' => $santri_id],
+                [
+                    'rata_rata' => $rataRata,
+                    'status' => $statusKelulusan,
+                ]
+            );
+        }
 
         // Redirect ke halaman hasil dengan data results
         return view('soals.hasil', compact('results'));

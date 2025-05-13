@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Hasil;
 use App\Models\Pengumuman;
+use App\Models\Total_Hasil;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class PengumumanController extends Controller
 {
-    
+
     function __construct()
     {
         $this->middleware(
@@ -130,8 +131,9 @@ class PengumumanController extends Controller
         }
 
         $data_hasil = Hasil::with(['santri', 'ujian'])->get();
+        $total_hasils = Total_Hasil::all()->keyBy('santri_id');
 
-        $data_pengumuman = $data_hasil->groupBy('santri_id')->map(function ($group) {
+        $data_pengumuman = $data_hasil->groupBy('santri_id')->map(function ($group, $santri_id) use ($total_hasils) {
             $santri = $group->first()->santri;
             $jenjang = $santri->jenjang_pendidikan;
 
@@ -141,15 +143,17 @@ class PengumumanController extends Controller
 
             $total_nilai = $hasil_sesuai_jenjang->sum('total_nilai_kategori');
             $jumlah_ujian = $hasil_sesuai_jenjang->count();
-            $rata_rata = $jumlah_ujian > 0 ? $total_nilai / $jumlah_ujian : 0;
-            $status = $rata_rata >= 70 ? 'Lulus' : 'Tidak Lulus';
+
+            // Cek apakah data ada di total_hasils
+            $total = $total_hasils->get($santri_id);
 
             return [
                 'nama_santri' => $santri->nama,
                 'jenjang' => $jenjang,
                 'total_nilai' => $total_nilai,
-                'rata_rata' => round($rata_rata, 2),
-                'status_kelulusan' => $status,
+                'jumlah_ujian' => $jumlah_ujian,
+                'rata_rata' => $total ? round($total->rata_rata, 2) : 0,
+                'status_kelulusan' => $total->status ?? 'Belum Mengerjakan Ujian',
             ];
         })->values();
 

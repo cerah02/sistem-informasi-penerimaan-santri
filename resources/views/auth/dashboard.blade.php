@@ -424,10 +424,14 @@
                         </div>
 
                     </div>
+                @elseif ($kelulusan_santri && $kelulusan_santri['status_kelulusan'] == 'Tidak Lulus')
+                    <div class="alert alert-warning">
+                        Mohon maaf, kamu tidak lulus.
+                    </div>
             </div>
         @else
             <div class="alert alert-warning">
-                Data kelulusan belum tersedia atau santri tidak lulus.
+                Data kelulusan belum tersedia
             </div>
         @endif
 

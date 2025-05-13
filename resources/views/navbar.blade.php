@@ -18,7 +18,7 @@
                             <a href="/sejarah" class="dropdown-item">Sejarah Pesantren</a>
                             <a href="/visi-misi" class="dropdown-item">Visi & Misi</a>
                             <a href="/jenjang" class="dropdown-item">Jenjang Pendidikan</a>
-                            <a href="{{ route('tampilan_fasilitas') }}" class="dropdown-item">Fasilitas</a>
+                            <a href="/fasilitas" class="dropdown-item">Fasilitas</a>
                             <a href="{{ route('guru.tampilan') }}" class="dropdown-item">Tenaga Pengajar</a>
                         </div>
                     </div>

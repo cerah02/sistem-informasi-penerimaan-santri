@@ -13,22 +13,22 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('waktu_ujians', function (Blueprint $table) {
+        Schema::create('total_hasils', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('santri_id');
-            $table->dateTime('waktu_mulai');
-            $table->dateTime('waktu_selesai');
+            $table->unsignedBigInteger('santri_id')->unique();
+            $table->float('rata_rata');
+            $table->string('status');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     * 
+     *
      * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('waktu_ujians');
+        Schema::dropIfExists('total_hasils');
     }
 };

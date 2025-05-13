@@ -37,4 +37,8 @@ class Santri extends Model
     {
         return $this->hasMany(Hasil::class, 'santri_id');
     }
+    public function total_hasil()
+    {
+        return $this->hasOne(Total_Hasil::class, 'santri_id');
+    }
 }

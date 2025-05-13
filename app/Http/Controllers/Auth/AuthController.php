@@ -112,8 +112,10 @@ class AuthController extends Controller
 
                 $total_nilai = $hasil_sesuai_jenjang->sum('total_nilai_kategori');
                 $jumlah_ujian = $hasil_sesuai_jenjang->count();
-                $rata_rata = $jumlah_ujian > 0 ? $total_nilai / $jumlah_ujian : 0;
-                $status = $rata_rata >= 70 ? 'Lulus' : 'Tidak Lulus';
+                // $rata_rata = $jumlah_ujian > 0 ? $total_nilai / $jumlah_ujian : 0;
+                // $status = $rata_rata >= 70 ? 'Lulus' : 'Tidak Lulus';
+                $rata_rata = optional($Santri->total_hasil)->rata_rata ?? 0;
+                $status_kelulusan = optional($Santri->total_hasil)->status ?? 'Belum Ada';
 
                 $kelulusan_santri = [
                     'nama_santri' => $Santri->nama,
@@ -126,8 +128,8 @@ class AuthController extends Controller
                     'asal_sekolah' => $Santri->asal_sekolah,
                     'alamat' => $Santri->alamat,
                     'total_nilai' => $total_nilai,
-                    'rata_rata' => round($rata_rata, 2),
-                    'status_kelulusan' => $status,
+                    'rata_rata' => $rata_rata,
+                    'status_kelulusan' => $status_kelulusan,
                 ];
             }
 
@@ -173,16 +175,16 @@ class AuthController extends Controller
 
                 $total_nilai = $hasil_sesuai_jenjang->sum('total_nilai_kategori');
                 $jumlah_ujian = $hasil_sesuai_jenjang->count();
-                $rata_rata = $jumlah_ujian > 0 ? $total_nilai / $jumlah_ujian : 0;
-                $status = $rata_rata >= 70 ? 'Lulus' : 'Tidak Lulus';
+                // $rata_rata = $jumlah_ujian > 0 ? $total_nilai / $jumlah_ujian : 0;
+                // $status = $rata_rata >= 70 ? 'Lulus' : 'Tidak Lulus';
 
                 return [
                     'nama_santri' => $santri->nama,
                     'jenjang' => $jenjang,
                     'nilai_permapel' => $nilai_permapel,
                     'total_nilai' => $total_nilai,
-                    'rata_rata' => round($rata_rata, 2),
-                    'status_kelulusan' => $status,
+                    'rata_rata' => optional($santri->total_hasil)->rata_rata ?? 0,
+                    'status_kelulusan' => optional($santri->total_hasil)->status ?? 'Belum Ujian',
                 ];
             })->values();
 
