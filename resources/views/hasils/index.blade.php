@@ -5,11 +5,6 @@
             <div class="pull-left">
                 <h2>Hasil Ujian Santri</h2>
             </div>
-            @can('ortu-create')
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('hasils.create') }}"> Tambah Data Hasil Ujian Santri</a>
-            </div>    
-            @endcan
         </div>
     </div>
 

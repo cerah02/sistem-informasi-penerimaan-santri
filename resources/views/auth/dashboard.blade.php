@@ -1,7 +1,7 @@
 @extends('layout')
 @section('content')
     <div class="container">
-        @if (Auth::user()->roles[0]['name'] === 'Admin' || Auth::user()->roles[0]['name'] === 'Guru')
+        @if (Auth::user()->roles[0]['name'] === 'Admin' || Auth::user()->roles[0]['name'] === 'Guru' || Auth::user()->roles[0]['name'] === 'Pimpinan')
             <div class="row">
                 <!-- Card Total Santri -->
                 <div class="col-xl-4 col-md-4 mb-4">
@@ -229,8 +229,7 @@
                         <div class="card-body p-4 d-flex flex-column">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div>
-                                    <span class="badge bg-info bg-opacity-10 text-info mb-2">Visualisasi</span>
-                                    <h5 class="card-title mb-0 fw-bold text-dark">Perkembangan Jumlah Santri</h5>
+                                    <h5 class="card-title bg-info mb-0 fw-bold text-white">Perkembangan Jumlah Santri</h5>
                                 </div>
                                 <div class="dropdown">
                                     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
