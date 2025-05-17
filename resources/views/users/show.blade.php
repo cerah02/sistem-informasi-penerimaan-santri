@@ -38,7 +38,7 @@
                     <div class="mt-2">
                         @if(!empty($user->getRoleNames()))
                             @foreach($user->getRoleNames() as $v)
-                                <span class="badge badge-pill badge-success">{{ $v }}</span>
+                                <span class="badge badge-pill badge-success text-dark">{{ $v }}</span>
                             @endforeach
                         @else
                             <span class="badge badge-pill badge-secondary">No roles assigned</span>

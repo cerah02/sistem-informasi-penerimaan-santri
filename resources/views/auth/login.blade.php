@@ -15,10 +15,10 @@
             <form action="{{ route('register.post') }}" method="POST">
                 @csrf
                 <div class="form-header">
-                    <h1>Create Account</h1>
-                    <p>Register with your personal details</p>
+                    <h1>Buat Akun</h1>
+                    <p>silahkan register akun disini</p>
                 </div>
-                <span>or use your email for registration</span>
+                <span>masukan username, email, dan password</span>
                 <div class="input-group">
                     <i class="fas fa-user"></i>
                     <input type="text" placeholder="Username" name="name" required>
@@ -32,17 +32,17 @@
                     <input type="password" placeholder="Password" name="password" required>
                     <i class="fas fa-eye toggle-password" onclick="togglePassword(this)"></i>
                 </div>
-                <button type="submit" class="btn">Sign Up</button>
+                <button type="submit" class="btn">Daftar</button>
             </form>
         </div>
         <div class="form-container sign-in">
             <form action="{{ route('login.post') }}" method="POST">
                 @csrf
                 <div class="form-header">
-                    <h1>Welcome Back</h1>
-                    <p>Please login to your account</p>
+                    <h1>Assalamu'alaikum</h1>
+                    <p>silahkan login dengan akun kamu</p>
                 </div>
-                <span>or use your email account</span>
+                <span>masukan email dan password</span>
                 <div class="input-group">
                     <i class="fas fa-envelope"></i>
                     <input type="email" placeholder="Email" name="email" required>
@@ -58,20 +58,20 @@
                     </label>
                     <a href="#" class="forgot-password">Forgot password?</a>
                 </div>
-                <button type="submit" class="btn">Sign In</button>
+                <button type="submit" class="btn">Masuk</button>
             </form>
         </div>
         <div class="toggle-container">
             <div class="toggle">
                 <div class="toggle-panel toggle-left">
-                    <h1>Welcome Back!</h1>
-                    <p>Enter your personal details to use all of site features</p>
-                    <button class="hidden" id="login">Sign In</button>
+                    <h1>Sudah Register Akun!</h1>
+                    <p>silahkan login dihalaman ini</p>
+                    <button class="hidden" id="login">Log in</button>
                 </div>
                 <div class="toggle-panel toggle-right">
-                    <h1>Hello, Friend!</h1>
-                    <p>Register with your personal details to use all of site features</p>
-                    <button class="hidden" id="register">Sign Up</button>
+                    <h1>Belum Punya Akun ?</h1>
+                    <p>silahkan daftar akun dihalaman register ini</p>
+                    <button class="hidden" id="register">Daftar</button>
                 </div>
             </div>
         </div>

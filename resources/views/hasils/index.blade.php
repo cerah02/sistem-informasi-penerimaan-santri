@@ -26,13 +26,13 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Id Santri</th>
-                            <th>Id Ujian</th>
+                            <th>Nama Santri</th>
+                            <th>Nama_Ujian</th>
                             <th>Jumlah Soal</th>
                             <th>Jawaban Benar</th>
                             <th>Jawaban Salah</th>
                             <th>Total Nilai Kategori</th>
-                            <th>Keterangan</th> 
+                            <th>Keterangan</th>
                             <th width="280px">Aksi</th>
                         </tr>
                     </thead>
@@ -56,12 +56,12 @@
                         name: 'id'
                     },
                     {
-                        data: 'santri_id',
-                        name: 'santri_id'
+                        data: 'nama_santri',
+                        name: 'santri.nama_lengkap'
                     },
                     {
-                        data: 'ujian_id',
-                        name: 'Ujian_id'
+                        data: 'nama_ujian',
+                        name: 'ujian.nama_ujian'
                     },
                     {
                         data: 'jumlah_soal',

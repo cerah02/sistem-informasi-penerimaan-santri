@@ -39,7 +39,7 @@
                         <td>
                             @if (!empty($user->getRoleNames()))
                                 @foreach ($user->getRoleNames() as $v)
-                                    <label class="badge badge-success">{{ $v }}</label>
+                                    <label class="badge badge-success text-dark">{{ $v }}</label>
                                 @endforeach
                             @else
                                 <span class="text-muted">No roles assigned.</span>

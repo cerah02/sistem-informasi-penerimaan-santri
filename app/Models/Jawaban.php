@@ -15,6 +15,11 @@ class Jawaban extends Model
         return $this->belongsTo(User::class, 'id_user');
     }
 
+    public function santri()
+    {
+        return $this->hasOne(Santri::class,'id','santri_id');
+    }
+
     public function soal()
     {
         return $this->belongsTo(Soal::class, 'soal_id');

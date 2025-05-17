@@ -26,45 +26,51 @@ class HasilController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->ajax()){
+        if ($request->ajax()) {
             $query_data = new Hasil();
 
-            if($request->sSearch){
-                $search_value ='%'.$request->sSearch.'%';
-                $query_data=$query_data->where(function($query)use ($search_value) {
-                    $query->where('santri_id','like', $search_value)
-                    ->orwhere('ujian_id','like', $search_value)
-                    ->orwhere('hasil_akhir','like', $search_value);
+            if ($request->sSearch) {
+                $search_value = '%' . $request->sSearch . '%';
+                $query_data = $query_data->where(function ($query) use ($search_value) {
+                    $query->where('santri_id', 'like', $search_value)
+                        ->orwhere('ujian_id', 'like', $search_value)
+                        ->orwhere('hasil_akhir', 'like', $search_value);
                 });
             }
-            $data = $query_data->orderBy('santri_id','asc')->get();
+            $data = $query_data->with(['santri', 'ujian'])->orderBy('santri_id', 'asc')->get();
             return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('aksi', function ($row) {
-                $btn = '';
-            
-                
-                if (auth()->user()->can('hasil-show')) {
-                    $btn .= '<a class="btn btn-info" href="' . route('hasils.show', $row->id) . '">Show</a> ';
-                }
-            
-            
-                if (auth()->user()->can('hasil-edit')) {
-                    $btn .= '<a class="btn btn-primary" href="' . route('hasils.edit', $row->id) . '">Edit</a> ';
-                }
-            
-                if (auth()->user()->can('hasil-delete')) {
-                    $btn .= '
+                ->addIndexColumn()
+                ->addColumn('nama_santri', function ($row) {
+                    return $row->santri->nama ?? '-'; // sesuaikan nama kolom
+                })
+                ->addColumn('nama_ujian', function ($row) {
+                    return $row->ujian->nama_ujian ?? '-';
+                })
+                ->addColumn('aksi', function ($row) {
+                    $btn = '';
+
+
+                    if (auth()->user()->can('hasil-show')) {
+                        $btn .= '<a class="btn btn-info" href="' . route('hasils.show', $row->id) . '">Show</a> ';
+                    }
+
+
+                    if (auth()->user()->can('hasil-edit')) {
+                        $btn .= '<a class="btn btn-primary" href="' . route('hasils.edit', $row->id) . '">Edit</a> ';
+                    }
+
+                    if (auth()->user()->can('hasil-delete')) {
+                        $btn .= '
                     <form action="' . route('hasils.destroy', $row->id) . '" method="POST" style="display:inline;">
                         ' . csrf_field() . method_field('DELETE') . '
                         <button type="submit" class="btn btn-danger">Hapus</button>
                     </form>';
-                }
-            
-                return $btn;
-            })
-            ->rawColumns(['aksi'])
-            ->make(true);
+                    }
+
+                    return $btn;
+                })
+                ->rawColumns(['aksi'])
+                ->make(true);
         }
         return view('hasils.index');
     }

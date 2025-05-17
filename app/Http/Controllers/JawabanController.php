@@ -43,9 +43,15 @@ class JawabanController extends Controller
                         ->orwhere('status_jawaban', 'like', $search_value);
                 });
             }
-            $data = $query_data->orderBy('santri_id', 'asc')->get();
+            $data = $query_data->with(['santri', 'soal'])->orderBy('santri_id', 'asc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('nama_santri', function ($row) {
+                    return $row->santri->nama ?? '-'; // sesuaikan nama kolom
+                })
+                ->addColumn('pertanyaan', function ($row) {
+                    return $row->soal->pertanyaan ?? '-'; // sesuaikan nama kolom
+                })
                 ->addColumn('aksi', function ($row) {
                     $btn = '';
                 

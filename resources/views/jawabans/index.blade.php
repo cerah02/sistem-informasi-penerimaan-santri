@@ -25,20 +25,22 @@
             <h3 class="card-title">Data Jawaban Calon Santri</h3>
         </div>
         <div class="card-body">
-            <table class="table table-bordered data-table">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Id Santri</th>
-                        <th>Id Soal</th>
-                        <th>Jawaban</th>
-                        <th>Status Jawaban</th>
-                        <th width="280px">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            <div class="table-responsive"> <!-- Tambahkan div ini untuk skrol horizontal -->
+                <table class="table table-bordered data-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Santri</th>
+                            <th>Pertanyaan</th>
+                            <th>Jawaban</th>
+                            <th>Status Jawaban</th>
+                            <th width="280px">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <!-- End of Card -->
@@ -49,18 +51,18 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('jawabans.index') }}",
-
+                scrollX: true, // Tambahkan opsi scroll horizontal
                 columns: [{
                         data: 'id',
                         name: 'id'
                     },
                     {
-                        data: 'santri_id',
-                        name: 'santri_id'
+                        data: 'nama_santri',
+                        name: 'santri.nama_lengkap'
                     },
                     {
-                        data: 'soal_id',
-                        name: 'soal_id'
+                        data: 'pertanyaan',
+                        name: 'soal.pertanyaan'
                     },
                     {
                         data: 'jawaban',
