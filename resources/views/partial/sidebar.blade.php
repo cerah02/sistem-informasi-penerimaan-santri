@@ -107,8 +107,19 @@
 
                 @can('pendaftaran-santri')
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('pendaftarans.main') ? 'active' : '' }}"
-                            href="{{ route('santri_pendaftaran_view') }}">
+                        @php
+                            $user = Auth::user();
+                            // Cek role dan tentukan route yang sesuai
+                            if ($user->hasRole('Admin')) {
+                                $route = route('admin_pendaftaran_santri_view'); // route untuk admin
+                            } elseif ($user->hasRole('Santri')) {
+                                $route = route('santri_pendaftaran_view'); // route untuk santri
+                            } else {
+                                $route = 'dashboard'; // default/fallback
+                            }
+                        @endphp
+
+                        <a class="nav-link {{ request()->url() == $route ? 'active' : '' }}" href="{{ $route }}">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
@@ -268,6 +279,19 @@
                                 <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
                             </div>
                             <span class="nav-link-text ms-1">Notifikasi</span>
+                        </a>
+                    </li>
+                @endcan
+
+                @can('laporan-index')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('laporan') ? 'active' : '' }}"
+                            href="{{ route('laporan') }}">
+                            <div
+                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Laporan</span>
                         </a>
                     </li>
                 @endcan

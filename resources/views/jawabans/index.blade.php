@@ -5,11 +5,6 @@
             <div class="pull-left">
                 <h2>Daftar Data Jawaban Calon Santri</h2>
             </div>
-            @can('jawaban-create')
-                <div class="pull-right">
-                    <a class="btn btn-success" href="{{ route('jawabans.create') }}"> Tambahkan Data Jawaban Calon Santri</a>
-                </div>
-            @endcan
         </div>
     </div>
 

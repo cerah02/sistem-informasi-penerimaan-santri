@@ -85,7 +85,7 @@ class KesehatanController extends Controller
      */
     public function create()
     {
-        $santris = Santri::all();
+        $santris = Santri::doesntHave('kesehatan')->get();
         return view('kesehatans.create', compact('santris'));
     }
 

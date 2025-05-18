@@ -17,6 +17,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\HasilController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TotalHasilController;
 use App\Http\Controllers\UserController;
 use Illuminate\Routing\Route as RoutingRoute;
 
@@ -89,6 +90,11 @@ Route::prefix('admin')->group(function () {
     Route::put('/admin/notifikasi/{id}', [AdminNotifikasiController::class, 'update'])->name('notifikasi.update');
 });
 
+Route::get('/laporan', [TotalHasilController::class, 'laporan'])->name('laporan');
+Route::get('/laporan/pdf', [TotalHasilController::class, 'cetakPdf'])->name('laporan.cetakPdf');
+
+Route::get('admin_pendafataran_santri_view', [PendaftaranController::class, 'admin_pendaftaran_santri_view'])->name('admin_pendaftaran_santri_view');
+Route::post('admin_pendafataran_santri_simpan', [PendaftaranController::class, 'admin_pendaftaran_santri_simpan'])->name('admin_pendaftaran_santri_simpan');
 
 /*
 |--------------------------------------------------------------------------

@@ -89,7 +89,7 @@ class OrtuController extends Controller
      */
     public function create()
     {
-        $santris = Santri::all();
+        $santris = Santri::doesntHave('ortu')->get();
         return view('ortus.create', compact('santris'));
     }
 

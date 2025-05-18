@@ -85,7 +85,7 @@ class BantuanController extends Controller
      */
     public function create()
     {
-        $santris = Santri::all();
+        $santris = Santri::doesntHave('bantuan')->get();
         return view('bantuans.create', compact('santris'));
     }
 

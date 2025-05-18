@@ -92,17 +92,17 @@
                             className: 'text-center',
                             render: function(data) {
                                 let badgeClass = 'badge-secondary';
-                                let style = 'color: white';
+                                let style = 'color: dark';
 
                                 if (data === 'diterima') {
                                     badgeClass = 'badge-success';
-                                    style = 'color: white';
+                                    style = 'color: green';
                                 } else if (data === 'proses') {
                                     badgeClass = 'badge-warning';
-                                    style = 'color: black'; // agar tulisan tidak putih
+                                    style = 'color: yellow'; // agar tulisan tidak putih
                                 } else if (data === 'ditolak') {
                                     badgeClass = 'badge-danger';
-                                    style = 'color: white';
+                                    style = 'color: red';
                                 }
 
                                 return `<span class="badge ${badgeClass}" style="${style}">${data}</span>`;

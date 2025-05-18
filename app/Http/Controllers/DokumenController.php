@@ -178,7 +178,7 @@ class DokumenController extends Controller
      */
     public function create()
     {
-        $santris = Santri::all();
+        $santris = Santri::doesntHave('dokumen')->get();
         return view('dokumens.create', compact('santris'));
     }
 

@@ -43,7 +43,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link text-white position-relative px-3" href="#" id="notifDropdown"
                             role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-bell fa-lg"></i>
+                             <i class="fas fa-bell fa-lg" style="color: #f8f9fa; font-size: 1.25rem;"></i>
                             @if ($unread->count() > 0)
                                 <span
                                     class="position-absolute top-2 start-100 translate-middle badge rounded-pill bg-danger py-1 px-2">
