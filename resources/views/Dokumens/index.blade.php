@@ -4,7 +4,7 @@
         <div class="col-lg-12 text-center mb-4">
             <h2 class="text-primary">Daftar Pendaftaran Dokumen</h2>
         </div>
-        <div class="col-lg-12 mb-2 text-end">
+        <div class="col-lg-12 mb-2 text-right">
             <a class="btn btn-success btn-sm" href="{{ route('dokumens.create') }}">
                 <i class="bi bi-plus-circle"></i> Tambahkan Dokumen Santri
             </a>

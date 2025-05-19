@@ -222,18 +222,19 @@
                     </li>
                 @endcan
 
-                <!-- List Soal -->
                 @can('soal-list')
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('list_soal') ? 'active' : '' }}"
-                            href="{{ route('list_soal') }}">
-                            <div
-                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Soal Ujian</span>
-                        </a>
-                    </li>
+                    @if (auth()->user()->hasRole('Santri'))
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('list_soal') ? 'active' : '' }}"
+                                href="{{ route('list_soal') }}">
+                                <div
+                                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                                </div>
+                                <span class="nav-link-text ms-1">Soal Ujian</span>
+                            </a>
+                        </li>
+                    @endif
                 @endcan
 
                 <!-- Account Pages Section -->

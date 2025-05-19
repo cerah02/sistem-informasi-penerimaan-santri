@@ -93,8 +93,8 @@ Route::prefix('admin')->group(function () {
 Route::get('/laporan', [TotalHasilController::class, 'laporan'])->name('laporan');
 Route::get('/laporan/pdf', [TotalHasilController::class, 'cetakPdf'])->name('laporan.cetakPdf');
 
-Route::get('admin_pendafataran_santri_view', [PendaftaranController::class, 'admin_pendaftaran_santri_view'])->name('admin_pendaftaran_santri_view');
-Route::post('admin_pendafataran_santri_simpan', [PendaftaranController::class, 'admin_pendaftaran_santri_simpan'])->name('admin_pendaftaran_santri_simpan');
+Route::get('admin_pendaftaran_santri_view', [PendaftaranController::class, 'admin_pendaftaran_santri_view'])->name('admin_pendaftaran_santri_view');
+Route::post('admin_pendaftaran_santri_simpan', [PendaftaranController::class, 'admin_pendaftaran_santri_simpan'])->name('admin_pendaftaran_santri_simpan');
 
 /*
 |--------------------------------------------------------------------------
