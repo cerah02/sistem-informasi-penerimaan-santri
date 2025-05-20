@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Hasil extends Model
 {
     use HasFactory;
-    public function santri(){
-        return $this->hasOne(Santri::class,'id','santri_id');
+    public function santri()
+    {
+        return $this->belongsTo(Santri::class, 'id', 'santri_id');
     }
-    public function ujian(){
-        return $this->hasOne(Ujian::class,'id','ujian_id');
+    public function ujian()
+    {
+        return $this->belongsTo(Ujian::class, 'ujian_id');
     }
 }

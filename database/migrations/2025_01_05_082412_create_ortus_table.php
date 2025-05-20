@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('ortus', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('santri_id');
+            $table->foreignId('santri_id')->constrained('santris')->onDelete('cascade');
             $table->string('nama_ayah');
             $table->string('pendidikan_ayah');
             $table->string('pekerjaan_ayah');

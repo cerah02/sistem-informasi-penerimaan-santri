@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('total_hasils', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('santri_id')->unique();
+            $table->foreignId('santri_id')->unique()->constrained('santris')->onDelete('cascade');
             $table->float('rata_rata');
             $table->string('status');
             $table->timestamps();

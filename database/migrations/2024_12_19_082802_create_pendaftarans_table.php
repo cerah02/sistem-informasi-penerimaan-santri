@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('pendaftarans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("santri_id");
+            $table->foreignId('santri_id')->constrained('santris')->onDelete('cascade');
             $table->string("tanggal_pendaftaran");
             $table->string("status");
             $table->timestamps();

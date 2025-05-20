@@ -12,6 +12,6 @@ class Kesehatan extends Model
 
     public function santri()
     {
-        return $this->hasOne(Santri::class, 'id', 'santri_id');
+        return $this->belongsTo(Santri::class, 'santri_id', 'id');
     }
 }

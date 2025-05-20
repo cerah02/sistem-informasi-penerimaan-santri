@@ -12,7 +12,7 @@ class Soal extends Model
     protected $guarded = ["id"];
     public function ujian()
     {
-        return $this->belongsTo(ujian::class, 'ujian_id', 'id');
+        return $this->belongsTo(Ujian::class);
     }
     public function jawabans()
     {

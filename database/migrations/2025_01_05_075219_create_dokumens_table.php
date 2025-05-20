@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('dokumens', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('santri_id');
+            $table->foreignId('santri_id')->constrained('santris')->onDelete('cascade');
             $table->string('akta_kelahiran');
             $table->string('ijazah')->nullable();;
             $table->string('nilai_raport')->nullable();;

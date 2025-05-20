@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('jawabans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("soal_id");
-            $table->unsignedBigInteger("santri_id");
-            $table->string ("jawaban");
+            $table->foreignId('soal_id')->constrained('soals')->onDelete('cascade');
+            $table->foreignId('santri_id')->constrained('santris')->onDelete('cascade');
+            $table->string("jawaban");
             $table->string("status_jawaban");
             $table->timestamps();
         });

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('soals', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("ujian_id");
+            $table->foreignId('ujian_id')->constrained('ujians')->onDelete('cascade');
             $table->string("pertanyaan");
             $table->string('jawaban_a');
             $table->string('jawaban_b');

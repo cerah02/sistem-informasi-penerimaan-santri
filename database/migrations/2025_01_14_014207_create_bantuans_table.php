@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('bantuans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('santri_id');
+            $table->foreignId('santri_id')->constrained('santris')->onDelete('cascade');
             $table->string('nama_bantuan');
             $table->string('tingkat');
             $table->bigInteger('no_kip');

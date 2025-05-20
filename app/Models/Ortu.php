@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Ortu extends Model
 {
     use HasFactory;
-    protected $guarded=["id"];
+    protected $guarded = ["id"];
 
-    public function santri(){
-        return $this->hasOne(Santri::class,'id','santri_id');
+    public function santri()
+    {
+        return $this->belongsTo(Santri::class, 'santri_id', 'id');
     }
 }
