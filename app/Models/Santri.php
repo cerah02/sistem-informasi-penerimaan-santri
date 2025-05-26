@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 
 class Santri extends Model
@@ -37,12 +38,15 @@ class Santri extends Model
     {
         return $this->hasMany(Hasil::class, 'santri_id');
     }
-    public function total_hasil()
+    public function totalHasil()
     {
         return $this->hasOne(Total_Hasil::class, 'santri_id');
     }
     public function pendaftaran()
     {
         return $this->hasOne(Pendaftaran::class);
+    }
+    public function jawaban(){
+        return $this->HasMany(Jawaban::class, 'santri_id');
     }
 }

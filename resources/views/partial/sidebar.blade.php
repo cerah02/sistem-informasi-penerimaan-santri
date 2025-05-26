@@ -174,51 +174,26 @@
                                         Ujian MA
                                     </a>
                                 </li>
+
+                                @can('jawaban-list')
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->routeIs('jawabans.index') ? 'active' : '' }}"
+                                            href="{{ route('jawabans.index') }}">
+                                            Jawaban
+                                        </a>
+                                    </li>
+                                @endcan
+
+                                @can('hasil-list')
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->routeIs('hasils.index') ? 'active' : '' }}"
+                                            href="{{ route('hasils.index') }}">
+                                            Hasil Ujian
+                                        </a>
+                                    </li>
+                                @endcan
                             </ul>
                         </div>
-                    </li>
-                @endcan
-
-                <!-- Jawaban -->
-                @can('jawaban-list')
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('jawabans.index') ? 'active' : '' }}"
-                            href="{{ route('jawabans.index') }}">
-                            <div
-                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-check-bold text-dark text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Jawaban</span>
-                        </a>
-                    </li>
-                @endcan
-
-                <!-- Hasil -->
-                @can('hasil-list')
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('hasils.index') ? 'active' : '' }}"
-                            href="{{ route('hasils.index') }}">
-                            <div
-                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-paper-diploma text-dark text-sm opacity-10"></i>
-
-                            </div>
-                            <span class="nav-link-text ms-1">Hasil Ujian</span>
-                        </a>
-                    </li>
-                @endcan
-
-                <!-- Waktu Ujian -->
-                @can('waktu_CCujian-list')
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('waktu_ujians.index') ? 'active' : '' }}"
-                            href="{{ route('waktu_ujians.index') }}">
-                            <div
-                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-watch-time text-dark text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Waktu Ujian</span>
-                        </a>
                     </li>
                 @endcan
 
@@ -231,7 +206,7 @@
                                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                                     <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
                                 </div>
-                                <span class="nav-link-text ms-1">Soal Ujian</span>
+                                <span class="nav-link-text ms-1">Jadwal Ujian</span>
                             </a>
                         </li>
                     @endif
@@ -256,6 +231,20 @@
                     </li>
                 @endcan
 
+                <!-- List notifikasi -->
+                @can('notifikasi-list')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('notifikasi.index') ? 'active' : '' }}"
+                            href="{{ route('notifikasi.index') }}">
+                            <div
+                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Notifikasi</span>
+                        </a>
+                    </li>
+                @endcan
+                
                 <!-- List pengumuman-->
                 @can('pengumuman-list')
                     <li class="nav-item">
@@ -270,19 +259,6 @@
                     </li>
                 @endcan
 
-                <!-- List notifikasi -->
-                @can('notifikasi-list')
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('notifikasi.index') ? 'active' : '' }}"
-                            href="{{ route('notifikasi.index') }}">
-                            <div
-                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Notifikasi</span>
-                        </a>
-                    </li>
-                @endcan
 
                 @can('laporan-index')
                     <li class="nav-item">
@@ -297,50 +273,10 @@
                     </li>
                 @endcan
 
-                {{-- 
-                <!-- List Fasilitas -->
-                @can('fasilitas-list')
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('fasilitas.index') ? 'active' : '' }}"
-                            href="{{ route('fasilitas.index') }}">
-                            <div
-                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Fasilitas Pondok</span>
-                        </a>
-                    </li>
-                @endcan --}}
-
-
                 <!-- Account Pages Section -->
                 <li class="nav-item mt-3">
-                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Halaman Akun</h6>
                 </li>
-
-                {{-- <!-- Login -->
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('login') ? 'active' : '' }}"
-                        href="{{ route('login') }}">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Login</span>
-                    </a>
-                </li> --}}
-
-                {{-- <!-- Register -->
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('register') ? 'active' : '' }}"
-                        href="{{ route('register') }}">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-collection text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Register</span>
-                    </a>
-                </li> --}}
 
                 <!-- Roles -->
                 @can('role-list')

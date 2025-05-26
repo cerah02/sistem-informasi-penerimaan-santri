@@ -40,15 +40,17 @@
                         <div class="form-group">
                             <strong>Jenis Kelamin:</strong><br>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="jenis_kelamin" id="laki-laki" value="Laki-laki" required>
+                                <input class="form-check-input" type="radio" name="jenis_kelamin" id="laki-laki"
+                                    value="Laki-laki" required>
                                 <label class="form-check-label" for="laki-laki">Laki-laki</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="jenis_kelamin" id="perempuan" value="Perempuan" required>
+                                <input class="form-check-input" type="radio" name="jenis_kelamin" id="perempuan"
+                                    value="Perempuan" required>
                                 <label class="form-check-label" for="perempuan">Perempuan</label>
                             </div>
                         </div>
-                    </div>            
+                    </div>
                     <div class="col-md-12 mb-3">
                         <label for="ttl" class="form-label">Tempat Lahir</label>
                         <input type="text" id="ttl" name="tempat_lahir" class="form-control" required>
@@ -101,6 +103,12 @@
                         <div class="form-group">
                             <strong>Foto:</strong>
                             <input type="file" name="foto" class="form-control" placeholder="Foto">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Buat akun untuk guru?</label><br>
+                            <input type="checkbox" name="buat_akun" value="1"> Ya, buat akun
                         </div>
                     </div>
                     <div class="col-md-12 text-center mt-3">

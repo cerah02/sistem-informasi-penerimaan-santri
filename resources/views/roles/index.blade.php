@@ -8,7 +8,7 @@
         </div>
         <div class="pull-right">
         @can('role-create')
-            <a class="btn btn-success" href="{{ route('roles.create') }}"> Create New Role</a>
+            <a class="btn btn-success" href="{{ route('roles.create') }}"> Buat Role Baru</a>
             @endcan
         </div>
     </div>
@@ -22,7 +22,7 @@
 
 <div class="card shadow-sm">
     <div class="card-header bg-primary text-white">
-        <h3 class="card-title">Role List</h3>
+        <h3 class="card-title">Daftar Role</h3>
     </div>
     <div class="card-body">
         <table class="table table-bordered">

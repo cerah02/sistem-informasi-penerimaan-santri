@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Hasil;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class HasilController extends Controller
@@ -50,22 +51,31 @@ class HasilController extends Controller
                     $btn = '';
 
 
-                    if (auth()->user()->can('hasil-show')) {
-                        $btn .= '<a class="btn btn-info" href="' . route('hasils.show', $row->id) . '">Show</a> ';
-                    }
+                    // if (auth()->user()->can('hasil-show')) {
+                    //     $btn .= '<a class="btn btn-info" href="' . route('hasils.show', $row->id) . '">Show</a> ';
+                    // }
 
 
                     if (auth()->user()->can('hasil-edit')) {
                         $btn .= '<a class="btn btn-primary" href="' . route('hasils.edit', $row->id) . '">Edit</a> ';
                     }
-
-                    if (auth()->user()->can('hasil-delete')) {
+                    if (auth()->user()->can('jawaban-delete')) {
                         $btn .= '
-                    <form action="' . route('hasils.destroy', $row->id) . '" method="POST" style="display:inline;">
-                        ' . csrf_field() . method_field('DELETE') . '
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>';
+        <button type="button" class="btn btn-danger btn-delete" data-santri="' . $row->santri_id . '" data-ujian="' . $row->ujian_id . '">Hapus</button>
+        <form id="delete-form-' . $row->santri_id . '-' . $row->ujian_id . '" action="' . route('hapus.jawaban.dari.hasil') . '" method="POST" style="display: none;">
+            ' . csrf_field() . '
+            <input type="hidden" name="santri_id" value="' . $row->santri_id . '">
+            <input type="hidden" name="ujian_id" value="' . $row->ujian_id . '">
+        </form>';
                     }
+
+                    // if (auth()->user()->can('hasil-delete')) {
+                    //     $btn .= '
+                    // <form action="' . route('hasils.destroy', $row->id) . '" method="POST" style="display:inline;">
+                    //     ' . csrf_field() . method_field('DELETE') . '
+                    //     <button type="submit" class="btn btn-danger">Hapus</button>
+                    // </form>';
+                    // }
 
                     return $btn;
                 })
@@ -129,38 +139,74 @@ class HasilController extends Controller
     //  * @param  \App\Models\Ortu  $ortu
     //  * @return \Illuminate\Http\Response
     //  */
-    // public function edit(Hasil $hasil)
-    // {
-    //     //
-    //     return view('ortus.edit',compact('ortu'));
-    // }
+    public function edit(Hasil $hasil)
+    {
+        // Pastikan eager loading relasi
+        $hasil->load(['santri', 'ujian']);
+        return view('hasils.edit', compact('hasil'));
+    }
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  \App\Models\Ortu  $ortu
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(Request $request, Ortu $ortu)
-    // {
-    //     //
-    //     $request->validate([
-    //         'santri_id' => 'required',
-    //         'nama_ayah' => 'required',
-    //         'pendidikan_ayah'=>'required',
-    //         'pekerjaan_ayah'=>'required',
-    //         'nama_ibu'=>'required',
-    //         'pendidikan_ibu' => 'required',
-    //         'pekerjaan_ibu'=>'required',
-    //         'no_hp'=>'required',
-    //         'alamat'=>'required',
-    //         ]);
 
-    //         $ortu->update($request->all());
-    //         return redirect()->route('ortus.index')
-    //         ->with('success','Data Orang Tua Berhasil Diupdate');
-    // }
+    public function update(Request $request, Hasil $hasil)
+    {
+        $request->validate([
+            'santri_id' => 'required',
+            'ujian_id' => 'required',
+            'jumlah_soal' => 'required',
+            'jawaban_benar' => 'required',
+            'jawaban_salah' => 'required',
+            'total_nilai_kategori' => 'required',
+            'keterangan' => 'required',
+        ]);
+
+        $hasil->update($request->only([
+            'santri_id',
+            'ujian_id',
+            'jumlah_soal',
+            'jawaban_benar',
+            'jawaban_salah',
+            'total_nilai_kategori',
+            'keterangan'
+        ]));
+
+        // ===== Tambahan: Update total_hasils jika semua ujian selesai =====
+        $santri_id = $request->santri_id;
+
+        // Cari jenjang santri
+        $jenjang = $hasil->santri->jenjang_pendidikan;
+
+        // Hitung total ujian sesuai jenjang
+        $totalUjianJenjang = DB::table('ujians')
+            ->where('jenjang_pendidikan', $jenjang)
+            ->count();
+
+        // Hitung jumlah hasil ujian yang sudah dikerjakan oleh santri (distinct ujian_id)
+        $jumlahHasil = DB::table('hasils')
+            ->where('santri_id', $santri_id)
+            ->distinct('ujian_id')
+            ->count('ujian_id');
+
+        // Jika santri sudah menyelesaikan semua ujian
+        if ($jumlahHasil == $totalUjianJenjang) {
+            $rataRata = DB::table('hasils')
+                ->where('santri_id', $santri_id)
+                ->avg('total_nilai_kategori');
+
+            $statusKelulusan = $rataRata >= 75 ? 'Lulus' : 'Tidak Lulus';
+
+            DB::table('total_hasils')->updateOrInsert(
+                ['santri_id' => $santri_id],
+                [
+                    'rata_rata' => $rataRata,
+                    'status' => $statusKelulusan,
+                    'updated_at' => now(), // optional
+                ]
+            );
+        }
+
+        return redirect()->route('hasils.index')
+            ->with('success', 'Data Hasil Ujian Santri Berhasil Diupdate');
+    }
 
     // /**
     //  * Remove the specified resource from storage.

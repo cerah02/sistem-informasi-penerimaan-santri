@@ -80,7 +80,7 @@
                                         <span
                                             class="badge 
                                         @if (optional($santri->pendaftaran)->status == 'diterima') bg-success
-                                        @elseif(optional($santri->pendaftaran)->status == 'pending') bg-warning text-dark
+                                        @elseif(optional($santri->pendaftaran)->status == 'proses') bg-warning text-dark
                                         @elseif(optional($santri->pendaftaran)->status == 'ditolak') bg-danger
                                         @else bg-secondary @endif">
                                             {{ optional($santri->pendaftaran)->status ?? '-' }}

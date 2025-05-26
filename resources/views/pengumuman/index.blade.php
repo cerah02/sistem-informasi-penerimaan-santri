@@ -7,7 +7,7 @@
             </div>
             @can('pengumuman-create')
                 <div class="pull-right">
-                    <a class="btn btn-success" href="{{ route('pengumuman.create') }}"> Tambahkan Data Kesehatan Santri</a>
+                    <a class="btn btn-success" href="{{ route('pengumuman.create') }}"> Atur Tanggal Pengumuman</a>
                 </div>
             @endcan
         </div>

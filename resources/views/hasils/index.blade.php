@@ -1,5 +1,6 @@
 @extends('layout')
 @section('content')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
@@ -90,6 +91,26 @@
                         searchable: false
                     },
                 ]
+            });
+            $(document).on('click', '.btn-delete', function(e) {
+                e.preventDefault();
+                let santriId = $(this).data('santri');
+                let ujianId = $(this).data('ujian');
+
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: "Semua jawaban, hasil, dan total nilai santri akan dihapus!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(`#delete-form-${santriId}-${ujianId}`).submit();
+                    }
+                });
             });
         });
     </script>

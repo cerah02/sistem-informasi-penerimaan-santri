@@ -97,42 +97,49 @@ class GuruController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        //
         $request->validate([
             'nama' => 'required',
             'nip' => 'required',
             'jenis_kelamin' => 'required',
             'alamat' => 'required',
             'no_telpon' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
             'foto' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
             'status_guru' => 'required',
         ]);
-        $user = User::create([
-            'name' => $request->nama,
-            'email' => $request->email,
-            'password' => Hash::make('12341234')
-        ]);
-        $role = Role::where('name','=','Guru')->orWhere('name','=','guru')->first();
-        $user->assignRole([$role->id]);
+
+        // Cek apakah ingin membuat akun
+        if ($request->has('buat_akun')) {
+            $user = User::create([
+                'name' => $request->nama,
+                'email' => $request->email,
+                'password' => Hash::make('12341234') // Default password, bisa diubah
+            ]);
+
+            $role = Role::where('name', 'Guru')->orWhere('name', 'guru')->first();
+            if ($role) {
+                $user->assignRole([$role->id]);
+            }
+
+            // Simpan user_id jika dibutuhkan dalam tabel Guru
+            $request->merge(['user_id' => $user->id]);
+        }
+
         $input = $request->all();
-        $input['ttl'] = $request->tempat_lahir . '|' . $request->tanggal_lahir; // Menggunakan pemisah '|'
+        $input['ttl'] = $request->tempat_lahir . '|' . $request->tanggal_lahir;
+
         if ($request->hasFile('foto')) {
-            // Construct the file name with the correct extension
             $fileName = time() . '_' . $request->nama . '.' . $request->file('foto')->getClientOriginalExtension();
-
-            // Move the uploaded file to the desired location
-            $fotoPath = $request->file('foto')->move(public_path('uploads/guru/foto'), $fileName);
-
-            // Save the file path to the $data array
+            $request->file('foto')->move(public_path('uploads/guru/foto'), $fileName);
             $input['foto'] = 'uploads/guru/foto/' . $fileName;
         }
 
-        $status = Guru::create($input);
+        Guru::create($input);
+
         return redirect()->route('gurus.index')
             ->with('success', 'Data Guru Berhasil Disimpan.');
     }
+
 
     public function tampilanGuru()
     {
@@ -184,7 +191,7 @@ class GuruController extends Controller
             'foto' => 'required',
             'status_guru' => 'required',
         ]);
-        $user = User::where('email','=',$request->email)->first();  
+        $user = User::where('email', '=', $request->email)->first();
         $user->update([
             'name' => $request->nama,
             'email' => $request->email

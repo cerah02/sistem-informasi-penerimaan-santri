@@ -3,28 +3,29 @@
     <div class="container mt-4">
         {{-- Tombol Tambah Data --}}
         <div class="row mb-4">
-            <div class="col-12 text-end">
+            <div class="col-12 text-right">
                 <a href="{{ route('ujians_create', $jenjang) }}" class="btn btn-primary">
                     <i class="bi bi-plus-lg me-2"></i>Tambah Data Ujian
                 </a>
             </div>
         </div>
 
+        {{-- Judul Jenjang --}}
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2 class="text-center text-primary mb-4">
+                    📚 Daftar Jadwal Ujian Untuk Jenjang {{ $jenjang }}
+                </h2>
+            </div>
+
+        </div>
+        
         @php
             // Group ujian berdasarkan jenjang pendidikan
             $groupedUjians = $ujians->groupBy('jenjang_pendidikan');
         @endphp
 
         @foreach ($groupedUjians as $jenjang => $ujiansInJenjang)
-            {{-- Judul Jenjang --}}
-            <div class="row mb-4">
-                <div class="col-12">
-                    <h2 class="text-center text-primary mb-4">
-                        📚 Daftar Jadwal Ujian Untuk Jenjang {{ $jenjang }}
-                    </h2>
-                </div>
-            </div>
-
             {{-- Card Ujian --}}
             <div class="row">
                 @foreach ($ujiansInJenjang as $ujian)

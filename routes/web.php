@@ -95,6 +95,7 @@ Route::get('/laporan/pdf', [TotalHasilController::class, 'cetakPdf'])->name('lap
 
 Route::get('admin_pendaftaran_santri_view', [PendaftaranController::class, 'admin_pendaftaran_santri_view'])->name('admin_pendaftaran_santri_view');
 Route::post('admin_pendaftaran_santri_simpan', [PendaftaranController::class, 'admin_pendaftaran_santri_simpan'])->name('admin_pendaftaran_santri_simpan');
+Route::post('/hapus-jawaban-dari-hasil', [JawabanController::class, 'hapusDariTabelHasil'])->name('hapus.jawaban.dari.hasil');
 
 /*
 |--------------------------------------------------------------------------

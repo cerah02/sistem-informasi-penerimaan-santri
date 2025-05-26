@@ -6,7 +6,7 @@
                 <h2>Users Management</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
+                <a class="btn btn-success" href="{{ route('users.create') }}"> Tambah User Baru</a>
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
     <!-- Card untuk tabel -->
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
-            <h3 class="card-title">Daftar Pengguna</h3>
+            <h3 class="card-title">Daftar User</h3>
         </div>
         <div class="card-body">
             <table class="table table-bordered">
