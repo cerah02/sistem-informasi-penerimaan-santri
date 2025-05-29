@@ -38,7 +38,7 @@ class TotalHasilController extends Controller
     {
         $jenjang = $request->input('jenjang');
 
-        $query = Santri::with(['pendaftaran', 'total_hasil']);
+        $query = Santri::with(['pendaftaran', 'totalHasil']);
 
         if ($jenjang) {
             $query->where('jenjang_pendidikan', $jenjang);

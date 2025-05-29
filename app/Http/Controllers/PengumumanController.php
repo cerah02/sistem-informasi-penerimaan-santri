@@ -68,7 +68,15 @@ class PengumumanController extends Controller
     }
     public function create()
     {
-        //
+        // Cek apakah sudah ada 1 data pengumuman
+        $jumlahPengumuman = \App\Models\Pengumuman::count();
+
+        if ($jumlahPengumuman >= 1) {
+            // Jika sudah ada, kembalikan ke halaman sebelumnya atau dashboard dengan pesan
+            return redirect()->back()->with('error', 'Tanggal Pengumuman sudah dijadwalkan, Tidak dapat menambahkan lagi.');
+        }
+
+        // Jika belum ada, tampilkan form tambah pengumuman
         return view('pengumuman.create');
     }
 

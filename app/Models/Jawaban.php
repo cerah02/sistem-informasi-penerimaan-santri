@@ -17,11 +17,16 @@ class Jawaban extends Model
 
     public function santri()
     {
-        return $this->belongsTo(Santri::class,'santri_id');
+        return $this->belongsTo(Santri::class, 'santri_id');
     }
 
     public function soal()
     {
         return $this->belongsTo(Soal::class, 'soal_id');
+    }
+
+    public function ujian()
+    {
+        return $this->soal->ujian ?? null;
     }
 }

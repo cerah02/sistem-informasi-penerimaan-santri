@@ -1,102 +1,98 @@
 @extends('layout')
+
 @section('content')
-    <!-- Tambahkan di layout atau view ini -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <div class="container">
+        <h2 class="mb-4">Jawaban Santri</h2>
 
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Daftar Data Jawaban Calon Santri</h2>
+        {{-- Filter --}}
+        <form id="filterForm" class="row mb-4" method="GET" action="{{ route('jawabans.index') }}">
+            <div class="col-md-4">
+                <select name="jenjang" class="form-control" onchange="$('#filterForm').submit()">
+                    <option value="">-- Filter Jenjang --</option>
+                    @foreach ($jenjangs as $jenjang)
+                        <option value="{{ $jenjang }}" {{ request('jenjang') == $jenjang ? 'selected' : '' }}>
+                            {{ $jenjang }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select name="ujian_id" class="form-control" onchange="$('#filterForm').submit()">
+                    <option value="">-- Filter Ujian --</option>
+                    @foreach ($ujians as $ujian)
+                        <option value="{{ $ujian->id }}" {{ request('ujian_id') == $ujian->id ? 'selected' : '' }}>
+                            {{ $ujian->nama_ujian }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </form>
+
+        {{-- Cards --}}
+        <div class="row">
+            @forelse ($hasils as $hasil)
+                <div class="col-md-4">
+                    <div class="card mb-3 shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $hasil->santri->nama }}</h5>
+                            <p class="card-text">
+                                <strong>Nama Ujian:</strong> {{ $hasil->ujian->nama_ujian }}<br>
+                                <strong>Benar:</strong> {{ $hasil->jawaban_benar }} |
+                                <strong>Salah:</strong> {{ $hasil->jawaban_salah }}
+                            </p>
+                            <button class="btn btn-primary btn-sm lihat-jawaban" data-santri-id="{{ $hasil->santri_id }}"
+                                data-ujian-id="{{ $hasil->ujian_id }}" data-bs-toggle="modal"
+                                data-bs-target="#jawabanModal">
+                                Lihat Jawaban
+                            </button>
+                            <div id="jawaban-{{ $hasil->santri_id }}-{{ $hasil->ujian_id }}" class="mt-3"
+                                style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-12">
+                    <div class="alert alert-info">Data tidak ditemukan.</div>
+                </div>
+            @endforelse
+        </div>
+        <div class="modal fade" id="jawabanModal" tabindex="-1" aria-labelledby="jawabanModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="jawabanModalLabel">Detail Jawaban Santri</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                    </div>
+                    <div class="modal-body" id="modalJawabanContent">
+                        <!-- Jawaban akan di-load lewat AJAX -->
+                        <div class="text-center">Memuat data...</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.lihat-jawaban').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const santriId = this.getAttribute('data-santri-id');
+                    const ujianId = this.getAttribute('data-ujian-id');
 
-    <!-- Card untuk tabel -->
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Data Jawaban Ujian Santri</h3>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive"> <!-- Tambahkan div ini untuk skrol horizontal -->
-                <table class="table table-bordered data-table">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Santri</th>
-                            <th>Pertanyaan</th>
-                            <th>Jawaban</th>
-                            <th>Status Jawaban</th>
-                            {{-- <th width="280px">Aksi</th> --}}
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <!-- End of Card -->
+                    const url = `/jawabans/detail?santri_id=${santriId}&ujian_id=${ujianId}`;
 
-    <script type="text/javascript">
-        $(function() {
-            // Inisialisasi DataTable
-            var table = $('.data-table').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('jawabans.index') }}",
-                scrollX: true,
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'nama_santri',
-                        name: 'santri.nama_lengkap'
-                    },
-                    {
-                        data: 'pertanyaan',
-                        name: 'soal.pertanyaan'
-                    },
-                    {
-                        data: 'jawaban',
-                        name: 'jawaban'
-                    },
-                    {
-                        data: 'status_jawaban',
-                        name: 'status_jawaban'
-                    },
-                    // {
-                    //     data: 'aksi',
-                    //     name: 'aksi',
-                    //     orderable: false,
-                    //     searchable: false
-                    // },
-                ]
-            });
+                    const modalBody = document.getElementById('modalJawabanContent');
+                    modalBody.innerHTML = '<div class="text-center">Memuat data...</div>';
 
-            // Konfirmasi penghapusan dengan SweetAlert2
-            $(document).on('click', '.btn-delete', function(e) {
-                e.preventDefault();
-                var id = $(this).data('id');
-                Swal.fire({
-                    title: 'Yakin ingin menghapus?',
-                    text: "Semua jawaban santri untuk ujian ini, hasil ujian, dan total hasil akan terhapus!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, Hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $('#delete-form-' + id).submit();
-                    }
+                    fetch(url)
+                        .then(response => response.text())
+                        .then(html => {
+                            modalBody.innerHTML = html;
+                        })
+                        .catch(() => {
+                            modalBody.innerHTML =
+                                '<div class="text-danger text-center">Gagal memuat jawaban.</div>';
+                        });
                 });
             });
         });

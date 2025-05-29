@@ -29,7 +29,7 @@ Route::resource('ujians', UjianController::class);
 Route::get('ujians-delete/{id}', [UjianController::class, 'destroy'])->name('ujian.delete');
 Route::resource('soals', SoalController::class);
 Route::get('soal-create/{id}', [SoalController::class, 'create'])->name('soal.create');
-Route::resource('jawabans', JawabanController::class);
+// Route::resource('jawabans', JawabanController::class);
 Route::resource('dokumens', DokumenController::class);
 Route::resource('ortus', OrtuController::class);
 Route::resource('bantuans', BantuanController::class);
@@ -96,6 +96,8 @@ Route::get('/laporan/pdf', [TotalHasilController::class, 'cetakPdf'])->name('lap
 Route::get('admin_pendaftaran_santri_view', [PendaftaranController::class, 'admin_pendaftaran_santri_view'])->name('admin_pendaftaran_santri_view');
 Route::post('admin_pendaftaran_santri_simpan', [PendaftaranController::class, 'admin_pendaftaran_santri_simpan'])->name('admin_pendaftaran_santri_simpan');
 Route::post('/hapus-jawaban-dari-hasil', [JawabanController::class, 'hapusDariTabelHasil'])->name('hapus.jawaban.dari.hasil');
+Route::get('/jawabans', [JawabanController::class, 'index'])->name('jawabans.index');
+Route::get('/jawabans/detail', [JawabanController::class, 'detail'])->name('jawabans.detail');
 
 /*
 |--------------------------------------------------------------------------

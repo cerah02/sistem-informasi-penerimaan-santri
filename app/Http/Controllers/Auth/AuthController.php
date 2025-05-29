@@ -114,8 +114,8 @@ class AuthController extends Controller
                 $jumlah_ujian = $hasil_sesuai_jenjang->count();
                 // $rata_rata = $jumlah_ujian > 0 ? $total_nilai / $jumlah_ujian : 0;
                 // $status = $rata_rata >= 70 ? 'Lulus' : 'Tidak Lulus';
-                $rata_rata = optional($Santri->total_hasil)->rata_rata ?? 0;
-                $status_kelulusan = optional($Santri->total_hasil)->status ?? 'Belum Ada';
+                $rata_rata = optional($Santri->totalHasil)->rata_rata ?? 0;
+                $status_kelulusan = optional($Santri->totalHasil)->status ?? 'Belum Ada';
 
                 $kelulusan_santri = [
                     'nama_santri' => $Santri->nama,
@@ -183,8 +183,8 @@ class AuthController extends Controller
                     'jenjang' => $jenjang,
                     'nilai_permapel' => $nilai_permapel,
                     'total_nilai' => $total_nilai,
-                    'rata_rata' => optional($santri->total_hasil)->rata_rata ?? 0,
-                    'status_kelulusan' => optional($santri->total_hasil)->status ?? 'Belum Ujian',
+                    'rata_rata' => optional($santri->totalHasil)->rata_rata ?? 0,
+                    'status_kelulusan' => optional($santri->totalHasil)->status ?? 'Belum Ujian',
                 ];
             })->values();
 

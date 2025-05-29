@@ -19,6 +19,13 @@
         </div>
     @endif
 
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <!-- Card untuk tabel -->
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
@@ -33,7 +40,7 @@
                             <th>No</th>
                             <th>Judul Pengumuman</th>
                             <th>konten</th>
-                            <th>Tanggal Liris</th>
+                            <th>Tanggal Rilis</th>
                             <th>Status</th>
                             <th width="280px">Aksi</th>
                         </tr>
