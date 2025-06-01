@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\UnauthorizedException as ValidationUnauthorizedException;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -46,5 +48,28 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        // PERBAIKAN: Gunakan UnauthorizedException dari Spatie
+        if ($exception instanceof UnauthorizedException) {
+            return $this->renderCustomSpatieError($exception);
+        }
+
+        return parent::render($request, $exception);
+    }
+
+    protected function renderCustomSpatieError(UnauthorizedException $exception)
+    {
+        // Tentukan view yang akan digunakan
+        // PERBAIKAN: Gunakan path 'errors.permission.403' sesuai lokasi Anda
+        $view = 'errors.permission.403';
+
+        return response()->view($view, [
+            'exception' => $exception,
+            'requiredPermissions' => $exception->getRequiredPermissions(),
+            'requiredRoles' => $exception->getRequiredRoles(),
+        ], 403);
     }
 }

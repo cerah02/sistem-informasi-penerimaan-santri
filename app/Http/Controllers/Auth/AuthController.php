@@ -57,9 +57,9 @@ class AuthController extends Controller
         );
         if (Auth::attempt($credentials)) {
             return redirect()->intended('dashboard')
-                ->withSuccess('You have Successfully loggedin');
+                ->with('success','You have Successfully loggedin');
         }
-        return redirect("login")->withSuccess('Oppes! You have entered invalid credentials');
+        return redirect("login")->with('error','Mohon Maaf Kamu Tidak Memiliki Akses Masuk, Cek email dan Password yang kamu masukan');
     }
     /**
      * Write code on Method
@@ -75,7 +75,7 @@ class AuthController extends Controller
         ]);
         $data = $request->all();
         $check = $this->create($data);
-        return redirect("dashboard")->withSuccess('Great! You have Successfully loggedin');
+        return redirect("dashboard")->with('success','Great! You have Successfully loggedin');
     }
 
     public function edit_profile()

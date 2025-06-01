@@ -177,7 +177,7 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-custom">
-        <a class="navbar-brand" href="#">CBT</a>
+        <a class="navbar-brand" href="#">Ujian Seleksi Penerimaan Santri Pondok Pesantren Darul Muttaqien</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -185,10 +185,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Profil</a>
+                    <a class="nav-link" href="#"></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
+                    <a class="nav-link" href="#"></a>
                 </li>
             </ul>
         </div>
@@ -271,8 +271,8 @@
     </div>
 
     <footer class="text-center mt-4 text-muted">
-        <p>2024 .</p>
-        <p>Version 1.0</p>
+        {{-- <p>2024 .</p>
+        <p>Version 1.0</p> --}}
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

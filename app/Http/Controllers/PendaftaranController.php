@@ -68,7 +68,7 @@ class PendaftaranController extends Controller
                     $btn = '';
 
                     if (auth()->user()->can('pendaftaran-show')) {
-                        $btn .= '<a class="btn btn-info" href="' . route('pendaftarans.show', $row->id) . '">Show</a> ';
+                        $btn .= '<a class="btn btn-info" href="' . route('pendaftarans.show', $row->id) . '">Lihat</a> ';
                     }
 
                     if (auth()->user()->can('pendaftaran-edit')) {

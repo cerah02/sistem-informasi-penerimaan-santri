@@ -1,7 +1,9 @@
 @extends('layout')
 @section('content')
     <div class="container">
-        @if (Auth::user()->roles[0]['name'] === 'Admin' || Auth::user()->roles[0]['name'] === 'Guru' || Auth::user()->roles[0]['name'] === 'Pimpinan')
+        @if (Auth::user()->roles[0]['name'] === 'Admin' ||
+                Auth::user()->roles[0]['name'] === 'Guru' ||
+                Auth::user()->roles[0]['name'] === 'Pimpinan')
             <div class="row">
                 <!-- Card Total Santri -->
                 <div class="col-xl-4 col-md-4 mb-4">
@@ -79,9 +81,9 @@
 
             <div class="results-container mt-5 mb-5">
                 <div class="filter-title-section">
-                    <h4 class="section-title">Tabel Kelengkapan Syarat Santri</h4>
+                    <h4 class="section-title">Tabel Kelengkapan Data Santri</h4>
                     <div class="filter-section">
-                        <div class="filter-group">
+                        {{-- <div class="filter-group">
                             <label for="filterJenjang" class="filter-label">Filter Jenjang:</label>
                             <select id="filterJenjang" class="filter-select" name="jenjang_filter">
                                 <option value="">Semua</option>
@@ -101,7 +103,7 @@
                                         {{ $year }}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -168,7 +170,7 @@
             <div class="results-container mt-5 mb-5">
                 <div class="filter-title-section">
                     <h4 class="section-title">Tabel Hasil Ujian Santri</h4>
-                    <div class="filter-section">
+                    {{-- <div class="filter-section">
                         <div class="filter-group">
                             <label for="filterJenjang" class="filter-label">Filter Jenjang:</label>
                             <select id="filterJenjang" class="filter-select">
@@ -178,7 +180,7 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="table-responsive">
@@ -224,12 +226,12 @@
 
             <div class="row d-flex align-items-stretch">
                 <!-- Card Perkembangan Jumlah Santri -->
-                <div class="col-md-8 mb-4">
+                <div class="col-md-8 mb-4" >
                     <div class="card border-0 shadow transition-all h-100" style="border-radius: 15px;">
                         <div class="card-body p-4 d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex justify-content-between mb-1">
                                 <div>
-                                    <h5 class="card-title bg-info mb-0 fw-bold text-white">Perkembangan Jumlah Santri</h5>
+                                    <h4 class="fw-bold text-black">Perkembangan Jumlah Pendafataran Santri</h3>
                                 </div>
                                 <div class="dropdown">
                                     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"

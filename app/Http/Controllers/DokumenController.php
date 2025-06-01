@@ -266,14 +266,14 @@ class DokumenController extends Controller
     {
         $request->validate([
             'santri_id' => 'required',
-            'ijazah' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'akta_kelahiran' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
-            'nilai_raport' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'skhun' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'foto' => 'nullable|file|mimes:jpg,jpeg,png|max:5120',
-            'kk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'ktp_ayah' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'ktp_ibu' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'ijazah' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'akta_kelahiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'nilai_raport' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'skhun' => 'nullable|file|mimes:pdf,jpg,jpeg,png,,docx|max:5120',
+            'foto' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'kk' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'ktp_ayah' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
+            'ktp_ibu' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
         ]);
 
         $data = [

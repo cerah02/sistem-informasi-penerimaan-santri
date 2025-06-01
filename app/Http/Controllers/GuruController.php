@@ -6,6 +6,7 @@ use App\Models\Guru;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -71,6 +72,19 @@ class GuruController extends Controller
                     }
 
                     return $btn;
+                })->addColumn('foto', function ($row) {
+                    $path = asset('storage/' . $row->foto);
+                    $extension = pathinfo($row->foto, PATHINFO_EXTENSION);
+
+                    if (in_array(strtolower($extension), ['pdf', 'docx'])) {
+                        return '
+                            <div class="btn-group">
+                                <a href="' . $path . '" target="_blank" class="btn btn-sm btn-info">Lihat</a>
+                                <a href="' . $path . '" download class="btn btn-sm btn-success">Unduh</a>
+                            </div>';
+                    } else {
+                        return '<img src="' . $path . '" width="50" />';
+                    }
                 })
                 ->rawColumns(['aksi', 'foto'])
                 ->make(true);
@@ -95,6 +109,7 @@ class GuruController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         $request->validate([
@@ -113,7 +128,7 @@ class GuruController extends Controller
             $user = User::create([
                 'name' => $request->nama,
                 'email' => $request->email,
-                'password' => Hash::make('12341234') // Default password, bisa diubah
+                'password' => Hash::make('12341234') // Default password
             ]);
 
             $role = Role::where('name', 'Guru')->orWhere('name', 'guru')->first();
@@ -121,17 +136,20 @@ class GuruController extends Controller
                 $user->assignRole([$role->id]);
             }
 
-            // Simpan user_id jika dibutuhkan dalam tabel Guru
+            // Simpan user_id ke request agar bisa digabung ke input
             $request->merge(['user_id' => $user->id]);
         }
 
-        $input = $request->all();
+        $input = $request->except(['tempat_lahir', 'tanggal_lahir', 'foto']); // kecuali ini karena akan diproses khusus
         $input['ttl'] = $request->tempat_lahir . '|' . $request->tanggal_lahir;
 
         if ($request->hasFile('foto')) {
-            $fileName = time() . '_' . $request->nama . '.' . $request->file('foto')->getClientOriginalExtension();
-            $request->file('foto')->move(public_path('uploads/guru/foto'), $fileName);
-            $input['foto'] = 'uploads/guru/foto/' . $fileName;
+            $file = $request->file('foto');
+            $fileName = time() . '_' . $request->nama . '.' . $file->getClientOriginalExtension();
+
+            // Simpan menggunakan Storage facade ke disk publik
+            $path = $file->storeAs('uploads/guru/foto', $fileName, 'public');
+            $input['foto'] = $path; // Simpan path ke database
         }
 
         Guru::create($input);
@@ -180,31 +198,50 @@ class GuruController extends Controller
      */
     public function update(Request $request, Guru $guru)
     {
-        //
         $request->validate([
             'nama' => 'required',
             'nip' => 'required',
             'jenis_kelamin' => 'required',
             'alamat' => 'required',
             'no_telpon' => 'required',
-            'email' => 'required',
-            'foto' => 'required',
+            'email' => 'required|email',
+            'foto' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx|max:5120',
             'status_guru' => 'required',
         ]);
-        $user = User::where('email', '=', $request->email)->first();
-        $user->update([
-            'name' => $request->nama,
-            'email' => $request->email
-        ]);
-        $input = $request->all();
+
+        // Update user juga jika email cocok
+        $user = User::where('email', $guru->email)->first(); // Lebih aman pakai $guru->email
+        if ($user) {
+            $user->update([
+                'name' => $request->nama,
+                'email' => $request->email
+            ]);
+        }
+
+        // Siapkan data input
+        $input = $request->except(['tempat_lahir', 'tanggal_lahir', 'foto']);
         $input['ttl'] = $request->tempat_lahir . '|' . $request->tanggal_lahir;
+
+        // Jika ada file foto baru
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $fileName = time() . '_' . $request->nama . '.' . $file->getClientOriginalExtension();
+
+            // Simpan ke Storage
+            $path = $file->storeAs('uploads/guru/foto', $fileName, 'public');
+            $input['foto'] = $path;
+
+            // Hapus foto lama dari storage jika ada
+            if ($guru->foto && Storage::disk('public')->exists($guru->foto)) {
+                Storage::disk('public')->delete($guru->foto);
+            }
+        }
 
         $guru->update($input);
 
         return redirect()->route('gurus.index')
             ->with('success', 'Data Guru Berhasil Diupdate');
     }
-
     /**
      * Remove the specified resource from storage.
      *

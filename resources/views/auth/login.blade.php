@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <title>Login & Register</title>
     <link rel="icon" type="image/png" href="/assets/img/logo_pondok.png">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -499,5 +500,36 @@
         }
     </script>
 </body>
+<script>
+    @if (session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: '{{ session('success') }}',
+            timer: 5000,
+            showConfirmButton: false
+        });
+    @endif
+
+    @if (session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: '{{ session('error') }}',
+            timer: 5000,
+            showConfirmButton: false
+        });
+    @endif
+
+    @if ($errors->any())
+        Swal.fire({
+            icon: 'success',
+            title: 'Pendaftaran Akun Berhasil!',
+            html: `Sekarang Kamu bisa login`,
+            timer: 5000,
+            showConfirmButton: false
+        });
+    @endif
+</script>
 
 </html>

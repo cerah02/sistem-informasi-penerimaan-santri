@@ -181,6 +181,15 @@
                                     </svg>
                                     Durasi: {{ $ujian->durasi / 60 }} menit
                                 </span>
+                                 <span
+                                    class="badge bg-blue-100 text-blue-800 text-sm px-3 py-1.5 rounded-full flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    Waktu Berakhir: {{ $ujian->tanggal_selesai}}
+                                </span>
                                 <span
                                     class="badge bg-green-100 text-green-800 text-sm px-3 py-1.5 rounded-full flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"

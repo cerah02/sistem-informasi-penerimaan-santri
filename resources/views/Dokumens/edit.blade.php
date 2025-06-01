@@ -70,6 +70,20 @@
                                         @endif
                                     </div>
 
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">Akta Kelahiran</label>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="akta_kelahiran" name="akta_kelahiran">
+                                            <label class="custom-file-label" for="akta_kelahiran">Pilih file...</label>
+                                        </div>
+                                        @if ($dokumen->akta_kelahiran)
+                                            <small class="form-text text-muted">
+                                                File saat ini: <a href="{{ asset('storage/' . $dokumen->akta_kelahiran) }}"
+                                                    target="_blank">Lihat</a>
+                                            </small>
+                                        @endif
+                                    </div>
+
                                     <!-- Nilai Raport -->
                                     <div class="form-group">
                                         <label class="font-weight-bold">Nilai Raport</label>
