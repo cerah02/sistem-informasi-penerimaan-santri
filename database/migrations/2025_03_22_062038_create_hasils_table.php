@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('jawaban_benar');
             $table->integer('jawaban_salah');
             $table->integer('total_nilai_kategori');
-            $table->text('keterangan')->nullable();
+            $table->enum('keterangan',['Kurang Baik','Baik','Amat Baik'])->nullable();
             $table->timestamps();
         });
     }

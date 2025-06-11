@@ -92,7 +92,7 @@ class AgendaController extends Controller
             'jam_agenda' => 'required',
             'tanggal_agenda' => 'required',
             'tempat_agenda' => 'required',
-            'status_agenda' => 'required',
+            // 'status_agenda' => 'required',
             'foto_agenda' => 'required|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
         ]);
         $input = $request->all();
@@ -148,7 +148,7 @@ class AgendaController extends Controller
             'jam_agenda' => 'required',
             'tanggal_agenda' => 'required',
             'tempat_agenda' => 'required',
-            'status_agenda' => 'required',
+            // 'status_agenda' => 'required',
             'foto_agenda' => 'required',
         ]);
 

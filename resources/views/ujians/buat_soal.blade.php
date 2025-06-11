@@ -19,7 +19,7 @@
             </div>
 
         </div>
-        
+
         @php
             // Group ujian berdasarkan jenjang pendidikan
             $groupedUjians = $ujians->groupBy('jenjang_pendidikan');
@@ -54,14 +54,20 @@
                                     {{ date('d M Y', strtotime($ujian->tanggal_selesai)) }}
                                 </p>
                                 <p class="card-text"><strong>Durasi:</strong> {{ $ujian->durasi / 60 }} menit</p>
+                                @php
+                                    $status = $ujian->status;
+                                    $badgeClass = match ($status) {
+                                        'Belum Mulai' => 'bg-warning',
+                                        'Sedang Berlangsung' => 'bg-success',
+                                        'Selesai' => 'bg-secondary',
+                                        default => 'bg-light text-dark',
+                                    };
+                                @endphp
+
                                 <p class="card-text">
                                     <strong>Status:</strong>
-                                    <span
-                                        class="badge 
-                                        @if ($ujian->status == 'Aktif') bg-success 
-                                        @elseif($ujian->status == 'Tidak Aktif') bg-danger 
-                                        @else bg-warning @endif">
-                                        {{ $ujian->status }}
+                                    <span class="badge {{ $badgeClass }}">
+                                        {{ $status }}
                                     </span>
                                 </p>
                                 <a href="{{ route('form_buat_soal', $ujian->id) }}" class="btn btn-outline-primary">

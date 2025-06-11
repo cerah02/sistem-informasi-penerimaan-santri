@@ -38,7 +38,7 @@
                             <th>Jam Agenda</th>
                             <th>Tanggal Agenda</th>
                             <th>Tempat Agenda</th>
-                            <th>Status Agenda</th>
+                            {{-- <th>Status Agenda</th> --}}
                             <th>Foto Agenda</th>
                             <th width="280px">Aksi</th>
                         </tr>
@@ -77,10 +77,10 @@
                         data: 'tempat_agenda',
                         name: 'tempat_agenda'
                     },
-                    {
-                        data: 'status_agenda',
-                        name: 'status_agenda'
-                    },
+                    // {
+                    //     data: 'status_agenda',
+                    //     name: 'status_agenda'
+                    // },
                     {
                         data: 'foto_agenda',
                         name: 'foto_agenda'

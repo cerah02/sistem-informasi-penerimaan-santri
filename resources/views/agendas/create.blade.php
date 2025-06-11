@@ -54,12 +54,12 @@
                             <input type="text" name="tempat_agenda" class="form-control" placeholder="Tempat Agenda">
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    {{-- <div class="col-md-12">
                         <div class="form-group">
                             <strong>Status Agenda:</strong>
                             <input type="text" name="status_agenda" class="form-control" placeholder="Status Agenda">
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-12">
                         <div class="form-group">
                             <strong>Foto:</strong>

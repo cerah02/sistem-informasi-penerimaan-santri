@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('ortus', function (Blueprint $table) {
             $table->id();
             $table->foreignId('santri_id')->constrained('santris')->onDelete('cascade');
-            $table->string('nama_ayah');
-            $table->string('pendidikan_ayah');
-            $table->string('pekerjaan_ayah');
-            $table->string('nama_ibu');
-            $table->string('pendidikan_ibu');
-            $table->string('pekerjaan_ibu');
+            $table->string('nama_ayah',50);
+            $table->string('pendidikan_ayah',30);
+            $table->string('pekerjaan_ayah',30);
+            $table->string('nama_ibu',50);
+            $table->string('pendidikan_ibu',30);
+            $table->string('pekerjaan_ibu',30);
             $table->bigInteger('no_hp');
             $table->string('alamat');
             $table->timestamps();

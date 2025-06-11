@@ -16,15 +16,15 @@ return new class extends Migration
         Schema::create('gurus', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade')->after('id');
-            $table->string("nama");
-            $table->bigInteger("nip");
-            $table->string("jenis_kelamin");
-            $table->string("ttl");
+            $table->string("nama",50);
+            $table->bigInteger("nip")->nullable();
+            $table->enum("jenis_kelamin",['Laki-laki','Perempuan']);
+            $table->string("ttl",30);
             $table->string("alamat");
             $table->bigInteger("no_telpon");
-            $table->string("email");
-            $table->string("foto");
-            $table->string("status_guru");
+            $table->string("email",50);
+            $table->string("foto",150);
+            $table->string("status_guru",10);
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('pengumuman', function (Blueprint $table) {
             $table->id();
-            $table->string('judul')->nullable();        // Judul pengumuman
+            $table->string('judul',50)->nullable();        // Judul pengumuman
             $table->text('konten')->nullable();         // Isi pengumuman (opsional)
             $table->date('tanggal_rilis');          // Waktu mulai ditampilkan
             $table->boolean('is_active')->default(false); // Status aktif atau tidak

@@ -70,7 +70,7 @@
                             <input type="number" name="durasi" class="form-control" placeholder="Masukkan Durasi Ujian">
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    {{-- <div class="col-md-12">
                         <div class="form-group">
                             <strong>Status Ujian:</strong><br>
                             <label>
@@ -83,7 +83,7 @@
                                 <input type="radio" name="status" value="Selesai" required> Selesai
                             </label>
                         </div>
-                    </div>            
+                    </div>             --}}
                     <div class="col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>

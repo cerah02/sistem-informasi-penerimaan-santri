@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('bantuans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('santri_id')->constrained('santris')->onDelete('cascade');
-            $table->string('nama_bantuan');
-            $table->string('tingkat');
-            $table->bigInteger('no_kip');
+            $table->string('nama_bantuan',50)->nullable();
+            $table->string('tingkat',30)->nullable();
+            $table->string('no_kip',6)->nullable();
             $table->timestamps();
         });
     }

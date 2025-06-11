@@ -51,7 +51,9 @@
                                 <div class="form-floating">
                                     <input type="text" id="nisn" name="nisn"
                                         class="form-control @error('nisn') is-invalid @enderror"
-                                        value="{{ old('nisn', $santri->nisn ?? '') }}" placeholder="NISN" required>
+                                        value="{{ old('nisn', $santri->nisn ?? '') }}" placeholder="NISN" required
+                                        maxlength="10" pattern="\d{10}" inputmode="numeric"
+                                        oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)">
                                     <label for="nisn">NISN</label>
                                     @error('nisn')
                                         <div class="invalid-feedback">
@@ -65,7 +67,9 @@
                                 <div class="form-floating">
                                     <input type="text" id="nik" name="nik"
                                         class="form-control @error('nik') is-invalid @enderror"
-                                        value="{{ old('nik', $santri->nik ?? '') }}" placeholder="NIK" required>
+                                        value="{{ old('nik', $santri->nik ?? '') }}" placeholder="NIK" required
+                                        maxlength="16" pattern="\d{16}" inputmode="numeric"
+                                        oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,16)">
                                     <label for="nik">NIK</label>
                                     @error('nik')
                                         <div class="invalid-feedback">
@@ -433,7 +437,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Akta Kelahiran -->
                             <div class="col-md-6">
                                 <div class="border p-3 rounded">
@@ -447,8 +451,8 @@
                                     @if (!empty($santri->dokumen) && $santri->dokumen->akta_kelahiran)
                                         <div class="alert alert-light d-flex align-items-center p-2 mb-3">
                                             <i class="bi bi-paperclip me-2"></i>
-                                            <a href="{{ asset('storage/' . $santri->dokumen->akta_kelahiran) }}" target="_blank"
-                                                class="text-decoration-none">
+                                            <a href="{{ asset('storage/' . $santri->dokumen->akta_kelahiran) }}"
+                                                target="_blank" class="text-decoration-none">
                                                 Lihat Dokumen
                                             </a>
                                         </div>

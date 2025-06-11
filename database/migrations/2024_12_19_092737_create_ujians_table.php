@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('ujians', function (Blueprint $table) {
             $table->id();
-            $table->string("nama_ujian");
-            $table->string("kategori");
+            $table->string("nama_ujian",30);
+            $table->string("kategori",30);
             $table->enum("jenjang_pendidikan",["SD","MTS","MA"]);
             $table->date("tanggal_mulai");
             $table->date("tanggal_selesai");
             $table->integer("durasi");
-            $table->string("status");
+            // $table->enum("status", ["Belum Mulai", "Sedang Berlangsung", "Selesai"]);
             $table->timestamps();
         });
     }

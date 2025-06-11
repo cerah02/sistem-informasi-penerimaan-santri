@@ -16,14 +16,14 @@ return new class extends Migration
         Schema::create('dokumens', function (Blueprint $table) {
             $table->id();
             $table->foreignId('santri_id')->constrained('santris')->onDelete('cascade');
-            $table->string('akta_kelahiran');
-            $table->string('ijazah')->nullable();;
-            $table->string('nilai_raport')->nullable();;
-            $table->string('skhun')->nullable();;
-            $table->string('foto');
-            $table->string('kk');
-            $table->string('ktp_ayah');
-            $table->string('ktp_ibu');
+            $table->string('akta_kelahiran',150);
+            $table->string('ijazah',150)->nullable();
+            $table->string('nilai_raport',150)->nullable();
+            $table->string('skhun',150)->nullable();
+            $table->string('foto',150);
+            $table->string('kk',150);
+            $table->string('ktp_ayah',150);
+            $table->string('ktp_ibu',150);
             $table->timestamps();
         });
     }

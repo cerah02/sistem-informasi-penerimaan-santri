@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('pendaftarans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('santri_id')->constrained('santris')->onDelete('cascade');
-            $table->string("tanggal_pendaftaran");
-            $table->string("status");
+            $table->date("tanggal_pendaftaran");
+            $table->enum("status",['diproses','diterima','ditolak']);
             $table->timestamps();
         });
     }

@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('soals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ujian_id')->constrained('ujians')->onDelete('cascade');
-            $table->string("pertanyaan");
-            $table->string('jawaban_a');
-            $table->string('jawaban_b');
-            $table->string('jawaban_c');
-            $table->string('jawaban_d');
-            $table->string('jawaban_e');
-            $table->string('jawaban_benar');
+            $table->text("pertanyaan");
+            $table->text('jawaban_a');
+            $table->text('jawaban_b');
+            $table->text('jawaban_c');
+            $table->text('jawaban_d');
+            $table->text('jawaban_e');
+            $table->enum('jawaban_benar',['A','B','C','D','E']);
             $table->timestamps();
         });
     }

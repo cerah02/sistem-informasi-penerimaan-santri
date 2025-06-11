@@ -77,7 +77,7 @@ class UjianController extends Controller
             'tanggal_mulai' => 'required',
             'tanggal_selesai' => 'required',
             'durasi' => 'required|numeric',
-            'status' => 'required',
+            // 'status' => 'required',
         ]);
 
         // Simpan data ujian
@@ -133,7 +133,7 @@ class UjianController extends Controller
             'tanggal_mulai' => 'required',
             'tanggal_selesai' => 'required',
             'durasi' => 'required|numeric',
-            'status' => 'required',
+            // 'status' => 'required',
         ]);
 
         // Update data ujian

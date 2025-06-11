@@ -19,7 +19,7 @@
                 $table->enum('golongan_darah',["A","B","AB","O"]);
                 $table->integer('tb');
                 $table->integer('bb');
-                $table->string('riwayat_penyakit');
+                $table->string('riwayat_penyakit',50)->nullable();
                 $table->timestamps();
             });
         }
