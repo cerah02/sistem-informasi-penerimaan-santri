@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('santri_id')->constrained('santris')->onDelete('cascade');
             $table->date("tanggal_pendaftaran");
-            $table->enum("status",['diproses','diterima','ditolak']);
+            $table->enum("status",['proses','diterima','ditolak']);
             $table->timestamps();
         });
     }

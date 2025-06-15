@@ -802,11 +802,11 @@
 
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <textarea name="alamat" class="form-control @error('alamat') is-invalid @enderror" id="alamat"
-                                        placeholder="Alamat" style="height: 100px" required>{{ old('alamat', $santri->ortu->alamat ?? '') }}</textarea>
-                                    <label for="alamat"><i class="bi bi-house-door me-1 text-secondary"></i>Alamat
+                                    <textarea name="alamat_ortu" class="form-control @error('alamat_ortu') is-invalid @enderror" id="alamat_ortu"
+                                        placeholder="Alamat Orang Tua" style="height: 100px" required>{{ old('alamat_ortu', $santri->ortu->alamat_ortu ?? '') }}</textarea>
+                                    <label for="alamat_ortu"><i class="bi bi-house-door me-1 text-secondary"></i>Alamat
                                         Lengkap</label>
-                                    @error('alamat')
+                                    @error('alamat_ortu')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>

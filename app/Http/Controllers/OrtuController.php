@@ -111,7 +111,7 @@ class OrtuController extends Controller
             'pendidikan_ibu' => 'required',
             'pekerjaan_ibu' => 'required',
             'no_hp' => 'required',
-            'alamat' => 'required',
+            'alamat_ortu' => 'required',
         ]);
         Ortu::create($request->all());
         return redirect()->route('ortus.index')
@@ -161,7 +161,7 @@ class OrtuController extends Controller
             'pendidikan_ibu' => 'required',
             'pekerjaan_ibu' => 'required',
             'no_hp' => 'required',
-            'alamat' => 'required',
+            'alamat_ortu' => 'required',
         ]);
 
         $ortu->update($request->all());

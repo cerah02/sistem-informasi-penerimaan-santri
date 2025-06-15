@@ -19,9 +19,22 @@
                 </div>
             @endif
 
+            {{-- Tampilkan semua error di atas form --}}
+            @if ($errors->any())
+                <div class="alert alert-danger mx-3 mt-3">
+                    <h5><i class="bi bi-exclamation-triangle-fill me-2"></i> Terdapat kesalahan:</h5>
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="card-body">
+                {{-- Tambahkan novalidate untuk nonaktifkan validasi browser --}}
                 <form id="multiStepForm" action="{{ $santri ? route('santris.update') : route('santris.store') }}"
-                    method="POST" enctype="multipart/form-data">
+                    method="POST" enctype="multipart/form-data" novalidate>
                     @csrf
                     @if ($santri)
                         @method('PUT')
@@ -810,11 +823,12 @@
 
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <textarea name="alamat" class="form-control @error('alamat') is-invalid @enderror" id="alamat"
-                                        placeholder="Alamat" style="height: 100px" required>{{ old('alamat', $santri->ortu->alamat ?? '') }}</textarea>
-                                    <label for="alamat"><i class="bi bi-house-door me-1 text-secondary"></i>Alamat
+                                    <textarea name="alamat_ortu" class="form-control @error('alamat_ortu') is-invalid @enderror" id="alamat_ortu"
+                                        placeholder="Alamat Orang Tua" style="height: 100px" required>{{ old('alamat_ortu', $santri->ortu->alamat_ortu ?? '') }}</textarea>
+                                    <label for="alamat_ortu"><i class="bi bi-house-door me-1 text-secondary"></i>Alamat
+                                        Orang Tua
                                         Lengkap</label>
-                                    @error('alamat')
+                                    @error('alamat_ortu')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -997,14 +1011,14 @@
                             <!-- Nomor KIP -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" name="no_kip"
+                                    <input type="text" name="no_kip" maxlength="6"
                                         class="form-control @error('no_kip') is-invalid @enderror" id="no_kip"
                                         placeholder="Nomor KIP"
                                         value="{{ old('no_kip', $santri->bantuan->no_kip ?? '') }}">
                                     <label for="no_kip">
                                         <i class="bi bi-credit-card me-1 text-info"></i>Nomor KIP
                                     </label>
-                                    <small class="text-muted">Format: 0000 0000 0000 0000</small>
+                                    <small class="text-muted">Jika ada kartu kip mohon di isi</small>
                                     @error('no_kip')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -1028,35 +1042,20 @@
         </div>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                const lainnyaRadio = document.getElementById('tinggal_lainnya');
-                const lainnyaInputContainer = document.getElementById('lainnya_input_container');
-                const lainnyaInput = document.getElementById('lainnya_input');
-
-                // Show/hide the input field based on the "Lainnya" radio button selection
-                document.querySelectorAll('input[name="tempat_tinggal"]').forEach(radio => {
-                    radio.addEventListener('change', function() {
-                        if (radio.id === 'tinggal_lainnya' && radio.checked) {
-                            lainnyaInputContainer.style.display = 'block';
-                            lainnyaInput.required = true;
-                        } else {
-                            lainnyaInputContainer.style.display = 'none';
-                            lainnyaInput.value = '';
-                            lainnyaInput.required = false;
-                        }
-                    });
-                });
-            });
-
-            document.addEventListener('DOMContentLoaded', function() {
+                // Fungsi untuk menampilkan/menyembunyikan step
                 let currentStep = 1;
                 const totalSteps = 5;
+                const form = document.getElementById('multiStepForm');
 
                 function showStep(step) {
-                    document.querySelectorAll('.step').forEach(el => el.classList.add('d-none'));
+                    document.querySelectorAll('.step').forEach(el => {
+                        el.classList.add('d-none');
+                    });
                     const current = document.getElementById(`step-${step}`);
                     if (current) current.classList.remove('d-none');
                 }
 
+                // Navigasi step
                 document.querySelectorAll('.next-step').forEach(button => {
                     button.addEventListener('click', function() {
                         if (currentStep < totalSteps) {
@@ -1075,7 +1074,104 @@
                     });
                 });
 
+                // Auto-open step dengan error
+                const errorFields = @json($errors->keys());
+                const fieldStepMap = {
+                    // Step 1
+                    'nama': 1,
+                    'nisn': 1,
+                    'nik': 1,
+                    'asal_sekolah': 1,
+                    'jenis_kelamin': 1,
+                    'tempat_lahir': 1,
+                    'tanggal_lahir': 1,
+                    'kondisi': 1,
+                    'kondisi_ortu': 1,
+                    'status_dkluarga': 1,
+                    'tempat_tinggal': 1,
+                    'kewarganegaraan': 1,
+                    'anak_ke': 1,
+                    'jumlah_saudara': 1,
+                    'alamat': 1,
+                    'nomor_telpon': 1,
+                    'email': 1,
+                    'jenjang_pendidikan': 1,
+
+                    // Step 2
+                    'ijazah': 2,
+                    'akta_kelahiran': 2,
+                    'nilai_raport': 2,
+                    'skhun': 2,
+                    'foto': 2,
+                    'kk': 2,
+                    'ktp_ayah': 2,
+                    'ktp_ibu': 2,
+
+                    // Step 3
+                    'nama_ayah': 3,
+                    'pendidikan_ayah': 3,
+                    'pekerjaan_ayah': 3,
+                    'nama_ibu': 3,
+                    'pendidikan_ibu': 3,
+                    'pekerjaan_ibu': 3,
+                    'no_hp': 3,
+                    'alamat_ortu': 3,
+
+                    // Step 4
+                    'golongan_darah': 4,
+                    'tb': 4,
+                    'bb': 4,
+                    'riwayat_penyakit': 4,
+
+                    // Step 5
+                    'nama_bantuan': 5,
+                    'tingkat': 5,
+                    'no_kip': 5
+                };
+
+                if (errorFields.length > 0) {
+                    const firstErrorField = errorFields[0];
+                    if (fieldStepMap.hasOwnProperty(firstErrorField)) {
+                        currentStep = fieldStepMap[firstErrorField];
+                    }
+                }
+
                 showStep(currentStep);
+
+                // Validasi file sebelum submit
+                form.addEventListener('submit', function(e) {
+                    let isValid = true;
+                    const fileInputs = form.querySelectorAll('input[type="file"]');
+
+                    fileInputs.forEach(input => {
+                        if (input.hasAttribute('required') && !input.files.length) {
+                            isValid = false;
+                            // Buka step 2 jika ada file yang wajib diisi
+                            currentStep = 2;
+                            showStep(currentStep);
+
+                            // Tambahkan kelas error
+                            input.classList.add('is-invalid');
+                            if (!input.nextElementSibling || !input.nextElementSibling.classList
+                                .contains('invalid-feedback')) {
+                                const errorDiv = document.createElement('div');
+                                errorDiv.className = 'invalid-feedback';
+                                errorDiv.textContent = 'File ini wajib diupload';
+                                input.parentNode.appendChild(errorDiv);
+                            }
+                        }
+                    });
+
+                    if (!isValid) {
+                        e.preventDefault();
+                    }
+                });
+
+                // Tempat tinggal lainnya
+                document.getElementById('tempat_tinggal').addEventListener('change', function() {
+                    const container = document.getElementById('lainnya_input_container');
+                    container.style.display = this.value === 'Lainnya' ? 'block' : 'none';
+                });
             });
         </script>
         <style>

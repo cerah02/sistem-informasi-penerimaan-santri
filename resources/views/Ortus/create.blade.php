@@ -118,9 +118,9 @@
 
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <textarea name="alamat" class="form-control" id="alamat" placeholder="Alamat Lengkap" style="height: 100px"
-                                    required>{{ old('alamat') }}</textarea>
-                                <label for="alamat">
+                                <textarea name="alamat_ortu" class="form-control" id="alamat_ortu" placeholder="Alamat Orang Tua" style="height: 100px"
+                                    required>{{ old('alamat_ortu') }}</textarea>
+                                <label for="alamat_ortu">
                                     <i class="bi bi-house-door me-1 text-secondary"></i>Alamat Lengkap
                                 </label>
                             </div>

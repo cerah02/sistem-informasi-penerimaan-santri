@@ -34,57 +34,6 @@ class JawabanController extends Controller
         return view('jawabans.index', compact('jawabans'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
-    //     public function index(Request $request)
-    //     {
-    //         if ($request->ajax()) {
-    //             $query_data = new Jawaban();
-
-    //             if ($request->sSearch) {
-    //                 $search_value = '%' . $request->sSearch . '%';
-    //                 $query_data = $query_data->where(function ($query) use ($search_value) {
-    //                     $query->where('santri_id', 'like', $search_value)
-    //                         ->orwhere('soals', 'like', $search_value)
-    //                         ->orwhere('status_jawaban', 'like', $search_value);
-    //                 });
-    //             }
-    //             $data = $query_data->with(['santri', 'soal'])->orderBy('santri_id', 'asc')->get();
-    //             return DataTables::of($data)
-    //                 ->addIndexColumn()
-    //                 ->addColumn('nama_santri', function ($row) {
-    //                     return $row->santri->nama ?? '-'; // sesuaikan nama kolom
-    //                 })
-    //                 ->addColumn('pertanyaan', function ($row) {
-    //                     return $row->soal->pertanyaan ?? '-'; // sesuaikan nama kolom
-    //                 })
-    //                 ->addColumn('aksi', function ($row) {
-    //                     $btn = '';
-
-    //                     // Cek permission 'view santri'
-    //                     if (auth()->user()->can('jawaban-show')) {
-    //                         $btn .= '<a class="btn btn-info" href="' . route('jawabans.show', $row->id) . '">Show</a> ';
-    //                     }
-
-    //                     // Cek permission 'edit jawaban'
-    //                     if (auth()->user()->can('jawaban-edit')) {
-    //                         $btn .= '<a class="btn btn-primary" href="' . route('jawabans.edit', $row->id) . '">Edit</a> ';
-    //                     }
-
-    //                     // Cek permission 'delete jawaban'
-    //                     if (auth()->user()->can('jawaban-delete')) {
-    //                         $btn .= '
-    //                         <button type="button" class="btn btn-danger btn-delete" data-id="' . $row->id . '">Hapus</button>
-    //                         <form id="delete-form-' . $row->id . '" action="' . route('jawabans.destroy', $row->id) . '" method="POST" style="display: none;">
-    //     ' . csrf_field() . method_field('DELETE') . '
-    // </form>';
-    //                     }
-
-    //                     return $btn;
-    //                 })
-    //                 ->rawColumns(['aksi'])
-    //                 ->make(true);
-    //         }
-    //         return view('jawabans.index');
-    //     }
 
     public function index(Request $request)
     {

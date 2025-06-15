@@ -105,8 +105,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label text-muted small mb-1">Alamat Lengkap</label>
-                                <div class="h5">{{ $ortu->alamat }}</div>
+                                <label class="form-label text-muted small mb-1">Alamat Orang Tua</label>
+                                <div class="h5">{{ $ortu->alamat_ortu }}</div>
                             </div>
                         </div>
                     </div>

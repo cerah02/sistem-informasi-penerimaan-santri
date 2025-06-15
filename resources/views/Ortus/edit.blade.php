@@ -86,8 +86,8 @@
                 </div>
                 <div class="col-12">
                     <div class="form-group">
-                        <label for="alamat" class="form-label"><strong>Alamat:</strong></label>
-                        <textarea name="alamat" class="form-control" placeholder="Masukkan Alamat" id="alamat" rows="3">{{ $ortu->alamat }}</textarea>
+                        <label for="alamat_ortu" class="form-label"><strong>Alamat:</strong></label>
+                        <textarea name="alamat_ortu" class="form-control" placeholder="Masukkan Alamat Orang Tua" id="alamat_ortu" rows="3">{{ $ortu->alamat_ortu}}</textarea>
                     </div>
                 </div>
                 <div class="col-12 text-center">

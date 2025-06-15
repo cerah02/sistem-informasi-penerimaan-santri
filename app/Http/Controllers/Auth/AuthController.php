@@ -255,7 +255,7 @@ class AuthController extends Controller
                     $santri->ortu->pendidikan_ibu &&
                     $santri->ortu->pekerjaan_ibu &&
                     $santri->ortu->no_hp &&
-                    $santri->ortu->alamat ? 'Lengkap' : 'Tidak Lengkap';
+                    $santri->ortu->alamat_ortu? 'Lengkap' : 'Tidak Lengkap';
 
                 // Mengecek kelengkapan data dari tabel dokumen
                 $dokumen_complete = $santri->dokumen &&
@@ -271,8 +271,7 @@ class AuthController extends Controller
                 $kesehatan_complete = $santri->kesehatan &&
                     $santri->kesehatan->golongan_darah &&
                     $santri->kesehatan->tb !== null &&
-                    $santri->kesehatan->bb !== null &&
-                    $santri->kesehatan->riwayat_penyakit ? 'Lengkap' : 'Tidak Lengkap';
+                    $santri->kesehatan->bb !== null ? 'Lengkap' : 'Tidak Lengkap';
 
                 // Mengecek kelengkapan data dari tabel bantuan
                 $bantuan_complete = $santri->bantuan &&

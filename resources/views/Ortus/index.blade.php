@@ -91,8 +91,8 @@
                         name: 'no_hp'
                     },
                     {
-                        data: 'alamat',
-                        name: 'alamat'
+                        data: 'alamat_ortu',
+                        name: 'alamat_ortu'
                     },
                     {
                         data: 'aksi',

@@ -34,46 +34,46 @@ class BantuanController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->ajax()){
+        if ($request->ajax()) {
             $query_data = Bantuan::with('santri');
 
-            if($request->sSearch){
-                $search_value ='%'.$request->sSearch.'%';
-                $query_data=$query_data->where(function($query)use ($search_value) {
-                    $query->where('santri_id','like', $search_value);
+            if ($request->sSearch) {
+                $search_value = '%' . $request->sSearch . '%';
+                $query_data = $query_data->where(function ($query) use ($search_value) {
+                    $query->where('santri_id', 'like', $search_value);
                 });
             }
-            $data = $query_data->orderBy('santri_id','asc')->get();
+            $data = $query_data->orderBy('santri_id', 'asc')->get();
             return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('nama_santri', function ($row) {
-                return $row->santri->nama ?? '-'; // sesuaikan nama kolom
-            })
-            ->addColumn('aksi', function ($row) {
-                $btn = '';
-            
-                
-                if (auth()->user()->can('bantuan-show')) {
-                    $btn .= '<a class="btn btn-info" href="' . route('bantuans.show', $row->id) . '">Show</a> ';
-                }
-            
-            
-                if (auth()->user()->can('bantuan-edit')) {
-                    $btn .= '<a class="btn btn-primary" href="' . route('bantuans.edit', $row->id) . '">Edit</a> ';
-                }
-            
-                if (auth()->user()->can('bantuan-delete')) {
-                    $btn .= '
+                ->addIndexColumn()
+                ->addColumn('nama_santri', function ($row) {
+                    return $row->santri->nama ?? '-'; // sesuaikan nama kolom
+                })
+                ->addColumn('aksi', function ($row) {
+                    $btn = '';
+
+
+                    if (auth()->user()->can('bantuan-show')) {
+                        $btn .= '<a class="btn btn-info" href="' . route('bantuans.show', $row->id) . '">Show</a> ';
+                    }
+
+
+                    if (auth()->user()->can('bantuan-edit')) {
+                        $btn .= '<a class="btn btn-primary" href="' . route('bantuans.edit', $row->id) . '">Edit</a> ';
+                    }
+
+                    if (auth()->user()->can('bantuan-delete')) {
+                        $btn .= '
                     <form action="' . route('bantuans.destroy', $row->id) . '" method="POST" style="display:inline;">
                         ' . csrf_field() . method_field('DELETE') . '
                         <button type="submit" class="btn btn-danger">Hapus</button>
                     </form>';
-                }
-            
-                return $btn;
-            })
-            ->rawColumns(['aksi'])
-            ->make(true);
+                    }
+
+                    return $btn;
+                })
+                ->rawColumns(['aksi'])
+                ->make(true);
         }
         return view('bantuans.index');
     }
@@ -101,12 +101,12 @@ class BantuanController extends Controller
         $request->validate([
             'santri_id' => 'required',
             'nama_bantuan' => 'required',
-            'tingkat' =>'required',
+            'tingkat' => 'required',
             'no_kip' => 'required',
-            ]);
-            Bantuan::create($request->all());
-            return redirect()->route('bantuans.index')
-            ->with('success','Data Riwayat Bantuan Berhasil Disimpan.');
+        ]);
+        Bantuan::create($request->all());
+        return redirect()->route('bantuans.index')
+            ->with('success', 'Data Riwayat Bantuan Berhasil Disimpan.');
     }
 
     /**
@@ -118,7 +118,7 @@ class BantuanController extends Controller
     public function show(Bantuan $bantuan)
     {
         //
-        return view('bantuans.show',compact('bantuan'));
+        return view('bantuans.show', compact('bantuan'));
     }
 
     /**
@@ -130,8 +130,7 @@ class BantuanController extends Controller
     public function edit(Bantuan $bantuan)
     {
         //
-        return view('bantuans.edit',compact('bantuan'));
-
+        return view('bantuans.edit', compact('bantuan'));
     }
 
     /**
@@ -143,16 +142,18 @@ class BantuanController extends Controller
      */
     public function update(Request $request, Bantuan $bantuan)
     {
-        //
         $request->validate([
             'santri_id' => 'required',
             'nama_bantuan' => 'required',
             'tingkat' => 'required',
-            'no_kip'=> 'required',
-            ]);
-            Bantuan::create($request->all());
-            return redirect()->route('bantuans.index')
-            ->with('success','Data Riwayat Bantuan Berhasil Disimpan.');
+            'no_kip' => 'required',
+        ]);
+
+        // Gunakan instance $bantuan, bukan static call
+        $bantuan->update($request->all());
+
+        return redirect()->route('bantuans.index')
+            ->with('success', 'Data Riwayat Bantuan Berhasil Diperbarui.');
     }
 
     /**
@@ -166,6 +167,6 @@ class BantuanController extends Controller
         //
         $bantuan->delete();
         return redirect()->route('bantuans.index')
-        ->with('success','Data Riwayat Bantuan Berhasil Dihapus');
+            ->with('success', 'Data Riwayat Bantuan Berhasil Dihapus');
     }
 }
