@@ -72,7 +72,11 @@ class PendaftaranController extends Controller
                     }
 
                     if (auth()->user()->can('pendaftaran-edit')) {
-                        $btn .= '<a class="btn btn-primary" href="' . route('pendaftarans.edit', $row->id) . '">Edit</a> ';
+                        $btn .= '<button class="btn btn-warning verifikasi-btn"
+                    data-id="' . $row->id . '"
+                    data-status="' . $row->status . '">
+                Verifikasi
+            </button> ';
                     }
 
                     if (auth()->user()->can('pendaftaran-delete')) {
@@ -568,5 +572,18 @@ class PendaftaranController extends Controller
         $pendaftaran->delete();
         return redirect()->route('pendaftarans.index')
             ->with('success', 'Data Pendaftaran Berhasil Dihapus');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:proses,diterima,ditolak'
+        ]);
+
+        $pendaftaran = Pendaftaran::findOrFail($id);
+        $pendaftaran->status = $request->status;
+        $pendaftaran->save();
+
+        return response()->json(['message' => 'Status berhasil diperbarui']);
     }
 }

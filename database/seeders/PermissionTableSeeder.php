@@ -16,7 +16,6 @@ class PermissionTableSeeder extends Seeder
     {
         //
         $permissions = [
-            'dashboard',
             'role-list',
             'role-create',
             'role-edit',
@@ -38,9 +37,6 @@ class PermissionTableSeeder extends Seeder
             'soal-show',
             'soal-delete',
             'jawaban-list',
-            'jawaban-create',
-            'jawaban-edit',
-            'jawaban-show',
             'jawaban-delete',
             'hasil-list',
             'hasil-create',

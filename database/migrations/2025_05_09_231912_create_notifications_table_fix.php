@@ -16,9 +16,11 @@ return new class extends Migration
         Schema::dropIfExists('notifications');
 
         Schema::create('notifications', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->string('type');
-            $table->morphs('notifiable'); // membuat kolom notifiable_type dan notifiable_id
+            $table->string('id',36)->primary();
+            $table->string('type',100);
+            $table->string('notifiable_type',100);
+            $table->unsignedBigInteger('notifiable_id');
+            $table->index(['notifiable_type', 'notifiable_id']);
             $table->text('data');
             $table->timestamp('read_at')->nullable();
             $table->timestamps();

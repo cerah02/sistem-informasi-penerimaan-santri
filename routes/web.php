@@ -98,6 +98,7 @@ Route::post('admin_pendaftaran_santri_simpan', [PendaftaranController::class, 'a
 Route::post('/hapus-jawaban-dari-hasil', [JawabanController::class, 'hapusDariTabelHasil'])->name('hapus.jawaban.dari.hasil');
 Route::get('/jawabans', [JawabanController::class, 'index'])->name('jawabans.index');
 Route::get('/jawabans/detail', [JawabanController::class, 'detail'])->name('jawabans.detail');
+Route::post('/pendaftarans/{id}/update-status', [PendaftaranController::class, 'updateStatus'])->name('pendaftarans.updateStatus');
 
 /*
 |--------------------------------------------------------------------------

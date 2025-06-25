@@ -326,7 +326,8 @@ class AuthController extends Controller
         ]);
         $santri = Santri::create([
             'user_id' => $user->id,
-            'nama' => $user->name
+            'nama' => $user->name,
+            'email' => $user->email
         ]);
         $role = Role::where('name', '=', 'Santri')->orWhere('name', '=', 'santri')->first();
         $user->assignRole([$role->id]);

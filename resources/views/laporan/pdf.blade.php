@@ -142,12 +142,23 @@
     </table>
 
     <!-- Footer -->
+    @php
+        $ttdPath = public_path('landing_assets/img/tanda_tangan.png');
+        $ttd = file_exists($ttdPath) ? base64_encode(file_get_contents($ttdPath)) : null;
+    @endphp
+
     <div class="footer">
         <p>Muara Baru, {{ date('d F Y') }}</p>
-        <br><br><br>
+
+        @if ($ttd)
+            <img src="data:image/png;base64,{{ $ttd }}" alt="Tanda Tangan"
+                style="height: 80px; margin-bottom: -20px;">
+        @else
+            <p><em>Tanda tangan belum tersedia</em></p>
+        @endif
+
         <p>_________________________</p>
         <p>Pimpinan Pondok</p>
     </div>
-</body>
 
 </html>

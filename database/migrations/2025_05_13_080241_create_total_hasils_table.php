@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('total_hasils', function (Blueprint $table) {
             $table->id();
             $table->foreignId('santri_id')->unique()->constrained('santris')->onDelete('cascade');
-            $table->float('rata_rata',3,2);
+            $table->float('rata_rata',5,2);
             $table->enum('status',['Lulus','Tidak Lulus']);
             $table->timestamps();
         });

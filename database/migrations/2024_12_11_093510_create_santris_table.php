@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('kewarganegaraan',30)->nullable();
             $table->string('anak_ke',2)->nullable();
             $table->string("jumlah_saudara",2)->nullable();
-            $table->string("alamat")->nullable();
+            $table->string("alamat",50)->nullable();
             $table->bigInteger("nomor_telpon")->nullable();
             $table->string("email",50)->nullable();
             $table->enum("jenjang_pendidikan",["SD","MTS","MA"])->nullable();

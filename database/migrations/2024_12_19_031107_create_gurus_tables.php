@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger("nip")->nullable();
             $table->enum("jenis_kelamin",['Laki-laki','Perempuan']);
             $table->string("ttl",30);
-            $table->string("alamat");
+            $table->string("alamat",50);
             $table->bigInteger("no_telpon");
             $table->string("email",50);
             $table->string("foto",150);

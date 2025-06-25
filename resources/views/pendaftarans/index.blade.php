@@ -8,7 +8,7 @@
                 @can('pendaftaran-create')
                     <div class="col-sm-3">
                         <div class="btn-group float-sm-right">
-                            <a class="btn btn-success waves-effect waves-light" href="{{ route('santri_pendaftaran_view') }}">
+                            <a class="btn btn-success waves-effect waves-light" href="{{ route('admin_pendaftaran_santri_view') }}">
                                 <i class="fa fa-plus mr-1"></i> Tambah Data
                             </a>
                         </div>
@@ -47,7 +47,23 @@
                                 </thead>
                             </table>
                         </div>
+                    </div>
 
+                    <div class="modal fade" id="verifikasiModal" tabindex="-1" role="dialog"
+                        aria-labelledby="verifikasiModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content animate__animated animate__fadeInDown">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title">Verifikasi Status Pendaftaran</h5>
+                                    <button type="button" class="close text-white"
+                                        data-dismiss="modal"><span>&times;</span></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <p>Silakan pilih status baru:</p>
+                                    <div id="verifikasiButtons"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -58,13 +74,14 @@
     @push('scripts')
         <script>
             $(document).ready(function() {
+                // DataTable tetap
                 $('#pendaftaranTable').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: {
                         url: "{{ route('pendaftarans.index') }}",
                         data: function(d) {
-                            d.status = "{{ request('status') }}"; // Ambil parameter status dari URL
+                            d.status = "{{ request('status') }}";
                         }
                     },
                     language: {
@@ -91,21 +108,12 @@
                             name: 'status',
                             className: 'text-center',
                             render: function(data) {
-                                let badgeClass = 'badge-secondary';
-                                let style = 'color: dark';
-
-                                if (data === 'diterima') {
-                                    badgeClass = 'badge-success';
-                                    style = 'color: green';
-                                } else if (data === 'proses') {
-                                    badgeClass = 'badge-warning';
-                                    style = 'color: yellow'; // agar tulisan tidak putih
-                                } else if (data === 'ditolak') {
-                                    badgeClass = 'badge-danger';
-                                    style = 'color: red';
-                                }
-
-                                return `<span class="badge ${badgeClass}" style="${style}">${data}</span>`;
+                                let badgeClass = {
+                                    diterima: 'text-dark',
+                                    proses: 'text-dark',
+                                    ditolak: 'text-dark'
+                                } [data] || 'badge-secondary';
+                                return `<span class="badge ${badgeClass}">${data}</span>`;
                             }
                         },
                         {
@@ -118,6 +126,95 @@
                     ]
                 });
             });
+
+            // Tampilkan modal
+            $(document).on('click', '.verifikasi-btn', function() {
+                const id = $(this).data('id');
+                const currentStatus = $(this).data('status');
+
+                let statuses = [];
+
+                if (currentStatus === 'proses') {
+                    statuses = ['diterima', 'ditolak'];
+                } else if (currentStatus === 'diterima') {
+                    statuses = ['proses', 'ditolak'];
+                } else if (currentStatus === 'ditolak') {
+                    statuses = ['proses', 'diterima'];
+                }
+
+                let buttons = statuses.map(status => {
+                    let btnClass = {
+                        proses: 'btn-warning',
+                        diterima: 'btn-success',
+                        ditolak: 'btn-danger'
+                    } [status];
+
+                    return `
+                <button class="btn ${btnClass} m-1 ubah-status" data-id="${id}" data-status="${status}">
+                    <span class="btn-text">${status.charAt(0).toUpperCase() + status.slice(1)}</span>
+                    <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                </button>`;
+                }).join('');
+
+                $('#verifikasiButtons').html(buttons);
+                $('#verifikasiModal').modal('show');
+            });
+
+            // Update status dengan AJAX
+            $(document).on('click', '.ubah-status', function() {
+                const $btn = $(this);
+                const id = $btn.data('id');
+                const status = $btn.data('status');
+
+                // Spinner loading
+                $btn.prop('disabled', true);
+                $btn.find('.btn-text').addClass('d-none');
+                $btn.find('.spinner-border').removeClass('d-none');
+
+                $.ajax({
+                    url: `/pendaftarans/${id}/update-status`,
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        status: status
+                    },
+                    success: function() {
+                        $('#verifikasiModal').modal('hide');
+                        $('#pendaftaranTable').DataTable().ajax.reload();
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: `Status diubah menjadi "${status}"`,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: 'Terjadi kesalahan, coba lagi.',
+                        });
+                    },
+                    complete: function() {
+                        $btn.prop('disabled', false);
+                        $btn.find('.btn-text').removeClass('d-none');
+                        $btn.find('.spinner-border').addClass('d-none');
+                    }
+                });
+            });
         </script>
     @endpush
+
+    <style>
+        .modal.fade .modal-dialog {
+            transform: translate(0, -50px);
+            transition: transform 0.3s ease-out;
+        }
+
+        .modal.show .modal-dialog {
+            transform: translate(0, 0);
+        }
+    </style>
 @endsection

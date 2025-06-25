@@ -20,8 +20,8 @@
             @endif
 
             <div class="card-body">
-                <form id="multiStepForm" action="{{ route('admin_pendaftaran_santri_simpan') }}"
-                    method="POST" enctype="multipart/form-data">
+                <form id="multiStepForm" action="{{ route('admin_pendaftaran_santri_simpan') }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     <!-- Step 1: Data Diri Santri -->
                     <div class="step" id="step-1">
@@ -47,7 +47,9 @@
                                 <div class="form-floating">
                                     <input type="text" id="nisn" name="nisn"
                                         class="form-control @error('nisn') is-invalid @enderror"
-                                        value="{{ old('nisn', $santri->nisn ?? '') }}" placeholder="NISN" required>
+                                        value="{{ old('nisn', $santri->nisn ?? '') }}" placeholder="NISN" required
+                                        maxlength="10" pattern="\d{10}" inputmode="numeric"
+                                        oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)">
                                     <label for="nisn">NISN</label>
                                     @error('nisn')
                                         <div class="invalid-feedback">
@@ -61,7 +63,9 @@
                                 <div class="form-floating">
                                     <input type="text" id="nik" name="nik"
                                         class="form-control @error('nik') is-invalid @enderror"
-                                        value="{{ old('nik', $santri->nik ?? '') }}" placeholder="NIK" required>
+                                        value="{{ old('nik', $santri->nik ?? '') }}" placeholder="NIK" required
+                                        maxlength="16" pattern="\d{16}" inputmode="numeric"
+                                        oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,16)">
                                     <label for="nik">NIK</label>
                                     @error('nik')
                                         <div class="invalid-feedback">
@@ -87,31 +91,7 @@
                             </div>
 
                             <!-- Gender and Birth Information -->
-                            <div class="col-md-6">
-                                <label class="form-label">Jenis Kelamin</label>
-                                <div class="btn-group w-100" role="group">
-                                    <input type="radio" class="btn-check" id="jenis_kelamin_laki" name="jenis_kelamin"
-                                        value="laki-laki"
-                                        {{ old('jenis_kelamin', $santri->jenis_kelamin ?? '') == 'laki-laki' ? 'checked' : '' }}
-                                        required>
-                                    <label class="btn btn-outline-primary" for="jenis_kelamin_laki">
-                                        <i class="bi bi-gender-male me-1"></i> Laki-laki
-                                    </label>
 
-                                    <input type="radio" class="btn-check" id="jenis_kelamin_perempuan"
-                                        name="jenis_kelamin" value="perempuan"
-                                        {{ old('jenis_kelamin', $santri->jenis_kelamin ?? '') == 'perempuan' ? 'checked' : '' }}
-                                        required>
-                                    <label class="btn btn-outline-primary" for="jenis_kelamin_perempuan">
-                                        <i class="bi bi-gender-female me-1"></i> Perempuan
-                                    </label>
-                                </div>
-                                @error('jenis_kelamin')
-                                    <div class="text-danger small mt-1">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
 
                             <div class="col-md-6">
                                 <div class="form-floating">
@@ -142,7 +122,32 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Jenis Kelamin</label>
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" id="jenis_kelamin_laki" name="jenis_kelamin"
+                                        value="laki-laki"
+                                        {{ old('jenis_kelamin', $santri->jenis_kelamin ?? '') == 'laki-laki' ? 'checked' : '' }}
+                                        required>
+                                    <label class="btn btn-outline-primary" for="jenis_kelamin_laki">
+                                        <i class="bi bi-gender-male me-1"></i> Laki-laki
+                                    </label>
 
+                                    <input type="radio" class="btn-check" id="jenis_kelamin_perempuan"
+                                        name="jenis_kelamin" value="perempuan"
+                                        {{ old('jenis_kelamin', $santri->jenis_kelamin ?? '') == 'perempuan' ? 'checked' : '' }}
+                                        required>
+                                    <label class="btn btn-outline-primary" for="jenis_kelamin_perempuan">
+                                        <i class="bi bi-gender-female me-1"></i> Perempuan
+                                    </label>
+                                </div>
+                                @error('jenis_kelamin')
+                                    <div class="text-danger small mt-1">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            
                             <!-- Status Information -->
                             <div class="col-md-6">
                                 <label class="form-label">Kondisi Ekonomi</label>
@@ -278,7 +283,8 @@
                                     <input type="number" id="anak_ke" name="anak_ke"
                                         class="form-control @error('anak_ke') is-invalid @enderror"
                                         value="{{ old('anak_ke', $santri->anak_ke ?? '') }}" placeholder="Anak Ke-"
-                                        required>
+                                        required min="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                        inputmode="numeric">
                                     <label for="anak_ke">Anak Ke-</label>
                                     @error('anak_ke')
                                         <div class="invalid-feedback">
@@ -293,7 +299,8 @@
                                     <input type="number" id="jumlah_saudara" name="jumlah_saudara"
                                         class="form-control @error('jumlah_saudara') is-invalid @enderror"
                                         value="{{ old('jumlah_saudara', $santri->jumlah_saudara ?? '') }}"
-                                        placeholder="Jumlah Saudara" required>
+                                        placeholder="Jumlah Saudara" required min="1"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" inputmode="numeric">
                                     <label for="jumlah_saudara">Jumlah Saudara</label>
                                     @error('jumlah_saudara')
                                         <div class="invalid-feedback">
@@ -320,9 +327,9 @@
                                 <div class="form-floating">
                                     <input type="tel" id="nomor_telpon" name="nomor_telpon"
                                         class="form-control @error('nomor_telpon') is-invalid @enderror"
-                                        {{-- pattern="^\+?[0-9]{1,4}?[-. \(\)]?([0-9]{1,3})?[-. ]?[0-9]{1,4}[-. ]?[0-9]{1,4}$" --}}
                                         value="{{ old('nomor_telpon', $santri->nomor_telpon ?? '') }}"
-                                        placeholder="Nomor Telepon" required>
+                                        placeholder="Nomor Telepon"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                                     <label for="nomor_telpon">Nomor Telepon</label>
                                     @error('nomor_telpon')
                                         <div class="invalid-feedback">
@@ -703,41 +710,6 @@
 
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" name="pendidikan_ayah"
-                                        class="form-control @error('pendidikan_ayah') is-invalid @enderror"
-                                        id="pendidikan_ayah" placeholder="Pendidikan Ayah"
-                                        value="{{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') }}"
-                                        required>
-                                    <label for="pendidikan_ayah"><i
-                                            class="bi bi-mortarboard me-1 text-info"></i>Pendidikan
-                                        Terakhir</label>
-                                    @error('pendidikan_ayah')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" name="pekerjaan_ayah"
-                                        class="form-control @error('pekerjaan_ayah') is-invalid @enderror"
-                                        id="pekerjaan_ayah" placeholder="Pekerjaan Ayah"
-                                        value="{{ old('pekerjaan_ayah', $santri->ortu->pekerjaan_ayah ?? '') }}" required>
-                                    <label for="pekerjaan_ayah"><i
-                                            class="bi bi-briefcase me-1 text-success"></i>Pekerjaan</label>
-                                    @error('pekerjaan_ayah')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <!-- Data Ibu -->
-                            <div class="col-md-6">
-                                <div class="form-floating">
                                     <input type="text" name="nama_ibu"
                                         class="form-control @error('nama_ibu') is-invalid @enderror" id="nama_ibu"
                                         placeholder="Nama Ibu"
@@ -753,14 +725,113 @@
                             </div>
 
                             <div class="col-md-6">
+                                <label for="pendidikan_ayah" class="form-label">Pendidikan Terakhir Ayah</label>
+                                <select class="form-select @error('pendidikan_ayah') is-invalid @enderror"
+                                    name="pendidikan_ayah" id="pendidikan_ayah" required>
+                                    <option value="">Pilih Pendidikan Terakhir Ayah</option>
+                                    <option value="Tidak Sekolah"
+                                        {{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') == 'Tidak Sekolah' ? 'selected' : '' }}>
+                                        Tidak Sekolah</option>
+                                    <option value="PAUD"
+                                        {{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') == 'PAUD' ? 'selected' : '' }}>
+                                        PAUD</option>
+                                    <option value="TK/RA"
+                                        {{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') == 'TK/RA' ? 'selected' : '' }}>
+                                        TK/RA</option>
+                                    <option value="SD/Sederajat"
+                                        {{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') == 'SD/Sederajat' ? 'selected' : '' }}>
+                                        SD / MI / Sederajat</option>
+                                    <option value="SMP/Sederajat"
+                                        {{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') == 'SMP/Sederajat' ? 'selected' : '' }}>
+                                        SMP / MTs / Sederajat</option>
+                                    <option value="SMA/Sederajat"
+                                        {{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') == 'SMA/Sederajat' ? 'selected' : '' }}>
+                                        SMA / MA / SMK / Sederajat</option>
+                                    <option value="Diploma I"
+                                        {{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') == 'Diploma I' ? 'selected' : '' }}>
+                                        D1 / Sederajat</option>
+                                    <option value="Diploma II"
+                                        {{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') == 'Diploma II' ? 'selected' : '' }}>
+                                        D2 / Sederajat</option>
+                                    <option value="Diploma III"
+                                        {{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') == 'Diploma III' ? 'selected' : '' }}>
+                                        D3 / Sederajat</option>
+                                    <option value="Strata I"
+                                        {{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') == 'Strata I' ? 'selected' : '' }}>
+                                        S1 / D4</option>
+                                    <option value="Strata II"
+                                        {{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') == 'Strata II' ? 'selected' : '' }}>
+                                        S2</option>
+                                    <option value="Strata III"
+                                        {{ old('pendidikan_ayah', $santri->ortu->pendidikan_ayah ?? '') == 'Strata III' ? 'selected' : '' }}>
+                                        S3</option>
+                                </select>
+                                @error('pendidikan_ayah')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="pendidikan_ibu" class="form-label">Pendidikan Terakhir Ibu</label>
+                                <select class="form-select @error('pendidikan_ibu') is-invalid @enderror"
+                                    name="pendidikan_ibu" id="pendidikan_ibu" required>
+                                    <option value="">Pilih Pendidikan Terakhir Ibu</option>
+                                    <option value="Tidak Sekolah"
+                                        {{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') == 'Tidak Sekolah' ? 'selected' : '' }}>
+                                        Tidak Sekolah</option>
+                                    <option value="PAUD"
+                                        {{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') == 'PAUD' ? 'selected' : '' }}>
+                                        PAUD</option>
+                                    <option value="TK/RA"
+                                        {{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') == 'TK/RA' ? 'selected' : '' }}>
+                                        TK/RA</option>
+                                    <option value="SD/Sederajat"
+                                        {{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') == 'SD/Sederajat' ? 'selected' : '' }}>
+                                        SD / MI / Sederajat</option>
+                                    <option value="SMP/Sederajat"
+                                        {{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') == 'SMP/Sederajat' ? 'selected' : '' }}>
+                                        SMP / MTs / Sederajat</option>
+                                    <option value="SMA/Sederajat"
+                                        {{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') == 'SMA/Sederajat' ? 'selected' : '' }}>
+                                        SMA / MA / SMK / Sederajat</option>
+                                    <option value="Diploma I"
+                                        {{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') == 'Diploma I' ? 'selected' : '' }}>
+                                        D1 / Sederajat</option>
+                                    <option value="Diploma II"
+                                        {{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') == 'Diploma II' ? 'selected' : '' }}>
+                                        D2 / Sederajat</option>
+                                    <option value="Diploma III"
+                                        {{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') == 'Diploma III' ? 'selected' : '' }}>
+                                        D3 / Sederajat</option>
+                                    <option value="Strata I"
+                                        {{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') == 'Strata I' ? 'selected' : '' }}>
+                                        S1 / D4</option>
+                                    <option value="Strata II"
+                                        {{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') == 'Strata II' ? 'selected' : '' }}>
+                                        S2</option>
+                                    <option value="Strata III"
+                                        {{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') == 'Strata III' ? 'selected' : '' }}>
+                                        S3</option>
+                                </select>
+                                @error('pendidikan_ibu')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" name="pendidikan_ibu"
-                                        class="form-control @error('pendidikan_ibu') is-invalid @enderror"
-                                        id="pendidikan_ibu" placeholder="Pendidikan Ibu"
-                                        value="{{ old('pendidikan_ibu', $santri->ortu->pendidikan_ibu ?? '') }}" required>
-                                    <label for="pendidikan_ibu"><i class="bi bi-mortarboard me-1 text-info"></i>Pendidikan
-                                        Terakhir</label>
-                                    @error('pendidikan_ibu')
+                                    <input type="text" name="pekerjaan_ayah"
+                                        class="form-control @error('pekerjaan_ayah') is-invalid @enderror"
+                                        id="pekerjaan_ayah" placeholder="Pekerjaan Ayah"
+                                        value="{{ old('pekerjaan_ayah', $santri->ortu->pekerjaan_ayah ?? '') }}"
+                                        required>
+                                    <label for="pekerjaan_ayah"><i class="bi bi-briefcase me-1 text-success"></i>Pekerjaan
+                                        Ayah</label>
+                                    @error('pekerjaan_ayah')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -768,14 +839,15 @@
                                 </div>
                             </div>
 
+                            <!-- Data Ibu -->
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="text" name="pekerjaan_ibu"
                                         class="form-control @error('pekerjaan_ibu') is-invalid @enderror"
                                         id="pekerjaan_ibu" placeholder="Pekerjaan Ibu"
                                         value="{{ old('pekerjaan_ibu', $santri->ortu->pekerjaan_ibu ?? '') }}" required>
-                                    <label for="pekerjaan_ibu"><i
-                                            class="bi bi-briefcase me-1 text-success"></i>Pekerjaan</label>
+                                    <label for="pekerjaan_ibu"><i class="bi bi-briefcase me-1 text-success"></i>Pekerjaan
+                                        Ibu</label>
                                     @error('pekerjaan_ibu')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -790,7 +862,8 @@
                                     <input type="tel" name="no_hp"
                                         class="form-control @error('no_hp') is-invalid @enderror" id="no_hp"
                                         placeholder="Nomor HP" {{-- pattern="^\+?[0-9]{1,4}?[-. \(\)]?([0-9]{1,3})?[-. ]?[0-9]{1,4}[-. ]?[0-9]{1,4}$" --}}
-                                        value="{{ old('no_hp', $santri->ortu->no_hp ?? '') }}" required>
+                                        value="{{ old('no_hp', $santri->ortu->no_hp ?? '') }}"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                                     <label for="no_hp"><i class="bi bi-phone me-1 text-warning"></i>Nomor HP</label>
                                     @error('no_hp')
                                         <div class="invalid-feedback">
@@ -950,53 +1023,118 @@
                         <div class="row g-3">
                             <!-- Nama Bantuan -->
                             <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" name="nama_bantuan"
-                                        class="form-control @error('nama_bantuan') is-invalid @enderror"
-                                        id="nama_bantuan" placeholder="Nama Bantuan"
-                                        value="{{ old('nama_bantuan', $santri->bantuan->nama_bantuan ?? '') }}">
-                                    <label for="nama_bantuan">
-                                        <i class="bi bi-card-heading me-1 text-success"></i>Nama Bantuan
-                                    </label>
-                                    <small class="text-muted">Contoh: PIP, KIP, BSM</small>
-                                    @error('nama_bantuan')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
+                                <label for="nama_bantuan" class="form-label">Nama Bantuan</label>
+                                <select name="nama_bantuan" id="nama_bantuan"
+                                    class="form-select @error('nama_bantuan') is-invalid @enderror" required>
+                                    <option value="">Pilih Nama Bantuan</option>
+                                    <option value="PIP" {{ old('nama_bantuan') == 'PIP' ? 'selected' : '' }}>
+                                        PIP (Program Indonesia Pintar)
+                                    </option>
+                                    <option value="KIP" {{ old('nama_bantuan') == 'KIP' ? 'selected' : '' }}>
+                                        KIP (Kartu Indonesia Pintar)
+                                    </option>
+                                    <option value="BSM" {{ old('nama_bantuan') == 'BSM' ? 'selected' : '' }}>
+                                        BSM (Bantuan Siswa Miskin)
+                                    </option>
+                                    <option value="PKH" {{ old('nama_bantuan') == 'PKH' ? 'selected' : '' }}>
+                                        PKH (Program Keluarga Harapan)
+                                    </option>
+                                    <option value="Baznas" {{ old('nama_bantuan') == 'Baznas' ? 'selected' : '' }}>
+                                        Baznas
+                                    </option>
+                                    <option value="Yayasan" {{ old('nama_bantuan') == 'Yayasan' ? 'selected' : '' }}>
+                                        Yayasan
+                                    </option>
+                                    <option value="Beasiswa Swasta"
+                                        {{ old('nama_bantuan') == 'Beasiswa Swasta' ? 'selected' : '' }}>
+                                        Beasiswa Swasta
+                                    </option>
+                                    <option value="Lainnya" {{ old('nama_bantuan') == 'Lainnya' ? 'selected' : '' }}>
+                                        Lainnya
+                                    </option>
+                                </select>
+
+                                <div id="nama_bantuan_lainnya_container" class="mt-2"
+                                    style="display: {{ old('nama_bantuan') == 'Lainnya' ? 'block' : 'none' }};">
+                                    <input type="text" name="nama_bantuan_lainnya" id="nama_bantuan_lainnya"
+                                        class="form-control" placeholder="Silakan isi nama bantuan lainnya"
+                                        value="{{ old('nama_bantuan_lainnya') }}">
                                 </div>
+
+                                <small class="text-muted">Contoh: PIP, KIP, BSM, PKH, Baznas, Yayasan</small>
+
+                                @error('nama_bantuan')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const select = document.getElementById('nama_bantuan');
+                                    const lainnyaContainer = document.getElementById('nama_bantuan_lainnya_container');
+
+                                    select.addEventListener('change', function() {
+                                        if (this.value === 'Lainnya') {
+                                            lainnyaContainer.style.display = 'block';
+                                        } else {
+                                            lainnyaContainer.style.display = 'none';
+                                            document.getElementById('nama_bantuan_lainnya').value = '';
+                                        }
+                                    });
+                                });
+                            </script>
 
                             <!-- Tingkat Bantuan -->
                             <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" name="tingkat"
-                                        class="form-control @error('tingkat') is-invalid @enderror" id="tingkat"
-                                        placeholder="Tingkat Bantuan"
-                                        value="{{ old('tingkat', $santri->bantuan->tingkat ?? '') }}">
-                                    <label for="tingkat">
-                                        <i class="bi bi-award me-1 text-warning"></i>Tingkat Bantuan
-                                    </label>
-                                    <small class="text-muted">Contoh: Nasional, Provinsi, Kabupaten</small>
-                                    @error('tingkat')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
+                                <label for="tingkat" class="form-label">Tingkat Bantuan</label>
+                                <select name="tingkat" id="tingkat"
+                                    class="form-select @error('tingkat') is-invalid @enderror" required>
+                                    <option value="">Pilih Tingkat Bantuan</option>
+                                    <option value="Internasional"
+                                        {{ old('tingkat') == 'Internasional' ? 'selected' : '' }}>
+                                        Internasional
+                                    </option>
+                                    <option value="Nasional" {{ old('tingkat') == 'Nasional' ? 'selected' : '' }}>
+                                        Nasional
+                                    </option>
+                                    <option value="Provinsi" {{ old('tingkat') == 'Provinsi' ? 'selected' : '' }}>
+                                        Provinsi
+                                    </option>
+                                    <option value="Kabupaten/Kota"
+                                        {{ old('tingkat') == 'Kabupaten/Kota' ? 'selected' : '' }}>
+                                        Kabupaten / Kota
+                                    </option>
+                                    <option value="Kecamatan" {{ old('tingkat') == 'Kecamatan' ? 'selected' : '' }}>
+                                        Kecamatan
+                                    </option>
+                                    <option value="Desa/Kelurahan"
+                                        {{ old('tingkat') == 'Desa/Kelurahan' ? 'selected' : '' }}>
+                                        Desa / Kelurahan
+                                    </option>
+                                    <option value="Lembaga/Swasta"
+                                        {{ old('tingkat') == 'Lembaga/Swasta' ? 'selected' : '' }}>
+                                        Lembaga / Swasta
+                                    </option>
+                                </select>
+                                @error('tingkat')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-
                             <!-- Nomor KIP -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" name="no_kip"
+                                    <input type="text" name="no_kip" maxlength="6"
                                         class="form-control @error('no_kip') is-invalid @enderror" id="no_kip"
                                         placeholder="Nomor KIP"
                                         value="{{ old('no_kip', $santri->bantuan->no_kip ?? '') }}">
                                     <label for="no_kip">
                                         <i class="bi bi-credit-card me-1 text-info"></i>Nomor KIP
                                     </label>
-                                    <small class="text-muted">Format: 0000 0000 0000 0000</small>
+                                    <small class="text-muted">Jika ada kartu kip mohon di isi</small>
                                     @error('no_kip')
                                         <div class="invalid-feedback">
                                             {{ $message }}
