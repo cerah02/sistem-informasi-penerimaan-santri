@@ -210,7 +210,7 @@
                                 <li class="breadcrumb-item active" aria-current="page">{{ $ujian->nama_ujian }}</li>
                             </ol>
                         </nav>
-                        <form action="{{ route('submit.ujian') }}" method="POST">
+                        <form id="ujianForm" action="{{ route('submit.ujian') }}" method="POST">
                             @csrf
                             @foreach ($soals as $index => $soal)
                                 <input type="text" value="{{ $soal->ujian_id }}" name="ujian_id" hidden>
@@ -324,12 +324,20 @@
             }
 
             function startTimer(durationInSeconds, display) {
-                let endTime = getCookie("ujianEndTime");
+                const ujianId = {{ $ujian->id }};
+                const cookieName = `ujianEndTime_${ujianId}`;
+                const durasiCookieName = `ujianDurasi_${ujianId}`;
 
-                if (!endTime) {
+                let endTime = getCookie(cookieName);
+                const durasiLama = getCookie(durasiCookieName);
+
+                if (!endTime || durasiLama != durationInSeconds) {
                     const now = Date.now();
                     endTime = now + durationInSeconds * 1000;
-                    setCookie("ujianEndTime", endTime, durationInSeconds / 60);
+
+                    // Simpan endTime dan durasi terbaru ke cookie
+                    setCookie(cookieName, endTime, durationInSeconds / 60);
+                    setCookie(durasiCookieName, durationInSeconds, durationInSeconds / 60);
                 } else {
                     endTime = parseInt(endTime);
                 }
@@ -341,7 +349,9 @@
                     if (sisaWaktu <= 0) {
                         clearInterval(interval);
                         display.textContent = "00:00";
-                        document.cookie = "ujianEndTime=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                        document.cookie =
+                            `${durasiCookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
                         submitJawabanOtomatis();
                         return;
                     }

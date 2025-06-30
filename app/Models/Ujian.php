@@ -26,11 +26,14 @@ class Ujian extends Model
     }
     public function getStatusAttribute()
     {
-        $now = Carbon::now();
+        $now = Carbon::now('Asia/Jakarta'); // Gunakan waktu Indonesia
 
-        if ($now->lt(Carbon::parse($this->tanggal_mulai))) {
+        $mulai = Carbon::parse($this->tanggal_mulai, 'Asia/Jakarta');
+        $selesai = Carbon::parse($this->tanggal_selesai, 'Asia/Jakarta');
+
+        if ($now->lt($mulai)) {
             return 'Belum Mulai';
-        } elseif ($now->between(Carbon::parse($this->tanggal_mulai), Carbon::parse($this->tanggal_selesai))) {
+        } elseif ($now->between($mulai, $selesai)) {
             return 'Sedang Berlangsung';
         } else {
             return 'Selesai';

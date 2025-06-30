@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Jawaban;
 use App\Models\Soal;
 use App\Models\Ujian;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -117,8 +118,19 @@ class SoalController extends Controller
 
     public function ujian($id)
     {
-        $soals = Soal::where('ujian_id', '=', $id)->get();
-        $ujian = ujian::where('id', '=', $id)->first();
+        $ujian = Ujian::findOrFail($id);
+
+        if (!session()->has("urutan_soal_ujian_$id")) {
+            $soalIds = Soal::where('ujian_id', $id)->pluck('id')->shuffle()->toArray();
+            session()->put("urutan_soal_ujian_$id", $soalIds);
+        } else {
+            $soalIds = session("urutan_soal_ujian_$id");
+        }
+
+        $soals = Soal::whereIn('id', $soalIds)->get()->sortBy(function ($soal) use ($soalIds) {
+            return array_search($soal->id, $soalIds);
+        });
+
         return view('soals.ujian', compact('soals', 'ujian'));
     }
 
@@ -271,9 +283,12 @@ class SoalController extends Controller
             ->with('soals')
             ->get();
 
-        $today = now()->toDateString(); // Format: YYYY-MM-DD
+        $now = Carbon::now('Asia/Jakarta'); // waktu real dengan jam
 
         foreach ($ujians as $ujian) {
+            $mulai = Carbon::parse($ujian->tanggal_mulai, 'Asia/Jakarta');
+            $selesai = Carbon::parse($ujian->tanggal_selesai, 'Asia/Jakarta');
+
             $jumlahSoal = $ujian->soals->count();
             $jumlahJawabanSantri = Jawaban::where('santri_id', $Santri->id)
                 ->whereIn('soal_id', $ujian->soals->pluck('id'))
@@ -282,10 +297,10 @@ class SoalController extends Controller
             // Cek apakah santri sudah mengerjakan semua soal
             $ujian->user_already_submit = ($jumlahJawabanSantri >= $jumlahSoal);
 
-            // Tambahkan status ujian berdasarkan tanggal
-            if ($today < $ujian->tanggal_mulai) {
+            // Perhitungan status berdasarkan waktu lengkap
+            if ($now->lt($mulai)) {
                 $ujian->ujian_status = 'belum_dimulai';
-            } elseif ($today > $ujian->tanggal_selesai) {
+            } elseif ($now->gt($selesai)) {
                 $ujian->ujian_status = 'waktu_habis';
             } else {
                 $ujian->ujian_status = 'tersedia';

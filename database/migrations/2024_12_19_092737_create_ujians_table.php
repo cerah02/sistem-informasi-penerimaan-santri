@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string("nama_ujian",30);
             $table->string("kategori",30);
             $table->enum("jenjang_pendidikan",["SD","MTS","MA"]);
-            $table->date("tanggal_mulai");
-            $table->date("tanggal_selesai");
+            $table->dateTime("tanggal_mulai");
+            $table->dateTime("tanggal_selesai");
             $table->integer("durasi");
             // $table->enum("status", ["Belum Mulai", "Sedang Berlangsung", "Selesai"]);
             $table->timestamps();

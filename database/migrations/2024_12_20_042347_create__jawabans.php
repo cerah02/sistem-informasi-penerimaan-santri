@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('soal_id')->constrained('soals')->onDelete('cascade');
             $table->foreignId('santri_id')->constrained('santris')->onDelete('cascade');
-            $table->enum("jawaban",['A','B','C','D','E']);
+            $table->enum("jawaban",['A','B','C','D','E','Tidak diisi']);
             $table->string("status_jawaban",10);
             $table->timestamps();
         });

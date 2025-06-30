@@ -49,14 +49,14 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Tanggal Mulai:</strong>
-                            <input type="date" name="tanggal_mulai" value="{{ $ujian->tanggal_mulai }}"
+                            <input type="datetime-local" name="tanggal_mulai" value="{{ $ujian->tanggal_mulai }}"
                                 class="form-control" placeholder="Masukkan Tanggal Mulai">
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Tanggal Selesai:</strong>
-                            <input type="date" name="tanggal_selesai" value="{{ $ujian->tanggal_selesai }}"
+                            <input type="datetime-local" name="tanggal_selesai" value="{{ $ujian->tanggal_selesai }}"
                                 class="form-control" placeholder="Masukkan Tanggal Selesai">
                         </div>
                     </div>

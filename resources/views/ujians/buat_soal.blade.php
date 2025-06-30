@@ -47,11 +47,11 @@
                             <div class="card-body">
                                 <p class="card-text"><strong>Kategori:</strong> {{ $ujian->kategori }}</p>
                                 <p class="card-text"><strong>Tanggal Mulai:</strong>
-                                    {{ date('d M Y', strtotime($ujian->tanggal_mulai)) }}
+                                    {{ date('d M Y, H:i', strtotime($ujian->tanggal_mulai)) }}
                                 </p>
 
                                 <p class="card-text"><strong>Tanggal Selesai:</strong>
-                                    {{ date('d M Y', strtotime($ujian->tanggal_selesai)) }}
+                                    {{ date('d M Y, H:i', strtotime($ujian->tanggal_selesai)) }}
                                 </p>
                                 <p class="card-text"><strong>Durasi:</strong> {{ $ujian->durasi / 60 }} menit</p>
                                 @php

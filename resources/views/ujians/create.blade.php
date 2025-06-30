@@ -55,13 +55,13 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <strong>Tanggal Mulai:</strong>
-                            <input type="date" name="tanggal_mulai" class="form-control" placeholder="Masukkan Tanggal Mulai Ujian">
+                            <input type="datetime-local" name="tanggal_mulai" class="form-control" placeholder="Masukkan Tanggal Mulai Ujian">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <strong>Tanggal Selesai:</strong>
-                            <input type="date" name="tanggal_selesai" class="form-control" placeholder="Masukkan Tanggal Selesai Ujian">
+                            <input type="datetime-local" name="tanggal_selesai" class="form-control" placeholder="Masukkan Tanggal Selesai Ujian">
                         </div>
                     </div>
                     <div class="col-md-12">
