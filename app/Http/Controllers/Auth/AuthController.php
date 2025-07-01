@@ -57,9 +57,9 @@ class AuthController extends Controller
         );
         if (Auth::attempt($credentials)) {
             return redirect()->intended('dashboard')
-                ->with('success','You have Successfully loggedin');
+                ->with('success', 'You have Successfully loggedin');
         }
-        return redirect("login")->with('error','Mohon Maaf Kamu Tidak Memiliki Akses Masuk, Cek email dan Password yang kamu masukan');
+        return redirect("login")->with('error', 'Mohon Maaf Kamu Tidak Memiliki Akses Masuk, Cek email dan Password yang kamu masukan');
     }
     /**
      * Write code on Method
@@ -75,7 +75,7 @@ class AuthController extends Controller
         ]);
         $data = $request->all();
         $check = $this->create($data);
-        return redirect("dashboard")->with('success','Great! You have Successfully loggedin');
+        return redirect("dashboard")->with('success', 'Great! You have Successfully loggedin');
     }
 
     public function edit_profile()
@@ -224,71 +224,68 @@ class AuthController extends Controller
             $jumlah_laki_laki = (clone $genderQuery)->where('jenis_kelamin', 'laki-laki')->count();
             $jumlah_perempuan = (clone $genderQuery)->where('jenis_kelamin', 'perempuan')->count();
 
-            // Data kelengkapan tabel santri, ortu, dokumen, kesehatan, bantuan
-            $santriData = $query->get()->map(function ($santri) {
-                // Mengecek kelengkapan data dari tabel santri
-                $santri_complete = $santri->nama &&
-                    $santri->nisn &&
-                    $santri->nik &&
-                    $santri->asal_sekolah &&
-                    $santri->jenis_kelamin &&
-                    $santri->ttl &&
-                    $santri->kondisi &&
-                    $santri->kondisi_ortu &&
-                    $santri->status_dkluarga &&
-                    $santri->tempat_tinggal &&
-                    $santri->kewarganegaraan &&
-                    $santri->anak_ke &&
-                    $santri->jumlah_saudara !== null &&
-                    $santri->alamat &&
-                    $santri->nomor_telpon &&
-                    $santri->email &&
-                    $santri->jenjang_pendidikan &&
-                    $santri->tahun_masuk ? 'Lengkap' : 'Tidak Lengkap';
+            $santriData = $query
+                ->where('tahun_masuk', Carbon::now()->year) // hanya ambil santri dengan tahun masuk = tahun sekarang
+                ->get()
+                ->map(function ($santri) {
+                    $santri_complete = $santri->nama &&
+                        $santri->nisn &&
+                        $santri->nik &&
+                        $santri->asal_sekolah &&
+                        $santri->jenis_kelamin &&
+                        $santri->ttl &&
+                        $santri->kondisi &&
+                        $santri->kondisi_ortu &&
+                        $santri->status_dkluarga &&
+                        $santri->tempat_tinggal &&
+                        $santri->kewarganegaraan &&
+                        $santri->anak_ke &&
+                        $santri->jumlah_saudara !== null &&
+                        $santri->alamat &&
+                        $santri->nomor_telpon &&
+                        $santri->email &&
+                        $santri->jenjang_pendidikan &&
+                        $santri->tahun_masuk ? 'Lengkap' : 'Tidak Lengkap';
 
-                // Mengecek kelengkapan data dari tabel ortu
-                $ortu_complete = $santri->ortu &&
-                    $santri->ortu->nama_ayah &&
-                    $santri->ortu->pendidikan_ayah &&
-                    $santri->ortu->pekerjaan_ayah &&
-                    $santri->ortu->nama_ibu &&
-                    $santri->ortu->pendidikan_ibu &&
-                    $santri->ortu->pekerjaan_ibu &&
-                    $santri->ortu->no_hp &&
-                    $santri->ortu->alamat_ortu? 'Lengkap' : 'Tidak Lengkap';
+                    $ortu_complete = $santri->ortu &&
+                        $santri->ortu->nama_ayah &&
+                        $santri->ortu->pendidikan_ayah &&
+                        $santri->ortu->pekerjaan_ayah &&
+                        $santri->ortu->nama_ibu &&
+                        $santri->ortu->pendidikan_ibu &&
+                        $santri->ortu->pekerjaan_ibu &&
+                        $santri->ortu->no_hp &&
+                        $santri->ortu->alamat_ortu ? 'Lengkap' : 'Tidak Lengkap';
 
-                // Mengecek kelengkapan data dari tabel dokumen
-                $dokumen_complete = $santri->dokumen &&
-                    $santri->dokumen->ijazah &&
-                    $santri->dokumen->nilai_raport &&
-                    $santri->dokumen->skhun &&
-                    $santri->dokumen->foto &&
-                    $santri->dokumen->kk &&
-                    $santri->dokumen->ktp_ayah &&
-                    $santri->dokumen->ktp_ibu ? 'Lengkap' : 'Tidak Lengkap';
+                    $dokumen_complete = $santri->dokumen &&
+                        $santri->dokumen->ijazah &&
+                        $santri->dokumen->nilai_raport &&
+                        $santri->dokumen->skhun &&
+                        $santri->dokumen->foto &&
+                        $santri->dokumen->kk &&
+                        $santri->dokumen->ktp_ayah &&
+                        $santri->dokumen->ktp_ibu ? 'Lengkap' : 'Tidak Lengkap';
 
-                // Mengecek kelengkapan data dari tabel kesehatan
-                $kesehatan_complete = $santri->kesehatan &&
-                    $santri->kesehatan->golongan_darah &&
-                    $santri->kesehatan->tb !== null &&
-                    $santri->kesehatan->bb !== null ? 'Lengkap' : 'Tidak Lengkap';
+                    $kesehatan_complete = $santri->kesehatan &&
+                        $santri->kesehatan->golongan_darah &&
+                        $santri->kesehatan->tb !== null &&
+                        $santri->kesehatan->bb !== null ? 'Lengkap' : 'Tidak Lengkap';
 
-                // Mengecek kelengkapan data dari tabel bantuan
-                $bantuan_complete = $santri->bantuan &&
-                    $santri->bantuan->nama_bantuan &&
-                    $santri->bantuan->tingkat &&
-                    $santri->bantuan->no_kip ? 'Lengkap' : 'Tidak Lengkap';
+                    $bantuan_complete = $santri->bantuan &&
+                        $santri->bantuan->nama_bantuan &&
+                        $santri->bantuan->tingkat &&
+                        $santri->bantuan->no_kip ? 'Lengkap' : 'Tidak Lengkap';
 
-                return [
-                    'nama_santri' => $santri->nama,
-                    'jenjang_pendidikan' => $santri->jenjang_pendidikan,
-                    'santri_complete' => $santri_complete,
-                    'ortu_complete' => $ortu_complete,
-                    'dokumen_complete' => $dokumen_complete,
-                    'kesehatan_complete' => $kesehatan_complete,
-                    'bantuan_complete' => $bantuan_complete,
-                ];
-            });
+                    return [
+                        'nama_santri' => $santri->nama,
+                        'jenjang_pendidikan' => $santri->jenjang_pendidikan,
+                        'santri_complete' => $santri_complete,
+                        'ortu_complete' => $ortu_complete,
+                        'dokumen_complete' => $dokumen_complete,
+                        'kesehatan_complete' => $kesehatan_complete,
+                        'bantuan_complete' => $bantuan_complete,
+                    ];
+                });
 
             return view('auth.dashboard', compact(
                 'Guru',

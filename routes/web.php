@@ -75,6 +75,7 @@ Route::get('/kelulusan-info', [PengumumanController::class, 'showKelulusan'])->n
 Route::view('/pakaian-putra ', 'pakaian_putra');
 Route::view('/pakaian-putri ', 'pakaian_putri');
 Route::view('/kegiatan-harian ', 'kegiatan_harian');
+Route::view('/brosur ', 'brosur');
 
 Route::get('/notifikasi/baca-semua', function () {
     auth()->user()->unreadNotifications->markAsRead();

@@ -42,8 +42,8 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pendaftaran
                             Santri Baru</a>
                         <div class="dropdown-menu bg-light m-0">
-                            <a href="feature.html" class="dropdown-item">Pendaftaran Santri Baru</a>
-                            <a href="team.html" class="dropdown-item">Brosur Pendaftaran</a>
+                            {{-- <a href="feature.html" class="dropdown-item">Pendaftaran Santri Baru</a> --}}
+                            <a href="/brosur" class="dropdown-item">Brosur Pendaftaran</a>
                             <a href="login" class="dropdown-item">Pendaftaran Online</a>
                             <a href="{{ route('pengumuman.kelulusan') }}" class="dropdown-item">Pengumuman</a>
                         </div>
