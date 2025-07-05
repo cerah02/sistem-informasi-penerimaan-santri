@@ -8,7 +8,8 @@
                 @can('pendaftaran-create')
                     <div class="col-sm-3">
                         <div class="btn-group float-sm-right">
-                            <a class="btn btn-success waves-effect waves-light" href="{{ route('admin_pendaftaran_santri_view') }}">
+                            <a class="btn btn-success waves-effect waves-light"
+                                href="{{ route('admin_pendaftaran_santri_view') }}">
                                 <i class="fa fa-plus mr-1"></i> Tambah Data
                             </a>
                         </div>
@@ -16,12 +17,10 @@
                 @endcan
 
                 <div class="card shadow-sm">
-
                     <div class="card-header bg-primary text-white">
                         <h3 class="card-title mb-0">Data Pendaftaran Santri</h3>
                     </div>
                     <div class="card-body">
-
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert">×</button>
@@ -49,22 +48,29 @@
                         </div>
                     </div>
 
+                    <!-- Modal Verifikasi -->
                     <div class="modal fade" id="verifikasiModal" tabindex="-1" role="dialog"
                         aria-labelledby="verifikasiModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content animate__animated animate__fadeInDown">
                                 <div class="modal-header bg-primary text-white">
                                     <h5 class="modal-title">Verifikasi Status Pendaftaran</h5>
-                                    <button type="button" class="close text-white"
-                                        data-dismiss="modal"><span>&times;</span></button>
+                                    <button type="button" class="close text-white" data-dismiss="modal">
+                                        <span>&times;</span>
+                                    </button>
                                 </div>
                                 <div class="modal-body text-center">
                                     <p>Silakan pilih status baru:</p>
                                     <div id="verifikasiButtons"></div>
+                                    <div class="form-group mt-3" id="pesan-perbaikan-group" style="display: none;">
+                                        <label for="pesan-perbaikan">Pesan Perbaikan</label>
+                                        <textarea id="pesan-perbaikan" class="form-control" placeholder="Tulis pesan perbaikan untuk santri..."></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- End Modal -->
 
                 </div>
             </div>
@@ -74,7 +80,7 @@
     @push('scripts')
         <script>
             $(document).ready(function() {
-                // DataTable tetap
+                // Inisialisasi DataTable
                 $('#pendaftaranTable').DataTable({
                     processing: true,
                     serverSide: true,
@@ -109,9 +115,10 @@
                             className: 'text-center',
                             render: function(data) {
                                 let badgeClass = {
-                                    diterima: 'text-dark',
-                                    proses: 'text-dark',
-                                    ditolak: 'text-dark'
+                                    diterima: 'badge-success',
+                                    proses: 'badge-warning',
+                                    ditolak: 'badge-danger',
+                                    perbaikan: 'badge-info'
                                 } [data] || 'badge-secondary';
                                 return `<span class="badge ${badgeClass}">${data}</span>`;
                             }
@@ -127,46 +134,74 @@
                 });
             });
 
-            // Tampilkan modal
+            // Tampilkan modal verifikasi
             $(document).on('click', '.verifikasi-btn', function() {
                 const id = $(this).data('id');
                 const currentStatus = $(this).data('status');
 
-                let statuses = [];
-
-                if (currentStatus === 'proses') {
-                    statuses = ['diterima', 'ditolak'];
-                } else if (currentStatus === 'diterima') {
-                    statuses = ['proses', 'ditolak'];
-                } else if (currentStatus === 'ditolak') {
-                    statuses = ['proses', 'diterima'];
-                }
+                let statuses = ['proses', 'diterima', 'perbaikan', 'ditolak']; // Tambahkan perbaikan
+                statuses = statuses.filter(s => s !== currentStatus); // Kecuali status saat ini
 
                 let buttons = statuses.map(status => {
                     let btnClass = {
                         proses: 'btn-warning',
                         diterima: 'btn-success',
-                        ditolak: 'btn-danger'
+                        ditolak: 'btn-danger',
+                        perbaikan: 'btn-info'
                     } [status];
 
                     return `
-                <button class="btn ${btnClass} m-1 ubah-status" data-id="${id}" data-status="${status}">
-                    <span class="btn-text">${status.charAt(0).toUpperCase() + status.slice(1)}</span>
-                    <span class="spinner-border spinner-border-sm d-none" role="status"></span>
-                </button>`;
+                        <button class="btn ${btnClass} m-1 ubah-status" 
+                            data-id="${id}" data-status="${status}">
+                            <span class="btn-text">${status.charAt(0).toUpperCase() + status.slice(1)}</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                        </button>`;
                 }).join('');
 
                 $('#verifikasiButtons').html(buttons);
                 $('#verifikasiModal').modal('show');
+                $('#pesan-perbaikan-group').hide();
+                $('#pesan-perbaikan').val('');
             });
 
-            // Update status dengan AJAX
+            // Klik tombol ubah status
+            // Klik tombol ubah status
             $(document).on('click', '.ubah-status', function() {
                 const $btn = $(this);
                 const id = $btn.data('id');
                 const status = $btn.data('status');
 
-                // Spinner loading
+                if (status === 'perbaikan') {
+                    $('#pesan-perbaikan-group').show();
+
+                    // Tambahkan tombol simpan perbaikan jika belum ada
+                    if ($('#btn-simpan-perbaikan').length === 0) {
+                        $('#verifikasiModal .modal-body').append(`
+                <button id="btn-simpan-perbaikan" class="btn btn-primary mt-3">
+                    Simpan Perubahan
+                </button>
+            `);
+                    }
+
+                    // Ketika klik simpan perbaikan
+                    $('#btn-simpan-perbaikan').off('click').on('click', function() {
+                        const pesan = $('#pesan-perbaikan').val().trim();
+                        if (!pesan) {
+                            Swal.fire('Pesan wajib diisi', '', 'warning');
+                            return;
+                        }
+                        submitStatusChange($btn, id, status, pesan);
+                    });
+
+                } else {
+                    $('#pesan-perbaikan-group').hide();
+                    $('#btn-simpan-perbaikan').remove(); // hapus tombol simpan jika ada
+                    submitStatusChange($btn, id, status, null);
+                }
+            });
+
+
+            function submitStatusChange($btn, id, status, pesan) {
                 $btn.prop('disabled', true);
                 $btn.find('.btn-text').addClass('d-none');
                 $btn.find('.spinner-border').removeClass('d-none');
@@ -176,7 +211,8 @@
                     method: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
-                        status: status
+                        status: status,
+                        pesan: pesan
                     },
                     success: function() {
                         $('#verifikasiModal').modal('hide');
@@ -203,7 +239,7 @@
                         $btn.find('.spinner-border').addClass('d-none');
                     }
                 });
-            });
+            }
         </script>
     @endpush
 

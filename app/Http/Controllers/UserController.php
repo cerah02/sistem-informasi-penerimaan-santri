@@ -37,7 +37,7 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'nomor_telpon' => 'required|digits_between:10,15|unique:users,nomor_telpon',
             'password' => 'required|same:confirm-password',
             'roles' => 'required'
         ]);
@@ -83,7 +83,7 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'nomor_telpon' => 'required|nomor_telpon|unique:users,nomor_telpon,' . $id,
             'password' => 'same:confirm-password',
             'roles' => 'required'
         ]);

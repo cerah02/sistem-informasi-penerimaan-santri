@@ -11,6 +11,7 @@ use App\Models\Santri;
 use App\Models\User;
 use App\Notifications\ApproveDataSantriNotification;
 use App\Notifications\FormCompletedNotification;
+use App\Notifications\StatusPendaftaranUpdated;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -576,14 +577,35 @@ class PendaftaranController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
+        // Validasi input
         $request->validate([
-            'status' => 'required|in:proses,diterima,ditolak'
+            'status' => 'required|in:proses,diterima,ditolak,perbaikan',
+            'pesan' => 'nullable|string'
         ]);
 
-        $pendaftaran = Pendaftaran::findOrFail($id);
-        $pendaftaran->status = $request->status;
-        $pendaftaran->save();
+        try {
+            // Ambil data pendaftaran
+            $pendaftaran = Pendaftaran::findOrFail($id);
+            $pendaftaran->status = $request->status;
+            $pendaftaran->save();
 
-        return response()->json(['message' => 'Status berhasil diperbarui']);
+            // Kirim notifikasi ke user
+            $user = \App\Models\User::find($pendaftaran->user_id);
+
+            if ($user) {
+                $user->notify(new \App\Notifications\StatusPendaftaranUpdated(
+                    $request->status,
+                    $request->pesan,
+                    $pendaftaran->id
+                ));
+            } else {
+                \Log::warning("User tidak ditemukan untuk user_id: " . $pendaftaran->user_id);
+            }
+            
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            \Log::error('Update Status Error: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     }
 }

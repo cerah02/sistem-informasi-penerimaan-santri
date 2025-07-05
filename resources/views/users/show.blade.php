@@ -26,8 +26,8 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <strong>Email:</strong>
-                    <p class="form-control-static">{{ $user->email }}</p>
+                    <strong>Nomor Telpon:</strong>
+                    <p class="form-control-static">{{ $user->nomor_telpon }}</p>
                 </div>
             </div>
         </div>

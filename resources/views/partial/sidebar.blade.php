@@ -192,6 +192,14 @@
                                         </a>
                                     </li>
                                 @endcan
+                                @can('passing_grade-index')
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->routeIs('passing_grade.index') ? 'active' : '' }}"
+                                            href="{{ route('passing_grade.index') }}">
+                                            Passing Grade
+                                        </a>
+                                    </li>
+                                @endcan
                             </ul>
                         </div>
                     </li>

@@ -35,6 +35,11 @@
                         <p class="form-control-plaintext border rounded p-1">{{ $soal->jawaban_e }}</p>
                     </div>
                     <div class="mb-2">
+                        <strong>Status Soal:</strong>
+                        <p class="form-control-plaintext border rounded p-1 bg-success text-white">{{ $soal->status }}</p>
+                    </div>
+
+                    <div class="mb-2">
                         <strong>Jawaban Yang Benar:</strong>
                         <p class="form-control-plaintext border rounded p-1 bg-success text-white">{{ $soal->jawaban_benar }}</p>
                     </div>

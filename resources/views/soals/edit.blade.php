@@ -101,6 +101,19 @@
                             </label>
                         </div>
                     </div>            
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Status Soal :</strong><br>
+                            <label>
+                                <input type="radio" name="status" value="dipilih" 
+                                {{ $soal->status == 'dipilih' ? 'checked' : '' }}> Dipilih
+                            </label><br>
+                            <label>
+                                <input type="radio" name="status" value="tidak dipilih" 
+                                {{ $soal->status == 'tidak dipilih' ? 'checked' : '' }}> Tidak Dipilih
+                            </label><br>
+                        </div>
+                    </div>            
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>

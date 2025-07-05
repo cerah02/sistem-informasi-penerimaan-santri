@@ -71,6 +71,7 @@
                             <input type="text" name="jawaban_e" class="form-control" placeholder="Masukkan Jawaban E">
                         </div>
                     </div>
+
                     <div class="col-md-12">
                         <div class="form-group">
                             <strong>Jawaban Yang Benar:</strong><br>
@@ -79,6 +80,14 @@
                             <label><input type="radio" name="jawaban_benar" value="C" required> C</label><br>
                             <label><input type="radio" name="jawaban_benar" value="D" required> D</label><br>
                             <label><input type="radio" name="jawaban_benar" value="E" required> E</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <strong>Status Soal:</strong><br>
+                            <label><input type="radio" name="status" value="dipilih" required> Pilih</label><br>
+                            <label><input type="radio" name="status" value="tidak dipilih" required> Tidak Dipilih</label><br>
                         </div>
                     </div>
                     <div class="col-md-12 text-center">

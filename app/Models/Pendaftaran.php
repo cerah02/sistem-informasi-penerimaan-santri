@@ -39,4 +39,9 @@ class Pendaftaran extends Model
             }
         });
     }
+    
+    public function user()
+    {
+        return $this->santri ? $this->santri->user : null;
+    }
 }

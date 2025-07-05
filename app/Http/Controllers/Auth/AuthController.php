@@ -48,18 +48,18 @@ class AuthController extends Controller
     {
         // dd($request->all());
         $request->validate([
-            'email' => 'required',
+            'nomor_telpon' => 'required',
             'password' => 'required',
         ]);
         $credentials = $request->only(
-            'email',
+            'nomor_telpon',
             'password'
         );
         if (Auth::attempt($credentials)) {
             return redirect()->intended('dashboard')
                 ->with('success', 'You have Successfully loggedin');
         }
-        return redirect("login")->with('error', 'Mohon Maaf Kamu Tidak Memiliki Akses Masuk, Cek email dan Password yang kamu masukan');
+        return redirect("login")->with('error', 'Mohon Maaf Kamu Tidak Memiliki Akses Masuk, Cek Nomor Telpon dan Password yang kamu masukan');
     }
     /**
      * Write code on Method
@@ -70,7 +70,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'nomor_telpon' => 'required|digits_between:10,15|unique:users,nomor_telpon',
             'password' => 'required|min:6',
         ]);
         $data = $request->all();
@@ -94,9 +94,9 @@ class AuthController extends Controller
 
         if (Auth::check()) {
             if (Auth::user()->hasRole('Guru')) {
-                $Guru = Guru::where('email', auth()->user()->email)->first();
+                $Guru = Guru::where('nomor_telpon', auth()->user()->nomor_telpon)->first();
             } elseif (Auth::user()->hasRole('Santri')) {
-                $Santri = Santri::with(['dokumen', 'hasil.ujian'])->where('email', auth()->user()->email)->first();
+                $Santri = Santri::with(['dokumen', 'hasil.ujian'])->where('nomor_telpon', auth()->user()->nomor_telpon)->first();
             }
 
             // Cek pengumuman aktif
@@ -318,13 +318,13 @@ class AuthController extends Controller
     {
         $user = User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'nomor_telpon' => $data['nomor_telpon'],
             'password' => Hash::make($data['password'])
         ]);
         $santri = Santri::create([
             'user_id' => $user->id,
             'nama' => $user->name,
-            'email' => $user->email
+            'nomor_telpon' => $user->nomor_telpon
         ]);
         $role = Role::where('name', '=', 'Santri')->orWhere('name', '=', 'santri')->first();
         $user->assignRole([$role->id]);
@@ -338,20 +338,22 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
-            'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:2048', // Validasi gambar
-            'password' => 'nullable|string'
+            'nomor_telpon' => 'required|digits_between:10,15',
+            'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'password' => 'nullable|string|min:6'
         ]);
-
-        // dd($request->all());
 
         $user = auth()->user();
 
         $data = [
             'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'nomor_telpon' => $request->nomor_telpon
         ];
+
+        // Update password hanya jika diisi
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
 
         // Handle upload gambar
         if ($request->hasFile('profile_image')) {

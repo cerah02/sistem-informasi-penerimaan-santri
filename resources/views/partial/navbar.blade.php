@@ -155,8 +155,8 @@
                                             <i class="icofont-email"></i>
                                         </div>
                                         <div class="detail-content">
-                                            <span style="font-size: 0.8rem;">Email</span>
-                                            <h5 style="font-size: 0.9rem;">{{ Auth::user()->email }}</h5>
+                                            <span style="font-size: 0.8rem;">Nomor Telpon</span>
+                                            <h5 style="font-size: 0.9rem;">{{ Auth::user()->nomor_telpon }}</h5>
                                         </div>
                                     </div>
 
@@ -181,7 +181,7 @@
                                             </div>
                                             <div class="detail-content">
                                                 <span style="font-size: 0.8rem;">No. Telpon</span>
-                                                <h5 style="font-size: 0.9rem;">{{ $Guru->no_telpon ?? '' }}</h5>
+                                                <h5 style="font-size: 0.9rem;">{{ $Guru->email ?? '' }}</h5>
                                             </div>
                                         </div>
                                     @endif

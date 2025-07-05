@@ -15,11 +15,13 @@ use App\Http\Controllers\KesehatanController;
 use App\Http\Controllers\OrtuController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\HasilController;
+use App\Http\Controllers\PassingGradeController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TotalHasilController;
 use App\Http\Controllers\UserController;
 use Illuminate\Routing\Route as RoutingRoute;
+use Symfony\Component\Routing\Annotation\Route as AnnotationRoute;
 
 Route::resource('santris', SantriController::class);
 Route::resource('gurus', GuruController::class);
@@ -90,6 +92,13 @@ Route::prefix('admin')->group(function () {
     Route::get('/admin/notifikasi/{id}/edit', [AdminNotifikasiController::class, 'edit'])->name('notifikasi.edit');
     Route::put('/admin/notifikasi/{id}', [AdminNotifikasiController::class, 'update'])->name('notifikasi.update');
 });
+
+
+Route::get('/passing_grade', [PassingGradeController::class, 'index'])->name('passing_grade.index');
+Route::get('/passing-grade/{id}/edit', [PassingGradeController::class, 'edit'])->name('passing_grades.edit');
+Route::put('/passing-grades/{id}', [PassingGradeController::class, 'update'])->name('passing_grades.update');
+
+Route::post('/soals/update-status/{id}', [SoalController::class, 'updateStatus'])->name('soals.updateStatus');
 
 Route::get('/laporan', [TotalHasilController::class, 'laporan'])->name('laporan');
 Route::get('/laporan/pdf', [TotalHasilController::class, 'cetakPdf'])->name('laporan.cetakPdf');

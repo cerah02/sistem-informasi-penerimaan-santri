@@ -48,9 +48,26 @@ class SoalController extends Controller
                     $query->where('ujian_id', 'like', $search_value);
                 });
             }
+
+            if ($request->has('status_filter') && $request->status_filter != '') {
+                $query_data = $query_data->where('status', $request->status_filter);
+            }
+
             $data = $query_data->where('ujian_id', '=', $id)->orderBy('ujian_id', 'asc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('status', function ($row) {
+                    $checked = $row->status === 'dipilih' ? 'checked' : '';
+                    $badge = $row->status === 'dipilih' ? 'success' : 'danger';
+                    $label = ucfirst($row->status);
+                    return '
+        <div class="form-check form-switch">
+            <input class="form-check-input toggle-status" type="checkbox" data-id="' . $row->id . '" ' . $checked . '>
+            <span class="badge bg-' . $badge . ' mt-1">' . $label . '</span>
+        </div>
+    ';
+                })
+
                 ->addColumn('aksi', function ($row) {
                     $btn = '';
 
@@ -74,11 +91,24 @@ class SoalController extends Controller
 
                     return $btn;
                 })
-                ->rawColumns(['aksi'])
+                ->rawColumns(['status', 'aksi'])
                 ->make(true);
         }
         return view('soals.index', compact('id'));
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $soal = Soal::findOrFail($id);
+        $soal->status = $request->status;
+        $soal->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status soal berhasil diperbarui menjadi ' . $request->status
+        ]);
+    }
+
     // // Ambil ID user yang sedang login
     // $id_user = 1;
 
@@ -121,7 +151,16 @@ class SoalController extends Controller
         $ujian = Ujian::findOrFail($id);
 
         if (!session()->has("urutan_soal_ujian_$id")) {
-            $soalIds = Soal::where('ujian_id', $id)->pluck('id')->shuffle()->toArray();
+            $soalIds = Soal::where('ujian_id', $id)
+                ->where('status', 'dipilih') // 👈 hanya soal dipilih
+                ->pluck('id')
+                ->shuffle()
+                ->toArray();
+
+            if (empty($soalIds)) {
+                return redirect()->route('dashboard')->with('error', 'Belum ada soal yang dipilih untuk ujian ini.');
+            }
+
             session()->put("urutan_soal_ujian_$id", $soalIds);
         } else {
             $soalIds = session("urutan_soal_ujian_$id");
@@ -133,6 +172,7 @@ class SoalController extends Controller
 
         return view('soals.ujian', compact('soals', 'ujian'));
     }
+
 
     public function submitUjian(Request $request)
     {
@@ -147,7 +187,10 @@ class SoalController extends Controller
         $jawabanUser = $request->jawaban; // Array jawaban dari user
 
         // Ambil semua soal untuk ujian ini
-        $soals = Soal::where('ujian_id', '=', $request->ujian_id)->get();
+        $soals = Soal::where('ujian_id', '=', $request->ujian_id)
+            ->where('status', 'dipilih')
+            ->get();
+
         $results = [];
 
         // Loop melalui setiap soal
@@ -229,9 +272,6 @@ class SoalController extends Controller
             ->count();
 
         // Hitung jumlah hasil ujian yang sudah dikerjakan oleh santri
-        // $jumlahHasil = DB::table('hasils')
-        //     ->where('santri_id', $santri_id)
-        //     ->count();
         $jumlahHasil = DB::table('hasils')
             ->where('santri_id', $santri_id)
             ->distinct('ujian_id')
@@ -243,7 +283,12 @@ class SoalController extends Controller
                 ->where('santri_id', $santri_id)
                 ->avg('total_nilai_kategori');
 
-            $statusKelulusan = $rataRata >= 75 ? 'Lulus' : 'Tidak Lulus';
+            // Ambil passing grade sesuai jenjang santri
+            $passingGrade = DB::table('passing_grades')
+                ->where('jenjang', $jenjang)
+                ->value('passing_grade');
+
+            $statusKelulusan = $rataRata >= $passingGrade ? 'Lulus' : 'Tidak Lulus';
 
             // Simpan atau update ke tabel total_hasils
             DB::table('total_hasils')->updateOrInsert(
@@ -280,7 +325,9 @@ class SoalController extends Controller
 
         // Ambil semua ujian sesuai jenjang pendidikan santri
         $ujians = Ujian::where('jenjang_pendidikan', $Santri->jenjang_pendidikan)
-            ->with('soals')
+            ->with(['soals' => function ($query) {
+                $query->where('status', 'dipilih');
+            }])
             ->get();
 
         $now = Carbon::now('Asia/Jakarta'); // waktu real dengan jam
@@ -335,6 +382,7 @@ class SoalController extends Controller
             'jawaban_c' => 'required',
             'jawaban_d' => 'required',
             'jawaban_e' => 'required',
+            'status' => 'required',
             'jawaban_benar' => 'required',
         ]);
         $soal = Soal::create($request->all());
@@ -381,6 +429,7 @@ class SoalController extends Controller
             'jawaban_c' => 'required',
             'jawaban_d' => 'required',
             'jawaban_e' => 'required',
+            'status' => 'required',
             'jawaban_benar' => 'required',
 
         ]);

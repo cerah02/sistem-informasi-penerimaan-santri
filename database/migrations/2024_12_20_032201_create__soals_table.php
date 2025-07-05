@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('jawaban_c');
             $table->text('jawaban_d');
             $table->text('jawaban_e');
+            $table->enum('status', ['dipilih', 'tidak dipilih']);
             $table->enum('jawaban_benar',['A','B','C','D','E']);
             $table->timestamps();
         });

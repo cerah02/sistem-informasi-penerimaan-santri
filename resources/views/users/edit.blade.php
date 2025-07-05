@@ -38,8 +38,8 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        <strong>Email:</strong>
-                        {!! Form::text('email', null, ['placeholder' => 'Email', 'class' => 'form-control']) !!}
+                        <strong>Nomor Telpon:</strong>
+                        {!! Form::text('nomor_telpon', null, ['placeholder' => 'Nomor Telpon', 'class' => 'form-control']) !!}
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">

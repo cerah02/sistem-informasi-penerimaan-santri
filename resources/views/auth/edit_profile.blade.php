@@ -223,9 +223,9 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label"><i class="fas fa-envelope me-2"></i>Email</label>
-                                <input type="email" class="form-control form-control-lg" name="email"
-                                    value="{{ auth()->user()->email }}">
+                                <label class="form-label"><i class="fas fa-envelope me-2"></i>Nomor Telpon</label>
+                                <input type="nomor_telpon" class="form-control form-control-lg" name="nomor_telpon"
+                                    value="{{ auth()->user()->nomor_telpon }}">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label"><i class="fas fa-key me-2"></i>Password</label>

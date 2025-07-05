@@ -19,14 +19,14 @@
                     <h1>Buat Akun</h1>
                     <p>silahkan register akun disini</p>
                 </div>
-                <span>masukan username, email, dan password</span>
+                <span>masukan username, Nomor Telpon, dan password</span>
                 <div class="input-group">
                     <i class="fas fa-user"></i>
                     <input type="text" placeholder="Username" name="name" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="Email" name="email" required>
+                    <input type="nomor_telpon" placeholder="Nomor Telpon" name="nomor_telpon" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-lock"></i>
@@ -43,10 +43,10 @@
                     <h1>Assalamu'alaikum</h1>
                     <p>silahkan login dengan akun kamu</p>
                 </div>
-                <span>masukan email dan password</span>
+                <span>masukan Nomor Telpon dan password</span>
                 <div class="input-group">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="Email" name="email" required>
+                    <input type="nomor_telpon" placeholder="Nomor Telpon" name="nomor_telpon" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-lock"></i>

@@ -14,7 +14,7 @@
         <div class="row mb-4">
             <div class="col-12">
                 <h2 class="text-center text-primary mb-4">
-                    📚 Daftar Jadwal Ujian Untuk Jenjang {{ $jenjang }}
+                    📚 Daftar Jadwal Seleksi Untuk Jenjang {{ $jenjang }}
                 </h2>
             </div>
 

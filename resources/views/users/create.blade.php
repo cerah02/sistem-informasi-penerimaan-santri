@@ -40,8 +40,8 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
-                            <strong>Email:</strong>
-                            <input type="email" name="email" class="form-control" placeholder="email@gmail.com">
+                            <strong>Nomor Telpon:</strong>
+                            <input type="tel" name="nomor_telpon" class="form-control" placeholder="+62">
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
