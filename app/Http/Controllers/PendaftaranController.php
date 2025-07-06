@@ -577,31 +577,30 @@ class PendaftaranController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-        // Validasi input
         $request->validate([
             'status' => 'required|in:proses,diterima,ditolak,perbaikan',
             'pesan' => 'nullable|string'
         ]);
 
         try {
-            // Ambil data pendaftaran
             $pendaftaran = Pendaftaran::findOrFail($id);
             $pendaftaran->status = $request->status;
             $pendaftaran->save();
 
-            // Kirim notifikasi ke user
-            $user = \App\Models\User::find($pendaftaran->user_id);
+            $santri = \App\Models\Santri::find($pendaftaran->santri_id);
 
-            if ($user) {
+            if ($santri && $santri->user) {
+                $user = $santri->user;
                 $user->notify(new \App\Notifications\StatusPendaftaranUpdated(
                     $request->status,
                     $request->pesan,
                     $pendaftaran->id
                 ));
             } else {
-                \Log::warning("User tidak ditemukan untuk user_id: " . $pendaftaran->user_id);
+                \Log::warning("User tidak ditemukan untuk santri_id: " . $pendaftaran->santri_id);
             }
-            
+
+
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             \Log::error('Update Status Error: ' . $e->getMessage());

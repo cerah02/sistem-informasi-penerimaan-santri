@@ -14,6 +14,7 @@ use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\KesehatanController;
 use App\Http\Controllers\OrtuController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\HasilController;
 use App\Http\Controllers\PassingGradeController;
 use App\Http\Controllers\PengumumanController;
@@ -93,6 +94,10 @@ Route::prefix('admin')->group(function () {
     Route::put('/admin/notifikasi/{id}', [AdminNotifikasiController::class, 'update'])->name('notifikasi.update');
 });
 
+Route::middleware(['auth', 'role:Admin'])->group(function () {
+    Route::get('/admin/beranda', [BerandaController::class, 'index'])->name('beranda.index');
+    Route::post('/admin/beranda/update', [BerandaController::class, 'update'])->name('beranda.update');
+});
 
 Route::get('/passing_grade', [PassingGradeController::class, 'index'])->name('passing_grade.index');
 Route::get('/passing-grade/{id}/edit', [PassingGradeController::class, 'edit'])->name('passing_grades.edit');

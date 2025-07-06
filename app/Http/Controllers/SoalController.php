@@ -319,8 +319,22 @@ class SoalController extends Controller
             return redirect()->route('santri_pendaftaran_view')->with('error', 'Silakan isi data diri dan lengkapi berkas terlebih dahulu.');
         }
 
-        if (strtolower($pendaftaran->status) !== 'diterima') {
-            return redirect()->route('santri_pendaftaran_view')->with('error', 'Status pendaftaran Anda masih dalam proses pengecekkan oleh panitia. Harap sabar dan jika ada kendala hubungi kepanitian.');
+        $status = strtolower($pendaftaran->status);
+
+        if ($status === 'proses') {
+            return redirect()->route('santri_pendaftaran_view')->with('error', 'Status pendaftaran Anda masih dalam proses pengecekan oleh panitia. Harap sabar dan jika ada kendala hubungi kepanitian.');
+        }
+
+        if ($status === 'perbaikan') {
+            return redirect()->route('santri_pendaftaran_view')->with('error', 'Data Anda perlu perbaikan. Silakan periksa kembali dan lengkapi berkas sesuai catatan panitia.');
+        }
+
+        if ($status === 'ditolak') {
+            return redirect()->route('santri_pendaftaran_view')->with('error', 'Maaf, pendaftaran Anda Ditolak. Hubungi panitia untuk informasi lebih lanjut.');
+        }
+
+        if ($status !== 'diterima') {
+            return redirect()->route('santri_pendaftaran_view')->with('error', 'Status pendaftaran Anda tidak valid.');
         }
 
         // Ambil semua ujian sesuai jenjang pendidikan santri
