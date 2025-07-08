@@ -96,7 +96,11 @@ class PermissionTableSeeder extends Seeder
             'notifikasi-show',
             'laporan-index',
             'passing_grade-index',
-            'passing_grade-edit'
+            'passing_grade-edit',
+            'beranda_edit',
+            'visi_misi-edit',
+            'fasilitas_edit',
+            'pakaian_edit'
 
         ];
         foreach ($permissions as $permission) {

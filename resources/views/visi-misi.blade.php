@@ -3,6 +3,12 @@
 @section('title', 'Visi & Misi')
 
 @section('content')
+    @php
+        $visiMisi = \App\Models\VisiMisi::all()->keyBy('key');
+        $misiList = json_decode($visiMisi['misi']->value ?? '[]', true);
+        $nilaiList = json_decode($visiMisi['nilai']->value ?? '[]', true);
+    @endphp
+
     <div class="ppvm-container ppvm-root">
         <style>
             /* Prefix semua class dengan 'ppvm-' (Pondok Pesantren Visi Misi) */
@@ -14,9 +20,8 @@
             }
 
             .ppvm-container {
-                font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-family: 'Poppins', sans-serif;
                 color: #333;
-                /* Warna teks utama lebih gelap */
             }
 
             .ppvm-header {
@@ -37,7 +42,6 @@
                 height: 100%;
                 background: url('islamic-pattern.png') repeat;
                 opacity: 0.1;
-                z-index: 0;
             }
 
             .ppvm-header-content {
@@ -45,22 +49,10 @@
                 z-index: 1;
             }
 
-            .ppvm-logo {
-                width: 100px;
-                height: auto;
-                margin-bottom: 1rem;
-            }
-
             .ppvm-title {
                 font-size: 2.5rem;
                 margin-bottom: 0.5rem;
                 font-weight: 700;
-                color: white;
-            }
-
-            .ppvm-subtitle {
-                font-size: 1.2rem;
-                opacity: 0.9;
                 color: white;
             }
 
@@ -77,36 +69,12 @@
                 border-radius: 10px;
                 padding: 2rem;
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-                position: relative;
-                overflow: hidden;
-            }
-
-            .ppvm-section::after {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 5px;
-                height: 100%;
-                background: var(--ppvm-accent-color);
             }
 
             .ppvm-section-title {
                 color: var(--ppvm-primary-color);
                 margin-bottom: 1.5rem;
                 font-size: 2rem;
-                position: relative;
-                display: inline-block;
-            }
-
-            .ppvm-section-title::after {
-                content: "";
-                position: absolute;
-                bottom: -10px;
-                left: 0;
-                width: 50px;
-                height: 3px;
-                background: var(--ppvm-accent-color);
             }
 
             .ppvm-visi-content {
@@ -123,7 +91,7 @@
             }
 
             .ppvm-misi-list {
-                list-style-type: none;
+                list-style: none;
             }
 
             .ppvm-misi-list li {
@@ -132,19 +100,6 @@
                 background-color: rgba(44, 120, 108, 0.05);
                 border-left: 3px solid var(--ppvm-accent-color);
                 position: relative;
-                transition: transform 0.3s ease;
-                color: #222;
-                /* Warna teks lebih gelap */
-                font-size: 1.1rem;
-                /* Ukuran font lebih besar */
-                font-weight: 400;
-                /* Ketebalan normal */
-                line-height: 1.7;
-                /* Jarak baris lebih longgar */
-            }
-
-            .ppvm-misi-list li:hover {
-                transform: translateX(10px);
             }
 
             .ppvm-misi-list li::before {
@@ -163,28 +118,6 @@
                 margin: 2rem 0;
                 background: linear-gradient(135deg, rgba(44, 120, 108, 0.1), rgba(0, 68, 69, 0.1));
                 border-radius: 10px;
-                position: relative;
-                color: #333;
-                /* Warna teks lebih gelap */
-            }
-
-            .ppvm-quote::before,
-            .ppvm-quote::after {
-                content: '"';
-                font-size: 3rem;
-                color: var(--ppvm-accent-color);
-                opacity: 0.3;
-                position: absolute;
-            }
-
-            .ppvm-quote::before {
-                top: 0;
-                left: 1rem;
-            }
-
-            .ppvm-quote::after {
-                bottom: -1.5rem;
-                right: 1rem;
             }
 
             .ppvm-value-card-container {
@@ -212,92 +145,47 @@
                 color: var(--ppvm-primary-color);
                 margin-bottom: 0.5rem;
             }
-
-            .ppvm-value-card p {
-                color: #222;
-                /* Warna teks lebih gelap */
-                font-size: 1rem;
-                font-weight: 400;
-                /* Ketebalan normal */
-                line-height: 1.6;
-                /* Jarak baris lebih longgar */
-            }
-
-            @media (max-width: 768px) {
-                .ppvm-title {
-                    font-size: 2rem;
-                }
-
-                .ppvm-visi-content {
-                    font-size: 1.2rem;
-                    padding: 1rem;
-                }
-
-                .ppvm-main-container {
-                    padding: 1rem;
-                }
-
-                .ppvm-section {
-                    padding: 1.5rem;
-                }
-
-                .ppvm-misi-list li {
-                    font-size: 1rem;
-                    /* Ukuran font mobile */
-                }
-            }
         </style>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
         <div class="ppvm-main-container">
+            <!-- Visi Section -->
             <section class="ppvm-section">
                 <h2 class="ppvm-section-title"><i class="fas fa-binoculars"></i> Visi Pesantren</h2>
                 <div class="ppvm-visi-content">
-                    "Mencetak Kader Bangsa Yang Berlandaskan Wawasan Dan Pengetahuan Ke-islaman"
+                    {{ $visiMisi['visi']->value ?? 'Belum ada visi.' }}
                 </div>
                 <div class="ppvm-quote">
-                    "Sebaik-baik kalian adalah yang mempelajari Al-Qur'an dan mengajarkannya" <br>
-                    <strong>(HR. Bukhari)</strong>
+                    {!! $visiMisi['quote']->value ?? '' !!}
                 </div>
             </section>
 
+            <!-- Misi Section -->
             <section class="ppvm-section">
                 <h2 class="ppvm-section-title"><i class="fas fa-bullseye"></i> Misi Pesantren</h2>
                 <ul class="ppvm-misi-list">
-                    <li>Membentuk pribadi muslim yang berbekal ilmu pengetahuan dan teknologi yang disertai dengan iman dan
-                        takwa.</li>
-                    <li>Mengimplementasikan serta mengamalkan nilai-nilai yang terkandung dalam kitab suci Al-Qur'an dan
-                        sunnah-sunnah Rasulullah SAW.</li>
+                    @forelse ($misiList as $misi)
+                        <li>{{ $misi }}</li>
+                    @empty
+                        <li>Belum ada misi yang ditambahkan.</li>
+                    @endforelse
                 </ul>
             </section>
 
+            <!-- Nilai-nilai Section -->
             <section class="ppvm-section">
                 <h2 class="ppvm-section-title"><i class="fas fa-star"></i> Nilai-nilai Pesantren</h2>
                 <div class="ppvm-value-card-container">
-                    <div class="ppvm-value-card">
-                        <i class="fas fa-quran ppvm-value-icon"></i>
-                        <h3 class="ppvm-value-title">Qur'ani</h3>
-                        <p>Al-Qur'an sebagai pedoman utama dalam kehidupan</p>
-                    </div>
-
-                    <div class="ppvm-value-card">
-                        <i class="fas fa-hands-helping ppvm-value-icon"></i>
-                        <h3 class="ppvm-value-title">Akhlak Mulia</h3>
-                        <p>Meneladani akhlak Rasulullah SAW dalam kehidupan sehari-hari</p>
-                    </div>
-
-                    <div class="ppvm-value-card">
-                        <i class="fas fa-lightbulb ppvm-value-icon"></i>
-                        <h3 class="ppvm-value-title">Ilmu Bermanfaat</h3>
-                        <p>Mencari ilmu yang bermanfaat untuk dunia dan akhirat</p>
-                    </div>
-
-                    <div class="ppvm-value-card">
-                        <i class="fas fa-users ppvm-value-icon"></i>
-                        <h3 class="ppvm-value-title">Ukhuwah Islamiyah</h3>
-                        <p>Mempererat persaudaraan sesama muslim</p>
-                    </div>
+                    @forelse ($nilaiList as $card)
+                        <div class="ppvm-value-card">
+                            <i class="{{ $card['icon'] ?? 'fas fa-star' }} ppvm-value-icon"></i>
+                            <h3 class="ppvm-value-title">{{ $card['title'] ?? 'Judul Kosong' }}</h3>
+                            <p>{{ $card['desc'] ?? 'Deskripsi belum diisi.' }}</p>
+                        </div>
+                    @empty
+                        <p>Tidak ada nilai-nilai yang ditambahkan.</p>
+                    @endforelse
                 </div>
             </section>
         </div>

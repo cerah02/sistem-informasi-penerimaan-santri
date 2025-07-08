@@ -127,7 +127,7 @@ class GuruController extends Controller
         if ($request->has('buat_akun')) {
             $user = User::create([
                 'name' => $request->nama,
-                'email' => $request->email,
+                'nomor_telpon' => $request->no_telpon,
                 'password' => Hash::make('12341234') // Default password
             ]);
 

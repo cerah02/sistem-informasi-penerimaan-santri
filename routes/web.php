@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\FasilitasController;
+use App\Http\Controllers\Admin\PakaianController;
 use App\Http\Controllers\AdminNotifikasiController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\BantuanController;
@@ -15,12 +17,14 @@ use App\Http\Controllers\KesehatanController;
 use App\Http\Controllers\OrtuController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BerandaController;
+use App\Http\Controllers\FasilitasController as ControllersFasilitasController;
 use App\Http\Controllers\HasilController;
 use App\Http\Controllers\PassingGradeController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TotalHasilController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VisiMisiController;
 use Illuminate\Routing\Route as RoutingRoute;
 use Symfony\Component\Routing\Annotation\Route as AnnotationRoute;
 
@@ -73,12 +77,15 @@ Route::view('/sejarah', 'sejarah');
 Route::view('/visi-misi', 'visi-misi');
 Route::view('/beranda ', 'welcome');
 Route::view('/jenjang ', 'jenjang');
-Route::view('/fasilitas ', 'fasilitas');
+// Route::view('/fasilitas ', 'fasilitas');
 Route::get('/kelulusan-info', [PengumumanController::class, 'showKelulusan'])->name('pengumuman.kelulusan');
-Route::view('/pakaian-putra ', 'pakaian_putra');
-Route::view('/pakaian-putri ', 'pakaian_putri');
+
 Route::view('/kegiatan-harian ', 'kegiatan_harian');
 Route::view('/brosur ', 'brosur');
+
+Route::get('/fasilitas', [FasilitasController::class, 'fasilitas'])->name('fasilitas');
+Route::get('/pakaian-putra', [PakaianController::class, 'pakaianPutra'])->name('pakaian.putra');
+Route::get('/pakaian-putri', [PakaianController::class, 'pakaianPutri'])->name('pakaian.putri');
 
 Route::get('/notifikasi/baca-semua', function () {
     auth()->user()->unreadNotifications->markAsRead();
@@ -99,6 +106,9 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::post('/admin/beranda/update', [BerandaController::class, 'update'])->name('beranda.update');
 });
 
+Route::get('/admin/visi-misi/edit', [VisiMisiController::class, 'edit'])->name('visi_misi.edit');
+Route::post('/admin/visi-misi/update', [VisiMisiController::class, 'update'])->name('visi_misi.update');
+
 Route::get('/passing_grade', [PassingGradeController::class, 'index'])->name('passing_grade.index');
 Route::get('/passing-grade/{id}/edit', [PassingGradeController::class, 'edit'])->name('passing_grades.edit');
 Route::put('/passing-grades/{id}', [PassingGradeController::class, 'update'])->name('passing_grades.update');
@@ -114,6 +124,10 @@ Route::post('/hapus-jawaban-dari-hasil', [JawabanController::class, 'hapusDariTa
 Route::get('/jawabans', [JawabanController::class, 'index'])->name('jawabans.index');
 Route::get('/jawabans/detail', [JawabanController::class, 'detail'])->name('jawabans.detail');
 Route::post('/pendaftarans/{id}/update-status', [PendaftaranController::class, 'updateStatus'])->name('pendaftarans.updateStatus');
+
+Route::resource('fasilitas_edit', FasilitasController::class)->names('fasilitas_edit');
+Route::resource('pakaian_edit', PakaianController::class)->names('pakaian_edit');
+
 
 /*
 |--------------------------------------------------------------------------

@@ -18,7 +18,7 @@
                             <a href="/sejarah" class="dropdown-item">Sejarah Pesantren</a>
                             <a href="/visi-misi" class="dropdown-item">Visi & Misi</a>
                             <a href="/jenjang" class="dropdown-item">Jenjang Pendidikan</a>
-                            <a href="/fasilitas" class="dropdown-item">Fasilitas</a>
+                            <a href="{{ route('fasilitas') }}" class="dropdown-item">Fasilitas</a>
                             <a href="{{ route('guru.tampilan') }}" class="dropdown-item">Tenaga Pengajar</a>
                         </div>
                     </div>
@@ -26,8 +26,8 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Contoh
                             Pakaian</a>
                         <div class="dropdown-menu bg-light m-0">
-                            <a href="/pakaian-putra" class="dropdown-item">Pakaian Putra</a>
-                            <a href="/pakaian-putri" class="dropdown-item">Pakaian Putri</a>
+                            <a href="{{ route('pakaian.putra') }}" class="dropdown-item">Pakaian Putra</a>
+                            <a href="{{ route('pakaian.putri') }}" class="dropdown-item">Pakaian Putri</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">

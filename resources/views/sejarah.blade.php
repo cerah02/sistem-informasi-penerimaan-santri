@@ -507,7 +507,7 @@
                 </div>
             </section>
 
-            <section id="galeri" class="pesantren-section">
+            {{-- <section id="galeri" class="pesantren-section">
                 <h2 class="pesantren-section-title">Galeri Pesantren</h2>
                 <p>Dokumentasi visual perjalanan panjang Pondok Pesantren Al-Ihsan dari masa ke masa.</p>
 
@@ -542,7 +542,7 @@
                         <div class="pesantren-gallery-caption">Kegiatan ekstrakurikuler santri</div>
                     </div>
                 </div>
-            </section>
+            </section> --}}
         </main>
 
         <script>

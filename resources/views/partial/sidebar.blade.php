@@ -252,8 +252,61 @@
                         </a>
                     </li>
                 @endcan
-                
+
                 <!-- List pengumuman-->
+                @can('beranda_edit')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('beranda.index') ? 'active' : '' }}"
+                            href="{{ route('beranda.index') }}">
+                            <div
+                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Beranda</span>
+                        </a>
+                    </li>
+                @endcan
+
+                @can('visi_misi-edit')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('visi_misi.edit') ? 'active' : '' }}"
+                            href="{{ route('visi_misi.edit') }}">
+                            <div
+                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Visi Misi</span>
+                        </a>
+                    </li>
+                @endcan
+
+                @can('fasilitas_edit')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('fasilitas_edit.*') ? 'active' : '' }}"
+                            href="{{ route('fasilitas_edit.index') }}">
+                            <div
+                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Fasilitas</span>
+                        </a>
+                    </li>
+                @endcan
+
+                @can('pakaian_edit')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('pakaian_edit.*') ? 'active' : '' }}"
+                            href="{{ route('pakaian_edit.index') }}">
+                            <div
+                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Pakaian</span>
+                        </a>
+                    </li>
+                @endcan
+
+
                 @can('pengumuman-list')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('pengumuman.index') ? 'active' : '' }}"

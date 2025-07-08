@@ -1,385 +1,229 @@
 @extends('layout_landingpage')
-
-@section('title', 'Fasilitas Pesantren')
-
 @section('content')
-    <title>Fasilitas Pesantren - Pondok Modern</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Amiri:wght@400;700&display=swap"
-        rel="stylesheet">
-    <style>
-        /* Reset Styles */
-        .facility-reset {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        /* Base Styles */
-        body.facility-body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f5f7fa;
-            color: #2c3e50;
-            line-height: 1.8;
-            background-image: url('https://img.freepik.com/free-vector/hand-drawn-islamic-background_23-2149241594.jpg');
-            background-size: 500px;
-            background-blend-mode: overlay;
-            background-color: rgba(245, 247, 250, 0.9);
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fasilitas Pesantren - Pondok Modern</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Amiri:wght@400;700&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        /* Container Utama */
-        .facility-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+        <style>
+            body {
+                font-family: 'Poppins', sans-serif;
+                background: #f1f3f6;
+                color: #333;
+                min-height: 100vh;
+                margin: 0;
+                padding: 0;
+            }
 
-        /* Header */
-        .facility-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-            padding: 2rem 0;
-        }
+            .fasilitas-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 2rem 1rem;
+            }
 
-        .facility-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 3px;
-            background: linear-gradient(90deg, #2ecc71, #27ae60);
-            border-radius: 3px;
-        }
+            .fasilitas-header {
+                text-align: center;
+                margin-bottom: 3rem;
+            }
 
-        .facility-title {
-            font-family: 'Amiri', serif;
-            font-size: 2.8rem;
-            color: #27ae60;
-            margin-bottom: 1rem;
-        }
+            .fasilitas-title {
+                font-family: 'Amiri', serif;
+                font-size: 3rem;
+                color: #2c3e50;
+                font-weight: 700;
+            }
 
-        .facility-subtitle {
-            color: #7f8c8d;
-            font-weight: 300;
-            font-size: 1.2rem;
-        }
+            .fasilitas-subtitle {
+                color: #7f8c8d;
+                font-size: 1.2rem;
+                max-width: 700px;
+                margin: 0 auto;
+            }
 
-        /* Grid Fasilitas */
-        .facility-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
+            /* Grid */
+            .fasilitas-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 1.5rem;
+            }
 
-        /* Card Fasilitas */
-        .facility-card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            position: relative;
-        }
+            /* Card */
+            .fasilitas-card {
+                background: #fff;
+                border: 1px solid #e0e0e0;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                overflow: hidden;
+                cursor: pointer;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
 
-        .facility-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-        }
+            .fasilitas-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+            }
 
-        .facility-img-container {
-            height: 300px;
-            overflow: hidden;
-            position: relative;
-        }
+            .fasilitas-img-wrapper {
+                width: 100%;
+                padding-top: 56.25%;
+                /* 16:9 aspect ratio */
+                position: relative;
+                overflow: hidden;
+            }
 
-        .facility-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
+            .fasilitas-img-wrapper img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
 
-        .facility-card:hover .facility-img {
-            transform: scale(1.05);
-        }
+            .fasilitas-content {
+                padding: 1rem;
+            }
 
-        .facility-category {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background-color: rgba(46, 204, 113, 0.9);
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
+            .fasilitas-name {
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: #2c3e50;
+            }
 
-        .facility-content {
-            padding: 1.5rem;
-        }
+            .fasilitas-desc {
+                color: #7f8c8d;
+                font-size: 0.95rem;
+                margin-top: 0.5rem;
+            }
 
-        .facility-type {
-            display: inline-block;
-            background-color: #e8f6f3;
-            color: #2ecc71;
-            padding: 0.3rem 1rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
+            .modal-backdrop.show {
+                z-index: 9998 !important;
+            }
 
-        .facility-desc {
-            color: #555;
-            margin-bottom: 1.5rem;
-        }
+            .modal.show {
+                z-index: 9999 !important;
+            }
 
-        .facility-features {
-            border-top: 1px dashed #eee;
-            padding-top: 1rem;
-        }
+            .modal-dialog {
+                z-index: 10000 !important;
+            }
 
-        .facility-features h4 {
-            color: #27ae60;
-            margin-bottom: 0.8rem;
-            font-size: 1.1rem;
-        }
+            .modal.fasilitas-fullscreen .modal-content {
+                height: 200%;
+                border: none;
+                border-radius: 0;
+                background: #fff;
+                display: flex;
+                flex-direction: column;
+            }
 
-        .facility-list {
-            list-style-type: none;
-        }
+            .fasilitas-modal-image {
+                flex: 1;
+                position: relative;
+                background-color: #f5f5f5;
+                overflow: hidden;
+            }
 
-        .facility-list li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #f5f5f5;
-            display: flex;
-            align-items: center;
-        }
+            .fasilitas-modal-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
 
-        .facility-list li:last-child {
-            border-bottom: none;
-        }
+            .fasilitas-modal-body {
+                padding: 1.5rem;
+                color: #2c3e50;
+            }
 
-        .facility-list li::before {
-            content: '✓';
-            color: #2ecc71;
-            font-weight: bold;
-            display: inline-block;
-            width: 1em;
-            margin-right: 0.5rem;
-            font-size: 1.2rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .facility-title {
+            .fasilitas-modal-title {
                 font-size: 2rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
             }
 
-            .facility-grid {
-                grid-template-columns: 1fr;
+            .fasilitas-modal-text {
+                font-size: 1.05rem;
+                line-height: 1.6;
+                color: #7f8c8d;
             }
 
-            .facility-img-container {
-                height: 250px;
+            .btn-close.fasilitas-close-btn {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                background: rgba(0, 0, 0, 0.5);
+                border-radius: 50%;
+                width: 35px;
+                height: 35px;
+                color: #fff;
+                z-index: 10001;
             }
-        }
 
-        /* Animasi */
-        @keyframes facility-fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+            .btn-close.fasilitas-close-btn:hover {
+                background: rgba(0, 0, 0, 0.8);
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            @media (max-width: 768px) {
+                .fasilitas-title {
+                    font-size: 2.2rem;
+                }
+
+                .fasilitas-modal-title {
+                    font-size: 1.5rem;
+                }
+
+                .fasilitas-modal-text {
+                    font-size: 1rem;
+                }
             }
-        }
-
-        .facility-card {
-            animation: facility-fadeIn 0.6s ease-out;
-            animation-fill-mode: backwards;
-        }
-
-        .facility-card:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .facility-card:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .facility-card:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .facility-card:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .facility-card:nth-child(5) {
-            animation-delay: 0.5s;
-        }
-
-        .facility-card:nth-child(6) {
-            animation-delay: 0.6s;
-        }
-    </style>
+        </style>
     </head>
 
-    <body class="facility-body facility-reset">
-        <div class="facility-container">
-            <header class="facility-header">
-                <h1 class="facility-title">Fasilitas Pesantren</h1>
-                <p class="facility-subtitle">Infrastruktur Pendukung Pendidikan Berbasis Islam</p>
+    <body>
+        <div class="fasilitas-container">
+            <header class="fasilitas-header">
+                <h1 class="fasilitas-title">Fasilitas Pesantren</h1>
+                <p class="fasilitas-subtitle">Infrastruktur Modern & Pendukung Pendidikan Berbasis Islam</p>
             </header>
 
-            <div class="facility-grid">
-                <!-- Perpustakaan -->
-                <div class="facility-card">
-                    <div class="facility-img-container">
-                        <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-                            alt="Perpustakaan" class="facility-img">
-                        <span class="facility-category">Akademik</span>
-                    </div>
-                    <div class="facility-content">
-                        <span class="facility-type">Perpustakaan</span>
-                        <p class="facility-desc">Perpustakaan modern dengan koleksi kitab kuning hingga buku kontemporer.
-                        </p>
-                        <div class="facility-features">
-                            <h4>Fasilitas:</h4>
-                            <ul class="facility-list">
-                                <li>10.000+ koleksi buku</li>
-                                <li>Ruangan ber-AC</li>
-                                <li>Wi-Fi kecepatan tinggi</li>
-                                <li>Ruang baca 24 jam</li>
-                                <li>Katalog digital</li>
-                            </ul>
+            <div class="fasilitas-grid">
+                @foreach ($fasilitas as $item)
+                    <div class="fasilitas-card" data-bs-toggle="modal" data-bs-target="#fasilitasModal{{ $item->id }}">
+                        <div class="fasilitas-content">
+                            <div class="fasilitas-name">{{ $item->nama_fasilitas }}</div>
+                        </div>
+                        <div class="fasilitas-img-wrapper">
+                            <img src="{{ asset('storage/' . $item->foto_fasilitas) }}" alt="{{ $item->nama_fasilitas }}">
                         </div>
                     </div>
-                </div>
 
-                <!-- Asrama -->
-                <div class="facility-card">
-                    <div class="facility-img-container">
-                        <img src="https://images.unsplash.com/photo-1604018612517-9f0ccc6d3d4a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-                            alt="Asrama" class="facility-img">
-                        <span class="facility-category">Hunian</span>
-                    </div>
-                    <div class="facility-content">
-                        <span class="facility-type">Asrama Santri</span>
-                        <p class="facility-desc">Asrama nyaman dengan sistem kamar berkapasitas terbatas.</p>
-                        <div class="facility-features">
-                            <h4>Fasilitas:</h4>
-                            <ul class="facility-list">
-                                <li>Kasur springbed</li>
-                                <li>Lemari pakaian</li>
-                                <li>AC dan ventilasi baik</li>
-                                <li>Laundry service</li>
-                                <li>Area belajar pribadi</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                    <!-- Modal Fullscreen -->
+                    <div class="modal fade fasilitas-fullscreen" id="fasilitasModal{{ $item->id }}" tabindex="-1"
+                        aria-labelledby="modalLabel{{ $item->id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="fasilitas-modal-image">
+                                    <img src="{{ asset('storage/' . $item->foto_fasilitas) }}"
+                                        alt="{{ $item->nama_fasilitas }}">
+                                </div>
+                                <div class="fasilitas-modal-body">
+                                    <button type="button" class="btn-close fasilitas-close-btn" data-bs-dismiss="modal"
+                                        aria-label="Tutup">X</button>
+                                    <h2 class="fasilitas-modal-title">{{ $item->nama_fasilitas }}</h2>
+                                    <p class="fasilitas-modal-text">{{ $item->keterangan }}</p>
+                                </div>
 
-                <!-- Masjid -->
-                <div class="facility-card">
-                    <div class="facility-img-container">
-                        <img src="https://images.unsplash.com/photo-1580338459050-75f5b0c01a2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-                            alt="Masjid" class="facility-img">
-                        <span class="facility-category">Ibadah</span>
-                    </div>
-                    <div class="facility-content">
-                        <span class="facility-type">Masjid Pusat</span>
-                        <p class="facility-desc">Masjid tiga lantai dengan kapasitas 2000 jamaah.</p>
-                        <div class="facility-features">
-                            <h4>Fasilitas:</h4>
-                            <ul class="facility-list">
-                                <li>Sound system profesional</li>
-                                <li>Karpet khusus shalat</li>
-                                <li>Perpustakaan mini</li>
-                                <li>Ruang wudhu modern</li>
-                                <li>Pendingin udara</li>
-                            </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Laboratorium -->
-                <div class="facility-card">
-                    <div class="facility-img-container">
-                        <img src="https://images.unsplash.com/photo-1581094271901-8022df4466f9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-                            alt="Laboratorium" class="facility-img">
-                        <span class="facility-category">Pendidikan</span>
-                    </div>
-                    <div class="facility-content">
-                        <span class="facility-type">Lab Komputer</span>
-                        <p class="facility-desc">Laboratorium TI dengan perangkat terkini untuk pembelajaran.</p>
-                        <div class="facility-features">
-                            <h4>Fasilitas:</h4>
-                            <ul class="facility-list">
-                                <li>50 PC workstation</li>
-                                <li>Internet fiber optik</li>
-                                <li>Software lengkap</li>
-                                <li>Printer 3D</li>
-                                <li>Ruangan ber-AC</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Olahraga -->
-                <div class="facility-card">
-                    <div class="facility-img-container">
-                        <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-                            alt="Olahraga" class="facility-img">
-                        <span class="facility-category">Rekreasi</span>
-                    </div>
-                    <div class="facility-content">
-                        <span class="facility-type">Lapangan Olahraga</span>
-                        <p class="facility-desc">Kompleks olahraga lengkap untuk pengembangan fisik santri.</p>
-                        <div class="facility-features">
-                            <h4>Fasilitas:</h4>
-                            <ul class="facility-list">
-                                <li>Lapangan futsal</li>
-                                <li>Basket outdoor</li>
-                                <li>Jogging track</li>
-                                <li>Wall climbing</li>
-                                <li>Kolam renang</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Kesehatan -->
-                <div class="facility-card">
-                    <div class="facility-img-container">
-                        <img src="https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-                            alt="Klinik" class="facility-img">
-                        <span class="facility-category">Kesehatan</span>
-                    </div>
-                    <div class="facility-content">
-                        <span class="facility-type">Klinik Santri</span>
-                        <p class="facility-desc">Layanan kesehatan 24 jam dengan tenaga medis profesional.</p>
-                        <div class="facility-features">
-                            <h4>Fasilitas:</h4>
-                            <ul class="facility-list">
-                                <li>Dokter jaga</li>
-                                <li>Ambulans darurat</li>
-                                <li>Ruang isolasi</li>
-                                <li>Apotek lengkap</li>
-                                <li>Medical checkup rutin</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 @endsection

@@ -15,9 +15,28 @@ class BerandaController extends Controller
 
     public function update(Request $request)
     {
-        foreach ($request->except('_token') as $key => $value) {
-            Beranda::updateOrCreate(['key' => $key], ['value' => $value]);
+        $data = Beranda::all()->keyBy('key');
+
+        foreach ($data as $key => $item) {
+            if ($request->hasFile($key)) {
+                // Hapus file lama jika ada
+                if ($item->value && file_exists(public_path($item->value))) {
+                    unlink(public_path($item->value));
+                }
+
+                // Simpan file baru
+                $file = $request->file($key);
+                $filename = $key . '_' . time() . '.' . $file->getClientOriginalExtension();
+                $path = 'landing_assets/img/' . $filename;
+                $file->move(public_path('landing_assets/img'), $filename);
+
+                // Update value di DB
+                $item->update(['value' => $path]);
+            } elseif ($request->filled($key)) {
+                $item->update(['value' => $request->input($key)]);
+            }
         }
-        return redirect()->back()->with('success', 'Konten beranda berhasil diperbarui.');
+
+        return redirect()->back()->with('success', 'Konten Beranda berhasil diperbarui.');
     }
 }
