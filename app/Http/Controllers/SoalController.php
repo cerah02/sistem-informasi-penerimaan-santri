@@ -148,8 +148,23 @@ class SoalController extends Controller
 
     public function ujian($id)
     {
-        $ujian = Ujian::findOrFail($id);
+        $Santri = auth()->user()->santri;
 
+        if (!$Santri) {
+            return redirect()->route('dashboard')->with('error', 'Data santri tidak ditemukan.');
+        }
+
+        // Ambil data ujian dengan validasi jenjang & tahun
+        $ujian = Ujian::where('id', $id)
+            ->where('jenjang_pendidikan', $Santri->jenjang_pendidikan)
+            ->where('tahun_ajaran', $Santri->tahun_masuk)
+            ->first();
+
+        if (!$ujian) {
+            return redirect()->route('dashboard')->with('error', 'Ujian tidak ditemukan atau Anda tidak berhak mengaksesnya.');
+        }
+
+        // Urutan soal di session
         if (!session()->has("urutan_soal_ujian_$id")) {
             $soalIds = Soal::where('ujian_id', $id)
                 ->where('status', 'dipilih') // 👈 hanya soal dipilih
@@ -172,6 +187,7 @@ class SoalController extends Controller
 
         return view('soals.ujian', compact('soals', 'ujian'));
     }
+
 
 
     public function submitUjian(Request $request)

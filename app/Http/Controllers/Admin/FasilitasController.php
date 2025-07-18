@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Fasilitas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FasilitasController extends Controller
 {
@@ -43,8 +44,10 @@ class FasilitasController extends Controller
         return view('fasilitas', compact('fasilitas'));
     }
 
-    public function update(Request $request, Fasilitas $fasilitas)
+    public function update(Request $request, $id)
     {
+        $fasilitas = Fasilitas::findOrFail($id);
+
         $validated = $request->validate([
             'nama_fasilitas' => 'required|max:25',
             'foto_fasilitas' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
@@ -52,6 +55,9 @@ class FasilitasController extends Controller
         ]);
 
         if ($request->hasFile('foto_fasilitas')) {
+            if ($fasilitas->foto_fasilitas && Storage::disk('public')->exists($fasilitas->foto_fasilitas)) {
+                Storage::disk('public')->delete($fasilitas->foto_fasilitas);
+            }
             $file = $request->file('foto_fasilitas');
             $path = $file->store('fasilitas', 'public');
             $validated['foto_fasilitas'] = $path;
@@ -62,8 +68,14 @@ class FasilitasController extends Controller
         return redirect()->route('fasilitas_edit.index')->with('success', 'Fasilitas berhasil diupdate.');
     }
 
-    public function destroy(Fasilitas $fasilitas)
+    public function destroy($id)
     {
+        $fasilitas = Fasilitas::findOrFail($id);
+
+        if ($fasilitas->foto_fasilitas && Storage::disk('public')->exists($fasilitas->foto_fasilitas)) {
+            Storage::disk('public')->delete($fasilitas->foto_fasilitas);
+        }
+
         $fasilitas->delete();
         return redirect()->route('fasilitas_edit.index')->with('success', 'Fasilitas berhasil dihapus.');
     }

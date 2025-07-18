@@ -46,6 +46,7 @@
                             </div>
                             <div class="card-body">
                                 <p class="card-text"><strong>Kategori:</strong> {{ $ujian->kategori }}</p>
+                                <p class="card-text"><strong>Tahun Ajaran:</strong> {{ $ujian->tahun_ajaran }}</p>
                                 <p class="card-text"><strong>Tanggal Mulai:</strong>
                                     {{ date('d M Y, H:i', strtotime($ujian->tanggal_mulai)) }}
                                 </p>

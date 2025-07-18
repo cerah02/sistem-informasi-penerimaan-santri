@@ -48,6 +48,13 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
+                            <strong>Tahun Ajaran :</strong>
+                            <input type="year" name="tahun_ajaran" value="{{ $ujian->tahun_ajaran }}" class="form-control"
+                                placeholder="Masukkan Tahun Ajaran">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
                             <strong>Tanggal Mulai:</strong>
                             <input type="datetime-local" name="tanggal_mulai" value="{{ $ujian->tanggal_mulai }}"
                                 class="form-control" placeholder="Masukkan Tanggal Mulai">

@@ -232,7 +232,7 @@
                             href="{{ route('agendas.index') }}">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                                <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
                             </div>
                             <span class="nav-link-text ms-1">Agenda Pondok</span>
                         </a>
@@ -246,7 +246,7 @@
                             href="{{ route('notifikasi.index') }}">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                                <i class="ni ni-bell-55 text-dark text-sm opacity-10"></i>
                             </div>
                             <span class="nav-link-text ms-1">Notifikasi</span>
                         </a>
@@ -260,7 +260,7 @@
                             href="{{ route('beranda.index') }}">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                                <i class="ni ni-shop text-dark text-sm opacity-10"></i>
                             </div>
                             <span class="nav-link-text ms-1">Beranda</span>
                         </a>
@@ -273,7 +273,7 @@
                             href="{{ route('visi_misi.edit') }}">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                                <i class="ni ni-book-bookmark text-dark text-sm opacity-10"></i>
                             </div>
                             <span class="nav-link-text ms-1">Visi Misi</span>
                         </a>
@@ -286,7 +286,7 @@
                             href="{{ route('fasilitas_edit.index') }}">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                                <i class="ni ni-building text-dark text-sm opacity-10"></i>
                             </div>
                             <span class="nav-link-text ms-1">Fasilitas</span>
                         </a>
@@ -299,13 +299,25 @@
                             href="{{ route('pakaian_edit.index') }}">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                                <i class="ni ni-briefcase-24 text-dark text-sm opacity-10"></i>
                             </div>
                             <span class="nav-link-text ms-1">Pakaian</span>
                         </a>
                     </li>
                 @endcan
 
+                @can('brosur_edit')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('brosur_edit.*') ? 'active' : '' }}"
+                            href="{{ route('brosur_edit.index') }}">
+                            <div
+                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-briefcase-24 text-dark text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Brosur</span>
+                        </a>
+                    </li>
+                @endcan
 
                 @can('pengumuman-list')
                     <li class="nav-item">
@@ -313,13 +325,12 @@
                             href="{{ route('pengumuman.index') }}">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                                <i class="ni ni-notification-70 text-dark text-sm opacity-10"></i>
                             </div>
                             <span class="nav-link-text ms-1">Pengumuman</span>
                         </a>
                     </li>
                 @endcan
-
 
                 @can('laporan-index')
                     <li class="nav-item">
@@ -327,7 +338,7 @@
                             href="{{ route('laporan') }}">
                             <div
                                 class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+                                <i class="ni ni-chart-bar-32 text-dark text-sm opacity-10"></i>
                             </div>
                             <span class="nav-link-text ms-1">Laporan</span>
                         </a>

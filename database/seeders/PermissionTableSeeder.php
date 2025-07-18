@@ -100,7 +100,8 @@ class PermissionTableSeeder extends Seeder
             'beranda_edit',
             'visi_misi-edit',
             'fasilitas_edit',
-            'pakaian_edit'
+            'pakaian_edit',
+            'brosur_edit'
 
         ];
         foreach ($permissions as $permission) {

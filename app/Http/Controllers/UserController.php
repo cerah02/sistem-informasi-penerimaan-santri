@@ -14,10 +14,51 @@ class UserController extends Controller
     //
     public function index(Request $request)
     {
-        $data = User::orderBy('id', 'DESC')->paginate(5);
-        return view('users.index', compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        if ($request->ajax()) {
+            $users = User::query();
+
+            if ($request->sSearch) {
+                $search_value = '%' . $request->sSearch . '%';
+                $users->where(function ($query) use ($search_value) {
+                    $query->where('name', 'like', $search_value)
+                        ->orWhere('email', 'like', $search_value)
+                        ->orWhere('nomor_telpon', 'like', $search_value);
+                });
+            }
+
+            return datatables()->of($users)
+                ->addIndexColumn()
+                ->addColumn('roles', function ($row) {
+                    $roles = $row->getRoleNames();
+                    if (count($roles) > 0) {
+                        return $roles->map(fn($r) => '<span class="badge bg-success">' . $r . '</span>')->implode(' ');
+                    }
+                    return '<span class="text-muted">No roles</span>';
+                })
+                ->addColumn('aksi', function ($row) {
+                    $btn = '';
+                    if (auth()->user()->can('user-show')) {
+                        $btn .= '<a class="btn btn-info btn-sm me-1" href="' . route('users.show', $row->id) . '">Show</a>';
+                    }
+                    if (auth()->user()->can('user-edit')) {
+                        $btn .= '<a class="btn btn-primary btn-sm me-1" href="' . route('users.edit', $row->id) . '">Edit</a>';
+                    }
+                    if (auth()->user()->can('user-delete')) {
+                        $btn .= '<form action="' . route('users.destroy', $row->id) . '" method="POST" style="display:inline;">
+                                ' . csrf_field() . method_field('DELETE') . '
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Yakin hapus user ini?\')">Hapus</button>
+                             </form>';
+                    }
+                    return $btn;
+                })
+                ->rawColumns(['roles', 'aksi'])
+                ->make(true);
+        }
+
+        return view('users.index');
     }
+
+
     /*** Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

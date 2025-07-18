@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("nama_ujian",30);
             $table->string("kategori",30);
             $table->enum("jenjang_pendidikan",["SD","MTS","MA"]);
+            $table->year("tahun_ajaran");
             $table->dateTime("tanggal_mulai");
             $table->dateTime("tanggal_selesai");
             $table->integer("durasi");

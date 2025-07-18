@@ -1,13 +1,15 @@
 @extends('layout')
 @section('content')
     <div class="row">
-        <div class="col-lg-12 margin-tb">
+        <div class="col-lg-12 margin-tb mb-3">
             <div class="pull-left">
                 <h2>Users Management</h2>
             </div>
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('users.create') }}"> Tambah User Baru</a>
-            </div>
+            @can('user-create')
+                <div class="pull-right">
+                    <a class="btn btn-success" href="{{ route('users.create') }}">Tambah User Baru</a>
+                </div>
+            @endcan
         </div>
     </div>
 
@@ -17,50 +19,68 @@
         </div>
     @endif
 
-    <!-- Card untuk tabel -->
+    <!-- Card untuk Tabel -->
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
-            <h3 class="card-title">Daftar User</h3>
+            <h3 class="card-title mb-0">Tabel Data Users</h3>
         </div>
         <div class="card-body">
-            <table class="table table-bordered">
-                <tr>
-                    <th>No</th>
-                    <th>Name</th>
-                    <th>Nomor Telpon</th>
-                    <th>Roles</th>
-                    <th width="280px">Action</th>
-                </tr>
-                @foreach ($data as $key => $user)
-                    <tr>
-                        <td>{{ ++$i }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->nomor_telpon }}</td>
-                        <td>
-                            @if (!empty($user->getRoleNames()))
-                                @foreach ($user->getRoleNames() as $v)
-                                    <label class="badge badge-success text-dark">{{ $v }}</label>
-                                @endforeach
-                            @else
-                                <span class="text-muted">No roles assigned.</span>
-                            @endif
-                        </td>
-                        <td>
-                            <form action="{{ route('users.destroy', $user->id) }}" method="POST">
-                                <a class="btn btn-info" href="{{ route('users.show', $user->id) }}">Show</a>
-                                <a class="btn btn-primary" href="{{ route('users.edit', $user->id) }}">Edit</a>
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </table>
-        </div>
-        <div class="card-footer">
-            {!! $data->render() !!}
+            <div class="table-responsive">
+                <table class="table table-bordered data-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Nomor Telpon</th>
+                            <th>Roles</th>
+                            <th width="180px">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <!-- End of Card -->
+
+    <!-- DataTables Script -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            $('.data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('users.index') }}",
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'nomor_telpon',
+                        name: 'nomor_telpon'
+                    },
+                    {
+                        data: 'roles',
+                        name: 'roles',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'aksi',
+                        name: 'aksi',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+        });
+    </script>
 @endsection

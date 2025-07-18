@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BrosurController;
 use App\Http\Controllers\Admin\FasilitasController;
 use App\Http\Controllers\Admin\PakaianController;
 use App\Http\Controllers\AdminNotifikasiController;
@@ -81,11 +82,13 @@ Route::view('/jenjang ', 'jenjang');
 Route::get('/kelulusan-info', [PengumumanController::class, 'showKelulusan'])->name('pengumuman.kelulusan');
 
 Route::view('/kegiatan-harian ', 'kegiatan_harian');
-Route::view('/brosur ', 'brosur');
 
 Route::get('/fasilitas', [FasilitasController::class, 'fasilitas'])->name('fasilitas');
+Route::get('/brosur', [BrosurController::class, 'brosur'])->name('brosur');
 Route::get('/pakaian-putra', [PakaianController::class, 'pakaianPutra'])->name('pakaian.putra');
 Route::get('/pakaian-putri', [PakaianController::class, 'pakaianPutri'])->name('pakaian.putri');
+
+Route::get('users/search', [UserController::class, 'search'])->name('users.search');
 
 Route::get('/notifikasi/baca-semua', function () {
     auth()->user()->unreadNotifications->markAsRead();
@@ -127,6 +130,8 @@ Route::post('/pendaftarans/{id}/update-status', [PendaftaranController::class, '
 
 Route::resource('fasilitas_edit', FasilitasController::class)->names('fasilitas_edit');
 Route::resource('pakaian_edit', PakaianController::class)->names('pakaian_edit');
+Route::resource('brosur_edit', BrosurController::class)->names("brosur_edit");
+
 
 
 /*

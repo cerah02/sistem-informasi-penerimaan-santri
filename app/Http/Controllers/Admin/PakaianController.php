@@ -36,8 +36,10 @@ class PakaianController extends Controller
         return redirect()->route('pakaian_edit.index')->with('success', 'Pakaian berhasil ditambahkan.');
     }
 
-    public function update(Request $request, Pakaian $pakaian)
+    public function update(Request $request, $id)
     {
+        $pakaian = Pakaian::findOrFail($id);
+
         $validated = $request->validate([
             'nama_pakaian' => 'required|max:25',
             'foto_pakaian' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
@@ -47,16 +49,12 @@ class PakaianController extends Controller
         ]);
 
         if ($request->hasFile('foto_pakaian')) {
-            // Hapus foto lama jika ada
             if ($pakaian->foto_pakaian && Storage::disk('public')->exists($pakaian->foto_pakaian)) {
                 Storage::disk('public')->delete($pakaian->foto_pakaian);
             }
-
             $file = $request->file('foto_pakaian');
             $path = $file->store('pakaian', 'public');
             $validated['foto_pakaian'] = $path;
-        } else {
-            unset($validated['foto_pakaian']); // jangan timpa jika tidak upload
         }
 
         $pakaian->update($validated);
@@ -64,9 +62,10 @@ class PakaianController extends Controller
         return redirect()->route('pakaian_edit.index')->with('success', 'Pakaian berhasil diupdate.');
     }
 
-    public function destroy(Pakaian $pakaian)
+    public function destroy($id)
     {
-        // Hapus foto jika ada
+        $pakaian = Pakaian::findOrFail($id);
+
         if ($pakaian->foto_pakaian && Storage::disk('public')->exists($pakaian->foto_pakaian)) {
             Storage::disk('public')->delete($pakaian->foto_pakaian);
         }
@@ -75,6 +74,7 @@ class PakaianController extends Controller
 
         return redirect()->route('pakaian_edit.index')->with('success', 'Pakaian berhasil dihapus.');
     }
+
 
 
     public function pakaian()
